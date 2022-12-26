@@ -8,7 +8,6 @@ const Home = ({ title }) => {
     document.title = title;
   }, [title]);
 
-  // get
   // useEffect(() => {
   //   const fetch = async () => {
   //     const res = await instances.get('/weatherforecast');
