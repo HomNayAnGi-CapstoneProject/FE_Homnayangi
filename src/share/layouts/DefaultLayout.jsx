@@ -5,7 +5,7 @@ const DefaultLayout = ({ children }) => {
   return (
     <div className="bg-cover w-full h-[586px]" style={{ backgroundImage: `url(${gradientBackground})` }}>
       <Navigation />
-      <div className="min-h-[40vh]">{children}</div>
+      <div className="min-h-[50vh]">{children}</div>
       <Footer />
     </div>
   );
