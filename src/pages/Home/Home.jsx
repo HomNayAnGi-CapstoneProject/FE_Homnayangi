@@ -9,16 +9,16 @@ const Home = ({ title }) => {
   }, [title]);
 
   // get
-  useEffect(() => {
-    const fetch = async () => {
-      const res = await instances.get('/weatherforecast');
-      console.log(res);
-    };
+  // useEffect(() => {
+  //   const fetch = async () => {
+  //     const res = await instances.get('/weatherforecast');
+  //     console.log(res);
+  //   };
 
-    fetch();
-  }, []);
+  //   fetch();
+  // }, []);
 
-  return <div>Home</div>;
+  return <div className="">Home</div>;
 };
 
 export default Home;
