@@ -4,7 +4,14 @@ import MenuModal from './MenuModal';
 // ** Assets
 import Logo from '../../assets/images/Logo.png';
 import default_user from '../../assets/images/default_user.png';
-import { ic_nofitication, ic_cart, ic_caret_down_white, ic_nav_menu } from '../../assets';
+import {
+  ic_nofitication,
+  ic_cart,
+  ic_caret_down_white,
+  ic_nav_menu,
+  ic_notification_white,
+  ic_cart_white,
+} from '../../assets';
 
 // ** Third party libraries
 import { NavLink, Link } from 'react-router-dom';
@@ -14,7 +21,7 @@ import { useDispatch, useSelector } from 'react-redux';
 // ** Redux
 import { setOpenMenuModal, setCountrySide } from '../../redux/actionSlice/globalSlice';
 
-const Navigation = () => {
+const Navigation = (props) => {
   // ** States, Const
   const [openCountry, setOpenCountry] = useState(false);
   const dispatch = useDispatch();
@@ -104,7 +111,7 @@ const Navigation = () => {
               <ul
                 className={`${
                   openCountry ? 'block' : 'hidden'
-                } w-[130px] py-1.5 bg-white rounded-[5px] absolute shadow-md top-10 left-[50%] translate-x-[-50%]`}
+                } w-[130px] py-1.5 bg-white rounded-[5px] absolute z-[99] shadow-md top-10 left-[50%] translate-x-[-50%]`}
               >
                 <li
                   className={`text-center cursor-pointer hover:bg-secondary py-1 ${
@@ -134,17 +141,20 @@ const Navigation = () => {
             </OutsideClickHandler>
           </div>
           <div className="relative cursor-pointer">
-            <div className="absolute rounded-full w-[20px] h-[20px] bg-primary text-white flex items-center justify-center font-semibold text-[11px] top-[-8px] right-[-5px]">
+            <div className="absolute z-[10] rounded-full w-[20px] h-[20px] bg-primary text-white flex items-center justify-center font-semibold text-[11px] top-[-8px] right-[-5px]">
               2
             </div>
-            <div className="bg-cover w-[24px] h-[24px] cursor-pointer" style={{ backgroundImage: `url(${ic_cart})` }} />
+            <div
+              className="relative bg-cover w-[24px] h-[24px] cursor-pointer"
+              style={{ backgroundImage: `url(${props.isHome == true ? ic_cart_white : ic_cart})` }}
+            />
           </div>
           <div
-            className="bg-cover w-[24px] h-[24px] cursor-pointer"
-            style={{ backgroundImage: `url(${ic_nofitication})` }}
+            className="relative bg-cover w-[24px] h-[24px] cursor-pointer"
+            style={{ backgroundImage: `url(${props.isHome == true ? ic_notification_white : ic_nofitication})` }}
           ></div>
           <div
-            className="bg-cover w-[24px] h-[24px] cursor-pointer"
+            className="relative bg-cover w-[24px] h-[24px] cursor-pointer"
             style={{ backgroundImage: `url(${default_user})` }}
           ></div>
         </div>
