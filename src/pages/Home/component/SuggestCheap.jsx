@@ -1,8 +1,15 @@
 import React from 'react'
 import FoodCard from "./FoodCard";
 import { ic_boiling_white } from '../../../assets';
+ //* Third party library
+ import { Swiper, SwiperSlide } from 'swiper/react';
+import { Pagination, Navigation } from 'swiper';
+import 'swiper/css';
+// import 'swiper/css/pagination';
+import 'swiper/css/navigation';
 const SuggestCheap = (props) => {
     const {Food} = props;
+    console.log(Food);
   return (
       <>
     <div className='cheap-price'>
@@ -13,14 +20,29 @@ const SuggestCheap = (props) => {
 giá rẻ</h1>
 </div>
     </div>
-
-<div className="grid grid-cols-2 gap-10 mb-12 px-10 py-10">
-
-  <FoodCard key={Food.id} foods={Food}/>
-  
-</div>
-
-
+<div className='px-10 py-10'>
+<Swiper
+                pagination={{
+                  clickable: true,
+                }}
+                navigation
+                modules={[Navigation]}
+                slidesPerView={2}
+                spaceBetween={30}
+                grabCursor={true}
+                loop={true}
+                className="mySwiper "
+              >
+                <div className="flex ">
+          {Food?.length > 0 &&
+                  Food.map((item) => (
+                   <SwiperSlide key={item.id}>
+                      <FoodCard  food={item}/>
+                      </SwiperSlide>
+                  ))}
+                  </div>
+              </Swiper>
+              </div>
 <div className="flex justify-center">
      
     </div>
