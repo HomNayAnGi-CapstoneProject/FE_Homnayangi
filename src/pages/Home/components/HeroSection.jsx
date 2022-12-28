@@ -33,7 +33,7 @@ const HeroSection = () => {
   };
 
   return (
-    <div className="font-inter flex relative sm:justify-start justify-center min-h-[100vh]">
+    <div className="font-inter flex relative sm:justify-start justify-center min-h-[100vh] sm:overflow-hidden overflow-auto">
       <div className="sm:px-[90px] px-[16px]">
         <div className="sm:my-[120px] my-[100px] sm:text-start text-center">
           <div className="flex items-center gap-2 sm:justify-start justify-center sm:mb-0 mb-3">
@@ -78,12 +78,12 @@ const HeroSection = () => {
           </div>
         </div>
       </div>
-      <div className="md:block hidden">
+      <div className="sm:block hidden">
         <div
-          className="absolute left-[50%] bg-contain w-[620px] h-[620px] bg-no-repeat transition-all ease-in"
+          className="absolute left-[50%] bg-contain md:w-[620px] md:h-[620px] w-[500px] h-[500px] bg-no-repeat transition-all ease-in"
           style={{ backgroundImage: `url(${handleChangeData().img})` }}
         >
-          <p className="absolute bottom-[-50px] left-[50%] translate-x-[-50%] font-lobster text-[70px] drop-shadow-lg text-white">
+          <p className="absolute md:bottom-[-50px] bottom-[-30px] left-[50%] translate-x-[-50%] font-lobster md:text-[70px] text-[50px] drop-shadow-lg text-white">
             {handleChangeData().imgName}
           </p>
         </div>

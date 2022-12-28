@@ -60,9 +60,9 @@ const SuggestToday = () => {
       </div>
 
       <div className="w-full bg-[#f6e4dc] md:h-[412px] h-[550px] mt-[7%] relative">
-        <div className="sm:px-[90px] w-full absolute md:left-[50%] left-[60%]  md:top-[-50%] sm:top-[-20%] top-[-10%] translate-y-[25%] translate-x-[-50%] px-[16px] flex md:flex-row flex-col-reverse">
+        <div className="sm:px-[90px] w-full absolute z-[10] md:left-[50%]  md:top-[-50%] sm:top-[-20%] top-[-10%] translate-y-[25%] translate-x-[-50%] px-[16px] flex md:flex-row flex-col-reverse">
           <div className="md:flex hidden md:w-[50%] w-full flex-col">
-            <div className="flex w-full bottom-[-50px] right-[90px] md:flex-col">
+            <div className="flex md:w-full bottom-[-50px] right-[90px] md:flex-col">
               {data?.length > 0 &&
                 data.map((item) => (
                   <div key={item.id} className="md:mb-[18px] md:last:mb-0 md:odd:self-end md:odd:mr-5">
@@ -71,9 +71,9 @@ const SuggestToday = () => {
                 ))}
             </div>
           </div>
-          <div className="md:w-[50%] w-fit">
+          <div className="md:w-[50%] w-full md:block hidden">
             <div className="w-fit text-center">
-              <div className="md:ml-7 md:w-[533px] xs:w-[60vw] md:h-[533px] xs:h-[60vw] w-[70vw] h-[70vw]  rounded-full bg-primary relative">
+              <div className="md:ml-7 md:w-[533px] w-full md:h-[533px] xs:h-[60vw] h-[70vw]  rounded-full bg-primary relative">
                 <div
                   className="bg-cover rounded-full border-white border-[2px] md:w-[508.85px] md:h-[508.85px] xs:w-[56vw] xs:h-[56vw] w-[66vw] h-[66vw] absolute left-[50%] translate-x-[-50%] top-[50%] translate-y-[-50%]"
                   style={{ backgroundImage: `url(${staticFood1})` }}
@@ -81,6 +81,17 @@ const SuggestToday = () => {
               </div>
               <p className="font-bold md:text-[35px] text-[28px] line-clamp-1 mt-1">Cá lóc kho tộ</p>
             </div>
+          </div>
+        </div>
+        <div className="md:hidden block w-full px-[16px] absolute top-0">
+          <div className="w-full flex flex-col items-center text-center">
+            <div className="md:ml-7 md:w-[533px] w-[250px] md:h-[533px] h-[250px] xs:w-[320px] xs:h-[320px] rounded-full bg-primary relative">
+              <div
+                className="bg-cover rounded-full border-white border-[2px] md:w-[508.85px] md:h-[508.85px] xs:w-[310px] xs:h-[310px] w-[235px] h-[235px] absolute left-[50%] translate-x-[-50%] top-[50%] translate-y-[-50%]"
+                style={{ backgroundImage: `url(${staticFood1})` }}
+              />
+            </div>
+            <p className="font-bold md:text-[35px] text-[28px] line-clamp-1 mt-1">Cá lóc kho tộ</p>
           </div>
         </div>
         <div className="md:hidden block w-full px-[16px] absolute bottom-0">
@@ -91,6 +102,11 @@ const SuggestToday = () => {
             navigation
             modules={[Navigation]}
             slidesPerView={1}
+            breakpoints={{
+              768: {
+                slidesPerView: 2,
+              },
+            }}
             spaceBetween={18}
             grabCursor={true}
             loop={true}
