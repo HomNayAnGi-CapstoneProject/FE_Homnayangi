@@ -34,7 +34,7 @@ const HeroSection = () => {
 
   return (
     <div className="font-inter flex relative sm:justify-start justify-center min-h-[100vh]">
-      <div className="sm:px-[90px] px-6">
+      <div className="sm:px-[90px] px-[16px]">
         <div className="sm:my-[120px] my-[100px] sm:text-start text-center">
           <div className="flex items-center gap-2 sm:justify-start justify-center sm:mb-0 mb-3">
             <div className="bg-cover w-[24px] h-[24px]" style={{ backgroundImage: `url(${ic_location})` }} />

@@ -10,8 +10,9 @@ import ic_cart_white from './ic_cart_white.svg'
 import ic_left_arrow from './ic_left_arrow.svg'
 import ic_boiling_white from './ic_boiling_white.svg'
 import ic_add_to_cart_white from './ic_add-to-cart_white.svg'
+import ic_refresh_white from './ic_refresh_white.svg'
 
 export {
     ic_nofitication, ic_cart, ic_caret_down_white, ic_nav_menu, ic_close_modal, ic_caret_right, ic_location,
-    ic_notification_white, ic_cart_white, ic_left_arrow, ic_boiling_white, ic_add_to_cart_white
+    ic_notification_white, ic_cart_white, ic_left_arrow, ic_boiling_white, ic_add_to_cart_white, ic_refresh_white
 }

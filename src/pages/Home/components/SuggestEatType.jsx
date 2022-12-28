@@ -15,10 +15,10 @@ import 'swiper/css/navigation';
 // ** Card Comp
 const Card = (props) => {
   return (
-    <div className="relative font-inter rounded-[10px] sm:w-[586px] w-[100%] sm:h-[220px] h-[264px] bg-[#FFA883] p-[10px] flex sm:flex-row flex-col gap-[18px] drop-shadow-3xl">
+    <div className="relative font-inter rounded-[10px] sm:w-[586px] w-[100%] sm:h-[220px] h-fit bg-[#FFA883] p-[10px] flex sm:flex-row flex-col gap-[18px] drop-shadow-3xl">
       <div className="flex gap-[18px]">
         <div
-          className="rounded-[10px] border-[2px] border-solid border-white bg-cover sm:w-[198px] w-[170px] h-[170px] sm:h-[198px] bg-center"
+          className="rounded-[10px] border-[2px] border-solid border-white bg-cover sm:w-[198px] w-[150px] h-[150px] sm:h-[198px] bg-center"
           style={{ backgroundImage: `url(${staticFood1})` }}
         />
         <div className="flex-1">
@@ -26,10 +26,10 @@ const Card = (props) => {
             {props?.data?.name}
           </p>
           <div className="flex gap-[7px]">
-            <div className="rounded-full bg-[#88EA5B] border-[2px] border-[#48822c] border-solid px-[10px] py-[0px] text-[12px] text-[#525252]">
+            <div className="rounded-full bg-[#88EA5B] border-[2px] border-[#48822c] border-solid xs:px-[10px] px-[2px] py-[0px] text-[12px] text-[#525252]">
               Dễ ăn
             </div>
-            <div className="rounded-full bg-[#EAD35B] border-[2px] border-[#8F8137] border-solid px-[10px] py-[0px] text-[12px] text-[#525252]">
+            <div className="rounded-full bg-[#EAD35B] border-[2px] border-[#8F8137] border-solid xs:px-[10px] px-[2px] py-[0px] text-[12px] text-[#525252]">
               Buổi trưa
             </div>
           </div>
@@ -39,11 +39,11 @@ const Card = (props) => {
             miệng.
           </p>
           <div className="sm:flex hidden absolute bottom-[10px]  gap-[8px]">
-            <button className="bg-[#FF7940] rounded-[10px] cursor-pointer text-white font-medium text-[18px] px-[20px] py-[10px] flex items-center gap-2">
+            <button className="bg-[#FF7940] rounded-[10px] cursor-pointer text-white font-medium xs:text-[18px] text-[1vw] px-[20px] py-[10px] flex items-center gap-2">
               Công thức
               <div className="bg-cover w-[20px] h-[20px]" style={{ backgroundImage: `url(${ic_boiling_white})` }} />
             </button>
-            <button className="bg-redError rounded-[10px] cursor-pointer text-white font-medium text-[18px] px-[20px] py-[10px] flex items-center gap-2">
+            <button className="bg-redError rounded-[10px] cursor-pointer text-white font-medium xs:text-[18px] text-[1vw] px-[20px] py-[10px] flex items-center gap-2">
               Đặt làm
               <div className="bg-cover w-[20px] h-[20px]" style={{ backgroundImage: `url(${ic_add_to_cart_white})` }} />
             </button>
@@ -51,11 +51,11 @@ const Card = (props) => {
         </div>
       </div>
       <div className="flex sm:hidden gap-[8px]">
-        <button className="bg-[#FF7940] flex-1 rounded-[10px] cursor-pointer text-white font-medium text-[18px] px-[20px] py-[10px] flex justify-center items-center gap-2">
+        <button className="bg-[#FF7940] flex-1 rounded-[10px] cursor-pointer text-white font-medium xs:text-[18px] xs:px-[20px] px-1 py-[10px] flex justify-center items-center gap-2">
           Công thức
           <div className="bg-cover w-[20px] h-[20px]" style={{ backgroundImage: `url(${ic_boiling_white})` }} />
         </button>
-        <button className="bg-redError flex-1 rounded-[10px] cursor-pointer text-white font-medium text-[18px] px-[20px] py-[10px] flex justify-center items-center gap-2">
+        <button className="bg-redError flex-1 rounded-[10px] cursor-pointer text-white font-medium xs:text-[18px] xs:px-[20px] px-1 py-[10px] flex justify-center items-center gap-2">
           Đặt làm
           <div className="bg-cover w-[20px] h-[20px]" style={{ backgroundImage: `url(${ic_add_to_cart_white})` }} />
         </button>
@@ -74,7 +74,7 @@ const data = [
 
 const SuggestEatType = () => {
   return (
-    <div className="font-inter w-full md:min-h-[100vh] h-fit my-14">
+    <div className="font-inter w-full md:min-h-[100vh] h-fit md:mb-14 md:mt-40 mb-40">
       <div className="text-center">
         <p className="text-primary uppercase font-semibold text-[18px] mb-2">Bữa ăn cho bạn</p>
         <div className="w-full flex justify-center">
@@ -84,23 +84,23 @@ const SuggestEatType = () => {
         </div>
       </div>
 
-      <div className="w-full bg-[#f6e4dc] min-h-[412px] mt-[77px] relative">
-        <div className="sm:px-[90px] px-6 md:flex md:flex-row flex flex-col-reverse">
+      <div className="w-full bg-[#f6e4dc] md:h-[412px] h-[650px] mt-[77px] relative">
+        <div className="sm:px-[90px] px-[16px] md:flex md:flex-row flex flex-col-reverse">
           <div className="md:w-[50%] w-full flex flex-col items-center md:mt-0 mt-9">
             <div
-              className="md:absolute bottom-0 bg-cover md:w-[410px] md:h-[478px] w-[243px] h-[285px]"
+              className="absolute bottom-0 bg-cover md:w-[410px] md:h-[478px] w-[243px] h-[285px]"
               style={{ backgroundImage: `url(${vegan_type})` }}
             />
-            <div className="md:absolute mt-5 bottom-[-80px] flex items-center justify-center gap-4">
+            <div className="absolute mt-5 bottom-[-80px] flex items-center justify-center gap-4">
               <div
-                className="bg-cover w-[50px] h-[50px] cursor-pointer"
+                className="bg-cover xs:w-[50px] xs:h-[50px] w-[40px] h-[40px] cursor-pointer"
                 style={{ backgroundImage: `url(${ic_left_arrow})` }}
               />
-              <div className="bg-[#f6e4dc] rounded-[5px] py-[8px] px-[40px] text-primary md:text-[30px] text-[28px] font-bold">
+              <div className="bg-[#f6e4dc] rounded-[5px] py-[8px] xs:px-[40px] px-[20px] text-primary md:text-[30px] xs:text-[28px] text-[5vw] font-bold">
                 Ăn chay
               </div>
               <div
-                className="bg-cover w-[50px] h-[50px] transform rotate-[180deg] cursor-pointer"
+                className="bg-cover xs:w-[50px] xs:h-[50px] w-[40px] h-[40px] transform rotate-[180deg] cursor-pointer"
                 style={{ backgroundImage: `url(${ic_left_arrow})` }}
               />
             </div>
@@ -137,7 +137,7 @@ const SuggestEatType = () => {
             </div>
 
             <div className="sm:w-[586px] flex justify-center">
-              <button className="rounded-[30px] bg-primary flex items-center gap-3 py-[10px] px-[20px] text-[20px] font-medium text-white">
+              <button className="rounded-[30px] hover:bg-primaryHover transition bg-primary flex items-center gap-3 py-[10px] px-[20px] text-[20px] font-medium text-white">
                 Xem thêm
                 <div className="bg-cover w-[20px] h-[20px]" style={{ backgroundImage: `url(${ic_boiling_white})` }} />
               </button>
