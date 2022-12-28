@@ -16,11 +16,11 @@ const SuggestCheap = (props) => {
     <div className="flex justify-center">
       <div className="grid">
     <h1 className="font-inter text-primary text-2xl flex justify-center">Bữa ăn vừa túi</h1>
-    <h1 className="font-inter font-bold text-black text-5xl flex justify-center">Gợi ý thực đơn
+    <h1 className="font-inter font-bold text-black text-[40px] flex justify-center text-center w-[300px] sm:px-0 px-5 leading-[55px]">Gợi ý thực đơn
 giá rẻ</h1>
 </div>
     </div>
-<div className='px-10 py-10'>
+<div className='px-10 py-10 hidden md:flex'>
 <Swiper
                 pagination={{
                   clickable: true,
@@ -43,14 +43,37 @@ giá rẻ</h1>
                   </div>
               </Swiper>
               </div>
+              <div className='px-10 py-10 md:hidden'>
+<Swiper
+                pagination={{
+                  clickable: true,
+                }}
+                navigation
+                modules={[Navigation]}
+                slidesPerView={1}
+                spaceBetween={30}
+                grabCursor={true}
+                loop={true}
+                className="mySwiper "
+              >
+                <div className="flex ">
+          {Food?.length > 0 &&
+                  Food.map((item) => (
+                   <SwiperSlide key={item.id}>
+                      <FoodCard  food={item}/>
+                      </SwiperSlide>
+                  ))}
+                  </div>
+              </Swiper>
+              </div>
 <div className="flex justify-center">
      
     </div>
     <div className="flex justify-center">
       <button className="flex btn-view hover:scale-125 transition ease-out duration-500 "><p className="mr-2">Xem Thêm</p> <div className="w-[24px] h-[24px] bg-cover" style={{ backgroundImage: `url(${ic_boiling_white})` }} /></button> </div>
   </div>
-  <div className="py-2">
-    <div className="font-lobster font-bold text-subText text-5xl flex justify-center px-20"><p>Các món ngon và đầy đủ dinh dưỡng với giá chỉ từ</p> <p className=" ml-2 font-extrabold text-transparent bg-clip-text bg-gradient-to-t   from-redError to-primary"> 50k - 100k</p></div>
+  <div className="py-2 mt-5">
+    <div className="font-lobster font-bold text-subText text-5xl px-20 flex justify-center text-center"><p className='md:w-[700px]'>Các món ngon và đầy đủ dinh dưỡng với giá chỉ từ <span className=" ml-2 font-extrabold text-transparent bg-clip-text bg-gradient-to-t   from-redError to-primary"> 50k - 100k</span></p></div>
 </div>
 </>
   )
