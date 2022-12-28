@@ -10,6 +10,7 @@ module.exports = {
         primaryHover: '#FF6828',
         subText: "#898989",
         redError: '#DB2017',
+        redErrorHover: '#FF261C',
         greenSuccess: '#88EA5B',
       },
       fontFamily: {

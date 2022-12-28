@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import HeroSection from './components/HeroSection';
+import SuggestToday from './components/SuggestToday';
 import SuggestEatType from './components/SuggestEatType';
 
 //** Third party components
@@ -22,6 +23,7 @@ const Home = ({ title }) => {
   return (
     <div className="">
       <HeroSection />
+      <SuggestToday />
       <SuggestEatType />
     </div>
   );
