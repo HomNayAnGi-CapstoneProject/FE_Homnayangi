@@ -8,8 +8,14 @@ module.exports = {
         primary: "#FF8855",
         secondary: '#FFD8C7',
         subText: "#898989",
+        lightText: "#525252",
         redError: '#DB2017',
         greenSuccess: '#88EA5B',
+        foodCard: '#FFA883',
+        tagYellow: "#EAD35B",
+        borderYellow:"#8F8137",
+        borderGreen:"#45522C",
+
       },
       fontFamily: {
         lobster: ["Lobster"],
