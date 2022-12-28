@@ -44,7 +44,7 @@ const Card = (props) => {
 const data = [
   { id: 5, name: 'Đậu hũ kho tiêu' },
   { id: 6, name: 'Đậu 2dadada' },
-  { id: 6, name: 'Đậu 3dadawdad' },
+  { id: 7, name: 'Đậu 3dadawdad' },
 ];
 
 const SuggestToday = () => {
