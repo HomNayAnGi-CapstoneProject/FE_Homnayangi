@@ -33,5 +33,12 @@ export const NorthFood = [{
    image: BunOc,
    tags:["dễ ăn","buổi trưa"],
    title:"Phở cuốn Hà Nội là món ngon quen thuộc của người dân thủ đô. Món ăn được làm từ ..."
- }];
+ },
+ {
+  id:3,
+  name:"Bun Oc",
+  image: BunOc,
+  tags:["dễ ăn","buổi trưa"],
+  title:"Phở cuốn Hà Nội là món ngon quen thuộc của người dân thủ đô. Món ăn được làm từ ..."
+}];
 

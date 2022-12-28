@@ -15,6 +15,19 @@
   background-color: #f0f0f0;
   
 }
+.scroll-bar::-webkit-scrollbar {
+  width: 5px;
+  height: 1px;
+}
+
+.scroll-bar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scroll-bar::-webkit-scrollbar-thumb {
+  background: #ff8855;
+  border-radius: 5px;
+}
 .mySwiper {
   /* margin-top: 20px; */
   padding: 0 35px 35px 35px;
