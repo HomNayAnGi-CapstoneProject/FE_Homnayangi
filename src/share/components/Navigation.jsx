@@ -41,7 +41,7 @@ const Navigation = (props) => {
   return (
     <>
       {store.openMenuModal && <MenuModal />}
-      <nav className="font-inter sm:px-[90px] px-[16px] items-center flex justify-between">
+      <nav className="font-inter sm:px-[90px] xl:px-[15em] px-[16px] items-center flex justify-between">
         <div className="flex gap-[80px]">
           <Link to="/">
             <div

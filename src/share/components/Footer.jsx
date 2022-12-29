@@ -12,8 +12,11 @@ const Footer = () => {
 
   return (
     <footer className="w-full h-max font-inter relative">
-      <div style={{ backgroundImage: `url(${footer})` }} className="w-full min-h-[300px] bg-cover bg-bottom">
-        <div className="sm:justify-between justify-center sm:px-[90px] px-[16px] smd:flex-row smd:flex flex-col sm:gap-20">
+      <div
+        style={{ backgroundImage: `url(${footer})` }}
+        className="w-full md:min-h-[300px] xl:min-h-[420px] bg-cover bg-bottom"
+      >
+        <div className="sm:justify-between justify-center xl:pt-[60px] xl:px-[15em] sm:px-[90px] px-[16px] smd:flex-row smd:flex flex-col sm:gap-20">
           <div className="smd:w-[300px] flex flex-col items-center smd:mb-0 mb-20">
             <div
               className="w-[80px] h-[84px] bg-contain bg-center cursor-pointer sm:mr-10"

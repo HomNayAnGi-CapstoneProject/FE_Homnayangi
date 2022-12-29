@@ -33,8 +33,8 @@ const HeroSection = () => {
   };
 
   return (
-    <div className="font-inter flex relative sm:justify-start justify-center min-h-[100vh] sm:overflow-hidden overflow-auto">
-      <div className="sm:px-[90px] px-[16px]">
+    <div className="font-inter flex relative sm:justify-start justify-center min-h-[100vh] xl:min-h-[66vh] sm:overflow-hidden overflow-auto">
+      <div className="sm:px-[90px] px-[16px] xl:px-[15em]">
         <div className="sm:my-[120px] my-[100px] sm:text-start text-center">
           <div className="flex items-center gap-2 sm:justify-start justify-center sm:mb-0 mb-3">
             <div className="bg-cover w-[24px] h-[24px]" style={{ backgroundImage: `url(${ic_location})` }} />
@@ -80,10 +80,15 @@ const HeroSection = () => {
       </div>
       <div className="sm:block hidden">
         <div
-          className="absolute left-[50%] bg-contain md:w-[620px] md:h-[620px] w-[500px] h-[500px] bg-no-repeat transition-all ease-in"
-          style={{ backgroundImage: `url(${handleChangeData().img})` }}
+          className="absolute left-[50%] bg-contain md:w-[620px] md:h-[620px] w-[500px] h-[500px] xl:w-[700px] xl:h-[700px] bg-no-repeat transition-all ease-in"
+          // style={{ backgroundImage: `url(${handleChangeData().img})` }}
         >
-          <p className="absolute md:bottom-[-50px] bottom-[-30px] left-[50%] translate-x-[-50%] font-lobster md:text-[70px] text-[50px] drop-shadow-lg text-white">
+          <img
+            className="object-cover transition-all ease-in-out md:w-[620px] md:h-[620px] w-[500px] h-[500px] xl:w-[700px] xl:h-[700px]"
+            loading="lazy"
+            src={handleChangeData().img}
+          />
+          <p className="absolute md:bottom-[-50px] xl:bottom-[-33px] bottom-[-30px] left-[50%] translate-x-[-50%] font-lobster md:text-[70px] text-[50px] drop-shadow-lg text-primaryHover fill-transparent stroke-2 stroke-white">
             {handleChangeData().imgName}
           </p>
         </div>

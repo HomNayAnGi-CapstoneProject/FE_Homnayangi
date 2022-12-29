@@ -49,7 +49,7 @@ const data = [
 
 const SuggestToday = () => {
   return (
-    <div className="font-inter w-full md:min-h-[100vh] h-fit md:mb-14 md:mt-40 mb-40">
+    <div className="font-inter w-full md:min-h-[100vh] xl:min-h-[66vh] h-fit md:mb-14 md:mt-40 mb-40">
       <div className="text-center">
         <p className="text-primary uppercase font-semibold text-[18px] mb-2">Bữa ăn gia đình</p>
         <div className="w-full flex justify-center">
@@ -60,7 +60,7 @@ const SuggestToday = () => {
       </div>
 
       <div className="w-full bg-[#f6e4dc] md:h-[412px] h-[550px] mt-[7%] relative">
-        <div className="sm:px-[90px] w-full absolute z-[10] md:left-[50%]  md:top-[-50%] sm:top-[-20%] top-[-10%] translate-y-[25%] translate-x-[-50%] px-[16px] flex md:flex-row flex-col-reverse">
+        <div className="sm:px-[90px] xl:px-[15em] w-full absolute z-[10] md:left-[50%]  md:top-[-50%] sm:top-[-20%] top-[-10%] translate-y-[25%] translate-x-[-50%] px-[16px] flex md:flex-row flex-col-reverse">
           <div className="md:flex hidden md:w-[50%] w-full flex-col">
             <div className="flex md:w-full bottom-[-50px] right-[90px] md:flex-col">
               {data?.length > 0 &&
