@@ -15,10 +15,10 @@ import 'swiper/css/navigation';
 // ** Card Comp
 const Card = (props) => {
   return (
-    <div className="relative font-inter rounded-[10px] sm:w-[586px] w-[100%] sm:h-[220px] h-fit bg-[#FFA883] p-[10px] flex sm:flex-row flex-col gap-[18px] drop-shadow-3xl">
+    <div className="relative font-inter rounded-[10px] sm:w-[450px] sm:h-[200px] md:w-[586px] w-[100%] md:h-[220px] h-fit bg-[#FFA883] p-[10px] flex sm:flex-row flex-col gap-[18px] drop-shadow-3xl">
       <div className="flex gap-[18px]">
         <div
-          className="rounded-[10px] border-[2px] border-solid border-white bg-cover sm:w-[198px] w-[150px] h-[150px] sm:h-[198px] bg-center"
+          className="rounded-[10px] border-[2px] border-solid border-white bg-cover sm:h-[180px] sm:w-[180px] md:w-[198px] w-[150px] h-[150px] md:h-[198px] bg-center"
           style={{ backgroundImage: `url(${staticFood1})` }}
         />
         <div className="flex-1">
@@ -39,11 +39,11 @@ const Card = (props) => {
             miệng.
           </p>
           <div className="sm:flex hidden absolute bottom-[10px]  gap-[8px]">
-            <button className="bg-[#FF7940] rounded-[10px] cursor-pointer text-white font-medium xs:text-[18px] text-[1vw] px-[20px] py-[10px] flex items-center gap-2">
+            <button className="bg-[#FF7940] rounded-[10px] cursor-pointer text-white font-medium xs:text-[18px] sm:text-[16px] text-[1vw] sm:px-[6px] sm:py-[5px] px-[20px] py-[10px] flex items-center gap-2">
               Công thức
               <div className="bg-cover w-[20px] h-[20px]" style={{ backgroundImage: `url(${ic_boiling_white})` }} />
             </button>
-            <button className="bg-redError rounded-[10px] cursor-pointer text-white font-medium xs:text-[18px] text-[1vw] px-[20px] py-[10px] flex items-center gap-2">
+            <button className="bg-redError rounded-[10px] cursor-pointer text-white font-medium xs:text-[18px] sm:text-[16px] text-[1vw] sm:px-[6px] sm:py-[5px] px-[20px] py-[10px] flex items-center gap-2">
               Đặt làm
               <div className="bg-cover w-[20px] h-[20px]" style={{ backgroundImage: `url(${ic_add_to_cart_white})` }} />
             </button>
@@ -84,11 +84,11 @@ const SuggestEatType = () => {
         </div>
       </div>
 
-      <div className="w-full bg-[#f6e4dc] md:h-[412px] h-[650px] mt-[77px] relative">
-        <div className="sm:px-[90px] xl:px-[15em] px-[16px] md:flex md:flex-row flex flex-col-reverse">
+      <div className="w-full bg-[#f6e4dc] md:h-[412px] sm:h-[400px] h-[650px] mt-[77px] relative">
+        <div className="sm:px-[90px] xl:px-[15em] px-[16px] md:flex sm:flex-row flex flex-col-reverse">
           <div className="md:w-[50%] w-full flex flex-col items-center md:mt-0 mt-9">
             <div
-              className="absolute bottom-0 bg-cover md:w-[410px] md:h-[478px] w-[243px] h-[285px]"
+              className="absolute bottom-0 bg-cover md:w-[410px] md:h-[478px] sm:w-[315px] sm:h-[374px] w-[243px] h-[285px]"
               style={{ backgroundImage: `url(${vegan_type})` }}
             />
             <div className="absolute mt-5 bottom-[-80px] flex items-center justify-center gap-4">
@@ -106,15 +106,15 @@ const SuggestEatType = () => {
             </div>
           </div>
           <div className="md:w-[50%] w-full md:absolute bottom-[-90px] right-[90px] xl:right-[15em] gap-[20px] flex flex-col md:items-end items-center justify-center">
-            <div className="md:flex hidden scroll-bar md:max-h-[458px] max-h-[270px] w-full md:overflow-y-scroll overflow-x-scroll bottom-[-50px] right-[90px] md:flex-col items-end">
+            <div className="sm:flex hidden scroll-bar md:max-h-[460px] sm:max-h-[426px] max-h-[270px] w-full md:overflow-y-scroll overflow-x-scroll bottom-[-50px] right-[90px] flex-col items-end">
               {data?.length > 0 &&
                 data.map((item) => (
-                  <div key={item.id} className="md:mb-[18px] md:last:mb-0 md:mr-[5px] mr-[18px]">
+                  <div key={item.id} className="sm:mb-[18px] sm:last:mb-0 sm:mr-[5px] mr-[18px]">
                     <Card data={item} />
                   </div>
                 ))}
             </div>
-            <div className="md:hidden block w-full">
+            <div className="sm:hidden block w-full">
               <Swiper
                 pagination={{
                   clickable: true,

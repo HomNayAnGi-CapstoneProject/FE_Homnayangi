@@ -14,7 +14,7 @@ import 'swiper/css/navigation';
 // ** Card
 const Card = (props) => {
   return (
-    <div className="font-inter cursor-pointer rounded-[10px] sm:w-[515px] w-full sm:h-[165px] h-fit bg-[#FFA883] p-[10px] flex gap-[18px] drop-shadow-3xl">
+    <div className="font-inter cursor-pointer rounded-[10px] sm:w-[400px] sm:h-[155px] md:w-[515px] w-full md:h-[165px] h-fit bg-[#FFA883] p-[10px] flex gap-[18px] drop-shadow-3xl">
       <div className="flex-1">
         <p className="sm:text-[20px] text-[18px] font-semibold text-black mb-[10px] line-clamp-1">
           {props?.data?.name}
@@ -33,7 +33,7 @@ const Card = (props) => {
         </p>
       </div>
       <div
-        className="rounded-[10px] border-[2px] border-solid border-white bg-cover sm:w-[190px] w-[150px] h-[150px] sm:h-[147px] bg-center"
+        className="rounded-[10px] border-[2px] border-solid border-white bg-cover sm:w-[180px] sm:h-[137px] md:w-[190px] w-[150px] h-[150px] md:h-[147px] bg-center"
         style={{ backgroundImage: `url(${staticFood1})` }}
       />
     </div>
@@ -60,22 +60,22 @@ const SuggestToday = () => {
       </div>
 
       <div className="w-full bg-[#f6e4dc] md:h-[412px] h-[550px] mt-[7%] relative">
-        <div className="sm:px-[90px] xl:px-[15em] w-full absolute z-[10] md:left-[50%]  md:top-[-50%] sm:top-[-20%] top-[-10%] translate-y-[25%] translate-x-[-50%] px-[16px] flex md:flex-row flex-col-reverse">
-          <div className="md:flex hidden md:w-[50%] w-full flex-col">
-            <div className="flex md:w-full bottom-[-50px] right-[90px] md:flex-col">
+        <div className="sm:px-[90px] xl:px-[15em] w-full absolute z-[10] left-[50%]  md:top-[-50%] sm:top-[-20%] top-[-10%] translate-y-[25%] translate-x-[-50%] px-[16px] flex sm:flex-row flex-col-reverse">
+          <div className="mmd:flex hidden sm:w-[50%] w-full flex-col">
+            <div className="flex md:w-full bottom-[-50px] right-[90px] sm:flex-col">
               {data?.length > 0 &&
                 data.map((item) => (
-                  <div key={item.id} className="md:mb-[18px] md:last:mb-0 md:odd:self-end md:odd:mr-5">
+                  <div key={item.id} className="sm:mb-[18px] sm:last:mb-0 md:odd:self-end md:odd:mr-5">
                     <Card data={item} />
                   </div>
                 ))}
             </div>
           </div>
-          <div className="md:w-[50%] w-full md:block hidden">
-            <div className="w-fit text-center">
-              <div className="md:ml-7 md:w-[533px] w-full md:h-[533px] xs:h-[60vw] h-[70vw]  rounded-full bg-primary relative">
+          <div className="sm:w-[50%] w-full mmd:flex hidden">
+            <div className="xs:w-fit sm:w-full sm:flex sm:justify-center sm:flex-col sm:items-center text-center">
+              <div className="md:ml-7 md:w-[533px] w-full md:h-[533px] xs:h-[60vw] sm:h-[320px] sm:w-[320px] rounded-full bg-primary relative">
                 <div
-                  className="bg-cover rounded-full border-white border-[2px] md:w-[508.85px] md:h-[508.85px] xs:w-[56vw] xs:h-[56vw] w-[66vw] h-[66vw] absolute left-[50%] translate-x-[-50%] top-[50%] translate-y-[-50%]"
+                  className="bg-cover rounded-full border-white border-[2px] md:w-[508.85px] md:h-[508.85px] xs:w-[56vw] xs:h-[56vw] sm:w-[300px] sm:h-[300px] w-[66vw] h-[66vw] absolute left-[50%] translate-x-[-50%] top-[50%] translate-y-[-50%]"
                   style={{ backgroundImage: `url(${staticFood1})` }}
                 />
               </div>
@@ -83,7 +83,8 @@ const SuggestToday = () => {
             </div>
           </div>
         </div>
-        <div className="md:hidden block w-full px-[16px] absolute top-0">
+
+        <div className="mmd:hidden block w-full px-[16px] absolute top-0">
           <div className="w-full flex flex-col items-center text-center">
             <div className="md:ml-7 md:w-[533px] w-[250px] md:h-[533px] h-[250px] xs:w-[320px] xs:h-[320px] rounded-full bg-primary relative">
               <div
@@ -94,7 +95,7 @@ const SuggestToday = () => {
             <p className="font-bold md:text-[35px] text-[28px] line-clamp-1 mt-1">Cá lóc kho tộ</p>
           </div>
         </div>
-        <div className="md:hidden block w-full px-[16px] absolute bottom-0">
+        <div className="mmd:hidden block w-full px-[16px] absolute bottom-0">
           <Swiper
             pagination={{
               clickable: true,
@@ -121,7 +122,7 @@ const SuggestToday = () => {
           </Swiper>
         </div>
       </div>
-      <div className="w-full flex justify-center text-center mt-[10%]">
+      <div className="w-full flex justify-center text-center md:mt-[10%] mt-[5%]">
         <div className="flex sm:gap-[27px] gap-[15px]">
           <button className="bg-primary hover:bg-primaryHover rounded-tl-[30px] rounded-bl-[30px] rounded-tr-[5px] rounded-br-[5px] text-medium text-white text-[20px] flex items-center gap-3 py-[10px] sm:px-[20px] px-[10px]">
             Xem thêm
