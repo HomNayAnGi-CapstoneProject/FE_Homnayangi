@@ -81,13 +81,13 @@ const HeroSection = () => {
       <div className="sm:block hidden">
         <div
           className="absolute left-[50%] bg-contain md:w-[620px] md:h-[620px] w-[500px] h-[500px] xl:w-[700px] xl:h-[700px] bg-no-repeat transition-all ease-in"
-          // style={{ backgroundImage: `url(${handleChangeData().img})` }}
+          style={{ backgroundImage: `url(${handleChangeData().img})` }}
         >
-          <img
+          {/* <img
             className="object-cover transition-all ease-in-out md:w-[620px] md:h-[620px] w-[500px] h-[500px] xl:w-[700px] xl:h-[700px]"
             loading="lazy"
             src={handleChangeData().img}
-          />
+          /> */}
           <p className="absolute md:bottom-[-50px] xl:bottom-[-33px] bottom-[-30px] left-[50%] translate-x-[-50%] font-lobster md:text-[70px] text-[50px] drop-shadow-lg text-primaryHover fill-transparent stroke-2 stroke-white">
             {handleChangeData().imgName}
           </p>
