@@ -48,9 +48,9 @@ const DefaultLayout = ({ children }) => {
     >
       <div
         className="md:block hidden absolute right-0 xl:top-[-10%] bg-contain bg-no-repeat w-[475px] h-[950px] xl:w-[590px] xl:h-[1218px] transition-all ease-in-out"
-        style={{ backgroundImage: `url(${handleChangeImage()})` }}
+        // style={{ backgroundImage: `url(${handleChangeImage()})` }}
       >
-        {/* <img className="object-cover transition-all ease-in-out" loading="lazy" src={handleChangeImage()} /> */}
+        <img className="object-cover transition-all ease-in-out" loading="lazy" src={handleChangeImage()} />
       </div>
       <div
         className="absolute left-0 top-[704px] bg-contain bg-no-repeat md:w-[768px] w-full h-[758px]"
