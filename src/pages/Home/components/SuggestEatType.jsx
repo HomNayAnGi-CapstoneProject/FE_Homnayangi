@@ -74,7 +74,7 @@ const data = [
 
 const SuggestEatType = () => {
   return (
-    <div className="font-inter w-full md:min-h-[100vh] h-fit md:mb-14 md:mt-40 mb-40">
+    <div className="font-inter w-full md:min-h-[100vh] xl:mim-h-[66vh] h-fit md:mb-14 md:mt-40 mb-40">
       <div className="text-center">
         <p className="text-primary uppercase font-semibold text-[18px] mb-2">Bữa ăn cho bạn</p>
         <div className="w-full flex justify-center">
@@ -85,7 +85,7 @@ const SuggestEatType = () => {
       </div>
 
       <div className="w-full bg-[#f6e4dc] md:h-[412px] h-[650px] mt-[77px] relative">
-        <div className="sm:px-[90px] px-[16px] md:flex md:flex-row flex flex-col-reverse">
+        <div className="sm:px-[90px] xl:px-[15em] px-[16px] md:flex md:flex-row flex flex-col-reverse">
           <div className="md:w-[50%] w-full flex flex-col items-center md:mt-0 mt-9">
             <div
               className="absolute bottom-0 bg-cover md:w-[410px] md:h-[478px] w-[243px] h-[285px]"
@@ -105,7 +105,7 @@ const SuggestEatType = () => {
               />
             </div>
           </div>
-          <div className="md:w-[50%] w-full md:absolute bottom-[-90px] right-[90px] gap-[20px] flex flex-col md:items-end items-center justify-center">
+          <div className="md:w-[50%] w-full md:absolute bottom-[-90px] right-[90px] xl:right-[15em] gap-[20px] flex flex-col md:items-end items-center justify-center">
             <div className="md:flex hidden scroll-bar md:max-h-[458px] max-h-[270px] w-full md:overflow-y-scroll overflow-x-scroll bottom-[-50px] right-[90px] md:flex-col items-end">
               {data?.length > 0 &&
                 data.map((item) => (
