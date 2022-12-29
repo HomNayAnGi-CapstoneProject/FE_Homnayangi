@@ -20,9 +20,9 @@ vùng miền</h1>
 </div>
 
       </div>
-      <div className="lg:flex hidden gap-4 ">
-      <div className="flex flex-col gap-10 mb-12 py-10 ">
-  <div className="lg:flex hidden scroll-bar md:max-h-[458px] max-h-[270px] w-full md:overflow-y-scroll overflow-x-scroll md:flex-col mb-12 gap-10 ">
+      <div className="md:flex hidden gap-4 ">
+      <div className="flex flex-col gap-10 mb-12 py-10  ">
+  <div className="md:flex hidden scroll-bar pl-10 md:max-h-[458px] max-h-[270px] w-full md:overflow-y-scroll overflow-x-scroll md:flex-col mb-12 gap-10 ">
       {NorthFood?.length > 0 &&
                   NorthFood.map((item) => (
                    
@@ -36,7 +36,7 @@ vùng miền</h1>
 </div>
 <div className="row-span-3 col-span-2 right-[90px] w-[500px] absolute"><img className="border-8 border-orange-400 rounded-full " src={North}></img><p className='font-lobster text-5xl text-center mt-5'>Miền Bắc</p></div>
 </div>
-<div className="flex lg:hidden flex-col">
+<div className="flex md:hidden flex-col">
       <div className="flex flex-col gap-10 mb-12 py-10">
                   <div className='md:hidden px-5'>
                   <Swiper
@@ -70,6 +70,7 @@ vùng miền</h1>
 </div>
 
 </div>
+
   )
 }
 
