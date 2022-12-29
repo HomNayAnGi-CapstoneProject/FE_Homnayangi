@@ -1,7 +1,7 @@
-import Vegetable from "../../../assets/images/Vegetable.png";
-import Meat from "../../../assets/images/Meat.png";
-import PhoCuon from "../../../assets/images/Pho_Cuon.png";
-import BunOc from "../../../assets/images/Bun_Oc.png";
+import Vegetable from "../../assets/images/Vegetable.png";
+import Meat from "../../assets/images/Meat.png";
+import PhoCuon from "../../assets/images/Pho_Cuon.png";
+import BunOc from "../../assets/images/Bun_Oc.png";
   export const Food = [{
         id:1,
         name:"Rau cải cúc xào tỏi",

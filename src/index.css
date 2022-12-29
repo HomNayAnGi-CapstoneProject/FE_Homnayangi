@@ -11,10 +11,19 @@
   
 }
 
+::selection {
+  background: #ffd8c7;
+}
+
 :root {
   background-color: #f0f0f0;
   
 }
+.scroll-bar::-webkit-scrollbar {
+  width: 5px;
+  height: 1px;
+}
+
 .scroll-bar::-webkit-scrollbar {
   width: 5px;
   height: 1px;
@@ -28,6 +37,7 @@
   background: #ff8855;
   border-radius: 5px;
 }
+
 .mySwiper {
   /* margin-top: 20px; */
   padding: 0 35px 35px 35px;
@@ -74,6 +84,7 @@
 .swiper-button-prev::after {
   display: none;
 }
+
 @font-face {
   font-family: 'Lobster';
   src: url('/fonts/Lobster-Regular.ttf') format('truetype');

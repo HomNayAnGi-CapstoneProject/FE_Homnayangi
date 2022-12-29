@@ -1,13 +1,13 @@
 import React from 'react'
-import { ic_boiling_white } from '../../../assets';
-import { ic_add_to_cart_white } from '../../../assets';
+import { ic_boiling_white } from '../../assets';
+import { ic_add_to_cart_white } from '../../assets';
 const FoodCard = (props) => {
   const{food} = props;
     console.log(food);
   return (
     <>
 { 
-      <div key={food.id} className=" card ">
+      <div key={food.id} className="card ">
        <div className='flex '>
         <img className='md:w-[200px] md:h-[200px] w-[170px] h-[170px] bg-contain bg-center px-2 py-2' src={food.image}></img>
         <div>
