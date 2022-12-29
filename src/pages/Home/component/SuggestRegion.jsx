@@ -20,9 +20,9 @@ vùng miền</h1>
 </div>
 
       </div>
-      <div className="md:grid hidden grid-flow-col gap-4">
-      <div className="flex flex-col gap-10 mb-12 py-10">
-  <div className="md:flex hidden scroll-bar md:max-h-[458px] max-h-[270px] w-full md:overflow-y-scroll overflow-x-scroll md:flex-col mb-12 gap-10 ">
+      <div className="lg:flex hidden gap-4 ">
+      <div className="flex flex-col gap-10 mb-12 py-10 ">
+  <div className="lg:flex hidden scroll-bar md:max-h-[458px] max-h-[270px] w-full md:overflow-y-scroll overflow-x-scroll md:flex-col mb-12 gap-10 ">
       {NorthFood?.length > 0 &&
                   NorthFood.map((item) => (
                    
@@ -34,11 +34,11 @@ vùng miền</h1>
         <button className="flex btn-view hover:scale-125 transition ease-out duration-500 "><p className="mr-2">Xem Thêm</p> <div className="w-[24px] h-[24px] bg-cover" style={{ backgroundImage: `url(${ic_boiling_white})` }} /></button> </div>
     
 </div>
-<div className="row-span-3 col-span-2 ml-56 "><img className="border-8 border-orange-400 rounded-full" src={North}></img></div>
+<div className="row-span-3 col-span-2 right-[90px] w-[500px] absolute"><img className="border-8 border-orange-400 rounded-full " src={North}></img><p className='font-lobster text-5xl text-center mt-5'>Miền Bắc</p></div>
 </div>
-<div className="flex md:hidden flex-col">
+<div className="flex lg:hidden flex-col">
       <div className="flex flex-col gap-10 mb-12 py-10">
-                  <div className='md:hidden'>
+                  <div className='md:hidden px-5'>
                   <Swiper
                 pagination={{
                   clickable: true,
@@ -64,10 +64,11 @@ vùng miền</h1>
               </div>
     <div className="flex justify-center">
         <button className="flex btn-view hover:scale-125 transition ease-out duration-500 "><p className="mr-2">Xem Thêm</p> <div className="w-[24px] h-[24px] bg-cover" style={{ backgroundImage: `url(${ic_boiling_white})` }} /></button> </div>
-    <img className="border-8 border-orange-400 rounded-full" src={North}></img>
+        <div className="flex justify-center">
+          <div>
+    <img className="border-8 border-orange-400 rounded-full w-[500px] " src={North}></img><p className='font-lobster text-5xl text-center mt-5'>Miền Bắc</p></div></div></div>
 </div>
 
-</div>
 </div>
   )
 }
