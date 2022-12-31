@@ -17,9 +17,7 @@ const Card = (props) => {
   return (
     <div className="font-inter cursor-pointer rounded-[10px] sm:w-[400px] sm:h-[155px] md:w-[515px] w-full md:h-[165px] h-fit bg-[#FFA883] p-[10px] flex gap-[18px] drop-shadow-3xl">
       <div className="flex-1">
-        <p className="sm:text-[20px] text-[18px] font-semibold text-black mb-[10px] line-clamp-1">
-          {props?.data?.name}
-        </p>
+        <p className="sm:text-[20px] text-[18px] font-semibold text-black mb-[5px] line-clamp-1">{props?.data?.name}</p>
         <div className="flex gap-[7px]">
           <div className="rounded-full bg-[#88EA5B] border-[2px] border-[#48822c] border-solid xs:px-[10px] px-[2px] py-[0px] text-[12px] text-[#525252]">
             Dễ ăn
@@ -28,7 +26,7 @@ const Card = (props) => {
             Buổi trưa
           </div>
         </div>
-        <p className="leading-[25px] mt-[20px] sm:line-clamp-2 line-clamp-3">
+        <p className="leading-[25px] mt-[15px] md:line-clamp-3 line-clamp-2">
           Đậu hũ kho tiêu mặn mà, đậm vị, giúp kích thích bữa cơm thêm ngon miệng. Đậu hũ kho tiêu mặn mà, đậm vị, giúp
           kích thích bữa cơm thêm ngon miệng. Đậu hũ kho tiêu mặn mà, đậm vị, giúp kích thích bữa cơm thêm ngon miệng.
         </p>
@@ -54,7 +52,7 @@ const SuggestToday = () => {
   return (
     <section className={`today-suggest font-inter w-full h-fit ${styles.paddingY}`}>
       <div className="text-center">
-        <p className="text-primary uppercase font-semibold text-[18px] mb-2 tracking-[0.24em]">Bữa ăn gia đình</p>
+        <p className="text-primary uppercase font-semibold text-[18px] mb-2 tracking-widest">Bữa ăn gia đình</p>
         <div className="w-full flex justify-center">
           <p className="font-bold text-[40px] sm:w-[470px] sm:px-0 px-5 w-full leading-[55px]">
             Gợi ý thực đơn hôm nay

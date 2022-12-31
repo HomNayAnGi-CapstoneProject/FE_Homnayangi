@@ -44,7 +44,7 @@ const SuggestRegion = (props) => {
   return (
     <section className={`signature-food-suggest font-inter w-full h-fit ${styles.paddingY}`}>
       <div className="text-center">
-        <p className="text-primary uppercase font-semibold text-[18px] mb-2 tracking-[0.24em]">Bữa ăn đặc trưng</p>
+        <p className="text-primary uppercase font-semibold text-[18px] mb-2 tracking-widest">Bữa ăn đặc trưng</p>
         <div className="w-full flex justify-center">
           <p className="font-bold text-[40px] sm:w-[470px] sm:px-0 px-5 w-full leading-[55px]">
             Món ăn đặc trưng vùng miền

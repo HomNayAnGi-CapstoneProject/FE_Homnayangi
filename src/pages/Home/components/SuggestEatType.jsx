@@ -23,7 +23,7 @@ const Card = (props) => {
           style={{ backgroundImage: `url(${staticFood1})` }}
         />
         <div className="flex-1">
-          <p className="sm:text-[20px] text-[18px] font-semibold text-black mb-[10px] line-clamp-1">
+          <p className="sm:text-[20px] text-[18px] font-semibold text-black mb-[5px] line-clamp-1">
             {props?.data?.name}
           </p>
           <div className="flex gap-[7px]">
@@ -34,7 +34,7 @@ const Card = (props) => {
               Buổi trưa
             </div>
           </div>
-          <p className="leading-[25px] mt-[20px] sm:line-clamp-2 line-clamp-3">
+          <p className="leading-[25px] mt-[15px] md:line-clamp-3  line-clamp-2">
             Đậu hũ kho tiêu mặn mà, đậm vị, giúp kích thích bữa cơm thêm ngon miệng. Đậu hũ kho tiêu mặn mà, đậm vị,
             giúp kích thích bữa cơm thêm ngon miệng. Đậu hũ kho tiêu mặn mà, đậm vị, giúp kích thích bữa cơm thêm ngon
             miệng.
@@ -79,7 +79,7 @@ const SuggestEatType = () => {
   return (
     <section className={`eat-type-suggest font-inter w-full h-fit ${styles.paddingY}`}>
       <div className="text-center">
-        <p className="text-primary uppercase font-semibold text-[18px] mb-2 tracking-[0.24em]">Bữa ăn cho bạn</p>
+        <p className="text-primary uppercase font-semibold text-[18px] mb-2 tracking-widest">Bữa ăn cho bạn</p>
         <div className="w-full flex justify-center">
           <p className="font-bold text-[40px] sm:w-[470px] sm:px-0 px-5 w-full leading-[55px]">
             Gợi ý theo phong cách ăn uống

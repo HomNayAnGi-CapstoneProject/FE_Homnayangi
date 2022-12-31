@@ -28,7 +28,7 @@ const FoodCard = (props) => {
               <img className="object-cover w-full" alt={food.name} loading="lazy" src={food.image} />
             </div>
             <div className="flex-1">
-              <p className="sm:text-[20px] text-[18px] font-semibold text-black mb-[10px] line-clamp-1">{food.name}</p>
+              <p className="sm:text-[20px] text-[18px] font-semibold text-black mb-[5px] line-clamp-1">{food.name}</p>
 
               <div className="flex gap-[7px]">
                 {food.tags.map((tag) => {
@@ -51,7 +51,7 @@ const FoodCard = (props) => {
                 {!food.ingredient ? (
                   ''
                 ) : (
-                  <div className="mt-[5px] flex">
+                  <div className="mt-[5px] flex sm:flex-row flex-col">
                     <p className="font-inter font-medium mr-1 text-[#525252]">{food.ingredient}:</p>
                     <p className="text-redError font-semibold">{Intl.NumberFormat().format(food.price)}đ</p>
                   </div>
@@ -59,8 +59,8 @@ const FoodCard = (props) => {
               </div>
               <p
                 className={`leading-[25px] ${
-                  food.ingredient ? 'mt-[10px]' : 'mt-[20px] '
-                } sm:line-clamp-2 line-clamp-3`}
+                  food.ingredient ? 'mt-[10px]' : 'mt-[15px] '
+                } sm:line-clamp-3 line-clamp-3`}
               >
                 {food.title}
               </p>
