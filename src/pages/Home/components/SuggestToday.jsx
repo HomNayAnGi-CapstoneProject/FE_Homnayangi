@@ -26,7 +26,7 @@ const Card = (props) => {
             Buổi trưa
           </div>
         </div>
-        <p className="leading-[25px] mt-[15px] md:line-clamp-3 line-clamp-2">
+        <p className="leading-[25px] mt-[10px] md:line-clamp-3 line-clamp-2">
           Đậu hũ kho tiêu mặn mà, đậm vị, giúp kích thích bữa cơm thêm ngon miệng. Đậu hũ kho tiêu mặn mà, đậm vị, giúp
           kích thích bữa cơm thêm ngon miệng. Đậu hũ kho tiêu mặn mà, đậm vị, giúp kích thích bữa cơm thêm ngon miệng.
         </p>

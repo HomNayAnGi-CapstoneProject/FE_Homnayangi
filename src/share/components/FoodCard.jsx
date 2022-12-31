@@ -52,14 +52,14 @@ const FoodCard = (props) => {
                   ''
                 ) : (
                   <div className="mt-[5px] flex sm:flex-row flex-col">
-                    <p className="font-inter font-medium mr-1 text-[#525252]">{food.ingredient}:</p>
+                    <p className="font-inter font-medium mr-1 text-[#525252]">Giá nguyên liệu:</p>
                     <p className="text-redError font-semibold">{Intl.NumberFormat().format(food.price)}đ</p>
                   </div>
                 )}
               </div>
               <p
                 className={`leading-[25px] ${
-                  food.ingredient ? 'mt-[10px]' : 'mt-[15px] '
+                  food.ingredient ? 'mt-[10px]' : 'mt-[10px] '
                 } sm:line-clamp-3 line-clamp-3`}
               >
                 {food.title}
