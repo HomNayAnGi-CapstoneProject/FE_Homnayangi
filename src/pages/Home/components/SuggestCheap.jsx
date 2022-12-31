@@ -94,7 +94,7 @@ const SuggestCheap = (props) => {
             </div>
           </div>
         </div>
-        <div className="w-full sm:mt-[2%] mt-[25%]">''</div>
+        <div className="w-full sm:mt-[2%] mt-[25%]">&nbsp;&nbsp;</div>
       </section>
     </>
   );

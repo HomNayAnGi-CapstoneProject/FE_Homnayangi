@@ -144,7 +144,7 @@ const SuggestRegion = (props) => {
         </div>
       </div>
 
-      <div className="w-full md:mt-[7%] mt-[40%]">''</div>
+      <div className="w-full md:mt-[7%] mt-[40%]">&nbsp;&nbsp;</div>
     </section>
   );
 };

@@ -153,7 +153,7 @@ const SuggestEatType = () => {
         </div>
       </div>
 
-      <div className="w-full sm:mt-[4%] mt-[10%]">''</div>
+      <div className="w-full sm:mt-[4%] mt-[10%]">&nbsp;&nbsp;</div>
     </section>
   );
 };
