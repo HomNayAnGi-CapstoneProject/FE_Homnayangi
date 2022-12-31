@@ -1,6 +1,7 @@
 import React from 'react';
 
 // ** Assets
+import styles from '../../../style';
 import vegan_type from '../../../assets/images/vegan_type.png';
 import { ic_left_arrow, ic_boiling_white, ic_add_to_cart_white } from '../../../assets';
 import staticFood1 from '../../../assets//images/staticFood1.png';
@@ -39,11 +40,11 @@ const Card = (props) => {
             miệng.
           </p>
           <div className="sm:flex hidden absolute bottom-[10px]  gap-[8px]">
-            <button className="bg-[#FF7940] rounded-[10px] cursor-pointer text-white font-medium xs:text-[18px] sm:text-[16px] text-[1vw] sm:px-[6px] sm:py-[5px] px-[20px] py-[10px] flex items-center gap-2">
+            <button className="bg-[#FF7940] rounded-[10px] cursor-pointer text-white font-medium xs:text-[18px] sm:text-[16px] text-[1vw] md:px-[15px] sm:py-[10px] px-[6px] py-[10px] flex items-center gap-2">
               Công thức
               <div className="bg-cover w-[20px] h-[20px]" style={{ backgroundImage: `url(${ic_boiling_white})` }} />
             </button>
-            <button className="bg-redError rounded-[10px] cursor-pointer text-white font-medium xs:text-[18px] sm:text-[16px] text-[1vw] sm:px-[6px] sm:py-[5px] px-[20px] py-[10px] flex items-center gap-2">
+            <button className="bg-redError rounded-[10px] cursor-pointer text-white font-medium xs:text-[18px] sm:text-[16px] text-[1vw] md:px-[15px] sm:py-[10px] px-[6px] py-[10px] flex items-center gap-2">
               Đặt làm
               <div className="bg-cover w-[20px] h-[20px]" style={{ backgroundImage: `url(${ic_add_to_cart_white})` }} />
             </button>
@@ -55,7 +56,7 @@ const Card = (props) => {
           Công thức
           <div className="bg-cover w-[20px] h-[20px]" style={{ backgroundImage: `url(${ic_boiling_white})` }} />
         </button>
-        <button className="bg-redError flex-1 rounded-[10px] cursor-pointer text-white font-medium xs:text-[18px] xs:px-[20px] px-1 py-[10px] flex justify-center items-center gap-2">
+        <button className="bg-redError flex-1 rounded-[10px] cursor-pointer text-white font-medium xs:text-[18px] xs:px-[20px]  px-1 py-[10px] flex justify-center items-center gap-2">
           Đặt làm
           <div className="bg-cover w-[20px] h-[20px]" style={{ backgroundImage: `url(${ic_add_to_cart_white})` }} />
         </button>
@@ -72,11 +73,13 @@ const data = [
   { id: 4, name: 'Thịt khooooooo' },
 ];
 
+//md:min-h-[100vh] xl:min-h-[66vh] h-fit md:mb-14 md:mt-40 mb-40
+
 const SuggestEatType = () => {
   return (
-    <div className="font-inter w-full md:min-h-[100vh] xl:mim-h-[66vh] h-fit md:mb-14 md:mt-40 mb-40">
+    <section className={`eat-type-suggest font-inter w-full h-fit ${styles.paddingY}`}>
       <div className="text-center">
-        <p className="text-primary uppercase font-semibold text-[18px] mb-2">Bữa ăn cho bạn</p>
+        <p className="text-primary uppercase font-semibold text-[18px] mb-2 tracking-[0.24em]">Bữa ăn cho bạn</p>
         <div className="w-full flex justify-center">
           <p className="font-bold text-[40px] sm:w-[470px] sm:px-0 px-5 w-full leading-[55px]">
             Gợi ý theo phong cách ăn uống
@@ -85,67 +88,73 @@ const SuggestEatType = () => {
       </div>
 
       <div className="w-full bg-[#f6e4dc] md:h-[412px] sm:h-[400px] h-[650px] mt-[77px] relative">
-        <div className="sm:px-[90px] xl:px-[15em] px-[16px] md:flex sm:flex-row flex flex-col-reverse">
-          <div className="md:w-[50%] w-full flex flex-col items-center md:mt-0 mt-9">
-            <div
-              className="absolute bottom-0 bg-cover md:w-[410px] md:h-[478px] sm:w-[315px] sm:h-[374px] w-[243px] h-[285px]"
-              style={{ backgroundImage: `url(${vegan_type})` }}
-            />
-            <div className="absolute mt-5 bottom-[-80px] flex items-center justify-center gap-4">
+        <div className={`${styles.paddingX} w-full flex justify-center absolute top-[-5%]`}>
+          <div className={`${styles.container} flex sm:flex-row flex-col-reverse`}>
+            <div className=" md:w-[50%] w-full relative sm:h-full h-[439px]">
               <div
-                className="bg-cover xs:w-[50px] xs:h-[50px] w-[40px] h-[40px] cursor-pointer"
-                style={{ backgroundImage: `url(${ic_left_arrow})` }}
+                className="absolute md:bottom-[18.2%] bottom-[15%] lg:left-[25%] sm:left-0 xs:left-[25%] left-[10%] bg-cover md:w-[410px] md:h-[478px] sm:w-[315px] sm:h-[374px] w-[243px] h-[285px]"
+                style={{ backgroundImage: `url(${vegan_type})` }}
               />
-              <div className="bg-[#f6e4dc] rounded-[5px] py-[8px] xs:px-[40px] px-[20px] text-primary md:text-[30px] xs:text-[28px] text-[5vw] font-bold">
-                Ăn chay
+              <div className="absolute md:bottom-[0%] bottom-[-1%] lg:left-[35%] sm:left-0 left-[25%] flex items-center justify-center gap-4">
+                <div
+                  className="bg-cover xs:w-[50px] xs:h-[50px] w-[40px] h-[40px] cursor-pointer"
+                  style={{ backgroundImage: `url(${ic_left_arrow})` }}
+                />
+                <div className="bg-[#f6e4dc] rounded-[5px] py-[8px] xs:px-[20px] sm:px-[40px] text-primary md:text-[30px] xs:text-[28px] text-[5vw] font-bold">
+                  Ăn chay
+                </div>
+                <div
+                  className="bg-cover xs:w-[50px] xs:h-[50px] w-[40px] h-[40px] transform rotate-[180deg] cursor-pointer"
+                  style={{ backgroundImage: `url(${ic_left_arrow})` }}
+                />
               </div>
-              <div
-                className="bg-cover xs:w-[50px] xs:h-[50px] w-[40px] h-[40px] transform rotate-[180deg] cursor-pointer"
-                style={{ backgroundImage: `url(${ic_left_arrow})` }}
-              />
-            </div>
-          </div>
-          <div className="md:w-[50%] w-full md:absolute bottom-[-90px] right-[90px] xl:right-[15em] gap-[20px] flex flex-col md:items-end items-center justify-center">
-            <div className="sm:flex hidden scroll-bar md:max-h-[460px] sm:max-h-[426px] max-h-[270px] w-full md:overflow-y-scroll overflow-x-scroll bottom-[-50px] right-[90px] flex-col items-end">
-              {data?.length > 0 &&
-                data.map((item) => (
-                  <div key={item.id} className="sm:mb-[18px] sm:last:mb-0 sm:mr-[5px] mr-[18px]">
-                    <Card data={item} />
-                  </div>
-                ))}
-            </div>
-            <div className="sm:hidden block w-full">
-              <Swiper
-                pagination={{
-                  clickable: true,
-                }}
-                navigation
-                modules={[Navigation]}
-                slidesPerView={1}
-                spaceBetween={18}
-                grabCursor={true}
-                loop={true}
-                className="mySwiper "
-              >
-                {data?.length > 0 &&
-                  data.map((item) => (
-                    <SwiperSlide key={item.id}>
-                      <Card data={item} />
-                    </SwiperSlide>
-                  ))}
-              </Swiper>
             </div>
 
-            <div className="sm:w-[586px] flex justify-center">
-              <button className="rounded-[30px] hover:bg-primaryHover transition bg-primary flex items-center gap-3 py-[10px] px-[20px] text-[20px] font-medium text-white">
-                Xem thêm
-                <div className="bg-cover w-[20px] h-[20px]" style={{ backgroundImage: `url(${ic_boiling_white})` }} />
-              </button>
+            <div className=" md:w-[50%] w-full items-center flex flex-col">
+              <div className="sm:flex hidden scroll-bar md:max-h-[460px] sm:max-h-[425px] max-h-[270px] w-fit md:overflow-y-scroll overflow-x-scroll bottom-[-50px] right-[90px] flex-col">
+                {data?.length > 0 &&
+                  data.map((item) => (
+                    <div key={item.id} className="sm:mb-[18px] sm:last:mb-0 sm:mr-[5px] mr-[18px]">
+                      <Card data={item} />
+                    </div>
+                  ))}
+              </div>
+
+              <div className="sm:hidden block w-full">
+                <Swiper
+                  pagination={{
+                    clickable: true,
+                  }}
+                  navigation
+                  modules={[Navigation]}
+                  slidesPerView={1}
+                  spaceBetween={18}
+                  grabCursor={true}
+                  loop={true}
+                  className="mySwiper "
+                >
+                  {data?.length > 0 &&
+                    data.map((item) => (
+                      <SwiperSlide key={item.id}>
+                        <Card data={item} />
+                      </SwiperSlide>
+                    ))}
+                </Swiper>
+              </div>
+
+              <div className="sm:w-full flex justify-center mt-5">
+                <button className="rounded-[30px] hover:bg-primaryHover transition bg-primary flex items-center gap-3 py-[10px] px-[20px] text-[20px] font-medium text-white">
+                  Xem thêm
+                  <div className="bg-cover w-[20px] h-[20px]" style={{ backgroundImage: `url(${ic_boiling_white})` }} />
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+
+      <div className="w-full sm:mt-[4%] mt-[10%]">''</div>
+    </section>
   );
 };
 

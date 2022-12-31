@@ -1,6 +1,7 @@
 import React from 'react';
 
 // ** Assets
+import styles from '../../../style';
 import staticFood1 from '../../../assets//images/staticFood1.png';
 import { ic_left_arrow, ic_boiling_white, ic_refresh_white } from '../../../assets';
 
@@ -47,11 +48,13 @@ const data = [
   { id: 7, name: 'Đậu 3dadawdad' },
 ];
 
+//md:mb-14 md:mt-40 mb-40
+
 const SuggestToday = () => {
   return (
-    <div className="font-inter w-full md:min-h-[100vh] xl:min-h-[66vh] h-fit md:mb-14 md:mt-40 mb-40">
+    <section className={`today-suggest font-inter w-full h-fit ${styles.paddingY}`}>
       <div className="text-center">
-        <p className="text-primary uppercase font-semibold text-[18px] mb-2">Bữa ăn gia đình</p>
+        <p className="text-primary uppercase font-semibold text-[18px] mb-2 tracking-[0.24em]">Bữa ăn gia đình</p>
         <div className="w-full flex justify-center">
           <p className="font-bold text-[40px] sm:w-[470px] sm:px-0 px-5 w-full leading-[55px]">
             Gợi ý thực đơn hôm nay
@@ -59,37 +62,59 @@ const SuggestToday = () => {
         </div>
       </div>
 
-      <div className="w-full bg-[#f6e4dc] md:h-[412px] h-[550px] mt-[7%] relative">
-        <div className="sm:px-[90px] xl:px-[15em] w-full absolute z-[10] left-[50%]  md:top-[-50%] sm:top-[-20%] top-[-10%] translate-y-[25%] translate-x-[-50%] px-[16px] flex sm:flex-row flex-col-reverse">
-          <div className="mmd:flex hidden sm:w-[50%] w-full flex-col">
-            <div className="flex md:w-full bottom-[-50px] right-[90px] sm:flex-col">
-              {data?.length > 0 &&
-                data.map((item) => (
-                  <div key={item.id} className="sm:mb-[18px] sm:last:mb-0 md:odd:self-end md:odd:mr-5">
-                    <Card data={item} />
-                  </div>
-                ))}
-            </div>
-          </div>
-          <div className="sm:w-[50%] w-full mmd:flex hidden">
-            <div className="xs:w-fit sm:w-full sm:flex sm:justify-center sm:flex-col sm:items-center text-center">
-              <div className="md:ml-7 md:w-[533px] w-full md:h-[533px] xs:h-[60vw] sm:h-[320px] sm:w-[320px] rounded-full bg-primary relative">
-                <div
-                  className="bg-cover rounded-full border-white border-[2px] md:w-[508.85px] md:h-[508.85px] xs:w-[56vw] xs:h-[56vw] sm:w-[300px] sm:h-[300px] w-[66vw] h-[66vw] absolute left-[50%] translate-x-[-50%] top-[50%] translate-y-[-50%]"
-                  style={{ backgroundImage: `url(${staticFood1})` }}
-                />
+      <div className="w-full bg-[#f6e4dc] md:h-[412px] mmd:h-[550px] ss:h-[690px] h-[550px] mt-[7%] relative">
+        <div
+          className={`${styles.paddingX} w-full absolute z-[10] left-[50%]  md:top-[-50%] sm:top-[-20%] top-[-10%] translate-y-[25%] translate-x-[-50%] flex justify-center sm:flex-row flex-col-reverse`}
+        >
+          <div className={`${styles.container} flex`}>
+            <div className="mmd:flex hidden sm:w-[50%] w-full flex-col">
+              <div className="flex md:w-full bottom-[-50px] right-[90px] sm:flex-col">
+                {data?.length > 0 &&
+                  data.map((item) => (
+                    <div key={item.id} className="sm:mb-[18px] sm:last:mb-0 md:odd:self-end md:odd:mr-5">
+                      <Card data={item} />
+                    </div>
+                  ))}
               </div>
-              <p className="font-bold md:text-[35px] text-[28px] line-clamp-1 mt-1">Cá lóc kho tộ</p>
+            </div>
+            <div className="sm:w-[50%] w-full mmd:flex hidden">
+              <div className="xs:w-fit sm:w-full sm:flex sm:justify-center sm:flex-col sm:items-center text-center">
+                {/* <div className="md:ml-7 md:w-[533px] w-full md:h-[533px] xs:h-[60vw] sm:h-[320px] sm:w-[320px] rounded-full bg-primary relative">
+                  <div
+                    className="bg-cover rounded-full border-white border-[2px] md:w-[508.85px] md:h-[508.85px] xs:w-[56vw] xs:h-[56vw] sm:w-[300px] sm:h-[300px] w-[66vw] h-[66vw] absolute left-[50%] translate-x-[-50%] top-[50%] translate-y-[-50%]"
+                    style={{ backgroundImage: `url(${staticFood1})` }}
+                  />
+                </div>
+                <p className="font-bold md:text-[35px] text-[28px] line-clamp-1 mt-1">Cá lóc kho tộ</p> */}
+                <div className="bg-primary relative md:w-[520px] md:h-[520px] sm:w-[450px] sm:h-[450px] ss:w-[450px] ss:h-[450px] w-[320px] h-[320px] rounded-full">
+                  <img
+                    className="rounded-full absolute left-[50%] translate-x-[-50%] top-[50%] translate-y-[-50%] object-cover border-[2px] border-white md:w-[490px] md:h-[490px] ss:w-[420px] ss:h-[420px] w-[290px] h-[290px]"
+                    alt={''}
+                    src={staticFood1}
+                    loading="lazy"
+                  />
+                </div>
+                <p className="font-bold md:text-[35px] text-[28px] line-clamp-1 mt-1">Cá lóc kho tộ</p>
+              </div>
             </div>
           </div>
         </div>
 
         <div className="mmd:hidden block w-full px-[16px] absolute top-0">
           <div className="w-full flex flex-col items-center text-center">
-            <div className="md:ml-7 md:w-[533px] w-[250px] md:h-[533px] h-[250px] xs:w-[320px] xs:h-[320px] rounded-full bg-primary relative">
+            {/* <div className="md:ml-7 md:w-[533px] w-[250px] md:h-[533px] h-[250px] xs:w-[320px] xs:h-[320px] rounded-full bg-primary relative">
               <div
                 className="bg-cover rounded-full border-white border-[2px] md:w-[508.85px] md:h-[508.85px] xs:w-[310px] xs:h-[310px] w-[235px] h-[235px] absolute left-[50%] translate-x-[-50%] top-[50%] translate-y-[-50%]"
                 style={{ backgroundImage: `url(${staticFood1})` }}
+              />
+            </div>
+            <p className="font-bold md:text-[35px] text-[28px] line-clamp-1 mt-1">Cá lóc kho tộ</p> */}
+            <div className="bg-primary relative md:w-[520px] md:h-[520px] sm:w-[450px] sm:h-[450px] ss:w-[450px] ss:h-[450px] w-[320px] h-[320px] rounded-full">
+              <img
+                className="rounded-full absolute left-[50%] translate-x-[-50%] top-[50%] translate-y-[-50%] object-cover border-[2px] border-white md:w-[490px] md:h-[490px] ss:w-[420px] ss:h-[420px] w-[290px] h-[290px]"
+                alt={''}
+                src={staticFood1}
+                loading="lazy"
               />
             </div>
             <p className="font-bold md:text-[35px] text-[28px] line-clamp-1 mt-1">Cá lóc kho tộ</p>
@@ -122,7 +147,7 @@ const SuggestToday = () => {
           </Swiper>
         </div>
       </div>
-      <div className="w-full flex justify-center text-center md:mt-[10%] mt-[5%]">
+      <div className="w-full flex justify-center text-center md:mt-[9%] mt-[5%]">
         <div className="flex sm:gap-[27px] gap-[15px]">
           <button className="bg-primary hover:bg-primaryHover rounded-tl-[30px] rounded-bl-[30px] rounded-tr-[5px] rounded-br-[5px] text-medium text-white text-[20px] flex items-center gap-3 py-[10px] sm:px-[20px] px-[10px]">
             Xem thêm
@@ -134,7 +159,7 @@ const SuggestToday = () => {
           </button>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 
