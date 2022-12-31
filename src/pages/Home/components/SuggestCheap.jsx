@@ -22,7 +22,7 @@ const SuggestCheap = (props) => {
     <>
       <section className={`cheap-price-suggest font-inter w-full h-fit ${styles.paddingY}`}>
         <div className="text-center">
-          <p className="text-primary uppercase font-semibold text-[18px] mb-2 tracking-[0.24em]">Bữa ăn vừa túi</p>
+          <p className="text-primary uppercase font-semibold text-[18px] mb-2 tracking-widest">Bữa ăn vừa túi</p>
           <div className="w-full flex justify-center">
             <p className="font-bold text-[40px] sm:w-[470px] sm:px-0 px-5 w-full leading-[55px]">
               Gợi ý thực đơn giá rẻ

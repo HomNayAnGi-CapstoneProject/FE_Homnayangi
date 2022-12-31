@@ -7,6 +7,7 @@ import SuggestEatType from './components/SuggestEatType';
 import SuggestCheap from './components/SuggestCheap';
 import SuggestRegion from './components/SuggestRegion';
 import { Food, NorthFood } from '../../share/components/FoodData';
+
 //** Third party components
 import instances from '../../utils/plugin/axios';
 
