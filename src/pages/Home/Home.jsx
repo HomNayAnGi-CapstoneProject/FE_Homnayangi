@@ -1,15 +1,14 @@
-import { HubConnection, HubConnectionBuilder } from "@microsoft/signalr";
+import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 import { useEffect } from 'react';
 import HeroSection from './components/HeroSection';
 import SuggestToday from './components/SuggestToday';
 import SuggestEatType from './components/SuggestEatType';
 
-import SuggestCheap from "./components/SuggestCheap";
-import SuggestRegion from "./components/SuggestRegion";
-import { Food, NorthFood } from "../../share/components/FoodData";
+import SuggestCheap from './components/SuggestCheap';
+import SuggestRegion from './components/SuggestRegion';
+import { Food, NorthFood } from '../../share/components/FoodData';
 //** Third party components
 import instances from '../../utils/plugin/axios';
-
 
 const Home = ({ title }) => {
   useEffect(() => {
@@ -24,15 +23,14 @@ const Home = ({ title }) => {
 
   //   fetch();
   // }, []);
-  
 
   return (
     <div className="">
       <HeroSection />
       <SuggestToday />
       <SuggestEatType />
-      <SuggestCheap Food={Food}/>
-<SuggestRegion NorthFood={NorthFood}/>
+      <SuggestCheap Food={Food} />
+      <SuggestRegion NorthFood={NorthFood} />
     </div>
   );
 };

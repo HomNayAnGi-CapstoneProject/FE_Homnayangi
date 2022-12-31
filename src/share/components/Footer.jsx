@@ -11,7 +11,7 @@ const Footer = () => {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="w-full h-max font-inter relative">
+    <footer className="w-full h-max font-inter relative mt-20">
       <div
         style={{ backgroundImage: `url(${footer})` }}
         className="w-full md:min-h-[300px] xl:min-h-[420px] bg-cover bg-bottom"
