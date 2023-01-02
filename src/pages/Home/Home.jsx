@@ -1,4 +1,4 @@
-import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
+// import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 import { useEffect } from 'react';
 import HeroSection from './components/HeroSection';
 import SuggestToday from './components/SuggestToday';

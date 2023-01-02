@@ -26,7 +26,7 @@ export const Food = [
 ];
 export const NorthFood = [
   {
-    id: 1,
+    id: 11,
     name: 'Bún Ốc',
     image: staticFood1,
     tags: ['Buổi trưa', 'Dễ ăn', 'Buổi sáng'],
@@ -34,14 +34,14 @@ export const NorthFood = [
       'Món bún ốc Hà Nội trứ danh được làm từ các nguyên liệu đơn giản và dân giã gồm ốc đơn giản và dân giã gồm ốc ',
   },
   {
-    id: 2,
+    id: 21,
     name: 'Thịt ba chỉ nướng',
     image: staticFood1,
     tags: ['Dễ ăn', 'Buổi trưa'],
     title: 'Phở cuốn Hà Nội là món ngon quen thuộc của người dân thủ đô. Món ăn được làm từ đơn giản và dân giã gồm ốc',
   },
   {
-    id: 3,
+    id: 31,
     name: 'Bun Oc',
     image: staticFood1,
     tags: ['Dễ ăn', 'Buổi trưa'],
