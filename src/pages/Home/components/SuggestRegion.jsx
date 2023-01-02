@@ -54,12 +54,12 @@ const SuggestRegion = (props) => {
 
       <div className="w-full bg-[#f6e4dc] md:h-[412px] h-[650px] mt-[77px] relative">
         <div
-          className={` flex justify-center w-full absolute z-[10] left-[50%]  md:top-[-43%] sm:top-[-25%] top-[-10%] translate-y-[25%] translate-x-[-50%]`}
+          className={`${styles.paddingX} flex justify-center w-full absolute z-[10] left-[50%]  md:top-[-43%] sm:top-[-25%] top-[-10%] translate-y-[25%] translate-x-[-50%]`}
         >
           <div className={`${styles.container}`}>
             <div className="md:flex hidden gap-4">
               <div className="md:w-[50%] w-full flex flex-col mb-12">
-                <div className="md:flex hidden scroll-bar pl-10 md:max-h-[458px] max-h-[270px] w-full md:overflow-y-scroll overflow-x-scroll md:flex-col mb-12 gap-[18px]">
+                <div className="md:flex hidden scroll-bar md:max-h-[458px] max-h-[270px] w-fit md:overflow-y-scroll overflow-x-scroll md:flex-col mb-12 gap-[18px]">
                   {NorthFood?.length > 0 &&
                     NorthFood.map((item) => (
                       <div key={item.id} className="sm:mr-[5px] mr-[18px]">
@@ -77,10 +77,10 @@ const SuggestRegion = (props) => {
                   </button>
                 </div>
               </div>
-              <div className="md:w-[50%] w-full">
-                <div className=" right-[90px] w-[500px]">
+              <div className="md:w-[50%] w-full flex justify-center">
+                <div className=" right-[90px]">
                   {/* <img className="border-8 border-orange-400 rounded-full " src={North}></img> */}
-                  <div className="bg-primary relative left-[10%] w-[520px] h-[520px] rounded-full">
+                  <div className="bg-primary relative w-[520px] h-[520px] rounded-full">
                     <img
                       className="rounded-full absolute left-[50%] translate-x-[-50%] top-[50%] translate-y-[-50%] object-cover border-[2px] border-white w-[490px] h-[490px]"
                       alt={handleChangeData().imgName}

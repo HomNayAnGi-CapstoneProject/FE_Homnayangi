@@ -11,7 +11,7 @@ const FoodCard = (props) => {
         <div
           key={food.id}
           className={`relative font-inter rounded-[10px] bg-[#FFA883] p-[10px] ${
-            food.ingredient ? ' md:h-[245px]' : 'md:h-[220px]'
+            food.ingredient ? ' md:h-[245px]' : 'md:w-[586px]  md:h-[220px]'
           } flex sm:flex-row flex-col gap-[18px] drop-shadow-3xl`}
         >
           <div className="flex gap-[18px]">
