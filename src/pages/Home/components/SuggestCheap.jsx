@@ -30,7 +30,7 @@ const SuggestCheap = (props) => {
           </div>
         </div>
         <div className="w-full bg-[#f6e4dc] md:h-[412px] sm:h-[400px] h-[650px] mt-[77px] relative">
-          <div className={`${styles.paddingX} hidden md:flex justify-center w-full`}>
+          <div className={`${styles.paddingX} hidden xlg:flex justify-center w-full`}>
             <div className={`${styles.container}`}>
               <Swiper
                 pagination={{
@@ -53,7 +53,7 @@ const SuggestCheap = (props) => {
               </Swiper>
             </div>
           </div>
-          <div className="px-5 py-10 md:hidden">
+          <div className="px-5 py-10 xlg:hidden">
             <Swiper
               pagination={{
                 clickable: true,
