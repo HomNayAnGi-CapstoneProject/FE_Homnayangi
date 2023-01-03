@@ -45,9 +45,13 @@ const DefaultLayout = ({ children }) => {
 
   return (
     <div
-      className=" relative bg-cover w-full h-[586px] xl:h-[1080px]"
-      style={{ backgroundImage: `url(${gradientBackground})` }}
+      className=" relative bg-cover w-full"
+      // style={{ backgroundImage: `url(${gradientBackground})` }}
     >
+      <div
+        className="absolute top-0 bg-cover w-full h-[586px] xl:h-[1080px]"
+        style={{ backgroundImage: `url(${gradientBackground})` }}
+      />
       <div
         className="lg:block hidden absolute right-0 top-[80px] bg-cover bg-no-repeat w-[47vw] h-[650px]"
         // style={{ backgroundImage: `url(${handleChangeImage()})` }}

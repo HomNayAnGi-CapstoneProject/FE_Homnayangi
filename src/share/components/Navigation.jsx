@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import MenuModal from './MenuModal';
 import styles from '../../style';
 
@@ -27,6 +27,7 @@ const Navigation = (props) => {
   const [openCountry, setOpenCountry] = useState(false);
   const dispatch = useDispatch();
   const store = useSelector((state) => state.global);
+  const [scroll, setScroll] = useState(false);
 
   // ** Funct
   const handleChangeSide = (id) => {
@@ -39,10 +40,29 @@ const Navigation = (props) => {
     dispatch(setOpenMenuModal(true));
   };
 
+  // ** Scroll nav
+  useEffect(() => {
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        setScroll(true);
+      } else {
+        setScroll(false);
+      }
+    });
+
+    return () => {
+      window.removeEventListener('scroll', null);
+    };
+  }, []);
+
   return (
     <>
       {store.openMenuModal && <MenuModal />}
-      <nav className={`font-inter ${styles.paddingX} ${styles.flexCenter}`}>
+      <nav
+        className={`font-inter ${styles.paddingX} ${styles.flexCenter} ${
+          scroll ? 'bg-[#f0f0f0] drop-shadow-md rounded-bl-[30px] rounded-br-[30px]' : ''
+        } sticky top-0 z-50 w-full transition`}
+      >
         <div className={`${styles.container} ${styles.flexBetween}`}>
           <div className="flex gap-[80px]">
             <Link to="/">
