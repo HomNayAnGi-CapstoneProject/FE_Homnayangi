@@ -8,7 +8,6 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  
 }
 
 ::selection {
@@ -17,7 +16,6 @@
 
 :root {
   background-color: #f0f0f0;
-  
 }
 .scroll-bar::-webkit-scrollbar {
   width: 5px;
@@ -26,7 +24,7 @@
 
 .scroll-bar::-webkit-scrollbar {
   width: 5px;
-  height: 1px;
+  height: 5px;
 }
 
 .scroll-bar::-webkit-scrollbar-track {
@@ -83,6 +81,23 @@
 .swiper-button-next::after,
 .swiper-button-prev::after {
   display: none;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  /* border: 1px solid #253341; */
+  -webkit-text-fill-color: rgb(66, 66, 66);
+  -webkit-box-shadow: 0 0 0px 1000px #f0f0f0 inset;
+  box-shadow: 0 0 0px 1000px #f0f0f0 inset;
+  /* transition: background-color 5000s ease-in-out 0s;
+  color: white; */
 }
 
 @font-face {
@@ -143,22 +158,27 @@
   font-weight: 900;
   src: url('/fonts/Inter-Black.ttf') format('truetype');
 }
-@layer components{
 
-  .btn-view{
+.calc-width {
+  width: calc(100% - (332px));
+}
+
+@layer components {
+  .btn-view {
     @apply border-2 border-orange-400 bg-orange-400 text-white font-bold px-4 py-2 rounded-3xl text-lg font-inter cursor-pointer;
   }
-  .btn-card{
-   @apply border-2 border-orange-400 bg-orange-400 text-white font-bold px-4 py-2 rounded-3xl text-lg font-inter cursor-pointer;
+  .btn-card {
+    @apply border-2 border-orange-400 bg-orange-400 text-white font-bold px-4 py-2 rounded-3xl text-lg font-inter cursor-pointer;
   }
-  .btn-order{
-   @apply border-2 border-redError bg-redError text-white font-bold px-4 py-2 rounded-3xl text-lg font-inter cursor-pointer;
+  .btn-order {
+    @apply border-2 border-redError bg-redError text-white font-bold px-4 py-2 rounded-3xl text-lg font-inter cursor-pointer;
   }
-  .card{
-  @apply bg-foodCard rounded-md shadow-md shadow-gray-400 relative; 
-}
-  .tag{
-  @apply border-2  text-lightText font-bold px-2 py-1 rounded-3xl text-sm font-inter}
+  .card {
+    @apply bg-foodCard rounded-md shadow-md shadow-gray-400 relative;
+  }
+  .tag {
+    @apply border-2  text-lightText font-bold px-2 py-1 rounded-3xl text-sm font-inter;
+  }
   .font-outline-2 {
     -webkit-text-stroke: 2px black;
   }

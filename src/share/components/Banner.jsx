@@ -16,13 +16,13 @@ import { Autoplay, Pagination, Navigation } from 'swiper';
 
 const Banner = () => {
   return (
-    <div className="mt-[25px] sm:block hidden">
+    <div className="sm:block hidden">
       <Swiper
         spaceBetween={30}
         centeredSlides={true}
         style={{
           '--swiper-pagination-color': '#FF8855',
-          '--swiper-pagination-bullet-size': '15px',
+          '--swiper-pagination-bullet-size': '10px',
           '--swiper-pagination-bullet-inactive-opacity': '1',
           '--swiper-pagination-bullet-inactive-color': '#CCCCCC',
         }}
