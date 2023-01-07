@@ -1,4 +1,4 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 import FoodCard from '../../../share/components/FoodCard';
 
 // ** Assets
@@ -11,10 +11,24 @@ import { Pagination, Navigation } from 'swiper';
 import 'swiper/css';
 // import 'swiper/css/pagination';
 import 'swiper/css/navigation';
+import instances from '../../../utils/plugin/axios';
 
 const SuggestCheap = (props) => {
+  // ** Const
   const { Food } = props;
-  // console.log(Food);
+  const [cheapData, setCheapData] = useState(null);
+
+  // ** call api
+
+  useEffect(() => {
+    const fetch = async () => {
+      const res = await instances.get('/home/blogs/cheap-price');
+      console.log(res.data.result);
+      setCheapData(res.data.result);
+    };
+
+    fetch();
+  }, []);
 
   //md:min-h-[100vh] xl:min-h-[66vh] h-fit md:mb-14 md:mt-40 mb-40
 
@@ -44,9 +58,9 @@ const SuggestCheap = (props) => {
                 loop={true}
                 className="mySwiper "
               >
-                {Food?.length > 0 &&
-                  Food.map((item) => (
-                    <SwiperSlide key={item.id}>
+                {cheapData?.length > 0 &&
+                  cheapData.map((item) => (
+                    <SwiperSlide key={item.blogId}>
                       <FoodCard food={item} />
                     </SwiperSlide>
                   ))}
@@ -67,9 +81,9 @@ const SuggestCheap = (props) => {
               className="mySwiper "
             >
               <div className="flex ">
-                {Food?.length > 0 &&
-                  Food.map((item) => (
-                    <SwiperSlide key={item.id}>
+                {cheapData?.length > 0 &&
+                  cheapData.map((item) => (
+                    <SwiperSlide key={item.blogId}>
                       <FoodCard food={item} />
                     </SwiperSlide>
                   ))}

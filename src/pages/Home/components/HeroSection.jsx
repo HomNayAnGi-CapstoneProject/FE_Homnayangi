@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import styles from '../../../style';
+import HomeSearch from './HomeSearch';
 
 // ** Assets
 import foodNorth from '../../../assets/images/foodNorth.webp';
@@ -53,32 +54,7 @@ const HeroSection = () => {
               miền cho bữa ăn hằng ngày.
             </p>
             <div className="mt-[30px]">
-              <div className="relative">
-                <input
-                  type="text"
-                  id="default-search"
-                  className="block w-full p-[12px] pl-[23px] text-subText sm:text-md  border border-primary rounded-full bg-[#f0f0f0] focus:outline-primary "
-                  placeholder="Thịt kho tiêu..."
-                />
-                <button className="hover:bg-primaryHover transition flex items-center gap-2 text-white absolute bg-primary rounded-full right-1 bottom-1 font-medium px-4 py-[8.8px]">
-                  Tìm kiếm
-                  <svg
-                    aria-hidden="true"
-                    className="w-5 h-5 text-white dark:text-white"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                    ></path>
-                  </svg>
-                </button>
-              </div>
+              <HomeSearch />
             </div>
           </div>
         </div>
@@ -89,7 +65,7 @@ const HeroSection = () => {
           >
             <img
               className="object-cover lg:w-[620px] lg:h-[620px] md:w-[500px] md:h-[500px] sm:-w-[350px] sm:h-[350px] "
-              loading="lazy"
+              // loading="lazy"
               src={handleChangeData().img}
               alt={handleChangeData().imgName}
             />
