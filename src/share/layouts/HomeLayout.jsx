@@ -59,7 +59,7 @@ const DefaultLayout = ({ children }) => {
         <div className="absolute bg-black opacity-[0.5] w-[47vw] h-[650px] rounded-tl-[355px] rounded-bl-[355px]" />
         <img
           className="object-cover w-[47vw] h-[650px] rounded-tl-[355px] rounded-bl-[355px]"
-          loading="lazy"
+          // loading="lazy"
           src={handleChangeImage()}
         />
       </div>

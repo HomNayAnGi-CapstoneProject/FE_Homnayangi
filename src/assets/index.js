@@ -11,9 +11,12 @@ import ic_left_arrow from './ic_left_arrow.svg'
 import ic_boiling_white from './ic_boiling_white.svg'
 import ic_add_to_cart_white from './ic_add-to-cart_white.svg'
 import ic_refresh_white from './ic_refresh_white.svg'
-
+import ic_eye_gray from './ic_eye_gray.svg'
+import ic_eye_closed from './ic_eye_closed.svg'
+import ic_google from './ic_google.svg'
 
 export {
     ic_nofitication, ic_cart, ic_caret_down_white, ic_nav_menu, ic_close_modal, ic_caret_right, ic_location,
-    ic_notification_white, ic_cart_white, ic_left_arrow, ic_boiling_white, ic_add_to_cart_white, ic_refresh_white
+    ic_notification_white, ic_cart_white, ic_left_arrow, ic_boiling_white, ic_add_to_cart_white, ic_refresh_white,
+    ic_eye_gray, ic_eye_closed, ic_google
 }

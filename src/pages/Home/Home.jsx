@@ -18,7 +18,7 @@ const Home = ({ title }) => {
 
   // useEffect(() => {
   //   const fetch = async () => {
-  //     const res = await instances.get('/api/categories/f93a40ad-3c64-4d4b-b544-14f2fd7f9a83');
+  //     const res = await instances.get('/home/category/6B21EB68-5BA7-4091-A453-0C6E239A371D/blogs');
   //     console.log(res);
   //   };
 

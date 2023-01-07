@@ -25,6 +25,7 @@ import { setOpenMenuModal, setCountrySide } from '../../redux/actionSlice/global
 const Navigation = (props) => {
   // ** States, Const
   const [openCountry, setOpenCountry] = useState(false);
+  const [openUser, setOpenUser] = useState(false);
   const dispatch = useDispatch();
   const store = useSelector((state) => state.global);
   const [scroll, setScroll] = useState(false);
@@ -193,7 +194,26 @@ const Navigation = (props) => {
             <div
               className="relative bg-cover w-[24px] h-[24px] cursor-pointer"
               style={{ backgroundImage: `url(${default_user})` }}
-            ></div>
+              onClick={() => setOpenUser((prev) => !prev)}
+            >
+              <OutsideClickHandler onOutsideClick={() => setOpenUser(false)}>
+                <ul
+                  className={`${
+                    openUser ? 'block' : 'hidden'
+                  } w-max py-1.5 bg-white rounded-[5px] absolute z-[99] shadow-md top-10 right-[20%]`}
+                >
+                  <Link to="/login">
+                    <li
+                      className={`text-center cursor-pointer hover:bg-secondary py-1 px-2 ${
+                        store.countrySide == 2 ? 'bg-secondary' : ''
+                      }`}
+                    >
+                      Đăng nhập/đăng ký
+                    </li>
+                  </Link>
+                </ul>
+              </OutsideClickHandler>
+            </div>
           </div>
         </div>
       </nav>
