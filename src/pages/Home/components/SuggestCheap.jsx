@@ -23,7 +23,7 @@ const SuggestCheap = (props) => {
   useEffect(() => {
     const fetch = async () => {
       const res = await instances.get('/home/blogs/cheap-price');
-      console.log(res.data.result);
+      // console.log(res.data.result);
       setCheapData(res.data.result);
     };
 

@@ -38,7 +38,7 @@ const HeroSection = () => {
     <section
       className={`hero ${styles.paddingX} pb-16 font-inter flex relative  justify-center sm:overflow-hidden overflow-auto`}
     >
-      <div className={`${styles.container} flex sm:flex-row flex-col gap-20 xl:gap-36`}>
+      <div className={`${styles.container} flex sm:flex-row flex-col gap-0 mlg:gap-20 xl:gap-36`}>
         <div className={``}>
           <div className={`${styles.container} sm:my-[120px] my-[100px] sm:text-start text-center`}>
             <div className="flex items-center gap-2 sm:justify-start justify-center sm:mb-0 mb-3">
@@ -64,7 +64,7 @@ const HeroSection = () => {
             // style={{ backgroundImage: `url(${handleChangeData().img})` }}
           >
             <img
-              className="object-cover lg:w-[620px] lg:h-[620px] md:w-[500px] md:h-[500px] sm:-w-[350px] sm:h-[350px] "
+              className="object-cover lg:w-[620px] lg:h-[620px] md:w-[500px] md:h-[500px] sm:w-[500px] sm:h-[500px] "
               // loading="lazy"
               src={handleChangeData().img}
               alt={handleChangeData().imgName}

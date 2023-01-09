@@ -1,4 +1,5 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
+import instances from '../../../utils/plugin/axios';
 
 // ** Assets
 import { ic_boiling_white } from '../../../assets';
@@ -21,23 +22,35 @@ const SuggestRegion = (props) => {
   // ** States, Const
   const { NorthFood } = props;
   const store = useSelector((state) => state.global);
+  const [regionData, setRegionData] = useState('');
+
+  // ** call api
+  useEffect(() => {
+    const fetch = async () => {
+      const res = await instances.get(`/home/tag/${handleChangeData().tagId}/blogs`);
+      // console.log(res.data.result);
+      setRegionData(res.data.result);
+    };
+
+    fetch();
+  }, [store.countrySide]);
 
   // ** Funct
-  const handleChangeData = () => {
+  function handleChangeData() {
     switch (store.countrySide) {
       case 1:
-        return { img: mienNam, imgName: 'Miền Nam' };
+        return { img: mienNam, imgName: 'Miền Nam', tagId: '13e8010c-f583-4a32-9a76-a7f188983c69' };
         break;
       case 2:
-        return { img: mienBac, imgName: 'Miền Bắc' };
+        return { img: mienBac, imgName: 'Miền Bắc', tagId: 'a7766c2a-8faf-48f9-bdec-1dfaba22ecf3' };
         break;
       case 3:
-        return { img: mienTrung, imgName: 'Miền Trung' };
+        return { img: mienTrung, imgName: 'Miền Trung', tagId: 'c368e82d-dda4-4b39-bc19-43ef148981e0' };
         break;
       default:
         break;
     }
-  };
+  }
 
   //md:min-h-[100vh] xl:min-h-[66vh] h-fit md:mb-14 md:mt-40 mb-40
 
@@ -60,10 +73,10 @@ const SuggestRegion = (props) => {
             <div className="md:flex hidden gap-4">
               <div className="md:w-[50%] w-full flex flex-col mb-12">
                 <div className="md:flex hidden scroll-bar md:max-h-[458px] max-h-[270px] w-fit md:overflow-y-scroll overflow-x-scroll md:flex-col mb-12 gap-[18px]">
-                  {NorthFood?.length > 0 &&
-                    NorthFood.map((item) => (
-                      <div key={item.id} className="sm:mr-[5px] mr-[18px]">
-                        <FoodCard key={item.id} food={item} />
+                  {regionData?.length > 0 &&
+                    regionData.map((item) => (
+                      <div key={item.blogId} className="sm:mr-[5px] mr-[18px]">
+                        <FoodCard key={item.blogId} food={item} />
                       </div>
                     ))}
                 </div>
@@ -111,9 +124,9 @@ const SuggestRegion = (props) => {
                 className="mySwiper "
               >
                 <div className="flex ">
-                  {NorthFood?.length > 0 &&
-                    NorthFood.map((item) => (
-                      <SwiperSlide key={item.id}>
+                  {regionData?.length > 0 &&
+                    regionData.map((item) => (
+                      <SwiperSlide key={item.blogId}>
                         <FoodCard food={item} />
                       </SwiperSlide>
                     ))}
