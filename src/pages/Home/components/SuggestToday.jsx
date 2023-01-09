@@ -1,4 +1,5 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
+import instances from '../../../utils/plugin/axios';
 
 // ** Assets
 import styles from '../../../style';
@@ -17,23 +18,28 @@ const Card = (props) => {
   return (
     <div className="font-inter cursor-pointer rounded-[10px] sm:w-[400px] sm:h-[155px] md:w-[515px] w-full md:h-[165px] h-fit bg-[#FFA883] p-[10px] flex gap-[18px] drop-shadow-3xl">
       <div className="flex-1">
-        <p className="sm:text-[20px] text-[18px] font-semibold text-black mb-[5px] line-clamp-1">{props?.data?.name}</p>
-        <div className="flex gap-[7px]">
-          <div className="rounded-full bg-[#88EA5B] border-[2px] border-[#48822c] border-solid xs:px-[10px] px-[2px] py-[0px] text-[12px] text-[#525252]">
-            Dễ ăn
-          </div>
-          <div className="rounded-full bg-[#EAD35B] border-[2px] border-[#8F8137] border-solid xs:px-[10px] px-[2px] py-[0px] text-[12px] text-[#525252]">
-            Buổi trưa
-          </div>
-        </div>
-        <p className="leading-[25px] mt-[10px] md:line-clamp-3 line-clamp-2">
-          Đậu hũ kho tiêu mặn mà, đậm vị, giúp kích thích bữa cơm thêm ngon miệng. Đậu hũ kho tiêu mặn mà, đậm vị, giúp
-          kích thích bữa cơm thêm ngon miệng. Đậu hũ kho tiêu mặn mà, đậm vị, giúp kích thích bữa cơm thêm ngon miệng.
+        <p className="sm:text-[20px] text-[18px] font-semibold text-black mb-[5px] line-clamp-1">
+          {props?.data?.title}
         </p>
+        <div className="flex gap-[7px]">
+          {props?.data?.listTagName?.length > 0 &&
+            props?.data?.listTagName?.slice(0, 3)?.map((item, index) => (
+              <div
+                key={index}
+                className="rounded-full w-max bg-[#EAD35B] border-[2px] border-[#8F8137] border-solid xs:px-[10px] px-[2px] py-[0px] text-[12px] text-[#525252]"
+              >
+                {item}
+              </div>
+            ))}
+          {/* <div className="rounded-full bg-[#88EA5B] border-[2px] border-[#48822c] border-solid xs:px-[10px] px-[2px] py-[0px] text-[12px] text-[#525252]">
+            Dễ ăn
+          </div> */}
+        </div>
+        <p className="leading-[25px] mt-[10px] md:line-clamp-3 line-clamp-2">{props?.data?.description}</p>
       </div>
       <div
         className="rounded-[10px] border-[2px] border-solid border-white bg-cover sm:w-[180px] sm:h-[137px] md:w-[190px] w-[150px] h-[150px] md:h-[147px] bg-center"
-        style={{ backgroundImage: `url(${staticFood1})` }}
+        style={{ backgroundImage: `url(${props?.data?.imageUrl})` }}
       />
     </div>
   );
@@ -49,6 +55,24 @@ const data = [
 //md:mb-14 md:mt-40 mb-40
 
 const SuggestToday = () => {
+  // ** Const
+  const [todayData, setTodayData] = useState(null);
+  const [soup, setSoup] = useState(null);
+  const [changeData, setChangeData] = useState(false);
+
+  // ** call api
+  useEffect(() => {
+    const fetch = async () => {
+      const res = await instances.get(`/home/category/2d80def2-0135-4373-a4e6-2b15fc0166b6/blog-menu`);
+      // console.log(res.data.result);
+      // console.log(res.data.result.find((item) => item.categoryName == 'Món canh'));
+      setSoup(res.data.result[0]);
+      setTodayData(res.data.result.slice(1, 4));
+    };
+
+    fetch();
+  }, [changeData]);
+
   return (
     <section className={`today-suggest font-inter w-full h-fit ${styles.paddingY}`}>
       <div className="text-center">
@@ -67,9 +91,9 @@ const SuggestToday = () => {
           <div className={`${styles.container} flex`}>
             <div className="mmd:flex hidden sm:w-[50%] w-full flex-col">
               <div className="flex md:w-full bottom-[-50px] right-[90px] sm:flex-col">
-                {data?.length > 0 &&
-                  data.map((item) => (
-                    <div key={item.id} className="sm:mb-[18px] sm:last:mb-0 md:odd:self-end md:odd:mr-5">
+                {todayData?.length > 0 &&
+                  todayData.map((item) => (
+                    <div key={item.blogId} className="sm:mb-[18px] sm:last:mb-0 md:odd:self-end md:odd:mr-5">
                       <Card data={item} />
                     </div>
                   ))}
@@ -88,11 +112,11 @@ const SuggestToday = () => {
                   <img
                     className="rounded-full absolute left-[50%] translate-x-[-50%] top-[50%] translate-y-[-50%] object-cover border-[2px] border-white md:w-[490px] md:h-[490px] ss:w-[420px] ss:h-[420px] w-[290px] h-[290px]"
                     alt={''}
-                    src={staticFood1}
+                    src={soup?.imageUrl}
                     loading="lazy"
                   />
                 </div>
-                <p className="font-bold md:text-[35px] text-[28px] line-clamp-1 mt-1">Cá lóc kho tộ</p>
+                <p className="font-bold md:text-[35px] text-[28px] line-clamp-1 mt-1">{soup?.title}</p>
               </div>
             </div>
           </div>
@@ -111,11 +135,11 @@ const SuggestToday = () => {
               <img
                 className="rounded-full absolute left-[50%] translate-x-[-50%] top-[50%] translate-y-[-50%] object-cover border-[2px] border-white md:w-[490px] md:h-[490px] ss:w-[420px] ss:h-[420px] w-[290px] h-[290px]"
                 alt={''}
-                src={staticFood1}
+                src={soup?.imageUrl}
                 loading="lazy"
               />
             </div>
-            <p className="font-bold md:text-[35px] text-[28px] line-clamp-1 mt-1">Cá lóc kho tộ</p>
+            <p className="font-bold md:text-[35px] text-[28px] line-clamp-1 mt-1">{soup?.title}</p>
           </div>
         </div>
         <div className="mmd:hidden block w-full px-[16px] absolute bottom-0">
@@ -136,9 +160,9 @@ const SuggestToday = () => {
             loop={true}
             className="mySwiper "
           >
-            {data?.length > 0 &&
-              data.map((item) => (
-                <SwiperSlide key={item.id}>
+            {todayData?.length > 0 &&
+              todayData.map((item) => (
+                <SwiperSlide key={item.blogId}>
                   <Card data={item} />
                 </SwiperSlide>
               ))}
@@ -151,7 +175,10 @@ const SuggestToday = () => {
             Xem thêm
             <div className="bg-cover w-[20px] h-[20px]" style={{ backgroundImage: `url(${ic_boiling_white})` }} />
           </button>
-          <button className="bg-redError hover:bg-redErrorHover rounded-tl-[5px] rounded-bl-[5px] rounded-tr-[30px] rounded-br-[30px] text-medium text-white text-[20px] flex items-center gap-3 py-[10px] sm:px-[20px] px-[10px]">
+          <button
+            onClick={() => setChangeData((prev) => !prev)}
+            className="bg-redError hover:bg-redErrorHover rounded-tl-[5px] rounded-bl-[5px] rounded-tr-[30px] rounded-br-[30px] text-medium text-white text-[20px] flex items-center gap-3 py-[10px] sm:px-[20px] px-[10px]"
+          >
             Đổi món
             <div className="bg-cover w-[20px] h-[20px]" style={{ backgroundImage: `url(${ic_refresh_white})` }} />
           </button>

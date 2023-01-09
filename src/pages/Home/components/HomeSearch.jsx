@@ -1,25 +1,32 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import instances from '../../../utils/plugin/axios';
+
+import ic_loading from '../../../assets/images/sand-clock.png';
+
+import useDebounce from '../../../share/hooks/useDebounce';
 
 // ** items comp
 const ResultSearch = (props) => {
   return (
     <div className="flex items-center justify-between px-[20px] py-1 hover:bg-[#FFD8C7] transition cursor-pointer">
-      <p>{props?.name}</p>
-      <svg
-        aria-hidden="true"
-        className="w-5 h-5 text-black dark:text-black"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth="2"
-          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-        ></path>
-      </svg>
+      <p className="line-clamp-1">{props?.name}</p>
+      <div>
+        <svg
+          aria-hidden="true"
+          className="w-5 h-5 text-black dark:text-black"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+          ></path>
+        </svg>
+      </div>
     </div>
   );
 };
@@ -27,7 +34,36 @@ const ResultSearch = (props) => {
 const HomeSearch = () => {
   // ** Const
   const [searchInput, setSearchhInput] = useState(null);
-  const [searchResult, setSearchResult] = useState([]);
+  const [searchResult, setSearchResult] = useState('');
+  const [loading, setLoading] = useState(false);
+  const debounced = useDebounce(searchInput, 600);
+
+  // ** call api
+  useEffect(() => {
+    if (debounced !== '') {
+      if (!debounced?.trim()) {
+        return;
+      }
+
+      setLoading(true);
+      setSearchResult('');
+
+      const fetch = async () => {
+        setSearchResult('');
+        const res = await instances.get('/home/blogs/live-searching', {
+          params: {
+            title: debounced,
+          },
+        });
+        setLoading(false);
+        // console.log(res.data.result);
+        setSearchResult(res.data.result);
+      };
+      fetch();
+
+      // console.log(searchInput);
+    }
+  }, [debounced]);
 
   return (
     <div className="relative">
@@ -69,11 +105,28 @@ const HomeSearch = () => {
         } absolute top-14 w-full bg-white z-[999] rounded-[5px] drop-shadow-xl py-[10px]`}
       >
         <div>
-          <ResultSearch name="Thit kho tieu" />
-          <ResultSearch name="Thit kho tieu" />
-          <ResultSearch name="Thit kho tieu" />
+          {loading == false ? (
+            <>
+              {searchResult !== '' ? (
+                searchResult?.slice(0, 4)?.map((item) => (
+                  <div key={item.blogId}>
+                    <ResultSearch name={item.title} />
+                  </div>
+                ))
+              ) : (
+                <div className="text-black px-[20px] text-[14px]">Không tìm thấy kết quả!</div>
+              )}
+            </>
+          ) : (
+            <div className="px-[20px] flex justify-center">
+              <div
+                className="w-[20px] h-[20px] bg-cover animate-spin"
+                style={{ backgroundImage: `url(${ic_loading})` }}
+              />
+            </div>
+          )}
         </div>
-        <p className="text-[14px] text-[#878787] px-[20px] py-2 cursor-pointer">Xem thêm...</p>
+        {searchResult !== '' && <p className="text-[14px] text-[#878787] px-[20px] py-2 cursor-pointer">Xem thêm...</p>}
       </div>
     </div>
   );

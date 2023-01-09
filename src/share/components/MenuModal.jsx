@@ -106,7 +106,7 @@ const MenuModal = () => {
             </NavLink>
           </li>
           <li className="uppercase font-bold">
-            <NavLink className={(navData) => (navData.isActive ? 'text-primary' : 'text-black')} to="/user">
+            <NavLink className={(navData) => (navData.isActive ? 'text-primary' : 'text-black')} to="/login">
               <div className="flex items-center justify-between border-t py-1">
                 <p>Thông tin tài khoản</p>
                 <div className="bg-cover w-[44px] h-[44px]" style={{ backgroundImage: `url(${ic_caret_right})` }} />
