@@ -6,7 +6,7 @@ import eyes from '../../assets/images/eyes.png';
 import heart from '../../assets/images/heart.png';
 import heart_red from '../../assets/images/heart_red.png';
 
-const BlogCard = (pros) => {
+const BlogCard = (props) => {
   return (
     <div className="group w-full min-h-[385px]">
       <div className="font-inter  rounded-[10px] px-[8px] py-[10px] group-hover:bg-[#FFD8C7] cursor-pointer transition">

@@ -4,6 +4,7 @@ import { DefaultLayout } from './share/layouts';
 import Loading from './share/components/Loading/Loading';
 import { publicRoutes } from './router';
 import ScrollToTop from './utils/scrollToTop';
+import 'moment/locale/vi';
 
 function App() {
   return (

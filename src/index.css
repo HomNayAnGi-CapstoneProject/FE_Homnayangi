@@ -100,6 +100,22 @@ select:-webkit-autofill:focus {
   color: white; */
 }
 
+@layer components {
+  .sidebar-tooltip {
+    @apply absolute w-auto p-2 m-2 min-w-max left-14 rounded-md shadow-md
+    text-black bg-gray-100
+    text-xs font-bold 
+    transition-all duration-100 scale-0 origin-left;
+  }
+
+  .bottom-tooltip {
+    @apply absolute w-auto p-2 m-2 min-w-max bottom-14 rounded-md shadow-md
+    text-black bg-gray-100
+    text-xs font-bold 
+    transition-all duration-100 scale-0 origin-center;
+  }
+}
+
 @layer base {
   input[type='number']::-webkit-inner-spin-button,
   input[type='number']::-webkit-outer-spin-button {
