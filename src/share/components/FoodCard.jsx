@@ -29,22 +29,14 @@ const FoodCard = (props) => {
           <p className="sm:text-[20px] text-[18px] font-semibold text-black mb-[5px] line-clamp-1">{food.title}</p>
 
           <div className="flex gap-[7px]">
-            {food?.listTagName?.map((tag) => {
+            {food?.listTagName?.slice(0, 3)?.map((tag, index) => {
               return (
-                <>
-                  <div className="rounded-full bg-[#EAD35B] border-[2px] border-[#8F8137] border-solid xs:px-[10px] px-[2px] py-[0px] text-[12px] text-[#525252]">
-                    {tag}
-                  </div>
-                  {/* {tag === 'Buổi trưa' ? (
-                        <div className="rounded-full bg-[#EAD35B] border-[2px] border-[#8F8137] border-solid xs:px-[10px] px-[2px] py-[0px] text-[12px] text-[#525252]">
-                          {tag}
-                        </div>
-                      ) : (
-                        <div className="rounded-full bg-[#88EA5B] border-[2px] border-[#48822c] border-solid xs:px-[10px] px-[2px] py-[0px] text-[12px] text-[#525252]">
-                          {tag}
-                        </div>
-                      )} */}
-                </>
+                <div
+                  key={index}
+                  className="rounded-full bg-[#EAD35B] border-[2px] border-[#8F8137] border-solid xs:px-[10px] px-[2px] py-[0px] text-[12px] text-[#525252]"
+                >
+                  {tag}
+                </div>
               );
             })}
           </div>

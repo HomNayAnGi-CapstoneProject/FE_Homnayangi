@@ -99,12 +99,6 @@ const SuggestEatType = () => {
     fetch();
   }, [type]);
 
-  useEffect(() => {
-    console.log(listTagType[type].tagName);
-
-    // console.log(type);
-  }, [type]);
-
   function handleChangeType(direction) {
     // console.log(direction);
 

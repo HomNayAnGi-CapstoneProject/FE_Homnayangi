@@ -208,7 +208,7 @@ const Navigation = (props) => {
                         store.countrySide == 2 ? 'bg-secondary' : ''
                       }`}
                     >
-                      Đăng nhập/đăng ký
+                      Đăng nhập
                     </li>
                   </Link>
                 </ul>

@@ -25,6 +25,7 @@ module.exports = {
       dropShadow: {
         '3xl': '0 4px 4px rgba(0, 0, 0, 0.25)',
         '4xl': ['0 35px 35px rgba(0, 0, 0, 0.25)', '0 45px 65px rgba(0, 0, 0, 0.15)'],
+        'toTop': '0 -2px 10px rgba(0, 0, 0, 0.25)',
       },
       lineClamp: {
         10: '10',
@@ -41,6 +42,7 @@ module.exports = {
       lg: '1200px',
       xlg: '1220px',
       xxlg: '1300px',
+      xx4lg: '1400px',
       xl: '1700px',
       xxl: '2000px',
     },

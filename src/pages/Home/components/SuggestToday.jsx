@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
+import truncate from '../../../utils/truncate';
 import instances from '../../../utils/plugin/axios';
+import generateSlug from '../../../utils/generateSlug';
 
 // ** Assets
 import styles from '../../../style';
@@ -12,36 +14,39 @@ import { Pagination, Navigation } from 'swiper';
 import 'swiper/css';
 // import 'swiper/css/pagination';
 import 'swiper/css/navigation';
+import { Link, Navigate } from 'react-router-dom';
 
 // ** Card
 const Card = (props) => {
   return (
-    <div className="font-inter cursor-pointer rounded-[10px] sm:w-[400px] sm:h-[155px] md:w-[515px] w-full md:h-[165px] h-fit bg-[#FFA883] p-[10px] flex gap-[18px] drop-shadow-3xl">
-      <div className="flex-1">
-        <p className="sm:text-[20px] text-[18px] font-semibold text-black mb-[5px] line-clamp-1">
-          {props?.data?.title}
-        </p>
-        <div className="flex gap-[7px]">
-          {props?.data?.listTagName?.length > 0 &&
-            props?.data?.listTagName?.slice(0, 3)?.map((item, index) => (
-              <div
-                key={index}
-                className="rounded-full w-max bg-[#EAD35B] border-[2px] border-[#8F8137] border-solid xs:px-[10px] px-[2px] py-[0px] text-[12px] text-[#525252]"
-              >
-                {item}
-              </div>
-            ))}
-          {/* <div className="rounded-full bg-[#88EA5B] border-[2px] border-[#48822c] border-solid xs:px-[10px] px-[2px] py-[0px] text-[12px] text-[#525252]">
+    <Link to={'/recipe/' + props?.data?.blogId + '/' + generateSlug(props?.data?.title)}>
+      <div className="font-inter cursor-pointer rounded-[10px] sm:w-[400px] sm:h-[155px] md:w-[515px] w-full md:h-[165px] h-fit bg-[#FFA883] p-[10px] flex gap-[18px] drop-shadow-3xl">
+        <div className="flex-1">
+          <p className="sm:text-[20px] text-[18px] font-semibold text-black mb-[5px] line-clamp-1">
+            {props?.data?.title}
+          </p>
+          <div className="flex gap-[7px]">
+            {props?.data?.listTagName?.length > 0 &&
+              props?.data?.listTagName?.slice(0, 3)?.map((item, index) => (
+                <div
+                  key={index}
+                  className="rounded-full w-max bg-[#EAD35B] border-[2px] border-[#8F8137] border-solid xs:px-[10px] px-[2px] py-[0px] text-[12px] text-[#525252]"
+                >
+                  {item}
+                </div>
+              ))}
+            {/* <div className="rounded-full bg-[#88EA5B] border-[2px] border-[#48822c] border-solid xs:px-[10px] px-[2px] py-[0px] text-[12px] text-[#525252]">
             Dễ ăn
           </div> */}
+          </div>
+          <p className="leading-[25px] mt-[10px] md:line-clamp-3 line-clamp-2">{props?.data?.description}</p>
         </div>
-        <p className="leading-[25px] mt-[10px] md:line-clamp-3 line-clamp-2">{props?.data?.description}</p>
+        <div
+          className="rounded-[10px] border-[2px] border-solid border-white bg-cover sm:w-[180px] sm:h-[137px] md:w-[190px] w-[150px] h-[150px] md:h-[147px] bg-center"
+          style={{ backgroundImage: `url(${props?.data?.imageUrl})` }}
+        />
       </div>
-      <div
-        className="rounded-[10px] border-[2px] border-solid border-white bg-cover sm:w-[180px] sm:h-[137px] md:w-[190px] w-[150px] h-[150px] md:h-[147px] bg-center"
-        style={{ backgroundImage: `url(${props?.data?.imageUrl})` }}
-      />
-    </div>
+    </Link>
   );
 };
 
@@ -116,7 +121,7 @@ const SuggestToday = () => {
                     loading="lazy"
                   />
                 </div>
-                <p className="font-bold md:text-[35px] text-[28px] line-clamp-1 mt-1">{soup?.title}</p>
+                <p className="font-bold md:text-[35px] text-[28px] line-clamp-1 mt-1">{truncate(soup?.title, 20)}</p>
               </div>
             </div>
           </div>
