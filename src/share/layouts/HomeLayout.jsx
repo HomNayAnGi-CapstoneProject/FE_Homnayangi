@@ -71,7 +71,7 @@ const DefaultLayout = ({ children }) => {
         className="absolute right-0 top-[3110.57px] bg-contain bg-no-repeat w-[680px] h-[1118px]"
         style={{ backgroundImage: `url(${fooddecor2})` }}
       />
-      <Navigation />
+      <Navigation isHome={true} />
       <div className="relative z-10 ">{children}</div>
       <Footer />
     </div>

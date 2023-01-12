@@ -98,7 +98,7 @@ const SuggestToday = () => {
               <div className="flex md:w-full bottom-[-50px] right-[90px] sm:flex-col">
                 {todayData?.length > 0 &&
                   todayData.map((item) => (
-                    <div key={item.blogId} className="sm:mb-[18px] sm:last:mb-0 md:odd:self-end md:odd:mr-5">
+                    <div key={item.blogId} className="w-fit sm:mb-[18px] sm:last:mb-0 md:odd:self-end md:odd:mr-5">
                       <Card data={item} />
                     </div>
                   ))}
