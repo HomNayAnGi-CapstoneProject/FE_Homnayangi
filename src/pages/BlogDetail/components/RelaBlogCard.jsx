@@ -27,7 +27,7 @@ const RelaBlogCard = (props) => {
           </div>
 
           <div>
-            <p className="text-[#585858] text-[14px]">{moment('2023-01-10T03:18:10.005Z').calendar()}</p>
+            <p className="text-[#585858] text-[14px]">{moment('2023-01-10T03:18:10.005Z').startOf('day').fromNow()}</p>
           </div>
         </div>
       </div>

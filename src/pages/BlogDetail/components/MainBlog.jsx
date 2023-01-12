@@ -29,7 +29,7 @@ const MainBlog = (props) => {
         style={{ backgroundImage: `url(${staticFood})` }}
       />
       <div className="py-5 px-5">
-        <p className="text-[#8f8f8f] text-[14px] mb-2">{moment('2023-01-10T03:18:10.005Z').calendar()}</p>
+        <p className="text-[#8f8f8f] text-[14px] mb-2">{moment('2023-01-10T03:18:10.005Z').startOf('day').fromNow()}</p>
         <p className="text-[30px] text-black font-semibold">
           Just relax 🍀 stop overthinking, calm your anxiety - lofi hip hop mix - aesthetic lofi
         </p>
