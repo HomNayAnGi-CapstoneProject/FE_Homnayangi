@@ -10,6 +10,7 @@ import FixedBottomNav from './components/FixedBottomNav';
 // ** Third party libraries **
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import Breadcrumbs from '../../share/components/Breadcrumbs';
 
 const BlogDetail = () => {
   const params = useParams();
@@ -21,14 +22,17 @@ const BlogDetail = () => {
 
   return (
     <>
-      <div className={`${styles.paddingX} ${styles.flexCenter} py-16`}>
+      <div className={`md:px-[90px] ${styles.flexCenter} py-16`}>
         <div className={`${styles.container} xx4lg:px-10`}>
           <div className="flex gap-5 justify-between">
             <div className="w-[5%] sm:block hidden">
               <Reaction />
             </div>
             <div className="sm:w-[95%] w-full flex gap-5 xxlg:flex-row flex-col">
-              <div className="xxlg:w-[70%] w-full">
+              <div className="xxlg:w-[70%] w-full relative">
+                <div className="ss:block hidden sm:px-[0px] px-5 absolute top-[-35px]">
+                  <Breadcrumbs location1="/recipe" location2="/recipe" />
+                </div>
                 <MainBlog />
               </div>
               <div className="xxlg:w-[30%] w-full sticky top-[100px] h-fit">

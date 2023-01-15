@@ -21,12 +21,12 @@ const analytics = getAnalytics(app);
 export const storage = getStorage(app); // make reference to the storage
 
 export const auth = getAuth(app);
-const provider = new GoogleAuthProvider()
+export const provider = new GoogleAuthProvider()
 
-export const signInWithGoogle = () => {
-    signInWithPopup(auth, provider).then((response) => {
-        console.log(response)
-    }).catch((error) => {
-        console.log(error)
-    })
-}
+// export const signInWithGoogle = () => {
+//     signInWithPopup(auth, provider).then((response) => {
+//         console.log(response)
+//     }).catch((error) => {
+//         console.log(error)
+//     })
+// }

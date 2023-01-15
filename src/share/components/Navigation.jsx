@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import MenuModal from './MenuModal';
 import styles from '../../style';
+import { setAccountInfo } from '../../redux/actionSlice/accountSlice';
 
 // ** Assets
 import Logo from '../../assets/images/Logo.png';
@@ -15,9 +16,10 @@ import {
 } from '../../assets';
 
 // ** Third party libraries
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink, Link, useNavigate } from 'react-router-dom';
 import OutsideClickHandler from 'react-outside-click-handler';
 import { useDispatch, useSelector } from 'react-redux';
+import jwt_decode from 'jwt-decode';
 
 // ** Redux
 import { setOpenMenuModal, setCountrySide } from '../../redux/actionSlice/globalSlice';
@@ -27,8 +29,15 @@ const Navigation = (props) => {
   const [openCountry, setOpenCountry] = useState(false);
   const [openUser, setOpenUser] = useState(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const store = useSelector((state) => state.global);
   const [scroll, setScroll] = useState(false);
+
+  const accessToken = localStorage.getItem('accessToken');
+  let decoded_jwt = {};
+  if (accessToken) {
+    decoded_jwt = jwt_decode(accessToken);
+  }
 
   // ** Funct
   const handleChangeSide = (id) => {
@@ -39,6 +48,12 @@ const Navigation = (props) => {
 
   const handleOpenMenu = () => {
     dispatch(setOpenMenuModal(true));
+  };
+
+  const handleLogout = async () => {
+    localStorage.removeItem('accessToken');
+    navigate('/login');
+    dispatch(setAccountInfo({}));
   };
 
   // ** Scroll nav
@@ -193,9 +208,14 @@ const Navigation = (props) => {
               className="relative bg-cover w-[24px] h-[24px] cursor-pointer"
               style={{ backgroundImage: `url(${ic_nofitication})` }}
             ></div>
+
             <div
-              className="relative bg-cover w-[24px] h-[24px] cursor-pointer"
-              style={{ backgroundImage: `url(${default_user})` }}
+              className="relative bg-cover w-[30px] h-[30px] cursor-pointer rounded-full"
+              style={{
+                backgroundImage: `url(${
+                  accessToken ? (decoded_jwt.Avatar == '' ? default_user : decoded_jwt.Avatar) : default_user
+                })`,
+              }}
               onClick={() => setOpenUser((prev) => !prev)}
             >
               <OutsideClickHandler onOutsideClick={() => setOpenUser(false)}>
@@ -204,15 +224,28 @@ const Navigation = (props) => {
                     openUser ? 'block' : 'hidden'
                   } w-max py-1.5 bg-white rounded-[5px] absolute z-[99] shadow-md top-10 right-[20%]`}
                 >
-                  <Link to="/login">
-                    <li
-                      className={`text-center cursor-pointer hover:bg-secondary py-1 px-2 ${
-                        store.countrySide == 2 ? 'bg-secondary' : ''
-                      }`}
-                    >
-                      Đăng nhập
-                    </li>
-                  </Link>
+                  {accessToken ? (
+                    Object.keys(decoded_jwt)?.length === 0 && decoded_jwt?.constructor === Object ? (
+                      <Link to="/login">
+                        <li className={`text-center cursor-pointer hover:bg-secondary py-1 px-4`}>Đăng nhập</li>
+                      </Link>
+                    ) : (
+                      <>
+                        <div className="text-[14px] font-light w-full px-4 pb-2 border-b">
+                          Xin chào {decoded_jwt.Lastname !== '' ? decoded_jwt.Lastname : decoded_jwt.Displayname}{' '}
+                          {decoded_jwt.Firstname}
+                        </div>
+                        <li className="cursor-pointer hover:bg-secondary py-1 px-4">Thông tin cá nhân</li>
+                        <li onClick={() => handleLogout()} className=" cursor-pointer hover:bg-secondary py-1 px-4">
+                          Đăng xuất
+                        </li>
+                      </>
+                    )
+                  ) : (
+                    <Link to="/login">
+                      <li className={`text-center cursor-pointer hover:bg-secondary py-1 px-4 `}>Đăng nhập</li>
+                    </Link>
+                  )}
                 </ul>
               </OutsideClickHandler>
             </div>

@@ -38,7 +38,7 @@ const Recipe = () => {
   const [categoryChange, setCategoryChange] = useState(0);
 
   useEffect(() => {
-    console.log(categoryChange);
+    // console.log(categoryChange);
   }, [categoryChange]);
 
   return (

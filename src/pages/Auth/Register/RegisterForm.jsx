@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import styles from '../../../style';
+import instances from '../../../utils/plugin/axios';
 
 // ** Assests
 import loginDecor1 from '../../../assets/images/loginDecor1.webp';
@@ -23,6 +24,7 @@ const RegisterForm = () => {
     formState: { errors },
   } = useForm();
   const [passwordShown, setPasswordShown] = useState(false);
+  const navigate = useNavigate();
 
   // ** Funct
   const togglePasswordVisiblity = () => {
@@ -31,7 +33,31 @@ const RegisterForm = () => {
 
   //submit form
   const onSubmit = (data) => {
-    console.log(data);
+    // console.log(data);
+    toast.promise(
+      instances
+        .post('/authentication/register', {
+          username: data.username,
+          firstname: data.firstname,
+          lastname: data.lastname,
+          password: data.password,
+          phonenumber: data.phonenumber,
+          gender: JSON.parse(data.gender),
+        })
+        .then((res) => {
+          // success navigate to login
+          navigate('/login');
+        }),
+      {
+        pending: 'Đang tạo tài khoản',
+        success: 'Đã đăng ký thành công! 👌',
+        error: {
+          render({ data }) {
+            return data.response.data.error;
+          },
+        },
+      },
+    );
   };
 
   return (
@@ -67,22 +93,22 @@ const RegisterForm = () => {
               <p className="text-[28px] font-bold text-black pb-6">Đăng ký tài khoản</p>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <input
-                  name="userName"
+                  name="username"
                   placeholder="Tên đăng nhập"
                   className={`block sm:w-[490px] w-full h-[47px] ${
-                    errors?.userName ? 'mb-[5px]' : 'mb-[20px]'
+                    errors?.username ? 'mb-[5px]' : 'mb-[20px]'
                   } p-[12px] text-subText sm:text-md  border border-[#B9B9B9] rounded-[5px] focus:outline-primary`}
-                  {...register('userName', {
+                  {...register('username', {
                     required: true,
                     pattern: {
                       value: /^[A-Za-z0-9]*$/,
                     },
                   })}
                 />
-                {errors?.userName?.type === 'required' && (
+                {errors?.username?.type === 'required' && (
                   <p className="mb-[5px] text-redError text-[14px]">Tên đăng nhập không được trống</p>
                 )}
-                {errors?.userName?.type === 'pattern' && (
+                {errors?.username?.type === 'pattern' && (
                   <p className="mb-[5px] text-redError text-[14px]">Tên đăng nhập không hợp lệ</p>
                 )}
 
@@ -90,19 +116,19 @@ const RegisterForm = () => {
                   <div className="w-full">
                     <input
                       type="text"
-                      name="firstName"
+                      name="firstname"
                       placeholder="Họ"
                       className={`block w-full h-[47px] ${
-                        errors?.firstName ? 'mb-[5px]' : 'mb-[20px]'
+                        errors?.firstname ? 'mb-[5px]' : 'mb-[20px]'
                       } p-[12px] text-subText sm:text-md  border border-[#B9B9B9] rounded-[5px] focus:outline-primary`}
-                      {...register('firstName', {
+                      {...register('firstname', {
                         required: true,
                         // pattern: {
                         //   value: /^[A-Za-z0-9]*$/,
                         // },
                       })}
                     />
-                    {errors?.firstName?.type === 'required' && (
+                    {errors?.firstname?.type === 'required' && (
                       <p className="mb-[5px] text-redError text-[14px]">Họ không được trống</p>
                     )}
                   </div>
@@ -110,19 +136,19 @@ const RegisterForm = () => {
                   <div className="w-full">
                     <input
                       type="text"
-                      name="lastName"
+                      name="lastname"
                       placeholder="Tên"
                       className={`block w-full h-[47px] ${
-                        errors?.lastName ? 'mb-[5px]' : 'mb-[20px]'
+                        errors?.lastname ? 'mb-[5px]' : 'mb-[20px]'
                       } p-[12px] text-subText sm:text-md  border border-[#B9B9B9] rounded-[5px] focus:outline-primary`}
-                      {...register('lastName', {
+                      {...register('lastname', {
                         required: true,
                         // pattern: {
                         //   value: /^[A-Za-z0-9]*$/,
                         // },
                       })}
                     />
-                    {errors?.lastName?.type === 'required' && (
+                    {errors?.lastname?.type === 'required' && (
                       <p className="mb-[5px] text-redError text-[14px]">Tên không được trống</p>
                     )}
                   </div>
@@ -132,24 +158,26 @@ const RegisterForm = () => {
                   <div className="w-full">
                     <input
                       type="number"
-                      name="phoneNumber"
+                      name="phonenumber"
                       placeholder="Số điện thoại"
                       className={`block w-full h-[47px] ${
-                        errors?.phoneNumber ? 'mb-[5px]' : 'mb-[20px]'
+                        errors?.phonenumber ? 'mb-[5px]' : 'mb-[20px]'
                       } p-[12px] text-subText sm:text-md  border border-[#B9B9B9] rounded-[5px] focus:outline-primary`}
-                      {...register('phoneNumber', {
+                      {...register('phonenumber', {
                         required: true,
                         minLength: 10,
                         maxLength: 11,
                         pattern: {
-                          value: /^[0-9]*$/,
+                          value: /(84|0[3|5|7|8|9])+([0-9]{8})\b/,
                         },
                       })}
                     />
-                    {errors?.phoneNumber?.type === 'required' && (
+                    {errors?.phonenumber?.type === 'required' && (
                       <p className="mb-[5px] text-redError text-[14px]">Số điện thoại không được trống</p>
                     )}
-                    {(errors?.phoneNumber?.type === 'maxLength' || errors?.phoneNumber?.type === 'minLength') && (
+                    {(errors?.phonenumber?.type === 'maxLength' ||
+                      errors?.phonenumber?.type === 'minLength' ||
+                      errors?.phonenumber?.type === 'pattern') && (
                       <p className="mb-[5px] text-redError text-[14px]">Số điện thoại không hợp lệ</p>
                     )}
                   </div>
@@ -162,10 +190,10 @@ const RegisterForm = () => {
                       {...register('gender', { required: true })}
                     >
                       <option value="">Giới tính</option>
-                      <option className="py-1" value="female">
+                      <option className="py-1" value={false}>
                         Nữ
                       </option>
-                      <option value="male">Nam</option>
+                      <option value={true}>Nam</option>
                       <option value="other">Khác</option>
                     </select>
                     {errors?.gender?.type === 'required' && (
@@ -184,6 +212,8 @@ const RegisterForm = () => {
                     } p-[12px] text-subText sm:text-md  border border-[#B9B9B9] rounded-[5px] focus:outline-primary`}
                     {...register('password', {
                       required: true,
+                      minLength: 6,
+                      maxLength: 20,
                       pattern: {
                         value: /^[A-Za-z0-9]*$/,
                       },
@@ -200,6 +230,9 @@ const RegisterForm = () => {
                 )}
                 {errors?.password?.type === 'pattern' && (
                   <p className="mb-[5px] text-redError text-[14px]">Mật khẩu không hợp lệ</p>
+                )}
+                {(errors?.password?.type === 'minLength' || errors?.password?.type === 'maxLength') && (
+                  <p className="mb-[5px] text-redError text-[14px]">Độ dài mật khẩu từ 6 - 20 ký tự</p>
                 )}
 
                 <button

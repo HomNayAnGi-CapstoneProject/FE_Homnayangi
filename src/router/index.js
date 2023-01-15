@@ -7,6 +7,7 @@ const Recipe = lazy(() => import('../pages/Recipe/Recipe'));
 const Login = lazy(() => import('../pages/Auth/Login/Login'));
 const Register = lazy(() => import('../pages/Auth/Register/Register'));
 const BlogDetail = lazy(() => import('../pages/BlogDetail/BlogDetail'));
+const Admin = lazy(() => import('../pages/Admin/Admin'));
 
 // ** public routes (no need authen)
 const publicRoutes = [
@@ -16,7 +17,8 @@ const publicRoutes = [
   { path: '/login', component: Login, title: 'Đăng nhập', layout: null },
   { path: '/register', component: Register, title: 'Đăng ký', layout: null },
   { path: '/recipe', component: Recipe, title: 'Công thức' },
-  { path: '/recipe/:id/:title', component: BlogDetail }
+  { path: '/recipe/:id/:title', component: BlogDetail },
+  { path: '/management', component: Admin, title: 'Homnayangi - ADMINISTRATION', layout: null }
 ];
 
 // ** private routes (need authen + authorization)

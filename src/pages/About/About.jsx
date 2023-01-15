@@ -6,14 +6,14 @@ const About = () => {
   return (
     <div className={`${styles.flexCenter} py-16`}>
       <div className={`${styles.container}`}>
-        <div className="sm:flex justify-center gap-[60px]">
+        <div className="sm:flex  justify-center gap-[60px]">
           <div className="flex-col px-[16px] font-inter">
             <p className="sm:w-[470px] sm:px-0 sm:text-left text-center uppercase font-inter text-subText font-light text-[32px] mb-2 tracking-widest">
               Hoàn cảnh
             </p>
 
             <div className="w-full">
-              <p className="text-[16px] sm:w-[500px] sm:px-0 w-550 leading-[30px] text-justify">
+              <p className="text-[16px] sm:w-[500px] sm:px-0 leading-[30px] text-justify">
                 “Hôm nay ăn gì?” từ lâu đã trở thành một trong các câu hỏi nhức nhối của mọi người từ những người sinh
                 sống một mình cho tới các bà nội trợ trong gia đình. Mỗi ngày khi bước chân ra đường đi chợ là cả một
                 vấn đề khi chẳng biết hôm nay ăn cái gì bây giờ... Ăn gì cho đừng ngán? Nấu gì để có lợi cho sức khỏe?
@@ -25,8 +25,9 @@ const About = () => {
               </p>
             </div>
           </div>
-          <img src={about_1} className="sm:w-[642px] w-full h-[368px] sm:rounded-md" />
+          <img src={about_1} className="sm:w-[642px] w-full h-[368px] object-cover sm:rounded-md" />
         </div>
+
         <div className={`sm:flex py-20 gap-[60px] justify-center px-[0px] `}>
           <img src={about_2} className="sm:flex hidden w-[500px] h-[383px] rounded-md" />
           <div className="font-inter px-[16px] ">
@@ -47,7 +48,7 @@ const About = () => {
               </p>
             </div>
           </div>
-          <img src={about_2} className="sm:hidden w-full h-[383px]" />
+          <img src={about_2} className="sm:hidden w-full object-cover h-[383px]" />
         </div>
       </div>
     </div>
