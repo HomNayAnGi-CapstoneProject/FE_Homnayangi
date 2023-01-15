@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import styles from '../../../style';
 import instances from '../../../utils/plugin/axios';
+import { setAccountInfo } from '../../../redux/actionSlice/accountSlice';
 
 // ** Assests
 import loginDecor1 from '../../../assets/images/loginDecor1.webp';
@@ -14,7 +15,9 @@ import { Link, useNavigate, Navigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
-import { signInWithGoogle } from '../../../firebase';
+import { auth, provider } from '../../../firebase';
+import { signInWithPopup } from 'firebase/auth';
+import jwt_decode from 'jwt-decode';
 
 const RegisterForm = () => {
   //** Const */
@@ -25,6 +28,7 @@ const RegisterForm = () => {
   } = useForm();
   const [passwordShown, setPasswordShown] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   // ** Funct
   const togglePasswordVisiblity = () => {
@@ -58,6 +62,44 @@ const RegisterForm = () => {
         },
       },
     );
+  };
+
+  //handle google auth
+  const signInWithGoogle = () => {
+    signInWithPopup(auth, provider)
+      .then((response) => {
+        // console.log(response);
+        toast.promise(
+          instances
+            .post(
+              '/authentication/login-google',
+              {},
+              { headers: { Authorization: 'Bearer ' + response.user.accessToken } },
+            )
+            .then((res) => {
+              if (res?.status === 404) {
+                // notifyError();
+              } else {
+                const decoded = jwt_decode(res?.data?.result);
+                dispatch(setAccountInfo(decoded));
+                localStorage.setItem('accessToken', res.data.result);
+                if (decoded?.role === 'Staff' || decoded?.role === 'Admin') {
+                  navigate('/management');
+                } else {
+                  navigate('/');
+                }
+              }
+            }),
+          {
+            pending: 'Đang kiểm tra thông tin...',
+            // success: 'Đăng nhập thành công! 👌',
+            error: 'Đăng nhập thất bại!',
+          },
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
