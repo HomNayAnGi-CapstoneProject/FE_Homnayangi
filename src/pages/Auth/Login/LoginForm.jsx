@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import styles from '../../../style';
+import instances from '../../../utils/plugin/axios';
+import { setAccountInfo } from '../../../redux/actionSlice/accountSlice';
 
 // ** Assests
 import loginDecor1 from '../../../assets/images/loginDecor1.webp';
@@ -13,7 +15,9 @@ import { Link, useNavigate, Navigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
-import { signInWithGoogle } from '../../../firebase';
+import { auth, provider } from '../../../firebase';
+import { signInWithPopup } from 'firebase/auth';
+import jwt_decode from 'jwt-decode';
 
 const LoginForm = () => {
   //** Const */
@@ -23,6 +27,13 @@ const LoginForm = () => {
     formState: { errors },
   } = useForm();
   const [passwordShown, setPasswordShown] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const notifyError = () =>
+    toast.error('Sai email hoặc mật khẩu!', {
+      pauseOnHover: false,
+    });
 
   // ** Funct
   const togglePasswordVisiblity = () => {
@@ -30,11 +41,68 @@ const LoginForm = () => {
   };
 
   //submit form
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (data) => {
+    toast.promise(
+      instances.post('/authentication/login', data).then((res) => {
+        if (res?.status === 404) {
+          notifyError();
+        } else {
+          const decoded = jwt_decode(res?.data?.result);
+          dispatch(setAccountInfo(decoded));
+          localStorage.setItem('accessToken', res.data.result);
+          if (decoded?.role === 'Staff' || decoded?.role === 'Admin') {
+            navigate('/management');
+          } else {
+            navigate('/');
+          }
+        }
+      }),
+      {
+        pending: 'Đang kiểm tra thông tin...',
+        // success: 'Đăng nhập thành công! 👌',
+        error: 'Đăng nhập thất bại!',
+      },
+    );
+    // const res = await instances.post('/login', data)
   };
 
   //handle google auth
+  const signInWithGoogle = () => {
+    signInWithPopup(auth, provider)
+      .then((response) => {
+        // console.log(response.user.accessToken);
+        toast.promise(
+          instances
+            .post(
+              '/authentication/login-google',
+              {},
+              { headers: { Authorization: 'Bearer ' + response.user.accessToken } },
+            )
+            .then((res) => {
+              if (res?.status === 404) {
+                notifyError();
+              } else {
+                const decoded = jwt_decode(res?.data?.result);
+                dispatch(setAccountInfo(decoded));
+                localStorage.setItem('accessToken', res.data.result);
+                if (decoded?.role === 'Staff' || decoded?.role === 'Admin') {
+                  navigate('/management');
+                } else {
+                  navigate('/');
+                }
+              }
+            }),
+          {
+            pending: 'Đang kiểm tra thông tin...',
+            // success: 'Đăng nhập thành công! 👌',
+            error: 'Đăng nhập thất bại!',
+          },
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   return (
     <div className="font-inter h-[100vh] w-full relative">
@@ -82,10 +150,10 @@ const LoginForm = () => {
                   })}
                 />
                 {errors?.username?.type === 'required' && (
-                  <p className="mb-[5px] text-redError text-[14px]">Bạn cần username để đăng nhập</p>
+                  <p className="mb-[5px] text-redError text-[14px]">Tên đăng nhập không được trống</p>
                 )}
                 {errors?.username?.type === 'pattern' && (
-                  <p className="mb-[5px] text-redError text-[14px]">Username không hợp lệ</p>
+                  <p className="mb-[5px] text-redError text-[14px]">Tên đăng nhập không hợp lệ</p>
                 )}
 
                 <div className="relative">
@@ -110,7 +178,7 @@ const LoginForm = () => {
                   />
                 </div>
                 {errors?.password?.type === 'required' && (
-                  <p className="mb-[5px] text-redError text-[14px]">Bạn cần mật khẩu để đăng nhập</p>
+                  <p className="mb-[5px] text-redError text-[14px]">Mật khẩu không được trống</p>
                 )}
                 {errors?.password?.type === 'pattern' && (
                   <p className="mb-[5px] text-redError text-[14px]">Mật khẩu không hợp lệ</p>
