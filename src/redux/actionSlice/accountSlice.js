@@ -12,9 +12,9 @@ export const accountSlice = createSlice({
             state.accountInfo = action.payload
             localStorage.setItem('ACCOUNT_INFO', JSON.stringify({
                 avatar: action.payload.Avatar,
-                displayName: action.payload.DisplayName,
-                firstName: action.payload.FirstName,
-                lastName: action.payload.LastName,
+                displayName: action.payload.Displayname,
+                firstName: action.payload.Firstname,
+                lastName: action.payload.Lastname,
                 phoneNumber: action.payload.PhoneNumber,
                 email: action.payload.email,
                 gender: action.payload.gender

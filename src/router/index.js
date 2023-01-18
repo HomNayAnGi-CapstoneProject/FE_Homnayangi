@@ -1,5 +1,5 @@
 import { lazy } from 'react';
-import { HomeLayout } from '../share/layouts';
+import { HomeLayout, AdminLayout } from '../share/layouts';
 const Home = lazy(() => import('../pages/Home/Home'));
 const About = lazy(() => import('../pages/About/About'));
 const MissingRoute = lazy(() => import('../share/components/MissingRoute'));
@@ -18,10 +18,11 @@ const publicRoutes = [
   { path: '/register', component: Register, title: 'Đăng ký', layout: null },
   { path: '/recipe', component: Recipe, title: 'Công thức' },
   { path: '/recipe/:id/:title', component: BlogDetail },
-  { path: '/management', component: Admin, title: 'Homnayangi - ADMINISTRATION', layout: null }
 ];
 
 // ** private routes (need authen + authorization)
-const privateRoutes = [];
+const privateRoutes = [
+  { path: '/management/*', component: Admin, title: 'Homnayangi - ADMINISTRATION', layout: null },
+];
 
 export { publicRoutes, privateRoutes };

@@ -142,6 +142,8 @@ const RegisterForm = () => {
                   } p-[12px] text-subText sm:text-md  border border-[#B9B9B9] rounded-[5px] focus:outline-primary`}
                   {...register('username', {
                     required: true,
+                    minLength: 5,
+                    maxLength: 16,
                     pattern: {
                       value: /^[A-Za-z0-9]*$/,
                     },
@@ -152,6 +154,9 @@ const RegisterForm = () => {
                 )}
                 {errors?.username?.type === 'pattern' && (
                   <p className="mb-[5px] text-redError text-[14px]">Tên đăng nhập không hợp lệ</p>
+                )}
+                {(errors?.username?.type === 'minLength' || errors?.username?.type === 'maxLength') && (
+                  <p className="mb-[5px] text-redError text-[14px]">Tên đăng nhập từ 5 - 16 ký tự</p>
                 )}
 
                 <div className="flex gap-3 sm:w-[490px] sm:flex-row flex-col w-full">

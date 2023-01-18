@@ -8,7 +8,7 @@ const Message = () => {
       <p>Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại để tiếp tục !</p>
       <div
         onClick={() => (window.location = '/login')}
-        className="cursor-pointer bg-red-500 text-white font-inter font-medium text-center rounded mt-3"
+        className="cursor-pointer bg-red-500 text-white font-inter font-medium text-center rounded mt-3 py-1"
       >
         Đăng nhập lại
       </div>
