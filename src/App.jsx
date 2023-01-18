@@ -2,7 +2,7 @@ import { Fragment, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { DefaultLayout } from './share/layouts';
 import Loading from './share/components/Loading/Loading';
-import { publicRoutes } from './router';
+import { publicRoutes, privateRoutes } from './router';
 import ScrollToTop from './utils/scrollToTop';
 import 'moment/locale/vi';
 
@@ -14,8 +14,28 @@ function App() {
           <div>
             <Routes>
               {publicRoutes.map((route, index) => {
-                // const Layout = route.layout === null ? Fragment : DefaultLayout
+                let Layout = DefaultLayout;
+                if (route.layout) {
+                  Layout = route.layout;
+                } else if (route.layout === null) {
+                  Layout = Fragment;
+                }
 
+                const Page = route.component;
+                return (
+                  <Route
+                    key={index}
+                    path={route.path}
+                    element={
+                      <Layout>
+                        <Page title={route.title} />
+                      </Layout>
+                    }
+                  />
+                );
+              })}
+
+              {privateRoutes.map((route, index) => {
                 let Layout = DefaultLayout;
                 if (route.layout) {
                   Layout = route.layout;

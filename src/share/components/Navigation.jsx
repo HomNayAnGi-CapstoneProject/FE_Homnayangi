@@ -76,7 +76,7 @@ const Navigation = (props) => {
       {store.openMenuModal && <MenuModal />}
       <nav
         className={`font-inter ${styles.paddingX} ${styles.flexCenter} ${
-          scroll ? 'bg-[#f0f0f0] drop-shadow-md rounded-bl-[30px] rounded-br-[30px]' : ''
+          scroll ? 'bg-[#f0f0f0] shadow-md rounded-bl-[30px] rounded-br-[30px]' : ''
         } sticky top-0 z-50 w-full transition`}
       >
         <div className={`${styles.container} ${styles.flexBetween}`}>
