@@ -35,7 +35,11 @@ const MenuItem = (props) => {
       {props?.link ? (
         <NavLink to={`/${props.link}`}>
           <li
-            onClick={() => props.setOpenSidebar(false)}
+            onClick={() => {
+              if (props.isTablet) {
+                props.setOpenSidebar(false);
+              }
+            }}
             className={`${
               props.active == props.id ? 'bg-primary text-white' : 'text-[#898989] hover:bg-[#f5f5f5]'
             } py-[12px] px-4 mb-[8px] rounded-[10px]  text-[15px]  font-medium flex items-center gap-4 select-none`}
@@ -91,6 +95,7 @@ const SideBar = (props) => {
             urlActive={ic_dashboard_active}
             title="Bảng điều khiển"
             setOpenSidebar={props.setOpenSidebar}
+            isTablet={props.isTablet}
           />
           <MenuItem
             link="management/order"
@@ -100,6 +105,7 @@ const SideBar = (props) => {
             urlActive={ic_order_active}
             title="Quản lý đơn hàng"
             setOpenSidebar={props.setOpenSidebar}
+            isTablet={props.isTablet}
           />
           <MenuItem
             link="management/product"
@@ -109,6 +115,7 @@ const SideBar = (props) => {
             urlActive={ic_product_active}
             title="Quản lý sản phẩm"
             setOpenSidebar={props.setOpenSidebar}
+            isTablet={props.isTablet}
           />
           <MenuItem
             link="management/blog"
@@ -118,6 +125,7 @@ const SideBar = (props) => {
             urlActive={ic_blog_active}
             title="Quản lý bài viết"
             setOpenSidebar={props.setOpenSidebar}
+            isTablet={props.isTablet}
           />
           <MenuItem
             link="management/voucher"
@@ -127,6 +135,7 @@ const SideBar = (props) => {
             urlActive={ic_voucher_active}
             title="Quản lý voucher"
             setOpenSidebar={props.setOpenSidebar}
+            isTablet={props.isTablet}
           />
           <MenuItem
             link="management/award"
@@ -136,6 +145,7 @@ const SideBar = (props) => {
             urlActive={ic_award_active}
             title="Quản lý danh hiệu"
             setOpenSidebar={props.setOpenSidebar}
+            isTablet={props.isTablet}
           />
           <MenuItem
             link="management/accomplishment"
@@ -145,6 +155,7 @@ const SideBar = (props) => {
             urlActive={ic_accomplishment_active}
             title="Quản lý thành tựu"
             setOpenSidebar={props.setOpenSidebar}
+            isTablet={props.isTablet}
           />
           <MenuItem
             link="management/tag"
@@ -154,6 +165,7 @@ const SideBar = (props) => {
             urlActive={ic_tag_active}
             title="Quản lý nhãn"
             setOpenSidebar={props.setOpenSidebar}
+            isTablet={props.isTablet}
           />
           <MenuItem
             link="management/customer"
@@ -163,6 +175,7 @@ const SideBar = (props) => {
             urlActive={ic_customer_active}
             title="Quản lý khách hàng"
             setOpenSidebar={props.setOpenSidebar}
+            isTablet={props.isTablet}
           />
           <div className="cursor-pointer" onClick={() => handleLogout()}>
             <MenuItem url={ic_logout} title="Đăng xuất" />
