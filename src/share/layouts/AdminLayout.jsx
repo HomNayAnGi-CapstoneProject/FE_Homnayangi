@@ -26,7 +26,7 @@ const AdminLayout = ({ children }) => {
         <div
           className={`w-[260px] ${openSidebar ? `block ${isTablet ? 'fixed top-0 left-0 z-[55]' : ''} ` : 'hidden'}`}
         >
-          <SideBar setOpenSidebar={setOpenSidebar} />
+          <SideBar isTablet={isTablet} setOpenSidebar={setOpenSidebar} />
         </div>
         <div
           onClick={() => setOpenSidebar(false)}
