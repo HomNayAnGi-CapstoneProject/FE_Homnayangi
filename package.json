@@ -9,7 +9,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "11.10.4",
+    "@emotion/styled": "11.10.4",
     "@microsoft/signalr": "^7.0.0",
+    "@mui/material": "5.10.6",
+    "@mui/styles": "5.10.6",
+    "@mui/x-data-grid": "5.17.7",
     "@reduxjs/toolkit": "1.8.5",
     "@tailwindcss/line-clamp": "^0.4.2",
     "axios": "^1.2.1",
@@ -26,6 +31,7 @@
     "react-router-dom": "6.3.0",
     "react-toastify": "9.0.8",
     "redux": "4.2.0",
+    "styled-components": "^5.3.6",
     "swiper": "8.0.0"
   },
   "devDependencies": {

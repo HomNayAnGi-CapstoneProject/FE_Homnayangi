@@ -36,6 +36,10 @@ import ic_customer from './ic_customer.svg'
 import ic_customer_active from './ic_customer_active.svg'
 import ic_logout from './ic_logout.svg'
 import ic_menu from './ic_menu.svg'
+import ic_edit from './ic_edit.svg'
+import ic_delete_red from './ic_delete_red.svg'
+import ic_delete_green from './ic_delete_green.svg'
+import ic_blog_create from './ic_blog_create.svg'
 
 export {
     ic_nofitication, ic_cart, ic_caret_down_white, ic_nav_menu, ic_close_modal, ic_caret_right, ic_location,
@@ -43,5 +47,5 @@ export {
     ic_eye_gray, ic_eye_closed, ic_google, ic_next_primary, ic_dashboard, ic_dashboard_active, ic_order, ic_order_active,
     ic_award, ic_award_active, ic_voucher, ic_voucher_active, ic_blog, ic_blog_active, ic_product, ic_product_active,
     ic_accomplishment, ic_accomplishment_active, ic_tag, ic_tag_active, ic_customer, ic_customer_active, ic_logout,
-    ic_menu
+    ic_menu, ic_edit, ic_delete_red, ic_delete_green, ic_blog_create
 }

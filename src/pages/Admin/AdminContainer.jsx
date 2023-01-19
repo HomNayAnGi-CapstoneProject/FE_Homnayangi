@@ -5,7 +5,7 @@ import Loading from '../../share/components/Loading/Loading';
 
 // ** pages
 import Dashboard from './components/Dashboard';
-import BlogManagement from './components/BlogManagement';
+import BlogManagement from './components/BlogManage/BlogManagement';
 import OrderManagement from './components/OrderManagement';
 import ProductManagement from './components/ProductManagement';
 import VoucherManagement from './components/VoucherManagement';
@@ -38,7 +38,7 @@ const AdminContainer = (props) => {
   };
 
   return (
-    <div className={`${styles.flexCenter}  text-black font-inter w-full`}>
+    <div className={`${styles.flexCenter} mt-[45px] text-black font-inter w-full`}>
       <div className={`${styles.container} px-10 `}>
         <Suspense fallback={<Loading />}>
           <Routes>
