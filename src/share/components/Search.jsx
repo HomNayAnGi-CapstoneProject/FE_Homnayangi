@@ -21,7 +21,7 @@ const Search = (props) => {
       <input
         type="text"
         id="search"
-        className="block w-[312px] p-[8px] pl-[40px] text-subText sm:text-md  border border-[#b5b5b5] rounded-[10px] bg-[#f0f0f0] focus:outline-primary "
+        className="block w-[312px] p-[8px] pl-[40px] text-subText sm:text-md  border border-[#b5b5b5] rounded-[10px] bg-[#ffffff] focus:outline-primary "
         placeholder={props?.placeholder || 'Search...'}
       />
     </div>
