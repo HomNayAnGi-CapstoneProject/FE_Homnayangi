@@ -11,7 +11,7 @@
 }
 
 ::selection {
-  background: #ffd8c7;
+  background: #f3c75a;
 }
 
 :root {
@@ -98,6 +98,62 @@ select:-webkit-autofill:focus {
   box-shadow: 0 0 0px 1000px #f0f0f0 inset;
   /* transition: background-color 5000s ease-in-out 0s;
   color: white; */
+}
+
+/* Markdown css */
+.md_description {
+  overflow-y: auto !important;
+  padding: 10px 0 !important;
+}
+
+.rc-md-editor {
+  border: none !important;
+}
+
+.rc-md-navigation {
+  background: #fff !important;
+  border: none !important;
+  padding: 0 !important;
+}
+.rc-md-editor .editor-container > .section {
+  border: none !important;
+}
+
+.button-type-emoji-picker {
+  position: relative;
+}
+
+.button-type-emoji-picker .emoji-list {
+  position: absolute;
+  width: 190px;
+  max-height: 200px;
+  overflow-y: scroll;
+  background-color: white;
+  display: flex;
+  gap: 2px;
+  flex-wrap: wrap;
+  left: 0;
+  top: 28px;
+  z-index: 2;
+  /* min-width: 20px; */
+  padding: 10px;
+  text-align: center;
+  background-color: #fff;
+  border: 1px solid #f1f1f1;
+  border-right-color: #ddd;
+  border-bottom-color: #ddd;
+}
+
+.emoji-list .emoji {
+  padding: 1px;
+  background-color: transparent;
+  border-radius: 10px;
+  cursor: pointer;
+  width: 30px;
+}
+
+.emoji-list .emoji:hover {
+  background-color: #dfdfdf;
 }
 
 @layer components {

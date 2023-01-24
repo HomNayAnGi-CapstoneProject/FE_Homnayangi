@@ -6,6 +6,7 @@ import Loading from '../../share/components/Loading/Loading';
 // ** pages
 import Dashboard from './components/Dashboard';
 import BlogManagement from './components/BlogManage/BlogManagement';
+import CreateBlog from './components/BlogManage/components/CreateBlog';
 import OrderManagement from './components/OrderManagement';
 import ProductManagement from './components/ProductManagement';
 import VoucherManagement from './components/VoucherManagement';
@@ -44,7 +45,10 @@ const AdminContainer = (props) => {
           <Routes>
             <Route path="/">
               <Route index element={<Dashboard />} />
-              <Route path="blog" element={<BlogManagement />} />
+              <Route path="blog">
+                <Route index element={<BlogManagement />} />
+                <Route path="new" element={<CreateBlog />} />
+              </Route>
               <Route path="order" element={<OrderManagement />} />
               <Route path="product" element={<ProductManagement />} />
               <Route path="voucher" element={<VoucherManagement />} />

@@ -156,9 +156,9 @@ const columns = [
     renderCell: (params) => (
       <div className={`cellWithStatus ${params.row.status}`}>
         {params.row.status === 'AVAILABLE' ? (
-          <p className="text-green-500">{params.row.status}</p>
+          <p className="text-white px-3 rounded-full text-[14px] bg-green-500">{params.row.status}</p>
         ) : (
-          <p className="text-red-500">{params.row.status}</p>
+          <p className="text-white px-3 rounded-full text-[14px] bg-red-500">{params.row.status}</p>
         )}
       </div>
     ),
