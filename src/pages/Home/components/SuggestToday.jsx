@@ -26,8 +26,8 @@ const Card = (props) => {
             {props?.data?.title}
           </p>
           <div className="flex gap-[7px]">
-            {props?.data?.listTagName?.length > 0 &&
-              props?.data?.listTagName?.slice(0, 3)?.map((item, index) => (
+            {props?.data?.listSubCateName?.length > 0 &&
+              props?.data?.listSubCateName?.slice(0, 3)?.map((item, index) => (
                 <div
                   key={index}
                   className="rounded-full w-max bg-[#EAD35B] border-[2px] border-[#8F8137] border-solid xs:px-[10px] px-[2px] py-[0px] text-[12px] text-[#525252]"
@@ -64,13 +64,20 @@ const SuggestToday = () => {
   const [todayData, setTodayData] = useState(null);
   const [soup, setSoup] = useState(null);
   const [changeData, setChangeData] = useState(false);
+  const [subCategoryId, setSubCategoryId] = useState(null);
 
   // ** call api
   useEffect(() => {
     const fetch = async () => {
-      const res = await instances.get(`/home/category/2d80def2-0135-4373-a4e6-2b15fc0166b6/blog-menu`);
+      const res = await instances.get(`/home/category/2d80def2-0135-4373-a4e6-2b15fc0166b6/blog-menu`, {
+        params: {
+          categoryId: '2d80def2-0135-4373-a4e6-2b15fc0166b6',
+          subCategoryId: subCategoryId,
+        },
+      });
       // console.log(res.data.result);
       // console.log(res.data.result.find((item) => item.categoryName == 'Món canh'));
+      setSubCategoryId(res.data.result[0].subCateId);
       setSoup(res.data.result[0]);
       setTodayData(res.data.result.slice(1, 4));
     };

@@ -29,7 +29,7 @@ const FoodCard = (props) => {
           <p className="sm:text-[20px] text-[18px] font-semibold text-black mb-[5px] line-clamp-1">{food.title}</p>
 
           <div className="flex gap-[7px]">
-            {food?.listTagName?.slice(0, 3)?.map((tag, index) => {
+            {food?.listSubCateName?.slice(0, 3)?.map((tag, index) => {
               return (
                 <div
                   key={index}

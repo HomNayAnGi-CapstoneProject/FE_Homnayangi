@@ -27,7 +27,7 @@ const SuggestRegion = (props) => {
   // ** call api
   useEffect(() => {
     const fetch = async () => {
-      const res = await instances.get(`/home/tag/${handleChangeData().tagId}/blogs`);
+      const res = await instances.get(`/home/subcategory/${handleChangeData().tagId}/blogs`);
       // console.log(res.data.result);
       setRegionData(res.data.result);
     };

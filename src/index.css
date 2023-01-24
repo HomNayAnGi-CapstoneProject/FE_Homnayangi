@@ -158,10 +158,10 @@ select:-webkit-autofill:focus {
 
 @layer components {
   .sidebar-tooltip {
-    @apply absolute w-auto p-2 m-2 min-w-max left-14 rounded-md shadow-md
+    @apply absolute w-auto p-2 m-2 min-w-max right-14 rounded-md shadow-md
     text-black bg-gray-100
     text-xs font-bold 
-    transition-all duration-100 scale-0 origin-left;
+    transition-all duration-100 scale-0 origin-top-left;
   }
 
   .bottom-tooltip {

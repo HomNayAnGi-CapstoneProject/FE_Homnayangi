@@ -30,8 +30,8 @@ const Card = (props) => {
             {props?.data?.title}
           </p>
           <div className="flex gap-[7px]">
-            {props?.data?.listTagName?.length > 0 &&
-              props?.data?.listTagName?.slice(0, 3)?.map((item, index) => (
+            {props?.data?.listSubCateName?.length > 0 &&
+              props?.data?.listSubCateName?.slice(0, 3)?.map((item, index) => (
                 <div
                   key={index}
                   className="rounded-full w-max bg-[#EAD35B] border-[2px] border-[#8F8137] border-solid xs:px-[10px] px-[2px] py-[0px] text-[12px] text-[#525252]"
@@ -91,7 +91,7 @@ const SuggestEatType = () => {
   // ** call api
   useEffect(() => {
     const fetch = async () => {
-      const res = await instances.get(`/home/tag/${listTagType[type].tagId}/blogs`);
+      const res = await instances.get(`/home/subcategory/${listTagType[type].tagId}/blogs`);
       // console.log(res.data.result);
       setEatTypeData(res.data.result);
     };
