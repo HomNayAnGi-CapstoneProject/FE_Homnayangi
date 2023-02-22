@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import styles from '../../../style';
 import instances from '../../../utils/plugin/axios';
 import { setAccountInfo } from '../../../redux/actionSlice/accountSlice';
+import { Regex_Password, Regex_PhoneNumber } from '../../../utils/regex';
 
 // ** Assests
 import loginDecor1 from '../../../assets/images/loginDecor1.webp';
@@ -145,7 +146,7 @@ const RegisterForm = () => {
                     minLength: 5,
                     maxLength: 16,
                     pattern: {
-                      value: /^[A-Za-z0-9]*$/,
+                      value: Regex_Password,
                     },
                   })}
                 />
@@ -171,7 +172,7 @@ const RegisterForm = () => {
                       {...register('firstname', {
                         required: true,
                         // pattern: {
-                        //   value: /^[A-Za-z0-9]*$/,
+                        //   value: Regex_Password,
                         // },
                       })}
                     />
@@ -191,7 +192,7 @@ const RegisterForm = () => {
                       {...register('lastname', {
                         required: true,
                         // pattern: {
-                        //   value: /^[A-Za-z0-9]*$/,
+                        //   value: Regex_Password,
                         // },
                       })}
                     />
@@ -215,7 +216,7 @@ const RegisterForm = () => {
                         minLength: 10,
                         maxLength: 11,
                         pattern: {
-                          value: /(84|0[3|5|7|8|9])+([0-9]{8})\b/,
+                          value: Regex_PhoneNumber,
                         },
                       })}
                     />
@@ -262,7 +263,7 @@ const RegisterForm = () => {
                       minLength: 6,
                       maxLength: 20,
                       pattern: {
-                        value: /^[A-Za-z0-9]*$/,
+                        value: Regex_Password,
                       },
                     })}
                   />

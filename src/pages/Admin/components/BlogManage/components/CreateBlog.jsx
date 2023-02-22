@@ -2,6 +2,11 @@ import { useState, useEffect } from 'react';
 import EditBlog from './EditBlog';
 import PreviewBlog from './PreviewBlog';
 import Dropdown from '../../../../../share/components/Admin/Dropdown';
+import instances from '../../../../../utils/plugin/axios';
+
+// ** Redux
+import { clearBlogContent, setBlogSubCategory } from '../../../../../redux/actionSlice/managementSlice';
+import { useDispatch } from 'react-redux';
 
 // ** Assets
 import { ic_caret_gray, ic_menu, ic_caret_down_white } from '../../../../../assets';
@@ -23,17 +28,32 @@ const data = [
 
 const CreateBlog = () => {
   //** Const */
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [toggle, setToggle] = useState('edit');
   const [openDropdown, setOpenDropdown] = useState(false);
   const [activeItem, setActiveItem] = useState(1);
-  const [getDropdownValue, setDropdownValue] = useState('');
+  const [categoryList, setCategoryList] = useState([]);
+  const [getDropdownValue, setDropdownValue] = useState();
 
   // ** Functions
-  const handlePublish = () => {};
+  const handlePublish = () => {
+    // dispatch(setUploadBlog((prev) => !prev));
+  };
+
+  // ** get category list
+  useEffect(() => {
+    const fetch = async () => {
+      const res = await instances.get('/categories');
+      // console.log(res.data);
+      setCategoryList(res.data);
+    };
+    fetch();
+  }, []);
 
   useEffect(() => {
-    console.log(getDropdownValue);
+    dispatch(setBlogSubCategory(getDropdownValue?.subCategories));
+    // console.log(getDropdownValue);
   }, [getDropdownValue]);
 
   return (
@@ -71,7 +91,13 @@ const CreateBlog = () => {
               <div className="flex items-center gap-2 mb-3">
                 <p className="text-[#848484]">Chọn danh mục</p>
                 <div>
-                  <Dropdown dropDownType="Danh mục" data={data} getValue={setDropdownValue} />
+                  <Dropdown
+                    dropDownType="Danh mục"
+                    data={categoryList}
+                    getValue={setDropdownValue}
+                    idType="categoryId"
+                    nameType="name"
+                  />
                 </div>
                 <p className="text-redError text-[14px] font-medium">* Chọn danh mục cho bài viết</p>
               </div>

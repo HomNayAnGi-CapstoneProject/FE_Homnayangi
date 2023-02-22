@@ -1,6 +1,7 @@
 import React from 'react';
 import { ic_boiling_white } from '../../assets';
 import { ic_add_to_cart_white } from '../../assets';
+import Image from './Image';
 
 const FoodCard = (props) => {
   const { food } = props;
@@ -23,7 +24,8 @@ const FoodCard = (props) => {
           } w-[150px] h-[150px]`}
           // style={{ backgroundImage: `url(${food.image})` }}
         >
-          <img className="object-cover rounded-[10px] h-full w-full" alt={food.title} src={food.imageUrl} />
+          {/* <img className="object-cover rounded-[10px] h-full w-full" alt={food.title} src={food.imageUrl} /> */}
+          <Image className="object-cover rounded-[10px] h-full w-full" alt={food.title} src={food.imageUrl} />
         </div>
         <div className="flex-1">
           <p className="sm:text-[20px] text-[18px] font-semibold text-black mb-[5px] line-clamp-1">{food.title}</p>

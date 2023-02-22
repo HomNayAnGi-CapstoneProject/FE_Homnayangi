@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import styles from '../../../style';
 import instances from '../../../utils/plugin/axios';
 import { setAccountInfo } from '../../../redux/actionSlice/accountSlice';
+import { Regex_Password } from '../../../utils/regex';
 
 // ** Assests
 import loginDecor1 from '../../../assets/images/loginDecor1.webp';
@@ -145,7 +146,7 @@ const LoginForm = () => {
                   {...register('username', {
                     required: true,
                     pattern: {
-                      value: /^[A-Za-z0-9]*$/,
+                      value: Regex_Password,
                     },
                   })}
                 />
@@ -167,7 +168,7 @@ const LoginForm = () => {
                     {...register('password', {
                       required: true,
                       pattern: {
-                        value: /^[A-Za-z0-9]*$/,
+                        value: Regex_Password,
                       },
                     })}
                   />
