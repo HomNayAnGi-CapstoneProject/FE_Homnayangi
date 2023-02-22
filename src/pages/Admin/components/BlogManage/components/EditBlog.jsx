@@ -85,7 +85,7 @@ const EditBlog = () => {
     if (params.blogId) {
       const fetch = async () => {
         const res = await instances.get(`/blogs/staff-preview/${params.blogId}`);
-        console.log(res.data);
+        // console.log(res.data);
         dispatch(setContentBlog({ title: res.data?.title }));
         dispatch(setContentBlog({ minSize: res.data?.minSize }));
         dispatch(setContentBlog({ maxSize: res.data?.maxSize }));

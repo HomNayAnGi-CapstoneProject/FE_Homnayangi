@@ -2,7 +2,7 @@ import axios from 'axios';
 import jwt_decode from 'jwt-decode';
 import { toast } from 'react-toastify';
 
-axios.defaults.withCredentials = true;
+// axios.defaults.withCredentials = true;
 
 const Message = () => {
   return (

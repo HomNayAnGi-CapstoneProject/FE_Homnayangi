@@ -6,7 +6,7 @@ import instances from '../../../../../utils/plugin/axios';
 
 // ** Redux
 import { clearBlogContent, setBlogSubCategory } from '../../../../../redux/actionSlice/managementSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 // ** Assets
 import { ic_caret_gray, ic_menu, ic_caret_down_white } from '../../../../../assets';
@@ -14,6 +14,7 @@ import { ic_caret_gray, ic_menu, ic_caret_down_white } from '../../../../../asse
 // ** Third party libraries
 import { useNavigate } from 'react-router-dom';
 import OutsideClickHandler from 'react-outside-click-handler';
+import { toast } from 'react-toastify';
 
 //** Category list */
 const data = [
@@ -32,13 +33,71 @@ const CreateBlog = () => {
   const navigate = useNavigate();
   const [toggle, setToggle] = useState('edit');
   const [openDropdown, setOpenDropdown] = useState(false);
-  const [activeItem, setActiveItem] = useState(1);
+  const contentBlog = useSelector((state) => state.management.blogContent);
+  const contentStore = useSelector((state) => state.management);
   const [categoryList, setCategoryList] = useState([]);
   const [getDropdownValue, setDropdownValue] = useState();
 
   // ** Functions
   const handlePublish = () => {
-    // dispatch(setUploadBlog((prev) => !prev));
+    console.log(contentBlog);
+    let subCateList = contentBlog?.subCategory?.map(function (item) {
+      return { subCateId: item.subCategoryId, blogId: contentStore.blogId };
+    });
+    toast.promise(
+      instances
+        .put(`/blogs`, {
+          blog: {
+            blogId: contentStore.blogId,
+            title: contentBlog?.title || null,
+            imageUrl: contentBlog?.coverImage?.url || null,
+            blogStatus: 3, // (DELETED: 0, ACTIVE: 1, DRAFT:2, PENDING: 3)
+            videoUrl: null,
+          },
+          Recipe: {
+            packagePrice: parseInt(contentBlog?.packagePrice) || null,
+            cookedPrice: parseInt(contentBlog?.cookedPrice) || null,
+            maxSize: parseInt(contentBlog?.maxSize) || null,
+            minSize: parseInt(contentBlog?.minSize) || null,
+          },
+          RecipeDetails: contentBlog?.ingredients || [],
+          BlogSubCates: subCateList || [],
+          BlogReferences: [
+            {
+              type: 0,
+              text: contentBlog?.description?.text || null,
+              html: contentBlog?.description?.html || null,
+            },
+            {
+              type: 1,
+              text: contentBlog?.preparation?.text || null,
+              html: contentBlog?.preparation?.html || null,
+            },
+            {
+              type: 2,
+              text: contentBlog?.processing?.text || null,
+              html: contentBlog?.processing?.html || null,
+            },
+            {
+              type: 3,
+              text: contentBlog?.finished?.text || null,
+              html: contentBlog?.finished?.html || null,
+            },
+          ],
+        })
+        .then((res) => {
+          navigate(`/management/blog`);
+        }),
+      {
+        pending: 'Đang đăng bài viết',
+        success: 'Bài viết đang được chờ duyệt 👌',
+        error: {
+          render({ data }) {
+            // return data.response?.data.error;
+          },
+        },
+      },
+    );
   };
 
   // ** get category list
@@ -79,8 +138,11 @@ const CreateBlog = () => {
             </button>
           </div>
           <button
+            disabled={contentBlog == null ? true : false}
             onClick={() => handlePublish()}
-            className="text-[14px] font-medium text-white rounded-full bg-primary px-5 py-2"
+            className={`${
+              contentBlog == null ? 'bg-secondary cursor-not-allowed' : 'bg-primary'
+            } text-[14px] font-medium text-white rounded-full  px-5 py-2`}
           >
             Đăng bài
           </button>

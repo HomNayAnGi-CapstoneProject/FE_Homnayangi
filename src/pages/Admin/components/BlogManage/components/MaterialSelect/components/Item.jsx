@@ -6,6 +6,9 @@ import truncate from '../../../../../../../utils/truncate';
 import { ic_plus_white } from '../../../../../../../assets';
 import ic_loading from '../../../../../../../assets/images/sand-clock.png';
 
+import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+
 // ** items comp
 const ResultSearch = (props) => {
   return (
@@ -40,6 +43,7 @@ const Item = (props) => {
   const [searchInput, setSearchhInput] = useState(null);
   const [loading, setLoading] = useState(false);
   const debounced = useDebounce(searchInput, 600);
+  const store = useSelector((state) => state.management.blogContent);
 
   // ** call api
   useEffect(() => {
@@ -68,18 +72,57 @@ const Item = (props) => {
     }
   }, [debounced]);
 
-  // ** handle get edit data name
-  useEffect(() => {
-    console.log(editItem);
-    if (editItem) {
-      setSelectedItem(editItem.ingredient);
-      setSelectedAmount(editItem.quantity);
-      setDescription(editItem.description);
-    }
-  }, []);
-
   // ** handle click to select item
   const handleSelectItem = (item) => {
+    console.log(item);
+
+    // check duplicate item select in list
+    if (store?.ingredients?.length > 0) {
+      let duplicateSelectItem = store.ingredients.find((ingre) => ingre.ingredientId === item.ingredientId);
+      if (duplicateSelectItem == undefined) {
+        // not duplicate
+        selectItem(item);
+      } else {
+        toast.warning('Bạn đã chọn nguyên liệu này!');
+      }
+    } else {
+      selectItem(item);
+    }
+    // setOpenResultBox(false);
+    // setSelectedItem(item);
+    // setSelectedPrice(item.price);
+    // setSelectedAmount(item !== '' ? 1 : '');
+
+    // if (selectedList.length > 0) {
+    //   let duplicateItem = selectedList.find((item) => item.itemId === id);
+    //   if (duplicateItem == undefined) {
+    //     // not dupplicate
+    //     setSelectedList((prev) => [
+    //       ...prev,
+    //       { item, itemId: id, amount: selectedAmount !== '' ? selectedAmount : 1, description: description },
+    //     ]);
+    //   } else {
+    //     // dupplicate
+    //     setSelectedList((current) => current.filter((item) => item.itemId !== duplicateItem.itemId));
+    //     setSelectedList((prev) => [
+    //       ...prev,
+    //       {
+    //         item,
+    //         itemId: duplicateItem.itemId,
+    //         amount: selectedAmount !== '' ? selectedAmount : 1,
+    //         description: description,
+    //       },
+    //     ]);
+    //   }
+    // } else {
+    //   setSelectedList((prev) => [
+    //     ...prev,
+    //     { item, itemId: id, amount: selectedAmount !== '' ? selectedAmount : 1, description: description },
+    //   ]);
+    // }
+  };
+
+  const selectItem = (item) => {
     setOpenResultBox(false);
     setSelectedItem(item);
     setSelectedPrice(item.price);
@@ -113,6 +156,22 @@ const Item = (props) => {
       ]);
     }
   };
+
+  // ** handle get edit data name
+  useEffect(() => {
+    // console.log(editItem);
+    if (editItem) {
+      // setSelectedItem(editItem.ingredient);
+      selectItem({
+        ingredientId: editItem.ingredientId,
+        kcal: editItem.ingredient.kcal,
+        name: editItem.ingredient.name,
+        price: editItem.ingredient.price,
+      });
+      setSelectedAmount(editItem.quantity);
+      setDescription(editItem.description);
+    }
+  }, []);
 
   // ** handle change item amount
   const handleChangeItemAmount = (amount) => {
