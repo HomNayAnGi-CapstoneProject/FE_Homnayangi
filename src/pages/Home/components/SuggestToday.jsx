@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import truncate from '../../../utils/truncate';
 import instances from '../../../utils/plugin/axios';
 import generateSlug from '../../../utils/generateSlug';
+import Image from '../../../share/components/Image';
 
 // ** Assets
 import styles from '../../../style';
@@ -27,7 +28,7 @@ const Card = (props) => {
           </p>
           <div className="flex gap-[7px]">
             {props?.data?.listSubCateName?.length > 0 &&
-              props?.data?.listSubCateName?.slice(0, 3)?.map((item, index) => (
+              props?.data?.listSubCateName?.slice(0, 2)?.map((item, index) => (
                 <div
                   key={index}
                   className="rounded-full w-max bg-[#EAD35B] border-[2px] border-[#8F8137] border-solid xs:px-[10px] px-[2px] py-[0px] text-[12px] text-[#525252]"
@@ -41,9 +42,10 @@ const Card = (props) => {
           </div>
           <p className="leading-[25px] mt-[10px] md:line-clamp-3 line-clamp-2">{props?.data?.description}</p>
         </div>
-        <div
-          className="rounded-[10px] border-[2px] border-solid border-white bg-cover sm:w-[180px] sm:h-[137px] md:w-[190px] w-[150px] h-[150px] md:h-[147px] bg-center"
-          style={{ backgroundImage: `url(${props?.data?.imageUrl})` }}
+        <Image
+          className="rounded-[10px] border-[2px] border-solid border-white object-cover bg-cover sm:w-[180px] sm:h-[137px] md:w-[190px] w-[150px] h-[150px] md:h-[147px] bg-center"
+          src={props?.data?.imageUrl}
+          alt={props?.data?.title}
         />
       </div>
     </Link>
@@ -75,7 +77,7 @@ const SuggestToday = () => {
           subCategoryId: subCategoryId,
         },
       });
-      // console.log(res.data.result);
+      console.log(subCategoryId);
       // console.log(res.data.result.find((item) => item.categoryName == 'Món canh'));
       setSubCategoryId(res.data.result[0].subCateId);
       setSoup(res.data.result[0]);
@@ -121,11 +123,16 @@ const SuggestToday = () => {
                 </div>
                 <p className="font-bold md:text-[35px] text-[28px] line-clamp-1 mt-1">Cá lóc kho tộ</p> */}
                 <div className="bg-primary relative md:w-[520px] md:h-[520px] sm:w-[450px] sm:h-[450px] ss:w-[450px] ss:h-[450px] w-[320px] h-[320px] rounded-full">
-                  <img
+                  {/* <img
                     className="rounded-full absolute left-[50%] translate-x-[-50%] top-[50%] translate-y-[-50%] object-cover border-[2px] border-white md:w-[490px] md:h-[490px] ss:w-[420px] ss:h-[420px] w-[290px] h-[290px]"
                     alt={''}
                     src={soup?.imageUrl}
                     loading="lazy"
+                  /> */}
+                  <Image
+                    alt={''}
+                    src={soup?.imageUrl}
+                    className="rounded-full absolute left-[50%] translate-x-[-50%] top-[50%] translate-y-[-50%] object-cover border-[2px] border-white md:w-[490px] md:h-[490px] ss:w-[420px] ss:h-[420px] w-[290px] h-[290px]"
                   />
                 </div>
                 <p className="font-bold md:text-[35px] text-[28px] line-clamp-1 mt-1">{truncate(soup?.title, 20)}</p>

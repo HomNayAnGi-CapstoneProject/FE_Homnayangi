@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import instances from '../../../utils/plugin/axios';
+import Image from '../../../share/components/Image';
 
 // ** Assets
 import styles from '../../../style';
@@ -21,9 +22,14 @@ const Card = (props) => {
   return (
     <div className="relative font-inter rounded-[10px] sm:w-[450px] sm:h-[200px] md:w-[586px] w-[100%] md:h-[220px] h-fit bg-[#FFA883] p-[10px] flex sm:flex-row flex-col gap-[18px] drop-shadow-3xl">
       <div className="flex gap-[18px]">
-        <div
+        {/* <div
           className="rounded-[10px] border-[2px] border-solid border-white bg-cover sm:h-[180px] sm:w-[180px] md:w-[198px] w-[150px] h-[150px] md:h-[198px] bg-center"
           style={{ backgroundImage: `url(${props?.data?.imageUrl})` }}
+        /> */}
+        <Image
+          className="rounded-[10px] border-[2px] border-solid border-white object-cover bg-cover sm:h-[180px] sm:w-[180px] md:w-[198px] w-[150px] h-[150px] md:h-[198px] bg-center"
+          src={props?.data?.imageUrl}
+          alt={''}
         />
         <div className="flex-1">
           <p className="sm:text-[20px] text-[18px] font-semibold text-black mb-[5px] line-clamp-1">

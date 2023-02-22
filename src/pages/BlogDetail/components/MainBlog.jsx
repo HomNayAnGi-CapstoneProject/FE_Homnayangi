@@ -33,7 +33,10 @@ const MainBlog = (props) => {
         <p className="text-[30px] text-black font-semibold">
           Just relax 🍀 stop overthinking, calm your anxiety - lofi hip hop mix - aesthetic lofi
         </p>
-        <div className="mt-[12px] flex flex-wrap gap-2">
+        <p className="mt-[12px] text-[14px] text-[#8f8f8f]">
+          <span className="font-medium">Khẩu phần:</span> từ 1 đến 2 người
+        </p>
+        <div className="mt-[20px] flex flex-wrap gap-2">
           <div className="rounded-full w-max bg-[#EAD35B] border-[2px] border-[#8F8137] border-solid xs:px-[10px] px-[2px] py-[0px] text-[12px] text-[#525252]">
             Buổi sáng
           </div>

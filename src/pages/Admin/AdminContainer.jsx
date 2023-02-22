@@ -5,15 +5,35 @@ import Loading from '../../share/components/Loading/Loading';
 
 // ** pages
 import Dashboard from './components/Dashboard';
+
 import BlogManagement from './components/BlogManage/BlogManagement';
 import CreateBlog from './components/BlogManage/components/CreateBlog';
+
+import TagManagement from './components/CateManage/TagManagement';
+import CreateCategory from './components/CateManage/components/CreateCategory';
+import EditCategory from './components/CateManage/components/EditCategory';
+import CreateSubCate from './components/CateManage/components/SubCategory/CreateSubCate';
+import EditSubCate from './components/CateManage/components/SubCategory/EditSubCate';
+
 import OrderManagement from './components/OrderManagement';
-import ProductManagement from './components/ProductManagement';
 import VoucherManagement from './components/VoucherManagement';
 import AwardManagement from './components/AwardManagement';
 import AccomplishmentManagement from './components/AccomplishmentManagement';
-import TagManagement from './components/TagManagement';
 import CustomerManagement from './components/CustomerManagement';
+
+import ProductManagement from './components/ProductManage/ProductManagement';
+import CreateProduct from './components/ProductManage/components/CreateProduct';
+import EditProduct from './components/ProductManage/components/EditProduct';
+
+import ProductTypeManagement from './components/TypeManage/ProductTypeManagement';
+import CreateType from './components/TypeManage/components/CreateType';
+import EditType from './components/TypeManage/components/EditType';
+
+import UnitManagement from './components/UnitManage/UnitManagement';
+import CreateUnit from './components/UnitManage/components/CreateUnit';
+import EditUnit from './components/UnitManage/components/EditUnit';
+
+// ** third party libraries
 
 import jwt_decode from 'jwt-decode';
 import { Link, useNavigate, Navigate, BrowserRouter, Route, Routes } from 'react-router-dom';
@@ -48,14 +68,35 @@ const AdminContainer = (props) => {
               <Route path="blog">
                 <Route index element={<BlogManagement />} />
                 <Route path="new" element={<CreateBlog />} />
+                <Route path="edit/:blogId" element={<CreateBlog />} />
               </Route>
               <Route path="order" element={<OrderManagement />} />
-              <Route path="product" element={<ProductManagement />} />
+              <Route path="product">
+                <Route index element={<ProductManagement />} />
+                <Route path="new" element={<CreateProduct />} />
+                <Route path="edit/:ingredientId" element={<EditProduct />} />
+              </Route>
               <Route path="voucher" element={<VoucherManagement />} />
               <Route path="award" element={<AwardManagement />} />
               <Route path="accomplishment" element={<AccomplishmentManagement />} />
-              <Route path="tag" element={<TagManagement />} />
+              <Route path="category">
+                <Route index element={<TagManagement />} />
+                <Route path="new" element={<CreateCategory />} />
+                <Route path="edit/:categoryId" element={<EditCategory />} />
+                <Route path="sub-category/new" element={<CreateSubCate />} />
+                <Route path="sub-category/edit/:subCategoryId" element={<EditSubCate />} />
+              </Route>
               <Route path="customer" element={<CustomerManagement />} />
+              <Route path="type">
+                <Route index element={<ProductTypeManagement />} />
+                <Route path="new" element={<CreateType />} />
+                <Route path="edit/:typeId" element={<EditType />} />
+              </Route>
+              <Route path="unit">
+                <Route index element={<UnitManagement />} />
+                <Route path="new" element={<CreateUnit />} />
+                <Route path="edit/:unitId" element={<EditUnit />} />
+              </Route>
             </Route>
           </Routes>
         </Suspense>

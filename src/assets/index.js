@@ -43,6 +43,13 @@ import ic_delete from './ic_delete.svg'
 import ic_blog_create from './ic_blog_create.svg'
 import ic_caret_gray from './ic_caret_gray.svg'
 import ic_nofitication_orange from './ic_nofitication_orange.svg'
+import ic_pack from './ic_pack.svg'
+import ic_pack_active from './ic_pack_active.svg'
+import ic_unit from './ic_unit.svg'
+import ic_unit_active from './ic_unit_active.svg'
+import ic_plus_white from './ic_plus_white.svg'
+import ic_caret_gray_right from './ic_caret_gray_right.svg'
+import ic_caret_gray_down from './ic_caret_gray_down.svg'
 
 export {
     ic_nofitication, ic_cart, ic_caret_down_white, ic_nav_menu, ic_close_modal, ic_caret_right, ic_location,
@@ -50,5 +57,6 @@ export {
     ic_eye_gray, ic_eye_closed, ic_google, ic_next_primary, ic_dashboard, ic_dashboard_active, ic_order, ic_order_active,
     ic_award, ic_award_active, ic_voucher, ic_voucher_active, ic_blog, ic_blog_active, ic_product, ic_product_active,
     ic_accomplishment, ic_accomplishment_active, ic_tag, ic_tag_active, ic_customer, ic_customer_active, ic_logout,
-    ic_menu, ic_edit, ic_delete_red, ic_delete_green, ic_blog_create, ic_caret_gray, ic_nofitication_orange, ic_delete
+    ic_menu, ic_edit, ic_delete_red, ic_delete_green, ic_blog_create, ic_caret_gray, ic_nofitication_orange, ic_delete,
+    ic_pack, ic_pack_active, ic_unit, ic_unit_active, ic_plus_white, ic_caret_gray_right, ic_caret_gray_down
 }

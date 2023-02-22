@@ -27,6 +27,10 @@ import {
   ic_customer_active,
   ic_logout,
   ic_menu,
+  ic_pack,
+  ic_pack_active,
+  ic_unit,
+  ic_unit_active,
 } from '../../../assets';
 
 const MenuItem = (props) => {
@@ -87,6 +91,7 @@ const SideBar = (props) => {
       <img className="w-[70px]" src={Logo} />
       <div className="mt-[45px]">
         <ul>
+          <p className="pb-5 uppercase text-[#c2c2c2]">Bảng điều khiển</p>
           <MenuItem
             link="management"
             active={active}
@@ -97,6 +102,7 @@ const SideBar = (props) => {
             setOpenSidebar={props.setOpenSidebar}
             isTablet={props.isTablet}
           />
+          <p className="pt-2 pb-5 uppercase text-[#c2c2c2]">quản lý</p>
           <MenuItem
             link="management/order"
             active={active}
@@ -107,36 +113,7 @@ const SideBar = (props) => {
             setOpenSidebar={props.setOpenSidebar}
             isTablet={props.isTablet}
           />
-          <MenuItem
-            link="management/product"
-            active={active}
-            id="product"
-            url={ic_product}
-            urlActive={ic_product_active}
-            title="Quản lý sản phẩm"
-            setOpenSidebar={props.setOpenSidebar}
-            isTablet={props.isTablet}
-          />
-          <MenuItem
-            link="management/blog"
-            active={active}
-            id="blog"
-            url={ic_blog}
-            urlActive={ic_blog_active}
-            title="Quản lý bài viết"
-            setOpenSidebar={props.setOpenSidebar}
-            isTablet={props.isTablet}
-          />
-          <MenuItem
-            link="management/voucher"
-            active={active}
-            id="voucher"
-            url={ic_voucher}
-            urlActive={ic_voucher_active}
-            title="Quản lý voucher"
-            setOpenSidebar={props.setOpenSidebar}
-            isTablet={props.isTablet}
-          />
+
           <MenuItem
             link="management/award"
             active={active}
@@ -157,26 +134,92 @@ const SideBar = (props) => {
             setOpenSidebar={props.setOpenSidebar}
             isTablet={props.isTablet}
           />
+
           <MenuItem
-            link="management/tag"
+            link="management/voucher"
             active={active}
-            id="tag"
+            id="voucher"
+            url={ic_voucher}
+            urlActive={ic_voucher_active}
+            title="Quản lý voucher"
+            setOpenSidebar={props.setOpenSidebar}
+            isTablet={props.isTablet}
+          />
+
+          <p className="py-2 pb-5 uppercase text-[#c2c2c2]">nguyên liệu</p>
+          <MenuItem
+            link="management/product"
+            active={active}
+            id="product"
+            url={ic_product}
+            urlActive={ic_product_active}
+            title="Quản lý nguyên liệu"
+            setOpenSidebar={props.setOpenSidebar}
+            isTablet={props.isTablet}
+          />
+          <MenuItem
+            link="management/type"
+            active={active}
+            id="type"
             url={ic_tag}
             urlActive={ic_tag_active}
-            title="Quản lý nhãn"
+            title="Quản lý loại món"
+            setOpenSidebar={props.setOpenSidebar}
+            isTablet={props.isTablet}
+          />
+          {/* <MenuItem
+            link="management/pack"
+            active={active}
+            id="pack"
+            url={ic_pack}
+            urlActive={ic_pack_active}
+            title="Quản lý gói NL"
+            setOpenSidebar={props.setOpenSidebar}
+            isTablet={props.isTablet}
+          /> */}
+          <MenuItem
+            link="management/unit"
+            active={active}
+            id="unit"
+            url={ic_unit}
+            urlActive={ic_unit_active}
+            title="Quản lý đơn vị"
+            setOpenSidebar={props.setOpenSidebar}
+            isTablet={props.isTablet}
+          />
+          <p className="py-2 pb-5 uppercase text-[#c2c2c2]">bài viết</p>
+          <MenuItem
+            link="management/blog"
+            active={active}
+            id="blog"
+            url={ic_blog}
+            urlActive={ic_blog_active}
+            title="Quản lý bài viết"
             setOpenSidebar={props.setOpenSidebar}
             isTablet={props.isTablet}
           />
           <MenuItem
-            link="management/customer"
+            link="management/category"
             active={active}
-            id="customer"
-            url={ic_customer}
-            urlActive={ic_customer_active}
-            title="Quản lý khách hàng"
+            id="category"
+            url={ic_tag}
+            urlActive={ic_tag_active}
+            title="Quản lý danh mục"
             setOpenSidebar={props.setOpenSidebar}
             isTablet={props.isTablet}
           />
+          {/* <MenuItem
+            link="management/sub-tag"
+            active={active}
+            id="sub-tag"
+            url={ic_tag}
+            urlActive={ic_tag_active}
+            title="Quản lý d/mục phụ"
+            setOpenSidebar={props.setOpenSidebar}
+            isTablet={props.isTablet}
+          /> */}
+          <p className="py-2 pb-5 uppercase text-[#c2c2c2]">khác</p>
+
           <div className="cursor-pointer" onClick={() => handleLogout()}>
             <MenuItem url={ic_logout} title="Đăng xuất" />
           </div>

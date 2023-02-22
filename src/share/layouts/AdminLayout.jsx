@@ -3,7 +3,11 @@ import Header from '../components/Admin/Header';
 import SideBar from '../components/Admin/SideBar';
 import useWindowSize from '../hooks/useWindowSize';
 
+import { setShowSideBar } from '../../redux/actionSlice/managementSlice';
+import { useDispatch } from 'react-redux';
+
 const AdminLayout = ({ children }) => {
+  const dispatch = useDispatch();
   const [openSidebar, setOpenSidebar] = useState(true);
   const [isTablet, setIsTablet] = useState(false);
   const [width, height] = useWindowSize();
@@ -12,10 +16,12 @@ const AdminLayout = ({ children }) => {
     if (width > 1200) {
       if (openSidebar) {
         setOpenSidebar(true);
+        dispatch(setShowSideBar(true));
       }
       setIsTablet(false);
     } else {
       setOpenSidebar(false);
+      dispatch(setShowSideBar(false));
       setIsTablet(true);
     }
   }, [width]);

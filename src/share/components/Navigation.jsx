@@ -236,6 +236,14 @@ const Navigation = (props) => {
                           {decoded_jwt.Firstname}
                         </div>
                         <li className="cursor-pointer hover:bg-secondary py-1 px-4">Thông tin cá nhân</li>
+                        {decoded_jwt.role === 'Staff' && (
+                          <li
+                            onClick={() => navigate('/management')}
+                            className="cursor-pointer hover:bg-secondary py-1 px-4"
+                          >
+                            Quản lý
+                          </li>
+                        )}
                         <li onClick={() => handleLogout()} className=" cursor-pointer hover:bg-secondary py-1 px-4">
                           Đăng xuất
                         </li>
