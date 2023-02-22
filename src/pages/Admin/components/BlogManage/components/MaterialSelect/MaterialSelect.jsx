@@ -58,6 +58,8 @@ const MaterialSelect = () => {
       const fetch = async () => {
         const res = await instances.get(`/blogs/staff-preview/${params.blogId}`);
         let dataIngredient = res.data.recipeDetails;
+        setPackagePrice(res?.data?.packagePrice);
+        setCookedPrice(res?.data?.cookedPrice);
         if (dataIngredient.length > 0) {
           dataIngredient.forEach((item) => {
             handleAddItem(item);
@@ -78,7 +80,7 @@ const MaterialSelect = () => {
       dispatch(setContentBlog({ ingredients: recipeDetails }));
     } else {
       if (params.blogId) {
-        // dispatch(setContentBlog({ ingredients: [] }));
+        dispatch(setContentBlog({ ingredients: recipeDetails }));
       }
     }
     let expectedPrice = 0;
@@ -95,9 +97,9 @@ const MaterialSelect = () => {
   const packedPriceDebounce = useDebounce(packagePrice, 600);
   useEffect(() => {
     if (packedPriceDebounce !== '') {
-      if (!packedPriceDebounce?.trim()) {
-        return;
-      }
+      // if (!packedPriceDebounce?.trim()) {
+      //   return;
+      // }
       dispatch(setContentBlog({ packagePrice: packedPriceDebounce }));
     }
   }, [packedPriceDebounce]);
@@ -106,9 +108,9 @@ const MaterialSelect = () => {
   const cookedPriceDebounce = useDebounce(cookedPrice, 600);
   useEffect(() => {
     if (cookedPriceDebounce !== '') {
-      if (!cookedPriceDebounce?.trim()) {
-        return;
-      }
+      // if (!cookedPriceDebounce?.trim()) {
+      //   return;
+      // }
       dispatch(setContentBlog({ cookedPrice: cookedPriceDebounce }));
     }
   }, [cookedPriceDebounce]);

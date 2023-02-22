@@ -39,7 +39,7 @@ const columns = [
   {
     field: 'title',
     headerName: 'Tiêu đề bài viết',
-    width: 350,
+    width: 250,
     renderCell: (params) => (
       <div className="">
         <Tooltip title={`${params.row.title}`} placement="top">

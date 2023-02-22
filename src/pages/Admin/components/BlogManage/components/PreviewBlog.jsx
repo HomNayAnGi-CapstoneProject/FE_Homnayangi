@@ -18,6 +18,7 @@ const PreviewBlog = () => {
     if (params.blogId) {
       const fetch = async () => {
         const res = await instances.get(`/blogs/staff-preview/${params.blogId}`);
+        console.log(res.data);
         setPreviewData(res.data);
       };
 
@@ -56,7 +57,41 @@ const PreviewBlog = () => {
 
             <div className="mt-[30px]">
               <p className="font-semibold text-[20px]">Nguyên liệu:</p>
-              <div className="p-5 bg-[#FFDACA] rounded-[10px] mt-[18px] text-[18px]"></div>
+              <div className="p-5 bg-[#FFDACA] rounded-[10px] mt-[18px] text-[18px]">
+                {previewData?.recipeDetails?.length > 0 &&
+                  previewData?.recipeDetails?.map((item, i) => (
+                    <div key={item.ingredient.ingredientId} className="">
+                      <p>
+                        {i + 1}.{' '}
+                        <span
+                          className={`${
+                            item.ingredient.name == 'Gia vị'
+                              ? 'text-black'
+                              : 'cursor-pointer text-primary font-semibold'
+                          }`}
+                        >
+                          {item.ingredient.name}
+                        </span>
+                        <span>
+                          :{' '}
+                          {item.ingredient.name == 'Gia vị' ? (
+                            <>
+                              {item.description.map((item, i) => (
+                                <span key={i} className="cursor-pointer text-primary font-semibold">
+                                  {(i ? ', ' : '') + item}
+                                </span>
+                              ))}
+                              <span>. Hoặc</span>
+                              <span className="text-primary cursor-pointer font-semibold"> Gói gia vị homnayangi</span>
+                            </>
+                          ) : (
+                            item.description
+                          )}
+                        </span>
+                      </p>
+                    </div>
+                  ))}
+              </div>
             </div>
 
             <div className="mt-[30px]">

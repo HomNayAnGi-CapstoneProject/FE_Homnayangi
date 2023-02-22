@@ -45,7 +45,7 @@ const SubcateSelect = (props) => {
   // const [dataList, setDataList] = useState(contentBlog?.subCateDataList || store?.blogSubCategory);
   // const [selectedList, setSelectedList] = useState(contentBlog?.subCategory || []);
   const [dataList, setDataList] = useState([]);
-  const [selectedList, setSelectedList] = useState(contentBlog?.subCategory || []);
+  const [selectedList, setSelectedList] = useState([]);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -80,14 +80,14 @@ const SubcateSelect = (props) => {
   };
 
   useEffect(() => {
+    console.log(selectedList);
     if (selectedList?.length > 0) {
       // console.log('???');
       dispatch(setContentBlog({ subCategory: selectedList }));
       dispatch(setContentBlog({ subCateDataList: dataList }));
     } else {
       if (params.blogId) {
-        console.log('run??');
-        // dispatch(setContentBlog({ subCategory: [] }));
+        dispatch(setContentBlog({ subCategory: selectedList }));
       }
     }
   }, [selectedList]);
