@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef, useLayoutEffect } from 'react';
 import instances from '../../../../../utils/plugin/axios';
 import useDebounce from '../../../../../share/hooks/useDebounce';
+import Image from '../../../../../share/components/Image';
 
 // ** Assets
 import ic_loading from '../../../../../assets/images/sand-clock.png';
@@ -352,7 +353,7 @@ const EditBlog = () => {
           contentBlog && contentBlog?.coverImage !== undefined && contentBlog?.coverImage !== null ? (
             <div className="flex items-center gap-5">
               {(contentBlog?.coverImage !== undefined || contentBlog?.coverImage !== null) && (
-                <img className="object-scale-down w-[100px]" src={contentBlog?.coverImage?.url} />
+                <Image alt="" className="object-scale-down w-[100px]" src={contentBlog?.coverImage?.url} />
               )}
               <div className="flex items-center gap-2">
                 <label

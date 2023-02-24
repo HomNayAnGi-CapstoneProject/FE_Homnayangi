@@ -53,7 +53,7 @@ const MainBlog = (props) => {
             Buổi sáng
           </div>
         </div>
-        <p className="mt-[30px] leading-7 text-[18px]">
+        <p className="mt-[30px] leading-7 text-[18px] unreset">
           Cá lóc kho tộ luôn là món ăn quen thuộc và hấp dẫn trong bữa cơm hàng ngày của gia đình người Việt Nam, một
           đĩa cá lóc kho tộ, một bát canh rau, một chén nhỏ cà muối luôn tạo cho chúng ta những niềm cảm hứng đặc biệt
           khi thưởng thức. Chính vì thế, chúng tôi sẽ chia sẻ cho các bạn hướng dẫn cách làm cá lóc kho tộ thơm ngon cho
@@ -113,7 +113,7 @@ const MainBlog = (props) => {
           </div>
         </div>
 
-        <div id="preparation" className="mt-[30px]">
+        <div id="preparation unreset" className="mt-[30px]">
           <p className="font-semibold text-[20px]">Sơ chế:</p>
 
           <div className="preparation-content mt-[18px]">
@@ -151,7 +151,7 @@ const MainBlog = (props) => {
           </div>
         </div>
 
-        <div id="cooking" className="mt-[30px]">
+        <div id="cooking unreset" className="mt-[30px]">
           <p className="font-semibold text-[20px]">Cách chế biến:</p>
 
           <div className="cooking-content mt-[18px]">
@@ -204,7 +204,7 @@ const MainBlog = (props) => {
           </div>
         </div>
 
-        <div id="completion" className="mt-[30px]">
+        <div id="completion unreset" className="mt-[30px]">
           <p className="font-semibold text-[20px]">Thành phẩm:</p>
           <div className="completion-content mt-[18px]">
             <div className="leading-7 text-[18px]">

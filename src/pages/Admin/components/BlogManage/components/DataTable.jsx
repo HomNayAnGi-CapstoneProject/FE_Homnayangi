@@ -111,9 +111,12 @@ const DataTable = (props) => {
               <img src={ic_edit} />
             </IconButton>
           </Tooltip>
-          <Tooltip title={params.row.status == 1 || params.row.status == 2 ? 'Xóa' : 'Khôi phục'} placement="right">
+          <Tooltip
+            title={params.row.status == 1 || params.row.status == 2 || params.row.status == 3 ? 'Xóa' : 'Khôi phục'}
+            placement="right"
+          >
             <IconButton onClick={() => props?.handleOpenDelete(params.row)} aria-label="remove">
-              {params.row.status == 1 || params.row.status == 2 ? (
+              {params.row.status == 1 || params.row.status == 2 || params.row.status == 3 ? (
                 <img src={ic_delete_red} />
               ) : (
                 <img src={ic_delete_green} />
