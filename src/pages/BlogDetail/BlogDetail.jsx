@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import instances from '../../utils/plugin/axios';
 import styles from '../../style';
 import Reaction from './components/Reaction';
 import MainBlog from './components/MainBlog';
@@ -14,11 +15,18 @@ import Breadcrumbs from '../../share/components/Breadcrumbs';
 
 const BlogDetail = () => {
   const params = useParams();
+  const [blogDetail, setBlogDetail] = useState();
 
   useEffect(() => {
     // console.log(params);
-    document.title = 'Chi tiết';
-  }, [params.name]);
+    const fetch = async () => {
+      const res = await instances.get(`/blogs/${params?.id}`);
+      // console.log(res.data);
+      setBlogDetail(res.data);
+      document.title = 'Chi tiết';
+    };
+    fetch();
+  }, [params.id]);
 
   return (
     <>
@@ -33,7 +41,7 @@ const BlogDetail = () => {
                 <div className="ss:block hidden sm:px-[0px] px-5 absolute top-[-35px]">
                   <Breadcrumbs location1="/recipe" location2="/recipe" />
                 </div>
-                <MainBlog />
+                <MainBlog blogDetail={blogDetail} />
               </div>
               <div className="xxlg:w-[30%] w-full sticky top-[100px] h-fit">
                 <RelativeBlog />

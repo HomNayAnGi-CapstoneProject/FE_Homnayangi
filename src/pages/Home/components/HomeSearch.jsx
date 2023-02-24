@@ -4,6 +4,10 @@ import instances from '../../../utils/plugin/axios';
 import ic_loading from '../../../assets/images/sand-clock.png';
 
 import useDebounce from '../../../share/hooks/useDebounce';
+import generateSlug from '../../../utils/generateSlug';
+
+// ** Third party libraries **
+import { useNavigate } from 'react-router-dom';
 
 // ** items comp
 const ResultSearch = (props) => {
@@ -37,6 +41,7 @@ const HomeSearch = () => {
   const [searchResult, setSearchResult] = useState('');
   const [loading, setLoading] = useState(false);
   const debounced = useDebounce(searchInput, 600);
+  const navigate = useNavigate();
 
   // ** call api
   useEffect(() => {
@@ -109,7 +114,7 @@ const HomeSearch = () => {
             <>
               {searchResult !== '' ? (
                 searchResult?.slice(0, 4)?.map((item) => (
-                  <div key={item.blogId}>
+                  <div key={item.blogId} onClick={() => navigate(`/recipe/${item.blogId}/${generateSlug(item.title)}`)}>
                     <ResultSearch name={item.title} />
                   </div>
                 ))
