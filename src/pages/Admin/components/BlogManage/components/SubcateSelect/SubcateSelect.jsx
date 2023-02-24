@@ -80,7 +80,7 @@ const SubcateSelect = (props) => {
   };
 
   useEffect(() => {
-    console.log(selectedList);
+    // console.log(selectedList);
     if (selectedList?.length > 0) {
       // console.log('???');
       dispatch(setContentBlog({ subCategory: selectedList }));

@@ -18,7 +18,7 @@ const PreviewBlog = () => {
     if (params.blogId) {
       const fetch = async () => {
         const res = await instances.get(`/blogs/staff-preview/${params.blogId}`);
-        console.log(res.data);
+        // console.log(res.data);
         setPreviewData(res.data);
       };
 
@@ -27,7 +27,7 @@ const PreviewBlog = () => {
   }, []);
 
   return (
-    <div className="bg-white min-w-fit font-inter rounded-[5px] shadow-md">
+    <div className="bg-white xxlg:w-[70%] w-full font-inter rounded-[5px] shadow-md">
       {/* ================================= ẢNH BÌA ================================= */}
       {previewData ? (
         <>
@@ -53,7 +53,7 @@ const PreviewBlog = () => {
                 </div>
               ))}
             </div>
-            <div className="mt-[30px]" dangerouslySetInnerHTML={{ __html: previewData?.descriptionHTML }}></div>
+            <div className="mt-[30px] unreset" dangerouslySetInnerHTML={{ __html: previewData?.descriptionHTML }}></div>
 
             <div className="mt-[30px]">
               <p className="font-semibold text-[20px]">Nguyên liệu:</p>
@@ -96,15 +96,21 @@ const PreviewBlog = () => {
 
             <div className="mt-[30px]">
               <p className="font-semibold text-[20px]">Sơ chế:</p>
-              <div className="mt-[10px]" dangerouslySetInnerHTML={{ __html: previewData?.preparationHTML }}></div>
+              <div
+                className="mt-[10px] unreset"
+                dangerouslySetInnerHTML={{ __html: previewData?.preparationHTML }}
+              ></div>
             </div>
             <div className="mt-[30px]">
               <p className="font-semibold text-[20px]">Cách chế biến:</p>
-              <div className="mt-[10px]" dangerouslySetInnerHTML={{ __html: previewData?.processingHTML }}></div>
+              <div
+                className="mt-[10px] unreset"
+                dangerouslySetInnerHTML={{ __html: previewData?.processingHTML }}
+              ></div>
             </div>
             <div className="mt-[30px]">
               <p className="font-semibold text-[20px]">Thành phẩm:</p>
-              <div className="mt-[10px]" dangerouslySetInnerHTML={{ __html: previewData?.finishedHTML }}></div>
+              <div className="mt-[10px] unreset" dangerouslySetInnerHTML={{ __html: previewData?.finishedHTML }}></div>
             </div>
           </div>
         </>

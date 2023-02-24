@@ -74,7 +74,7 @@ const Item = (props) => {
 
   // ** handle click to select item
   const handleSelectItem = (item) => {
-    console.log(item);
+    // console.log(item);
 
     // check duplicate item select in list
     if (store?.ingredients?.length > 0) {
