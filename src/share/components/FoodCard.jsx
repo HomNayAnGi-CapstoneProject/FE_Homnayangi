@@ -1,14 +1,20 @@
 import React from 'react';
 import { ic_boiling_white } from '../../assets';
 import { ic_add_to_cart_white } from '../../assets';
+
 import Image from './Image';
+import generateSlug from '../../utils/generateSlug';
+
+import { useNavigate } from 'react-router-dom';
 
 const FoodCard = (props) => {
   const { food } = props;
+  const navigate = useNavigate();
   // console.log(food);
   return (
     <div
       // key={food.blogId}
+      onClick={() => navigate(`/recipe/${food.blogId}/${generateSlug(food.title)}`)}
       className={`relative font-inter rounded-[10px] bg-[#FFA883] p-[10px] ${
         food.packagePrice ? ' md:h-[245px]' : 'md:w-[586px]  md:h-[220px]'
       } flex sm:flex-row flex-col gap-[18px] drop-shadow-3xl`}
