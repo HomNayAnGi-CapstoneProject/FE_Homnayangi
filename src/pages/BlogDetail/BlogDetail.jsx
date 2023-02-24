@@ -23,7 +23,7 @@ const BlogDetail = () => {
       const res = await instances.get(`/blogs/${params?.id}`);
       // console.log(res.data);
       setBlogDetail(res.data);
-      document.title = 'Chi tiết';
+      document.title = res.data.title;
     };
     fetch();
   }, [params.id]);
