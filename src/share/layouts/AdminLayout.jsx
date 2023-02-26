@@ -44,7 +44,7 @@ const AdminLayout = ({ children }) => {
         />
         <div className="flex-1">
           <Header setOpenSidebar={setOpenSidebar} />
-          <div className=" relative z-10">{children}</div>
+          <div className=" z-10">{children}</div>
         </div>
       </div>
     </div>

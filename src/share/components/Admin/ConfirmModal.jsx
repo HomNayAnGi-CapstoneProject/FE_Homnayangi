@@ -31,7 +31,7 @@ const ConfirmModal = (props) => {
       />
       <div
         className={`sm:w-max w-full bg-white fixed z-[990] rounded-[5px] left-[50%]
-            translate-x-[-${storeManagement.showSideBar ? '0' : '50'}%] top-[50%] translate-y-[-50%]`}
+            translate-x-[-50%] top-[50%] translate-y-[-50%]`}
       >
         <div className="font-inter p-5 w-max">
           <div className="text-redError pb-2 border-b border-gray-300 flex items-center gap-2">

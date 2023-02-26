@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react';
 import instances from '../../utils/plugin/axios';
 import styles from '../../style';
+
+// ** components
 import Reaction from './components/Reaction';
 import MainBlog from './components/MainBlog';
 import RelativeBlog from './components/RelativeBlog';
 import FixedBottomNav from './components/FixedBottomNav';
+import CommentSection from './components/CommentSection/CommentSection';
 
 // ** Assets
 
@@ -42,6 +45,7 @@ const BlogDetail = () => {
                   <Breadcrumbs location1="/recipe" location2="/recipe" />
                 </div>
                 <MainBlog blogDetail={blogDetail} />
+                <CommentSection />
               </div>
               <div className="xxlg:w-[30%] w-full sticky top-[100px] h-fit">
                 <RelativeBlog />
