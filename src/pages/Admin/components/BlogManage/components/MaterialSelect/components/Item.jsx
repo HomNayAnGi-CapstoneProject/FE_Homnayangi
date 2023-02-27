@@ -159,14 +159,14 @@ const Item = (props) => {
 
   // ** handle get edit data name
   useEffect(() => {
-    // console.log(editItem);
+    console.log(editItem);
     if (editItem) {
       // setSelectedItem(editItem.ingredient);
       selectItem({
         ingredientId: editItem.ingredientId,
-        kcal: editItem.ingredient.kcal,
-        name: editItem.ingredient.name,
-        price: editItem.ingredient.price,
+        kcal: editItem?.kcal,
+        name: editItem?.ingredientName,
+        price: editItem?.price,
       });
       setSelectedAmount(editItem.quantity);
       setDescription(editItem.description);
