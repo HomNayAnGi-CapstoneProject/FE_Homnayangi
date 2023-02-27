@@ -22,7 +22,7 @@ const BlogManagement = () => {
     const fetch = async () => {
       const res = await instances.get('/blogs/user');
       // console.log(res.data.result);
-      setBlogDataList(res.data.result);
+      setBlogDataList(res.data.result || []);
     };
 
     fetch();

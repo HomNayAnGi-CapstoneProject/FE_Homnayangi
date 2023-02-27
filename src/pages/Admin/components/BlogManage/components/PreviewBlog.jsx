@@ -60,21 +60,19 @@ const PreviewBlog = () => {
               <div className="p-5 bg-[#FFDACA] rounded-[10px] mt-[18px] text-[18px]">
                 {previewData?.recipeDetails?.length > 0 &&
                   previewData?.recipeDetails?.map((item, i) => (
-                    <div key={item.ingredient.ingredientId} className="">
+                    <div key={item.ingredientId} className="">
                       <p>
                         {i + 1}.{' '}
                         <span
                           className={`${
-                            item.ingredient.name == 'Gia vị'
-                              ? 'text-black'
-                              : 'cursor-pointer text-primary font-semibold'
+                            item.ingredientName == 'Gia vị' ? 'text-black' : 'cursor-pointer text-primary font-semibold'
                           }`}
                         >
-                          {item.ingredient.name}
+                          {item.ingredientName}
                         </span>
                         <span>
                           :{' '}
-                          {item.ingredient.name == 'Gia vị' ? (
+                          {item.ingredientName == 'Gia vị' ? (
                             <>
                               {item.description.map((item, i) => (
                                 <span key={i} className="cursor-pointer text-primary font-semibold">

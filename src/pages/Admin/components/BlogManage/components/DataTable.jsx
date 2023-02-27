@@ -136,7 +136,7 @@ const DataTable = (props) => {
         rowsPerPageOptions={[9]}
         className="datagrid"
         getRowId={(row) => row.blogId}
-        loading={!props?.blogDataList.length}
+        loading={!props?.blogDataList?.length}
         components={{
           LoadingOverlay: Loading,
         }}
