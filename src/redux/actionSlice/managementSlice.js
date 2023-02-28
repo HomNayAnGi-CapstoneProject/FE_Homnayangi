@@ -24,6 +24,7 @@ export const managementSlice = createSlice({
         // minSize: 0,
         // packagePrice: 1,
         // cookedPrice: 1
+        // totalKcal: 1
         ,
         blogSubCategory: [],
         blogId: null,

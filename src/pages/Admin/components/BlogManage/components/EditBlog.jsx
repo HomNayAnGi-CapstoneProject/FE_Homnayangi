@@ -93,6 +93,7 @@ const EditBlog = () => {
         dispatch(setContentBlog({ coverImage: res.data?.imageUrl ? { url: res.data?.imageUrl } : undefined }));
         dispatch(setContentBlog({ packagePrice: res.data?.packagePrice }));
         dispatch(setContentBlog({ cookedPrice: res.data?.cookedPrice }));
+        dispatch(setContentBlog({ totalKcal: res.data?.totalKcal }));
         dispatch(setContentBlog({ description: { html: res.data?.descriptionHTML, text: res.data?.descriptionText } }));
         dispatch(setContentBlog({ preparation: { html: res.data?.preparationHTML, text: res.data?.preparationText } }));
         dispatch(setContentBlog({ processing: { html: res.data?.processingHTML, text: res.data?.processingText } }));
@@ -161,6 +162,7 @@ const EditBlog = () => {
                 cookedPrice: parseInt(contentBlog?.cookedPrice) || null,
                 maxSize: parseInt(contentBlog?.maxSize) || null,
                 minSize: parseInt(contentBlog?.minSize) || null,
+                totalKcal: parseInt(contentBlog?.totalKcal) || null,
               },
               RecipeDetails: contentBlog?.ingredients || [],
               BlogSubCates: subCateList || [],

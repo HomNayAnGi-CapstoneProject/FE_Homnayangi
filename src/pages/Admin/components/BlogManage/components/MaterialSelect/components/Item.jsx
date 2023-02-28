@@ -159,7 +159,7 @@ const Item = (props) => {
 
   // ** handle get edit data name
   useEffect(() => {
-    console.log(editItem);
+    // console.log(editItem);
     if (editItem) {
       // setSelectedItem(editItem.ingredient);
       selectItem({
