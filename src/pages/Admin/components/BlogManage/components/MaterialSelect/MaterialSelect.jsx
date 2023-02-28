@@ -21,7 +21,7 @@ const MaterialSelect = () => {
   const store = useSelector((state) => state.management);
   const dispatch = useDispatch();
   const [expectedTotalPrice, setExpectedTotalPrice] = useState(0);
-  const [totalKcal, setTotalKcal] = useState(0);
+  const [totalKcal, setTotalKcal] = useState('');
   const [selectedList, setSelectedList] = useState([]);
   const [selectedPrice, setSelectedPrice] = useState('');
   const [ingredientList, setIngredientList] = useState([]);
@@ -60,6 +60,7 @@ const MaterialSelect = () => {
         let dataIngredient = res.data.recipeDetails;
         setPackagePrice(res?.data?.packagePrice);
         setCookedPrice(res?.data?.cookedPrice);
+        setTotalKcal(res?.data?.totalKcal);
         if (dataIngredient.length > 0) {
           dataIngredient.forEach((item) => {
             handleAddItem(item);
@@ -115,6 +116,17 @@ const MaterialSelect = () => {
     }
   }, [cookedPriceDebounce]);
 
+  // ** handle input total Kcal
+  const totalKcalDebounce = useDebounce(totalKcal, 600);
+  useEffect(() => {
+    if (totalKcalDebounce !== '') {
+      // if (!cookedPriceDebounce?.trim()) {
+      //   return;
+      // }
+      dispatch(setContentBlog({ totalKcal: totalKcalDebounce }));
+    }
+  }, [totalKcalDebounce]);
+
   return (
     <div className="font-inter bg-[#FFDACA] rounded-[10px] p-[20px]">
       {ingredientList.length > 0 ? (
@@ -142,7 +154,13 @@ const MaterialSelect = () => {
               </div>
               <div className="mb-3 flex gap-2">
                 <p className="text-[#898989]">Tổng lượng calo</p>
-                <p className="font-bold text-blue-500">{totalKcal}</p>
+                <input
+                  onKeyDown={handleKeyDown}
+                  type="number"
+                  value={totalKcal}
+                  onChange={(e) => setTotalKcal(e.target.value)}
+                  className="font-bold text-blue-500 rounded w-[150px] outline-none pl-2"
+                ></input>
               </div>
             </div>
             <div className="">
