@@ -91,7 +91,9 @@ const MaterialSelect = () => {
       totalKcal += item.item.kcal * item.amount;
     });
     setExpectedTotalPrice(expectedPrice);
-    setTotalKcal(totalKcal);
+    if (totalKcal > 0) {
+      setTotalKcal(totalKcal);
+    }
   }, [selectedList]);
 
   // ** handle input packed price
