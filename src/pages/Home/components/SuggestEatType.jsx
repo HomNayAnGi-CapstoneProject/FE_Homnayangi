@@ -23,10 +23,7 @@ import { useNavigate } from 'react-router-dom';
 const Card = (props) => {
   const navigate = useNavigate();
   return (
-    <div
-      onClick={() => navigate(`/recipe/${props?.data?.blogId}/${generateSlug(props?.data?.title)}`)}
-      className="relative font-inter rounded-[10px] sm:w-[450px] sm:h-[200px] md:w-[586px] w-[100%] md:h-[220px] h-fit bg-[#FFA883] p-[10px] flex sm:flex-row flex-col gap-[18px] drop-shadow-3xl"
-    >
+    <div className="relative font-inter rounded-[10px] sm:w-[450px] sm:h-[200px] md:w-[586px] w-[100%] md:h-[220px] h-fit bg-[#FFA883] p-[10px] flex sm:flex-row flex-col gap-[18px] drop-shadow-3xl">
       <div className="flex gap-[18px]">
         {/* <div
           className="rounded-[10px] border-[2px] border-solid border-white bg-cover sm:h-[180px] sm:w-[180px] md:w-[198px] w-[150px] h-[150px] md:h-[198px] bg-center"
@@ -66,7 +63,10 @@ const Card = (props) => {
         </div>
       </div>
       <div className="flex sm:hidden gap-[8px]">
-        <button className="bg-[#FF7940] flex-1 rounded-[10px] cursor-pointer text-white font-medium xs:text-[18px] xs:px-[20px] px-1 py-[10px] flex justify-center items-center gap-2">
+        <button
+          onClick={() => navigate(`/recipe/${props?.data?.blogId}/${generateSlug(props?.data?.title)}`)}
+          className="bg-[#FF7940] flex-1 rounded-[10px] cursor-pointer text-white font-medium xs:text-[18px] xs:px-[20px] px-1 py-[10px] flex justify-center items-center gap-2"
+        >
           Công thức
           <div className="bg-cover w-[20px] h-[20px]" style={{ backgroundImage: `url(${ic_boiling_white})` }} />
         </button>

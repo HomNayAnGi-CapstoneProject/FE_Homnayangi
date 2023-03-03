@@ -14,7 +14,6 @@ const FoodCard = (props) => {
   return (
     <div
       // key={food.blogId}
-      onClick={() => navigate(`/recipe/${food.blogId}/${generateSlug(food.title)}`)}
       className={`relative font-inter rounded-[10px] bg-[#FFA883] p-[10px] ${
         food.packagePrice ? ' md:h-[245px]' : 'md:w-[586px]  md:h-[220px]'
       } flex sm:flex-row flex-col gap-[18px] drop-shadow-3xl`}
@@ -77,7 +76,10 @@ const FoodCard = (props) => {
                 </button>
               </div> */}
           <div className="sm:flex hidden absolute bottom-[10px]  gap-[8px]">
-            <button className="bg-[#FF7940] rounded-[10px] cursor-pointer text-white font-medium xs:text-[18px] sm:text-[16px] text-[1vw] xxlg:px-[15px] sm:py-[10px] xlg:px-[3px] md:px-[3px] px-[15px] py-[10px] flex items-center gap-2">
+            <button
+              onClick={() => navigate(`/recipe/${food.blogId}/${generateSlug(food.title)}`)}
+              className="bg-[#FF7940] rounded-[10px] cursor-pointer text-white font-medium xs:text-[18px] sm:text-[16px] text-[1vw] xxlg:px-[15px] sm:py-[10px] xlg:px-[3px] md:px-[3px] px-[15px] py-[10px] flex items-center gap-2"
+            >
               Công thức
               <div className="bg-cover w-[20px] h-[20px]" style={{ backgroundImage: `url(${ic_boiling_white})` }} />
             </button>
@@ -90,7 +92,10 @@ const FoodCard = (props) => {
       </div>
 
       <div className="flex sm:hidden gap-[8px]">
-        <button className="bg-[#FF7940] flex-1 rounded-[10px] cursor-pointer text-white font-medium xs:text-[18px] xs:px-[20px] px-1 py-[10px] flex justify-center items-center gap-2">
+        <button
+          onClick={() => navigate(`/recipe/${food.blogId}/${generateSlug(food.title)}`)}
+          className="bg-[#FF7940] flex-1 rounded-[10px] cursor-pointer text-white font-medium xs:text-[18px] xs:px-[20px] px-1 py-[10px] flex justify-center items-center gap-2"
+        >
           Công thức
           <div className="bg-cover w-[20px] h-[20px]" style={{ backgroundImage: `url(${ic_boiling_white})` }} />
         </button>

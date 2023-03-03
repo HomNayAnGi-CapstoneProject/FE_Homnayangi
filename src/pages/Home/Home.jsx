@@ -28,10 +28,10 @@ const Home = ({ title }) => {
   return (
     <div className="">
       <HeroSection />
+      <SuggestRegion NorthFood={NorthFood} />
       <SuggestToday />
       <SuggestEatType />
       <SuggestCheap Food={Food} />
-      <SuggestRegion NorthFood={NorthFood} />
     </div>
   );
 };

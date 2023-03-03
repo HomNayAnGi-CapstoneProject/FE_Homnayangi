@@ -15,6 +15,7 @@ import ic_eye_gray from './ic_eye_gray.svg'
 import ic_eye_closed from './ic_eye_closed.svg'
 import ic_google from './ic_google.svg'
 import ic_next_primary from './ic_next_primary.svg'
+import ic_FAQ from './ic_FAQ.svg'
 
 import ic_dashboard from './ic_dashboard.svg'
 import ic_dashboard_active from './ic_dashboard_active.svg'
@@ -58,5 +59,5 @@ export {
     ic_award, ic_award_active, ic_voucher, ic_voucher_active, ic_blog, ic_blog_active, ic_product, ic_product_active,
     ic_accomplishment, ic_accomplishment_active, ic_tag, ic_tag_active, ic_customer, ic_customer_active, ic_logout,
     ic_menu, ic_edit, ic_delete_red, ic_delete_green, ic_blog_create, ic_caret_gray, ic_nofitication_orange, ic_delete,
-    ic_pack, ic_pack_active, ic_unit, ic_unit_active, ic_plus_white, ic_caret_gray_right, ic_caret_gray_down
+    ic_pack, ic_pack_active, ic_unit, ic_unit_active, ic_plus_white, ic_caret_gray_right, ic_caret_gray_down, ic_FAQ
 }

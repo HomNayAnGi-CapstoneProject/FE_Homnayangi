@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { setAccountInfo } from '../../redux/actionSlice/accountSlice';
-import AdminContainer from './AdminContainer';
+import StaffContainer from './containers/Staff/StaffContainer';
+import AdminContainer from './containers/Admin/AdminContainer';
+import ManagerContainer from './containers/Manager/ManagerContainer';
 import { AdminLayout } from '../../share/layouts';
 
 //** Third party components*/
@@ -36,15 +38,39 @@ const Admin = ({ title }) => {
     if (Object.keys(decoded_jwt).length === 0 && decoded_jwt.constructor === Object) {
       return <Navigate replace to="/" />;
     } else {
-      if (decoded_jwt.role === 'Customer') {
-        return <Navigate replace to="/" />;
-      } else {
-        return (
-          <AdminLayout>
-            <AdminContainer />
-          </AdminLayout>
-        );
+      switch (decoded_jwt.role) {
+        case 'Customer':
+          return <Navigate replace to="/" />;
+        case 'Staff':
+          return (
+            <AdminLayout>
+              <StaffContainer />
+            </AdminLayout>
+          );
+        case 'Admin':
+          return (
+            <AdminLayout>
+              <AdminContainer />
+            </AdminLayout>
+          );
+        case 'Manager':
+          return (
+            <AdminLayout>
+              <ManagerContainer />
+            </AdminLayout>
+          );
+        default:
+          break;
       }
+      // if (decoded_jwt.role === 'Customer') {
+      //   return <Navigate replace to="/" />;
+      // } else {
+      //   return (
+      //     <AdminLayout>
+      //       <StaffContainer />
+      //     </AdminLayout>
+      //   );
+      // }
     }
   } else {
     return <Navigate replace to="/" />;
