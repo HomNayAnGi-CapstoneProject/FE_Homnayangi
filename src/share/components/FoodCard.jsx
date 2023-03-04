@@ -19,10 +19,6 @@ const FoodCard = (props) => {
       } flex sm:flex-row flex-col gap-[18px] drop-shadow-3xl`}
     >
       <div className="flex gap-[18px]">
-        {/* <img
-              className="md:w-[200px] md:h-[200px] w-[170px] h-[170px] bg-contain bg-center px-2 py-2 border-[2px] border-solid border-white"
-              src={food.image}
-            ></img> */}
         <div
           className={`rounded-[10px] border-[2px] border-solid border-white bg-cover bg-center sm:h-[180px] sm:w-[180px] ${
             food.packagePrice ? 'md:w-[225px] md:h-[225px]' : 'md:w-[198px] md:h-[198px]'
@@ -57,24 +53,10 @@ const FoodCard = (props) => {
               </div>
             )}
           </div>
-          <p
+          <div
+            dangerouslySetInnerHTML={{ __html: food.description }}
             className={`leading-[25px] ${food.packagePrice ? 'mt-[10px]' : 'mt-[10px] '} sm:line-clamp-3 line-clamp-3`}
-          >
-            {food.description}
-          </p>
-          {/* <div className="lg:flex hidden absolute bottom-[10px] gap-[8px] py-1 ">
-                <button className="flex justify-center items-center rounded-[10px] mr-5 p-2 min-w-[25%] hover:shadow-xl">
-                  <p className="mr-2 ">Công Thức</p>{' '}
-                  <div className="w-[24px] h-[24px] bg-cover" style={{ backgroundImage: `url(${ic_boiling_white})` }} />
-                </button>
-                <button className="flex justify-center items-center rounded-[10px] p-2 min-w-[20%] btn-order hover:shadow-xl">
-                  <p className="mr-2">Đặt Làm</p>
-                  <div
-                    className="w-[25px] h-[25px] bg-cover"
-                    style={{ backgroundImage: `url(${ic_add_to_cart_white})` }}
-                  />
-                </button>
-              </div> */}
+          ></div>
           <div className="sm:flex hidden absolute bottom-[10px]  gap-[8px]">
             <button
               onClick={() => navigate(`/recipe/${food.blogId}/${generateSlug(food.title)}`)}
@@ -87,6 +69,10 @@ const FoodCard = (props) => {
               Đặt làm
               <div className="bg-cover w-[20px] h-[20px]" style={{ backgroundImage: `url(${ic_add_to_cart_white})` }} />
             </button>
+          </div>
+          <div className="absolute top-0 left-0 w-[50px] h-[60px] bg-gradient-to-t from-redError to-primary rounded-tl-[10px] rounded-br-[10px] flex flex-col items-center justify-center">
+            <p className="text-[12px] font-medium text-white">Kcal</p>
+            <p className="font-bold text-white line-clamp-1 ">{Intl.NumberFormat().format(food.totalKcal)}</p>
           </div>
         </div>
       </div>
