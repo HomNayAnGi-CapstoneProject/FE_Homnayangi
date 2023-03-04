@@ -72,31 +72,17 @@ const BlogManagement = () => {
     );
   };
   const handleConfirmRestore = () => {
-    // toast.promise(
-    //   instances
-    //     .put(`/ingredients`, {
-    //       ingredientId: confirmData?.ingredientId,
-    //       name: confirmData?.name,
-    //       kcal: confirmData?.kcal,
-    //       description: confirmData?.description,
-    //       unitId: confirmData?.unitId,
-    //       listImage: confirmData?.listImage,
-    //       picture: confirmData?.picture,
-    //       price: confirmData?.price,
-    //       typeId: confirmData?.typeId,
-    //       listImagePosition: confirmData?.listImagePosition,
-    //       status: true,
-    //     })
-    //     .then((res) => {
-    //       setUpdateTable((prev) => !prev);
-    //       setIsShowModal(false);
-    //     }),
-    //   {
-    //     pending: 'Đang phục hồi',
-    //     success: 'Đã phục hồi thành công! 👌',
-    //     error: {},
-    //   },
-    // );
+    toast.promise(
+      instances.put(`/blogs/restore-blog/${confirmData?.blogId}`).then((res) => {
+        setUpdateTable((prev) => !prev);
+        setIsShowModal(false);
+      }),
+      {
+        pending: 'Đang phục hồi',
+        success: 'Đã phục hồi thành công! 👌',
+        error: {},
+      },
+    );
   };
 
   return (

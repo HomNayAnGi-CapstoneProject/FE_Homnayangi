@@ -49,7 +49,10 @@ const Card = (props) => {
                 </div>
               ))}
           </div>
-          <p className="leading-[25px] mt-[10px] md:line-clamp-3  line-clamp-2">{props?.data?.description}</p>
+          <div
+            dangerouslySetInnerHTML={{ __html: props?.data?.description }}
+            className="leading-[25px] mt-[10px] md:line-clamp-3  line-clamp-2"
+          ></div>
           <div className="sm:flex hidden absolute bottom-[10px]  gap-[8px]">
             <button className="bg-[#FF7940] rounded-[10px] cursor-pointer text-white font-medium xs:text-[18px] sm:text-[16px] text-[1vw] md:px-[15px] sm:py-[10px] px-[6px] py-[10px] flex items-center gap-2">
               Công thức
@@ -74,6 +77,10 @@ const Card = (props) => {
           Đặt làm
           <div className="bg-cover w-[20px] h-[20px]" style={{ backgroundImage: `url(${ic_add_to_cart_white})` }} />
         </button>
+      </div>
+      <div className="absolute top-0 left-0 w-[50px] h-[60px] bg-gradient-to-t from-redError to-primary rounded-tl-[10px] rounded-br-[10px] flex flex-col items-center justify-center">
+        <p className="text-[12px] font-medium text-white">Kcal</p>
+        <p className="font-bold text-white line-clamp-1 ">{Intl.NumberFormat().format(props?.data?.totalKcal)}</p>
       </div>
     </div>
   );
