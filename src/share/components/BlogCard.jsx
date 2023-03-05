@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from '../../share/components/Image';
 
 //** Assets
 import staticFood1 from '../../assets/images/staticFood1.png';
@@ -11,8 +12,7 @@ const BlogCard = (props) => {
     <div className="group w-full min-h-[385px]">
       <div className="font-inter  rounded-[10px] px-[8px] py-[10px] group-hover:bg-[#FFD8C7] cursor-pointer transition">
         <div className="overflow-hidden border-[2px] border-[#B5B5B5] group-hover:border-white  rounded-[10px]">
-          <img
-            loading="lazy"
+          <Image
             alt="blog_cover"
             src={staticFood1}
             className={`object-cover group-hover:rotate-[3deg] group-hover:scale-[1.1] duration-[500ms] transition w-full rounded-[10px] h-[215px] `}
