@@ -43,9 +43,8 @@ const CreateProduct = () => {
   // ** Call api get tyype
   useEffect(() => {
     const fetch = async () => {
-      const res = await instances.get('/types');
-      // console.log(res.data.resource);
-      setTypes(res.data.resource);
+      const res = await instances.get('/types/drop-down');
+      setTypes(res.data);
     };
 
     fetch();
@@ -273,7 +272,7 @@ const CreateProduct = () => {
                 {types &&
                   types.map((type) => (
                     <option key={type.typeId} value={type.typeId}>
-                      {type.name}
+                      {type.typeName}
                     </option>
                   ))}
               </select>

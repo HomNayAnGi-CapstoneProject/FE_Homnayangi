@@ -5,10 +5,12 @@ import { ic_blog_active, ic_product_active, ic_unit_active } from '../../../../.
 
 // ** components
 import CountingNumComponent from './components/CountingNumComponent';
+import DataTable from './components/DataTable';
 
 const Dashboard = () => {
   const [blogCount, setBlogCount] = useState(0);
   const [ingredientCount, setIngredientCount] = useState(0);
+  const [categoryCount, setCategoryCount] = useState(0);
 
   // count ingredients
   useEffect(() => {
@@ -30,6 +32,16 @@ const Dashboard = () => {
     fetch();
   }, []);
 
+  // count category
+  useEffect(() => {
+    const fetch = async () => {
+      const res = await instances.get(`/categories`);
+      setCategoryCount(res.data.length);
+    };
+
+    fetch();
+  }, []);
+
   return (
     <div>
       <div className="flex items-center gap-4 flex-wrap">
@@ -39,6 +51,7 @@ const Dashboard = () => {
           color="bg-red-400"
           textColor="text-red-400"
           endValue={blogCount}
+          navigateTo="/management/blog"
         />
         <CountingNumComponent
           name="Nguyên liệu"
@@ -46,18 +59,26 @@ const Dashboard = () => {
           color="bg-blue-400"
           textColor="text-blue-400"
           endValue={ingredientCount}
+          navigateTo="/management/product"
         />
         <CountingNumComponent
           name="Danh mục"
           img={ic_unit_active}
           color="bg-green-400"
           textColor="text-green-400"
-          endValue={20}
+          endValue={categoryCount}
+          navigateTo="/management/category"
         />
       </div>
       <div className="mt-8">
-        <p className="text-[20px] font-semibold text-[#585858]">Đơn đặt hàng</p>
-        <div className=""></div>
+        <p className="text-[20px] font-semibold text-[#585858]">Đơn hàng mới</p>
+        <div className="mt-2">
+          <DataTable
+          // unitList={unitList}
+          // handleOpenEdit={handleOpenEdit}
+          // handleOpenDelete={handleOpenDelete}
+          />
+        </div>
       </div>
     </div>
   );

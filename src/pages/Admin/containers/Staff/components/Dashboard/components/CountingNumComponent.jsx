@@ -2,9 +2,13 @@ import { useEffect, useState } from 'react';
 
 import { ic_blog_active } from '../../../../../../../assets';
 
+// ** third pary
+import { useNavigate } from 'react-router-dom';
+
 const CountingNumComponent = (props) => {
-  const { name, img, endValue, color, textColor } = props;
+  const { name, img, endValue, color, textColor, navigateTo } = props;
   const [startValue, setStartValue] = useState(0);
+  const navigate = useNavigate();
 
   // ** logic
   useEffect(() => {
@@ -23,7 +27,10 @@ const CountingNumComponent = (props) => {
 
   return (
     <div className="font-inter min-w-[180px] bg-white drop-shadow-md rounded-[10px] px-8 py-5">
-      <div className={`w-[40px] h-[40px] ${color} rounded-full mb-3 flex justify-center items-center`}>
+      <div
+        onClick={() => navigate(navigateTo)}
+        className={`cursor-pointer w-[40px] h-[40px] ${color} rounded-full mb-3 flex justify-center items-center`}
+      >
         <img alt="" src={img || ic_blog_active} />
       </div>
       <p className="mb-2 font-semibold text-[#585858]">{name}</p>
