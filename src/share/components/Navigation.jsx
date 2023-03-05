@@ -88,7 +88,7 @@ const Navigation = (props) => {
               />
             </Link>
 
-            <ul className="list-none smd:flex hidden justify-center items-center flex-1 gap-11 text-[16px] font-medium">
+            <ul className="list-none sm:flex hidden justify-center items-center flex-1 gap-11 text-[16px] font-medium">
               <li className={`cursor-pointer`}>
                 <NavLink
                   className={(navData) =>

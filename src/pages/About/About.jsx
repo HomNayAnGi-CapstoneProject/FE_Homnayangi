@@ -1,8 +1,13 @@
-import React from 'react';
+import { useEffect } from 'react';
 import styles from '../../style';
 import about_1 from '../../assets/images/about_1.webp';
 import about_2 from '../../assets/images/about_2.webp';
-const About = () => {
+import Image from '../../share/components/Image';
+const About = ({ title }) => {
+  useEffect(() => {
+    document.title = title;
+  }, [title]);
+
   return (
     <div className={`${styles.flexCenter} py-16`}>
       <div className={`${styles.container}`}>
@@ -25,11 +30,11 @@ const About = () => {
               </p>
             </div>
           </div>
-          <img src={about_1} className="sm:w-[642px] w-full h-[368px] object-cover sm:rounded-md" />
+          <Image alt="" src={about_1} className="sm:w-[642px] w-full h-[368px] object-cover sm:rounded-md" />
         </div>
 
         <div className={`sm:flex py-20 gap-[60px] justify-center px-[0px] `}>
-          <img src={about_2} className="sm:flex hidden w-[500px] h-[383px] rounded-md" />
+          <Image alt="" src={about_2} className="sm:flex hidden w-[500px] h-[383px] rounded-md" />
           <div className="font-inter px-[16px] ">
             <p className="sm:w-[470px] sm:text-left text-center sm:px-[0px] uppercase font-inter text-subText font-light text-[32px] mb-2 tracking-widest">
               Về chúng tôi
@@ -48,7 +53,7 @@ const About = () => {
               </p>
             </div>
           </div>
-          <img src={about_2} className="sm:hidden w-full object-cover h-[383px]" />
+          <Image alt="" src={about_2} className="sm:hidden w-full object-cover h-[383px]" />
         </div>
       </div>
     </div>

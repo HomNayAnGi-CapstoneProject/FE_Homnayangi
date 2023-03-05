@@ -7,9 +7,14 @@ import Filter from './components/Filter/Filter';
 import Search from '../../share/components/Search';
 import ContentTag from './components/ContentTag/ContentTag';
 import ContentCombo from './components/ContentCombo/ContentCombo';
+import Modal from '@mui/material/Modal';
+
+import { setOpenCategoryMenuModal } from '../../redux/actionSlice/globalSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 // ** Assets
 import styles from '../../style';
+import { ic_category_white } from '../../assets';
 
 //** data */
 const TagsList = [
@@ -33,38 +38,60 @@ const CategoriesList = [
   { id: 212161, name: 'Đặc trưng vùng miền' },
 ];
 
-const Recipe = () => {
+const Recipe = ({ title }) => {
   // ** Const
   const [categoryChange, setCategoryChange] = useState(0);
+  const dispatch = useDispatch();
+  const store = useSelector((state) => state.global);
 
   useEffect(() => {
-    // console.log(categoryChange);
-  }, [categoryChange]);
+    document.title = title;
+  }, [title]);
+
+  // ** Functs
+  const handleOpenMenu = () => {
+    dispatch(setOpenCategoryMenuModal(true));
+  };
 
   return (
     <div>
+      {store.openCategoryMenuModal && (
+        <Modal open={store.openCategoryMenuModal} onClose={() => setOpenCategoryMenuModal(false)}>
+          <div>
+            <CategoryList setCategoryChange={setCategoryChange} list={CategoriesList} />
+          </div>
+        </Modal>
+      )}
       <Banner />
       <div className={`${styles.paddingX} ${styles.flexCenter} py-[50px]`}>
         <div className={`${styles.container}`}>
           <div className="flex gap-[60px]">
-            <div className="w-[272px]">
+            <div className="sm:block hidden w-[272px]">
               <p className="text-[25px] font-semibold text-black">Danh mục</p>
             </div>
 
             <div className="flex-1 calc-width">
-              <div className="flex justify-between">
-                <div>
+              <div className="sm:flex justify-between">
+                <div className="sm:mb-0 mb-4">
                   <Search placeholder="Tìm công thức..." />
                 </div>
-                <div>
+                <div className="sm:flex-none flex flex-wrap gap-4 justify-between">
                   <Filter />
+                  <div className="sm:hidden block">
+                    <div className="flex gap-3 items-center">
+                      <p className="text-black font-medium">Danh mục</p>
+                      <button onClick={() => handleOpenMenu()} className="bg-primary rounded-[10px] px-3 py-1">
+                        <img alt="" className="object-cover w-[20px] h-[20px]" src={ic_category_white} />
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
           <div className="flex gap-[60px]">
-            <div className="w-[272px] mt-[15px] pt-[15px] border-t-[2px] border-t-[#D2D2D2]">
+            <div className="sm:block hidden w-[272px] mt-[15px] pt-[15px] border-t-[2px] border-t-[#D2D2D2]">
               <CategoryList setCategoryChange={setCategoryChange} list={CategoriesList} />
             </div>
 
