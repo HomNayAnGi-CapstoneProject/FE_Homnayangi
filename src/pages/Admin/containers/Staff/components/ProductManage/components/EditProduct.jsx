@@ -39,8 +39,8 @@ const EditForm = (props) => {
   // ** Call api get tyype
   useEffect(() => {
     const fetch = async () => {
-      const res = await instances.get('/types');
-      setTypes(res.data.resource);
+      const res = await instances.get('/types/drop-down');
+      setTypes(res.data);
     };
 
     fetch();
@@ -262,7 +262,7 @@ const EditForm = (props) => {
             {types &&
               types.map((type) => (
                 <option key={type.typeId} value={type.typeId}>
-                  {type.name}
+                  {type.typeName}
                 </option>
               ))}
           </select>
