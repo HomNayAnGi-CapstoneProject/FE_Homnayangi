@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import Item from './Item';
 import useWindowSize from '../../../../share/hooks/useWindowSize';
-import { setOpenCategoryMenuModal, setActiveCate } from '../../../../redux/actionSlice/globalSlice';
+import { setOpenCategoryMenuModal, setActiveCate, setSubCategoryList } from '../../../../redux/actionSlice/globalSlice';
 
 import { ic_close_modal } from '../../../../assets';
 
@@ -9,6 +9,7 @@ import { ic_close_modal } from '../../../../assets';
 import { useDispatch, useSelector } from 'react-redux';
 
 const CategoryList = (props) => {
+  const { list, setCategoryChange } = props;
   // ** Const
   // const [activeCate, setActiveCate] = useState(0);
   const [width, height] = useWindowSize();
@@ -30,11 +31,15 @@ const CategoryList = (props) => {
   const handleSelectCate = (id) => {
     if (id !== store.activeCate) {
       // console.log('category ID:', id);
-      props.setCategoryChange(id);
+      setCategoryChange(id);
     }
     dispatch(setActiveCate(id));
     dispatch(setOpenCategoryMenuModal(false));
-    // props?.setIsActive((prev) => !prev);
+    if (id !== 0) {
+      dispatch(setSubCategoryList(list.find((item) => item.categoryId == id).subCategories));
+    } else {
+      dispatch(setSubCategoryList([]));
+    }
   };
 
   return (
@@ -57,10 +62,14 @@ const CategoryList = (props) => {
         <div className="mb-[10px]" onClick={() => handleSelectCate(0)}>
           <Item name={'Tất cả'} id={0} activeCate={store.activeCate} />
         </div>
-        {props?.list.length > 0 &&
-          props?.list.map((item) => (
-            <div key={item.id} className="mb-[10px] last:mb-0" onClick={() => handleSelectCate(item.id)}>
-              <Item name={item.name} id={item.id} activeCate={store.activeCate} />
+        {list.length > 0 &&
+          list.map((item) => (
+            <div
+              key={item.categoryId}
+              className="mb-[10px] last:mb-0"
+              onClick={() => handleSelectCate(item.categoryId)}
+            >
+              <Item name={item.name} id={item.categoryId} activeCate={store.activeCate} />
             </div>
           ))}
       </div>

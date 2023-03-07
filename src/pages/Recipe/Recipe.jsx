@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import instances from '../../utils/plugin/axios';
 import BlogCard from '../../share/components/BlogCard';
 import MultiSelect from './components/MultiSelectTags/MultiSelect';
 import Banner from '../../share/components/Banner';
@@ -40,13 +41,26 @@ const CategoriesList = [
 
 const Recipe = ({ title }) => {
   // ** Const
-  const [categoryChange, setCategoryChange] = useState(0);
   const dispatch = useDispatch();
   const store = useSelector((state) => state.global);
+  const [categoryChange, setCategoryChange] = useState(0);
+  const [categoryList, setCategoryList] = useState([]);
+  const [subCategoryList, setSubCategoryList] = useState([]);
+  const [sortValue, setSortValue] = useState(1);
 
   useEffect(() => {
     document.title = title;
   }, [title]);
+
+  // ** call api get category list
+  useEffect(() => {
+    const fetch = async () => {
+      const res = await instances.get('/categories');
+      // console.log(res.data.map((item) => item.subCategories));
+      setCategoryList(res.data);
+    };
+    fetch();
+  }, []);
 
   // ** Functs
   const handleOpenMenu = () => {
@@ -58,7 +72,11 @@ const Recipe = ({ title }) => {
       {store.openCategoryMenuModal && (
         <Modal open={store.openCategoryMenuModal} onClose={() => setOpenCategoryMenuModal(false)}>
           <div>
-            <CategoryList setCategoryChange={setCategoryChange} list={CategoriesList} />
+            <CategoryList
+              setSubCategoryList={setSubCategoryList}
+              setCategoryChange={setCategoryChange}
+              list={categoryList}
+            />
           </div>
         </Modal>
       )}
@@ -76,7 +94,7 @@ const Recipe = ({ title }) => {
                   <Search placeholder="Tìm công thức..." />
                 </div>
                 <div className="sm:flex-none flex flex-wrap gap-4 justify-between">
-                  <Filter />
+                  <Filter setSortValue={setSortValue} />
                   <div className="sm:hidden block">
                     <div className="flex gap-3 items-center">
                       <p className="text-black font-medium">Danh mục</p>
@@ -92,17 +110,24 @@ const Recipe = ({ title }) => {
 
           <div className="flex gap-[60px]">
             <div className="sm:block hidden w-[272px] mt-[15px] pt-[15px] border-t-[2px] border-t-[#D2D2D2]">
-              <CategoryList setCategoryChange={setCategoryChange} list={CategoriesList} />
+              <CategoryList
+                setSubCategoryList={setSubCategoryList}
+                setCategoryChange={setCategoryChange}
+                list={categoryList}
+              />
             </div>
 
             <div className="main-content flex-1 calc-width mt-[15px] pt-[15px] border-t-[2px] border-t-[#D2D2D2]">
-              {(categoryChange == 212157 ||
-                categoryChange == 212158 ||
-                categoryChange == 212159 ||
-                categoryChange == 212160 ||
-                categoryChange == 212161) && <ContentTag tags={TagsList} />}
+              {
+                <ContentTag
+                  subCategoryList={subCategoryList}
+                  // subCateId={categoryChange}
+                  sortValue={sortValue}
+                  tags={TagsList}
+                />
+              }
 
-              {(categoryChange == 212156 || categoryChange == 212155) && <ContentCombo />}
+              {/* {(categoryChange == 212156 || categoryChange == 212155) && <ContentCombo />} */}
             </div>
           </div>
         </div>
