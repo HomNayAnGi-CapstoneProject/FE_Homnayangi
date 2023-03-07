@@ -126,7 +126,7 @@ const MainBlog = (props) => {
               ></div>
             </div>
 
-            <div id="completion unreset" className="mt-[30px]">
+            <div id="completion" className="mt-[30px]">
               <p className="font-semibold text-[20px]">Thành phẩm:</p>
               <div
                 dangerouslySetInnerHTML={{ __html: blogDetail?.finishedHTML }}

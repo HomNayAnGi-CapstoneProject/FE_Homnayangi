@@ -5,6 +5,7 @@ import { ic_caret_down_white } from '../../../../assets';
 import OutsideClickHandler from 'react-outside-click-handler';
 
 const Filter = (props) => {
+  const { setSortValue } = props;
   const [openDropdown, setOpenDropdown] = useState(false);
   const [activeItem, setActiveItem] = useState(1);
 
@@ -12,6 +13,7 @@ const Filter = (props) => {
   const handleChange = (id) => {
     setActiveItem(id);
     setOpenDropdown((prev) => !prev);
+    setSortValue(id);
   };
 
   return (
@@ -23,8 +25,8 @@ const Filter = (props) => {
           onClick={() => setOpenDropdown((prev) => !prev)}
         >
           {activeItem == 1 && 'Mới nhất'}
-          {activeItem == 2 && 'Lượt xem'}
-          {activeItem == 3 && 'Yêu thích'}
+          {activeItem == 2 && 'Yêu thích'}
+          {activeItem == 3 && 'Lượt xem'}
           <div className="w-[24px] h-[24px] bg-cover" style={{ backgroundImage: `url(${ic_caret_down_white})` }} />
         </div>
         <OutsideClickHandler onOutsideClick={() => setOpenDropdown(false)}>
@@ -40,14 +42,14 @@ const Filter = (props) => {
               Mới nhất
             </li>
             <li
-              className={`text-center cursor-pointer hover:bg-secondary py-1 ${activeItem == 2 ? 'bg-secondary' : ''}`}
-              onClick={() => handleChange(2)}
+              className={`text-center cursor-pointer hover:bg-secondary py-1 ${activeItem == 3 ? 'bg-secondary' : ''}`}
+              onClick={() => handleChange(3)}
             >
               Lượt xem
             </li>
             <li
-              className={`text-center cursor-pointer hover:bg-secondary py-1 ${activeItem == 3 ? 'bg-secondary' : ''}`}
-              onClick={() => handleChange(3)}
+              className={`text-center cursor-pointer hover:bg-secondary py-1 ${activeItem == 2 ? 'bg-secondary' : ''}`}
+              onClick={() => handleChange(2)}
             >
               Yêu thích
             </li>
