@@ -9,7 +9,7 @@ import { getSuggestData, setOpenFormSuggest } from '../../../redux/actionSlice/g
 // ** Assets
 import styles from '../../../style';
 import staticFood1 from '../../../assets//images/staticFood1.png';
-import { ic_add_to_cart_white, ic_boiling_white, ic_refresh_white, ic_blog_active } from '../../../assets';
+import { ic_add_to_cart_white, ic_boiling_white, ic_refresh_white, ic_blog_active, ic_FAQ } from '../../../assets';
 
 // ** Third party library
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -20,6 +20,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/effect-fade';
 import { Link, Navigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
 
 // ** Card component
 const Card = (props) => {
@@ -76,30 +77,43 @@ const SuggestToday = () => {
 
   // ** call api
   useEffect(() => {
-    const fetch = async () => {
-      if (store?.sugesstFormData) {
-        const res = await instances.get(
+    toast.promise(
+      instances
+        .get(
           `/blogs/suggest-blog/${store?.sugesstFormData.Age}/${store?.sugesstFormData.IsMale}/${store?.sugesstFormData.IsLoseWeight}`,
-        );
-        setTodayData(res.data);
-        setImgList(res.data.map((item) => item.imageUrl));
-      }
-    };
-    fetch();
+        )
+        .then((res) => {
+          setTodayData(res.data);
+          setImgList(res.data.map((item) => item.imageUrl));
+        }),
+      {
+        // pending: 'Đang tìm kiếm gợi ý',
+        // success: 'Đã gợi ý! 👌',
+        error: {
+          render({ data }) {
+            // return data.response?.data;
+            if (data.response?.data == 'This calo reference can not be found') {
+              return 'Xin lỗi chúng tôi chưa có đủ dữ liệu cho thông tin này';
+            }
+          },
+        },
+      },
+    );
   }, [store?.sugesstFormData]);
 
   return (
     <section className={`today-suggest font-inter w-full h-fit ${styles.paddingY}`}>
       <div className="text-center">
         <p className="text-primary uppercase font-semibold text-[18px] mb-2 tracking-widest">Bữa ăn gia đình</p>
-        <div className="w-full flex justify-center">
+        <div className="w-full flex justify-center items-center gap-3">
           <p className="font-bold text-[40px] sm:w-[470px] sm:px-0 px-5 w-full leading-[55px]">
             Gợi ý thực đơn hôm nay
           </p>
+          <img alt="" className="object-cover w-[20px]" src={ic_FAQ} />
         </div>
       </div>
 
-      {!formSuggestData || store?.openFormSuggest == true ? (
+      {!todayData?.length > 0 || store?.openFormSuggest == true ? (
         <div className="mt-[5%] flex w-full justify-center">
           <SuggestForm data={store?.sugesstFormData} />
         </div>
@@ -242,7 +256,10 @@ const SuggestToday = () => {
               </button>
               <button
                 className="border bg-gray-400 rounded-[10px] py-[10px] sm:px-[20px] px-[10px]"
-                onClick={() => dispatch(setOpenFormSuggest(true))}
+                onClick={() => {
+                  dispatch(setOpenFormSuggest(true));
+                  setTodayData(null);
+                }}
               >
                 <div className="bg-cover w-[20px] h-[20px]" style={{ backgroundImage: `url(${ic_blog_active})` }} />
               </button>

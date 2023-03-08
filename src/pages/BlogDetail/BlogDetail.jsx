@@ -45,7 +45,9 @@ const BlogDetail = () => {
                   <Breadcrumbs location1="/recipe" location2="/recipe" />
                 </div>
                 <MainBlog blogDetail={blogDetail} />
-                <CommentSection />
+                <div id="comment">
+                  <CommentSection />
+                </div>
               </div>
               <div className="xxlg:w-[30%] w-full sticky top-[100px] h-fit">
                 <RelativeBlog />

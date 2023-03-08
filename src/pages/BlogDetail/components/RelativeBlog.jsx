@@ -22,6 +22,9 @@ const RelativeBlog = () => {
           <li onClick={() => scrollToWithOffset(100, 'completion')} className="mt-2 cursor-pointer hover:text-primary">
             d. Thành phẩm
           </li>
+          <li onClick={() => scrollToWithOffset(100, 'comment')} className="mt-2 cursor-pointer hover:text-primary">
+            e. Bình luận
+          </li>
         </ol>
       </div>
 

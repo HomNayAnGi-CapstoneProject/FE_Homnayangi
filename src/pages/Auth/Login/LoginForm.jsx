@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import styles from '../../../style';
 import instances from '../../../utils/plugin/axios';
 import { setAccountInfo } from '../../../redux/actionSlice/accountSlice';
+import { setReturnUrl } from '../../../redux/actionSlice/globalSlice';
 import { Regex_Password } from '../../../utils/regex';
 
 // ** Assests
@@ -14,7 +15,7 @@ import { ic_eye_gray, ic_eye_closed, ic_google } from '../../../assets';
 // ** Third party components
 import { Link, useNavigate, Navigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { auth, provider } from '../../../firebase';
 import { signInWithPopup } from 'firebase/auth';
@@ -28,6 +29,7 @@ const LoginForm = () => {
     formState: { errors },
   } = useForm();
   const [passwordShown, setPasswordShown] = useState(false);
+  const store = useSelector((state) => state.global);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -54,7 +56,12 @@ const LoginForm = () => {
           if (decoded?.role === 'Staff' || decoded?.role === 'Admin') {
             navigate('/management');
           } else {
-            navigate('/');
+            if (store.returnUrl !== '') {
+              navigate(store.returnUrl);
+              dispatch(setReturnUrl(''));
+            } else {
+              navigate('/');
+            }
           }
         }
       }),
@@ -89,7 +96,12 @@ const LoginForm = () => {
                 if (decoded?.role === 'Staff' || decoded?.role === 'Admin') {
                   navigate('/management');
                 } else {
-                  navigate('/');
+                  if (store.returnUrl !== '') {
+                    navigate(store.returnUrl);
+                    dispatch(setReturnUrl(''));
+                  } else {
+                    navigate('/');
+                  }
                 }
               }
             }),

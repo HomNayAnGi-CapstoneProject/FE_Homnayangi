@@ -1,11 +1,15 @@
 import { useState, useEffect } from 'react';
 import CustomModal from '../../../../../share/components/Modal/CustomModal';
 
+import { setReturnUrl } from '../../../../../redux/actionSlice/globalSlice';
+
 // ** assets
 import default_user from '../../../../../assets/images/default_user.png';
 
 // ** third party
 import jwt_decode from 'jwt-decode';
+import { useDispatch } from 'react-redux';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const Comments = () => {
   // ** get user detail
@@ -18,6 +22,9 @@ const Comments = () => {
   // ** const
   const [commentValue, setCommentValue] = useState('');
   const [openModal, setOpenModal] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   //** functs */
   const handleDoComment = () => {
@@ -38,7 +45,25 @@ const Comments = () => {
       />
       <div className="bg-white px-5 py-3 rounded-[5px]">
         {/* comment input */}
-        <div className="flex gap-5">
+        <div className="flex gap-5 relative">
+          {/* check authen user */}
+          {accessToken ? (
+            <></>
+          ) : (
+            <div className="absolute z-10 h-full bg-white w-full text-center">
+              <p>Bạn cần đăng nhập để có thể thực hiện chức năng này</p>
+              <button
+                onClick={() => {
+                  // console.log(location.pathname);
+                  dispatch(setReturnUrl(location.pathname));
+                  navigate('/login');
+                }}
+                className="py-1 px-3 mt-4 bg-primary rounded-[5px] text-white font-medium uppercase"
+              >
+                Đăng nhập
+              </button>
+            </div>
+          )}
           <img
             alt="user_avartar"
             className="object-cover rounded-full w-[40px] h-[40px]"
@@ -65,6 +90,7 @@ const Comments = () => {
             </button>
           </div>
         </div>
+        {}
       </div>
     </>
   );
