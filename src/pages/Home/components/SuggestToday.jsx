@@ -70,6 +70,10 @@ const SuggestToday = () => {
   const formSuggestData = JSON.parse(localStorage.getItem('FORM_SUGGEST'));
   const store = useSelector((state) => state.global);
   const dispatch = useDispatch();
+  const notifyError = () =>
+    toast.error('Xin lỗi chúng tôi chưa có đủ dữ liệu cho thông tin này', {
+      pauseOnHover: false,
+    });
 
   useEffect(() => {
     dispatch(getSuggestData());
@@ -77,28 +81,21 @@ const SuggestToday = () => {
 
   // ** call api
   useEffect(() => {
-    toast.promise(
-      instances
-        .get(
-          `/blogs/suggest-blog/${store?.sugesstFormData.Age}/${store?.sugesstFormData.IsMale}/${store?.sugesstFormData.IsLoseWeight}`,
-        )
-        .then((res) => {
+    const fetch = async () => {
+      try {
+        if (store?.sugesstFormData.Age !== undefined) {
+          const res = await instances.get(
+            `/blogs/suggest-blog/${store?.sugesstFormData.Age}/${store?.sugesstFormData.IsMale}/${store?.sugesstFormData.IsLoseWeight}`,
+          );
+          // console.log(res);
           setTodayData(res.data);
           setImgList(res.data.map((item) => item.imageUrl));
-        }),
-      {
-        // pending: 'Đang tìm kiếm gợi ý',
-        // success: 'Đã gợi ý! 👌',
-        error: {
-          render({ data }) {
-            // return data.response?.data;
-            if (data.response?.data == 'This calo reference can not be found') {
-              return 'Xin lỗi chúng tôi chưa có đủ dữ liệu cho thông tin này';
-            }
-          },
-        },
-      },
-    );
+        }
+      } catch (error) {
+        notifyError();
+      }
+    };
+    fetch();
   }, [store?.sugesstFormData]);
 
   return (
