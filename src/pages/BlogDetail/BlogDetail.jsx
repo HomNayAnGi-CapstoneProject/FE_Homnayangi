@@ -37,12 +37,12 @@ const BlogDetail = () => {
         <div className={`${styles.container} xx4lg:px-10`}>
           <div className="flex gap-5 justify-between">
             <div className="w-[5%] sm:block hidden">
-              <Reaction />
+              <Reaction iniReaction={blogDetail?.reaction} iniView={blogDetail?.view} />
             </div>
             <div className="sm:w-[95%] w-full flex gap-5 xxlg:flex-row flex-col">
               <div className="xxlg:w-[70%] w-full relative">
                 <div className="ss:block hidden sm:px-[0px] px-5 absolute top-[-35px]">
-                  <Breadcrumbs location1="/recipe" location2="/recipe" />
+                  <Breadcrumbs title={blogDetail?.title} location1="/recipe" location2="/recipe" />
                 </div>
                 <MainBlog blogDetail={blogDetail} />
                 <div id="comment">
