@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import CustomModal from '../../../../../share/components/Modal/CustomModal';
+import instances from '../../../../../utils/plugin/axios';
 
 import { setReturnUrl } from '../../../../../redux/actionSlice/globalSlice';
 
@@ -9,7 +10,8 @@ import default_user from '../../../../../assets/images/default_user.png';
 // ** third party
 import jwt_decode from 'jwt-decode';
 import { useDispatch } from 'react-redux';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const Comments = () => {
   // ** get user detail
@@ -24,14 +26,31 @@ const Comments = () => {
   const [openModal, setOpenModal] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const params = useParams();
   const location = useLocation();
+  const notifyError = () =>
+    toast.error('Có lỗi xảy ra khi thực hiện bình luận', {
+      pauseOnHover: false,
+    });
 
   //** functs */
-  const handleDoComment = () => {
+  const handleDoComment = async () => {
     if (!commentValue.trim()) {
       setOpenModal(true);
     } else {
-      console.log(commentValue);
+      // console.log(commentValue, params.id);
+      try {
+        const res = await instances.post('/comments', {
+          params: {
+            parentCommentId: '',
+            content: commentValue,
+            blogId: params.id,
+          },
+        });
+        console.log(res);
+      } catch (error) {
+        notifyError();
+      }
     }
   };
 
