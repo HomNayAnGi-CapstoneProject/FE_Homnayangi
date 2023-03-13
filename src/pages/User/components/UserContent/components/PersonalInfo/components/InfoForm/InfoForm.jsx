@@ -51,27 +51,26 @@ const InfoForm = (props) => {
     setUploading(true);
     toast.promise(
       data.avatar.length > 0
-        ? uploadImage(data.avatar[0])
-            .then((res) => {
-              // console.log(res);
-              instances
-                .put('/personal-customer', {
-                  customerId: store.accountInfo.Id,
-                  firstname: data.firstname,
-                  lastname: data.lastname,
-                  email: data.email !== '' ? data.email : undefined,
-                  gender: data.gender,
-                  phonenumber: data.phonenumber,
-                  avatar: res,
-                })
-                .then((res) => {
-                  setUploading(false);
-                });
-            })
-            .catch((err) => {
-              notifyError(err);
-            })
-        : instances
+        ? uploadImage(data.avatar[0]).then((res) => {
+            // console.log(res);
+            instances
+              .put('/personal-customer', {
+                customerId: store.accountInfo.Id,
+                firstname: data.firstname,
+                lastname: data.lastname,
+                email: data.email !== '' ? data.email : undefined,
+                gender: data.gender,
+                phonenumber: data.phonenumber,
+                avatar: res,
+              })
+              .then((res) => {
+                setUploading(false);
+              });
+          })
+        : // .catch((err) => {
+          //   notifyError(err);
+          // })
+          instances
             .put('/personal-customer', {
               customerId: store.accountInfo.Id,
               firstname: data.firstname,
@@ -86,31 +85,12 @@ const InfoForm = (props) => {
             .then((res) => {
               setUploading(false);
             }),
-      // uploadImage(data.avatar[0])
-      //   .then((res) => {
-      //     console.log(res);
-      //     instances
-      //       .put('/personal-customer', {
-      //         firstname: data.firstname,
-      //         lastname: data.lastname,
-      //         email: data.email !== '' ? data.email : undefined,
-      //         gender: data.gender,
-      //         phonenumber: data.phonenumber,
-      //         avatar: res,
-      //       })
-      //       .then((res) => {
-      //         setUploading(false);
-      //       });
-      //   })
-      //   .catch((err) => {
-      //     notifyError(err);
-      //   }),
       {
         pending: 'Đang cập nhật thông tin',
         success: 'Đã cập nhật thành công 👌 Một số thông tin sẽ cập nhật sau khi đăng nhập lại',
         error: {
           render({ data }) {
-            // return data;
+            return data;
           },
         },
       },
@@ -358,9 +338,7 @@ const InfoForm = (props) => {
               <div className="flex flex-col items-center">
                 <img
                   className="w-[110px] h-[110px] mt-5 object-cover rounded-full"
-                  src={
-                    avatar ? URL.createObjectURL(avatar) : `${userData.avatar !== '' ? userData.avatar : defaultImage}`
-                  }
+                  src={avatar ? URL.createObjectURL(avatar) : userData.avatar ? userData.avatar : defaultImage}
                   alt="default-img"
                 />
                 <label
