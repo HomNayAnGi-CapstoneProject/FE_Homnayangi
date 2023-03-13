@@ -235,7 +235,9 @@ const Navigation = (props) => {
                           Xin chào {decoded_jwt.Lastname !== '' ? decoded_jwt.Lastname : decoded_jwt.Displayname}{' '}
                           {decoded_jwt.Firstname}
                         </div>
-                        <li className="cursor-pointer hover:bg-secondary py-1 px-4">Thông tin cá nhân</li>
+                        <Link to="/user">
+                          <li className="cursor-pointer hover:bg-secondary py-1 px-4">Thông tin cá nhân</li>
+                        </Link>
                         {decoded_jwt.role === 'Staff' && (
                           <li
                             onClick={() => navigate('/management')}

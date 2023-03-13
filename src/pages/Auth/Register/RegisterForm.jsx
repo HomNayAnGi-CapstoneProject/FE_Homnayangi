@@ -238,11 +238,11 @@ const RegisterForm = () => {
                       {...register('gender', { required: true })}
                     >
                       <option value="">Giới tính</option>
-                      <option className="py-1" value={false}>
+                      <option className="py-1" value={0}>
                         Nữ
                       </option>
-                      <option value={true}>Nam</option>
-                      <option value="other">Khác</option>
+                      <option value={1}>Nam</option>
+                      <option value={2}>Khác</option>
                     </select>
                     {errors?.gender?.type === 'required' && (
                       <p className="mb-[5px] text-redError text-[14px]">Giới tính không được trống</p>
