@@ -9,6 +9,7 @@ const Register = lazy(() => import('../pages/Auth/Register/Register'));
 const BlogDetail = lazy(() => import('../pages/BlogDetail/BlogDetail'));
 const Admin = lazy(() => import('../pages/Admin/Admin'));
 const Shop = lazy(() => import('../pages/Shop/Shop'));
+const User = lazy(() => import('../pages/User/UserDetail'))
 
 // ** public routes (no need authen)
 const publicRoutes = [
@@ -24,6 +25,7 @@ const publicRoutes = [
 
 // ** private routes (need authen + authorization)
 const privateRoutes = [
+  { path: '/user/*', component: User, title: 'Thông tin tài khoản' },
   { path: '/management/*', component: Admin, title: 'Homnayangi - ADMINISTRATION', layout: null },
 ];
 
