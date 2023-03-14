@@ -37,6 +37,11 @@
   border-radius: 5px;
 }
 
+// use with tailwind break-words for the best
+.content-wrap {
+  word-break: break-word;
+}
+
 .mySwiper {
   /* margin-top: 20px; */
   padding: 0 35px 35px 35px;

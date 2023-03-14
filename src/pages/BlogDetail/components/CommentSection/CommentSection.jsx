@@ -38,7 +38,7 @@ const CommentSection = () => {
       </div>
       {/* content */}
       <div className="mt-3">
-        {activeTab == 1 && <Comments />}
+        {activeTab == 1 && <Comments setCmtNum={setCmtNum} />}
         {activeTab == 2 && <Accomplishhments />}
       </div>
     </div>
