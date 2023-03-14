@@ -39,15 +39,17 @@ const Reaction = (props) => {
   }, [iniView, iniReaction]);
 
   useEffect(() => {
-    const fetch = async () => {
-      const res = await instances.get(`blogreactions/blogs/${params.id}`);
-      if (res.data.status == 'success') {
-        setYourReaction(true);
-      } else {
-        setYourReaction(false);
-      }
-    };
-    fetch();
+    if (accessToken) {
+      const fetch = async () => {
+        const res = await instances.get(`blogreactions/blogs/${params.id}`);
+        if (res.data.status == 'success') {
+          setYourReaction(true);
+        } else {
+          setYourReaction(false);
+        }
+      };
+      fetch();
+    }
   }, []);
 
   const handleReaction = async () => {
