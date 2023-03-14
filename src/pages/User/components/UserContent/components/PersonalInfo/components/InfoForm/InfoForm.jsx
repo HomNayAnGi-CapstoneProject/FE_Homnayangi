@@ -47,30 +47,46 @@ const InfoForm = (props) => {
 
   // ** submit user detail form
   const onSubmit = (data) => {
-    // console.log(data.avatar.length > 0);
+    // console.log(data);
     setUploading(true);
     toast.promise(
-      data.avatar.length > 0
-        ? uploadImage(data.avatar[0]).then((res) => {
-            // console.log(res);
+      typeof data.avatar !== 'string'
+        ? data.avatar.length > 0
+          ? uploadImage(data.avatar[0]).then((res) => {
+              // console.log(res);
+              instances
+                .put('/personal-customer', {
+                  customerId: store.accountInfo.Id,
+                  firstname: data.firstname,
+                  lastname: data.lastname,
+                  email: data.email !== '' ? data.email : undefined,
+                  gender: data.gender,
+                  phonenumber: data.phonenumber,
+                  avatar: res,
+                })
+                .then((res) => {
+                  setUploading(false);
+                });
+            })
+          : // .catch((err) => {
+            //   notifyError(err);
+            // })
             instances
               .put('/personal-customer', {
                 customerId: store.accountInfo.Id,
                 firstname: data.firstname,
                 lastname: data.lastname,
-                email: data.email !== '' ? data.email : undefined,
+                email: data.email !== '' ? data.email : null,
                 gender: data.gender,
                 phonenumber: data.phonenumber,
-                avatar: res,
+                avatar: data.avatar !== '' ? data.avatar : null,
+                username: data.username,
+                displayname: null,
               })
               .then((res) => {
                 setUploading(false);
-              });
-          })
-        : // .catch((err) => {
-          //   notifyError(err);
-          // })
-          instances
+              })
+        : instances
             .put('/personal-customer', {
               customerId: store.accountInfo.Id,
               firstname: data.firstname,
@@ -78,7 +94,7 @@ const InfoForm = (props) => {
               email: data.email !== '' ? data.email : null,
               gender: data.gender,
               phonenumber: data.phonenumber,
-              avatar: null,
+              avatar: data.avatar !== '' ? data.avatar : null,
               username: data.username,
               displayname: null,
             })
@@ -101,8 +117,8 @@ const InfoForm = (props) => {
   const uploadImage = (file) => {
     return new Promise((resolve, reject) => {
       let imageUp = file;
-      if (imageUp == null) {
-        // resolve(file);
+      if (imageUp == null || imageUp === undefined) {
+        resolve(file);
         return;
       }
 
@@ -212,6 +228,7 @@ const InfoForm = (props) => {
                 <div className="md:w-2/3">
                   <input
                     name="email"
+                    disabled={store.accountInfo?.isGoogleAccount ? true : false}
                     // placeholder="Tên đăng nhập"
                     className={`block mt-2 w-full h-[47px] ${
                       errors?.email ? 'mb-[5px]' : 'mb-[20px]'
@@ -310,10 +327,10 @@ const InfoForm = (props) => {
                     })}
                   />
                   {errors?.username?.type === 'required' && (
-                    <p className="mb-[5px] text-redError text-[14px]">Họ không được trống</p>
+                    <p className="mb-[5px] text-redError text-[14px]">Tên người dùng không được trống</p>
                   )}
                   {errors?.username?.type === 'pattern' && (
-                    <p className="mb-[5px] text-redError text-[14px]">Họ không hợp lệ</p>
+                    <p className="mb-[5px] text-redError text-[14px]">Tên người dùng không hợp lệ</p>
                   )}
                 </div>
               </div>
@@ -369,12 +386,16 @@ const InfoForm = (props) => {
           </div>
         </form>
       </div>
-      <div className="pb-[10px] border-b border-b-[#d1d1d1] mt-[50px]">
-        <p className="text-black text-[18px] font-medium">Thông Tin Bảo Mật</p>
-      </div>
-      <div className="my-4">
-        <UpdatePassForm />
-      </div>
+      {!store.accountInfo?.isGoogleAccount && (
+        <>
+          <div className="pb-[10px] border-b border-b-[#d1d1d1] mt-[50px]">
+            <p className="text-black text-[18px] font-medium">Thông Tin Bảo Mật</p>
+          </div>
+          <div className="my-4">
+            <UpdatePassForm />
+          </div>
+        </>
+      )}
     </div>
   );
 };

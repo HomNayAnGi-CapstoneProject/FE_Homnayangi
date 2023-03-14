@@ -33,6 +33,17 @@ const UserNavigate = () => {
     }
   }, [location]);
   // ** Funcs
+  const getName = () => {
+    if (store.accountInfo?.unique_name == '') {
+      if (store.accountInfo?.Displayname == '') {
+        return store.accountInfo?.Lastname + ' ' + store.accountInfo?.Firstname;
+      } else {
+        return store.accountInfo?.Displayname;
+      }
+    } else {
+      return store.accountInfo?.unique_name;
+    }
+  };
 
   return (
     <div>
@@ -40,9 +51,10 @@ const UserNavigate = () => {
         <Image alt="" src={store.accountInfo?.Avatar || defaultImage} className="object-cover w-[75px] rounded-full " />
         <div className="flex flex-col gap-2">
           <p className="font-semibold text-[18px] text-black">
-            {store.accountInfo?.unique_name !== '' && store.accountInfo?.unique_name}
+            {/* {store.accountInfo?.unique_name !== '' && store.accountInfo?.unique_name}
             {store.accountInfo?.unique_name == '' && store.accountInfo?.Lastname + ' ' + store.accountInfo?.Firstname}
-            {store.accountInfo?.Displayname !== '' && store.accountInfo?.Displayname}
+            {store.accountInfo?.Displayname !== '' && store.accountInfo?.Displayname} */}
+            {getName()}
           </p>
           <p className="font-medium text-[#898989] uppercase text-[14px]">Khách hàng</p>
         </div>
