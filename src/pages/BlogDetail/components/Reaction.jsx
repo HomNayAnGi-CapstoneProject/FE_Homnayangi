@@ -8,12 +8,16 @@ import heart from '../../../assets/images/heart.png';
 import heart_red from '../../../assets/images/heart_red.png';
 import share from '../../../assets/images/share.png';
 import share_hover from '../../../assets/images/share_hover.png';
+import shareDecor from '../../../assets/images/shareDecor.png';
+import { ic_clipboard } from '../../../assets';
 
 // ** third party
 import jwt_decode from 'jwt-decode';
 import { Modal } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
+
 const Reaction = (props) => {
   // ** Const
   const { iniReaction, iniView } = props;
@@ -22,6 +26,11 @@ const Reaction = (props) => {
   if (accessToken) {
     decoded_jwt = jwt_decode(accessToken);
   }
+  const notifySuccess = (mess) =>
+    toast.success(mess, {
+      pauseOnHover: false,
+      position: 'top-center',
+    });
   const params = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -31,6 +40,7 @@ const Reaction = (props) => {
   const [reaction, setReaction] = useState(0);
   const [view, setView] = useState(0);
   const [openRequireLogin, setOpenRequireLogin] = useState(false);
+  const [openShareModal, setOpenShareModal] = useState(false);
 
   // ** get initial view reaction
   useEffect(() => {
@@ -75,6 +85,9 @@ const Reaction = (props) => {
       setOpenRequireLogin(true);
     }
   };
+
+  // ** open share modal
+  const handleOpenShareModal = () => {};
 
   return (
     <>
@@ -121,16 +134,51 @@ const Reaction = (props) => {
           <span className="sidebar-tooltip group-hover:scale-100">Lượt xem</span>
         </div>
 
-        <div
-          onMouseEnter={() => setIsHoverShare(true)}
-          onMouseLeave={() => setIsHoverShare(false)}
-          className="mt-[25px] cursor-pointer flex flex-col items-center group"
-        >
+        <div className="relative">
           <div
-            className="w-[30px] h-[30px] bg-cover"
-            style={{ backgroundImage: `url(${!isHoverShare ? share : share_hover})` }}
-          />
-          <span className="sidebar-tooltip group-hover:scale-100">Chia sẻ</span>
+            onClick={() => setOpenShareModal(true)}
+            onMouseEnter={() => setIsHoverShare(true)}
+            onMouseLeave={() => setIsHoverShare(false)}
+            className="mt-[25px] cursor-pointer flex flex-col items-center group"
+          >
+            <div
+              className="w-[30px] h-[30px] bg-cover"
+              style={{ backgroundImage: `url(${!isHoverShare ? share : share_hover})` }}
+            />
+            <span className="sidebar-tooltip group-hover:scale-100">Chia sẻ</span>
+          </div>
+          {openShareModal && (
+            <Modal open={openShareModal} onClose={() => setOpenShareModal(false)}>
+              <div
+                className="fixed left-[50%]
+            top-[50%] translate-y-[-50%] translate-x-[-50%] bg-white rounded-[5px] xs:min-w-[300px] min-w-full px-10 py-5"
+              >
+                <div className="flex">
+                  <div className="flex flex-col w-full">
+                    <p className="text-black text-[22px] mb-2 font-semibold">Chia sẻ bài viết đến mọi người!</p>
+                    <button
+                      className="bg-primary w-full text-white font-medium px-4 mt-4 py-2 rounded-[5px] flex items-center justify-center gap-2"
+                      onClick={() => {
+                        navigator.clipboard.writeText(window.location.href);
+                        notifySuccess('Đã copy đường dẫn');
+                      }}
+                    >
+                      <p>Sao chép đường dẫn</p>
+                      <img alt="" src={ic_clipboard} className="object-contain w-[24px]" />
+                    </button>
+                    <a
+                      target="_blank"
+                      href={`https://www.facebook.com/sharer/sharer.php?u=${window.location.href}%2F&amp;src=sdkpreparse`}
+                      className="fb-xfbml-parse-ignore text-center my-4 w-full bg-blue-500 text-white font-medium px-4 py-2 rounded-[5px]"
+                    >
+                      Chia sẻ qua Facebook
+                    </a>
+                  </div>
+                  {/* <img src={shareDecor} alt="" className="object-cover w-[220px] h-[220px] md:block hidden" /> */}
+                </div>
+              </div>
+            </Modal>
+          )}
         </div>
       </div>
     </>
