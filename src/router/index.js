@@ -8,7 +8,7 @@ const Login = lazy(() => import('../pages/Auth/Login/Login'));
 const Register = lazy(() => import('../pages/Auth/Register/Register'));
 const BlogDetail = lazy(() => import('../pages/BlogDetail/BlogDetail'));
 const Admin = lazy(() => import('../pages/Admin/Admin'));
-const Shop = lazy(() => import('../pages/Shop/Shop'));
+// const Shop = lazy(() => import('../pages/Shop/Shop'));
 const User = lazy(() => import('../pages/User/UserDetail'))
 
 // ** public routes (no need authen)
@@ -19,7 +19,7 @@ const publicRoutes = [
   { path: '/login', component: Login, title: 'Đăng nhập', layout: null },
   { path: '/register', component: Register, title: 'Đăng ký', layout: null },
   { path: '/recipe', component: Recipe, title: 'Công thức' },
-  { path: '/shop', component: Shop, title: 'Cửa hàng' },
+  // { path: '/shop', component: Shop, title: 'Cửa hàng' },
   { path: '/recipe/:id/:title', component: BlogDetail },
 ];
 
