@@ -57,7 +57,7 @@ const BlogDetail = () => {
         </div>
       </div>
       <div className="sm:hidden block">
-        <FixedBottomNav />
+        <FixedBottomNav iniReaction={blogDetail?.reaction} iniView={blogDetail?.view} />
       </div>
     </>
   );

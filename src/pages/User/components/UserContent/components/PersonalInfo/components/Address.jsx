@@ -132,7 +132,7 @@ const Address = () => {
                 {/* address */}
                 <div className="flex items-center gap-3 justify-between">
                   {/* provinces  */}
-                  <div className="flex-1">
+                  {/* <div className="flex-1">
                     <Select
                       MenuProps={MenuProps}
                       value={activeProvinces}
@@ -161,7 +161,7 @@ const Address = () => {
                     {errors?.provinces?.type === 'required' && (
                       <p className="mb-[5px] text-redError text-[14px]">Vui lòng chọn tỉnh/thành của bạn</p>
                     )}
-                  </div>
+                  </div> */}
                   {/* districts  */}
                   <div className="flex-1">
                     <Select

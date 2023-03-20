@@ -46,7 +46,7 @@ const BlogCard = (props) => {
           </div>
 
           <div>
-            <p className="text-[#585858] text-[14px]"> {moment(data?.createDate).startOf('day').fromNow()}</p>
+            <p className="text-[#585858] text-[14px]"> {moment(data?.createdDate).startOf('day').fromNow()}</p>
           </div>
         </div>
       </div>

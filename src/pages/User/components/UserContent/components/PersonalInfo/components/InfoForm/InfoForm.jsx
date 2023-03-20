@@ -106,7 +106,7 @@ const InfoForm = (props) => {
         success: 'Đã cập nhật thành công 👌 Một số thông tin sẽ cập nhật sau khi đăng nhập lại',
         error: {
           render({ data }) {
-            return data;
+            // return data;
           },
         },
       },

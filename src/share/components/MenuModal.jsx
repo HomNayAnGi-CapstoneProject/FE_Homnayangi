@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import useWindowSize from '../hooks/useWindowSize';
+import NotifyItemCart from './NotifyItemCart';
 
 // ** Assets
 import { ic_close_modal } from '../../assets';
@@ -8,19 +9,30 @@ import { ic_nofitication, ic_cart, ic_caret_down_white, ic_caret_right } from '.
 import default_user from '../../assets/images/default_user.png';
 
 // ** Third party libraries
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink, Link, useNavigate } from 'react-router-dom';
 import OutsideClickHandler from 'react-outside-click-handler';
 import { useDispatch, useSelector } from 'react-redux';
+import jwt_decode from 'jwt-decode';
 
 // ** Redux
 import { setOpenMenuModal, setCountrySide } from '../../redux/actionSlice/globalSlice';
+import { setAccountInfo } from '../../redux/actionSlice/accountSlice';
 
 const MenuModal = () => {
   // ** States, Const
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const store = useSelector((state) => state.global);
+  const cartStore = useSelector((state) => state?.cart);
   const [openCountry, setOpenCountry] = useState(false);
+  const [openUser, setOpenUser] = useState(false);
   const [width, height] = useWindowSize();
+
+  const accessToken = localStorage.getItem('accessToken');
+  let decoded_jwt = {};
+  if (accessToken) {
+    decoded_jwt = jwt_decode(accessToken);
+  }
 
   useEffect(() => {
     document.body.style.overflow = 'hidden';
@@ -47,9 +59,15 @@ const MenuModal = () => {
     setOpenCountry((prev) => !prev);
   };
 
-  // useEffect(() => {
-  //   console.log(openCountry);
-  // }, [openCountry]);
+  const handleLogoutSignin = async () => {
+    if (accessToken) {
+      localStorage.removeItem('accessToken');
+      navigate('/login');
+      dispatch(setAccountInfo({}));
+    } else {
+      navigate('/login');
+    }
+  };
 
   return (
     <div className="font-inter fixed top-0 bottom-0 left-0 z-[9999] bg-white w-full px-[15px]">
@@ -66,10 +84,18 @@ const MenuModal = () => {
             style={{ backgroundImage: `url(${default_user})` }}
           ></div> */}
           <div className="relative cursor-pointer">
-            <div className="absolute rounded-full w-[20px] h-[20px] bg-primary text-white flex items-center justify-center font-semibold text-[11px] top-[-8px] right-[-5px]">
+            {/* <div className="absolute rounded-full w-[20px] h-[20px] bg-primary text-white flex items-center justify-center font-semibold text-[11px] top-[-8px] right-[-5px]">
               2
-            </div>
-            <div className="bg-cover w-[28px] h-[28px] cursor-pointer" style={{ backgroundImage: `url(${ic_cart})` }} />
+            </div> */}
+            <div
+              onClick={() => {
+                navigate('/cart');
+                dispatch(setOpenMenuModal(false));
+              }}
+              className="bg-cover w-[28px] h-[28px] cursor-pointer"
+              style={{ backgroundImage: `url(${ic_cart})` }}
+            />
+            <NotifyItemCart decoded_jwt={decoded_jwt} shoppingCart={cartStore?.shoppingCart} />
           </div>
           <div
             onClick={() => handleCloseModal()}
@@ -98,14 +124,6 @@ const MenuModal = () => {
             </NavLink>
           </li>
           <li className="uppercase font-bold" onClick={() => handleCloseModal()}>
-            <NavLink className={(navData) => (navData.isActive ? 'text-primary' : 'text-black')} to="/shop">
-              <div className="flex items-center justify-between border-t py-1">
-                <p>Cửa hàng</p>
-                <div className="bg-cover w-[44px] h-[44px]" style={{ backgroundImage: `url(${ic_caret_right})` }} />
-              </div>
-            </NavLink>
-          </li>
-          <li className="uppercase font-bold" onClick={() => handleCloseModal()}>
             <NavLink className={(navData) => (navData.isActive ? 'text-primary' : 'text-black')} to="/about">
               <div className="flex items-center justify-between border-t py-1">
                 <p>Về chúng tôi</p>
@@ -113,13 +131,32 @@ const MenuModal = () => {
               </div>
             </NavLink>
           </li>
-          <li className="uppercase font-bold">
-            <NavLink className={(navData) => (navData.isActive ? 'text-primary' : 'text-black')} to="/login">
-              <div className="flex items-center justify-between border-t py-1">
-                <p>Thông tin tài khoản</p>
-                <div className="bg-cover w-[44px] h-[44px]" style={{ backgroundImage: `url(${ic_caret_right})` }} />
-              </div>
-            </NavLink>
+          <li className="uppercase font-bold" onClick={() => setOpenUser((prev) => !prev)}>
+            <div className="flex cursor-pointer items-center justify-between border-t py-1">
+              <p>Thông tin tài khoản</p>
+              <div
+                className={`bg-cover w-[44px] h-[44px] ${openUser ? 'rotate-[90deg] transform' : ''}`}
+                style={{ backgroundImage: `url(${ic_caret_right})` }}
+              />
+            </div>
+            <div className={`${openUser ? 'block' : 'hidden'} bg-secondary h-max`}>
+              <ul className="px-2">
+                {accessToken && (
+                  <li
+                    onClick={() => {
+                      navigate('/user');
+                      dispatch(setOpenMenuModal(false));
+                    }}
+                    className="py-2 cursor-pointer uppercase font-medium"
+                  >
+                    Thông tin cá nhân
+                  </li>
+                )}
+                <li onClick={() => handleLogoutSignin()} className="cursor-pointer py-2 uppercase font-medium">
+                  {accessToken ? 'Đăng xuất' : 'Đăng nhập'}
+                </li>
+              </ul>
+            </div>
           </li>
           <li className="uppercase font-bold cursor-pointer" onClick={() => setOpenCountry((prev) => !prev)}>
             <div className="flex items-center justify-between border-y py-1">

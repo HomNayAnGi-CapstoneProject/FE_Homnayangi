@@ -54,7 +54,10 @@ const Card = (props) => {
             className="leading-[25px] mt-[10px] md:line-clamp-3  line-clamp-2"
           ></div>
           <div className="sm:flex hidden absolute bottom-[10px]  gap-[8px]">
-            <button className="bg-[#FF7940] rounded-[10px] cursor-pointer text-white font-medium xs:text-[18px] sm:text-[16px] text-[1vw] md:px-[15px] sm:py-[10px] px-[6px] py-[10px] flex items-center gap-2">
+            <button
+              onClick={() => navigate(`/recipe/${props?.data?.blogId}/${generateSlug(props?.data?.title)}`)}
+              className="bg-[#FF7940] rounded-[10px] cursor-pointer text-white font-medium xs:text-[18px] sm:text-[16px] text-[1vw] md:px-[15px] sm:py-[10px] px-[6px] py-[10px] flex items-center gap-2"
+            >
               Công thức
               <div className="bg-cover w-[20px] h-[20px]" style={{ backgroundImage: `url(${ic_boiling_white})` }} />
             </button>

@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import MenuModal from './MenuModal';
 import styles from '../../style';
-import { setAccountInfo } from '../../redux/actionSlice/accountSlice';
+import ModalShoppingCart from './Modal/ModalShoppingCart/ModalShoppingCart';
+import NotifyItemCart from './NotifyItemCart';
 
 // ** Assets
 import Logo from '../../assets/images/Logo.png';
@@ -20,9 +21,12 @@ import { NavLink, Link, useNavigate } from 'react-router-dom';
 import OutsideClickHandler from 'react-outside-click-handler';
 import { useDispatch, useSelector } from 'react-redux';
 import jwt_decode from 'jwt-decode';
+import { motion, AnimatePresence } from 'framer-motion';
 
 // ** Redux
 import { setOpenMenuModal, setCountrySide } from '../../redux/actionSlice/globalSlice';
+import { setShowModalCart, getShoppingCart } from '../../redux/actionSlice/shoppingCartSlice';
+import { setAccountInfo } from '../../redux/actionSlice/accountSlice';
 
 const Navigation = (props) => {
   // ** States, Const
@@ -31,6 +35,7 @@ const Navigation = (props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const store = useSelector((state) => state.global);
+  const cartStore = useSelector((state) => state?.cart);
   const [scroll, setScroll] = useState(false);
 
   const accessToken = localStorage.getItem('accessToken');
@@ -38,6 +43,18 @@ const Navigation = (props) => {
   if (accessToken) {
     decoded_jwt = jwt_decode(accessToken);
   }
+
+  // ** set account info
+  useEffect(() => {
+    if (decoded_jwt) {
+      dispatch(setAccountInfo(decoded_jwt));
+    }
+  }, [decoded_jwt]);
+
+  //**  Get shopping cart
+  useEffect(() => {
+    dispatch(getShoppingCart());
+  }, []);
 
   // ** Funct
   const handleChangeSide = (id) => {
@@ -71,6 +88,28 @@ const Navigation = (props) => {
     };
   }, []);
 
+  //** handle open modal cart
+  const handleOpenModal = (isHover) => {
+    dispatch(setShowModalCart(isHover));
+  };
+
+  // ** get current cart
+  const getCurrentCart = () => {
+    let currentCart = [];
+    let currentUser = undefined;
+    if (cartStore?.shoppingCart?.length > 0) {
+      currentUser = cartStore?.shoppingCart?.find((item) => {
+        return item.cusId == decoded_jwt.Id;
+      });
+    }
+    if (currentUser?.cart?.length > 0) {
+      currentCart = currentUser.cart;
+    }
+    return currentCart;
+  };
+
+  const currentCart = getCurrentCart();
+
   return (
     <>
       {store.openMenuModal && <MenuModal />}
@@ -87,7 +126,7 @@ const Navigation = (props) => {
                 style={{ backgroundImage: `url(${Logo})` }}
               />
             </Link>
-
+            {/* main navigation */}
             <ul className="list-none sm:flex hidden justify-center items-center flex-1 gap-11 text-[16px] font-medium">
               <li className={`cursor-pointer`}>
                 <NavLink
@@ -127,7 +166,7 @@ const Navigation = (props) => {
               </li>
             </ul>
           </div>
-
+          {/* nav menu responsive */}
           <div
             onClick={() => handleOpenMenu()}
             className="sm:hidden block w-[34px] h-[25px] bg-cover bg-center bg-no-repeat cursor-pointer"
@@ -135,6 +174,7 @@ const Navigation = (props) => {
           ></div>
 
           <div className="sm:flex hidden gap-[25px] items-center">
+            {/* BacTrungNam */}
             {props.isHome == true && (
               <div className="relative">
                 <div
@@ -183,20 +223,49 @@ const Navigation = (props) => {
                 </OutsideClickHandler>
               </div>
             )}
+            {/* cart */}
             <div className="relative cursor-pointer">
-              <div className="absolute z-[10] rounded-full w-[20px] h-[20px] bg-primary text-white flex items-center justify-center font-semibold text-[11px] top-[-8px] right-[-5px]">
+              {/* <div className="absolute z-[10] rounded-full w-[20px] h-[20px] bg-primary text-white flex items-center justify-center font-semibold text-[11px] top-[-8px] right-[-5px]">
                 2
-              </div>
+              </div> */}
               <div
+                onClick={() => navigate('/cart')}
+                onMouseEnter={() => handleOpenModal(true)}
+                onMouseLeave={() => handleOpenModal(false)}
                 className="relative bg-cover w-[24px] h-[24px] cursor-pointer"
                 style={{ backgroundImage: `url(${ic_cart})` }}
-              />
+              >
+                <NotifyItemCart decoded_jwt={decoded_jwt} shoppingCart={cartStore?.shoppingCart} />
+              </div>
+              {currentCart?.length > 0 && (
+                <div onMouseEnter={() => handleOpenModal(true)} onMouseLeave={() => handleOpenModal(false)}>
+                  <AnimatePresence>
+                    {cartStore.showModal && (
+                      <motion.div
+                        transition={{ duration: 0.3, type: 'tween' }}
+                        initial={{
+                          opacity: 0,
+                          y: '-5vh',
+                        }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{
+                          opacity: 0,
+                          y: '-5vh',
+                        }}
+                      >
+                        <ModalShoppingCart decoded_jwt={decoded_jwt} shoppingCart={cartStore?.shoppingCart} />
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              )}
             </div>
+            {/* notifications */}
             <div
               className="relative bg-cover w-[24px] h-[24px] cursor-pointer"
               style={{ backgroundImage: `url(${ic_nofitication})` }}
             ></div>
-
+            {/* authentication user */}
             <div
               className="relative bg-cover w-[30px] h-[30px] cursor-pointer rounded-full"
               style={{

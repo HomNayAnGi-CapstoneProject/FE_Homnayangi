@@ -76,7 +76,7 @@ const HomeSearch = () => {
         onChange={(e) => setSearchhInput(e.target.value)}
         type="text"
         className="block w-full p-[12px] pl-[23px] text-subText sm:text-md  border border-primary rounded-full bg-[#f0f0f0] focus:outline-primary "
-        placeholder="Thịt heo..."
+        placeholder="Cách làm món thịt..."
       />
       <button
         onClick={() => {

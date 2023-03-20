@@ -2,6 +2,7 @@ import { useState } from 'react';
 import instances from '../../../../../utils/plugin/axios';
 import Image from '../../../../../share/components/Image';
 import { setReturnUrl } from '../../../../../redux/actionSlice/globalSlice';
+import ModalRequireLogin from '../../../../../share/components/Modal/ModalRequireLogin';
 
 import { ic_repcomment, ic_menu_dots } from '../../../../../assets';
 
@@ -178,26 +179,7 @@ const Comment = (props) => {
   return (
     <>
       {openRequireLogin && (
-        <Modal open={openRequireLogin} onClose={() => setOpenRequireLogin(false)}>
-          <div
-            className="fixed left-[50%]
-          top-[50%] translate-y-[-50%] translate-x-[-50%] bg-white rounded-[5px] max-w-[500px]"
-          >
-            <div className="flex flex-col items-center justify-center px-7 py-6">
-              <p>Bạn cần đăng nhập để có thể thực hiện chức năng này</p>
-              <button
-                onClick={() => {
-                  // console.log(location.pathname);
-                  dispatch(setReturnUrl(location.pathname));
-                  navigate('/login');
-                }}
-                className="py-1 px-3 mt-4 bg-primary rounded-[5px] text-white font-medium uppercase"
-              >
-                Đăng nhập
-              </button>
-            </div>
-          </div>
-        </Modal>
+        <ModalRequireLogin openRequireLogin={openRequireLogin} setOpenRequireLogin={setOpenRequireLogin} />
       )}
       <div className="font-inter w-full">
         {/* parent comment */}

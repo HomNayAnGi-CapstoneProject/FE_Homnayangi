@@ -14,6 +14,7 @@ const PersonalInfo = () => {
     const fetch = async () => {
       const res = await instances.get('/personal-customer');
       setUserData(res.data.result);
+      console.log(res.data.result);
     };
 
     fetch();
