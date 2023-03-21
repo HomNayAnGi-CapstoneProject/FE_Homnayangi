@@ -5,6 +5,7 @@ import generateSlug from '../../../utils/generateSlug';
 import Image from '../../../share/components/Image';
 import SuggestForm from './SuggestForm';
 import { getSuggestData, setOpenFormSuggest } from '../../../redux/actionSlice/globalSlice';
+import { addItemNoStock, getShoppingCart } from '../../../redux/actionSlice/shoppingCartSlice';
 
 // ** Assets
 import styles from '../../../style';
@@ -18,9 +19,10 @@ import 'swiper/css';
 // import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import 'swiper/css/effect-fade';
-import { Link, Navigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
+import jwt_decode from 'jwt-decode';
 
 // ** Card component
 const Card = (props) => {
@@ -74,6 +76,12 @@ const SuggestToday = () => {
     toast.error('Xin lỗi chúng tôi chưa có đủ dữ liệu cho thông tin này', {
       pauseOnHover: false,
     });
+  const accessToken = localStorage.getItem('accessToken');
+  let decoded_jwt = {};
+  if (accessToken) {
+    decoded_jwt = jwt_decode(accessToken);
+  }
+  const [openRequireLogin, setOpenRequireLogin] = useState(false);
 
   useEffect(() => {
     dispatch(getSuggestData());
@@ -97,6 +105,38 @@ const SuggestToday = () => {
     };
     fetch();
   }, [store?.sugesstFormData]);
+
+  // ** functions
+  //** handle add to cart */
+  const handleAddToCart = (data, isCook) => {
+    if (accessToken) {
+      let requestObject = {
+        cusId: decoded_jwt.Id,
+        orderDetails: data.recipeDetails,
+        isCook: isCook,
+        orderName: data.recipeTitle,
+        id: data.recipeId,
+        img: data.imageUrl,
+        price: isCook ? data.cookedPrice : data.packagePrice,
+      };
+      // console.log(requestObject);
+      dispatch(addItemNoStock(requestObject));
+      dispatch(getShoppingCart());
+    } else {
+      setOpenRequireLogin(true);
+    }
+  };
+
+  // ** handle add all 3 to cart
+  const handleAddAllToCart = (isCook) => {
+    if (accessToken) {
+      todayData?.forEach((item) => {
+        handleAddToCart(item, isCook);
+      });
+    } else {
+      setOpenRequireLogin(true);
+    }
+  };
 
   return (
     <section className={`today-suggest font-inter w-full h-fit ${styles.paddingY}`}>
@@ -244,7 +284,10 @@ const SuggestToday = () => {
 
           <div className="w-full flex justify-center text-center md:mt-[9%] mt-[5%]">
             <div className="flex sm:gap-[15px] gap-[15px]">
-              <button className="bg-primary hover:bg-primaryHover rounded-tl-[30px] rounded-bl-[30px] rounded-tr-[5px] rounded-br-[5px] text-medium text-white text-[20px] flex items-center gap-3 py-[10px] sm:px-[20px] px-[10px]">
+              <button
+                onClick={() => handleAddAllToCart(false)}
+                className="bg-primary hover:bg-primaryHover rounded-tl-[30px] rounded-bl-[30px] rounded-tr-[5px] rounded-br-[5px] text-medium text-white text-[20px] flex items-center gap-3 py-[10px] sm:px-[20px] px-[10px]"
+              >
                 Đặt mua
                 <div
                   className="bg-cover w-[20px] h-[20px]"
@@ -261,10 +304,10 @@ const SuggestToday = () => {
                 <div className="bg-cover w-[20px] h-[20px]" style={{ backgroundImage: `url(${ic_blog_active})` }} />
               </button>
               <button
-                // onClick={() => setChangeData((prev) => !prev)}
+                onClick={() => handleAddAllToCart(true)}
                 className="bg-redError hover:bg-redErrorHover rounded-tl-[5px] rounded-bl-[5px] rounded-tr-[30px] rounded-br-[30px] text-medium text-white text-[20px] flex items-center gap-3 py-[10px] sm:px-[20px] px-[10px]"
               >
-                Đặt nấu
+                Đặt làm
                 <div className="bg-cover w-[20px] h-[20px]" style={{ backgroundImage: `url(${ic_boiling_white})` }} />
               </button>
             </div>

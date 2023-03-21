@@ -14,7 +14,7 @@ const UserContent = () => {
       <Routes>
         <Route path="/">
           <Route index element={<PersonalInfo />} />
-          <Route path="orders" element={<YourOrder />} />
+          <Route path="orders/*" element={<YourOrder />} />
           <Route path="accomplishments" element={<YourAccomplishment />} />
         </Route>
       </Routes>

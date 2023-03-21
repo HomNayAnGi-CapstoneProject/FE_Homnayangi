@@ -1,4 +1,4 @@
-import React from 'react';
+import { memo } from 'react';
 import { removeWholeItem, getShoppingCart } from '../../../../../redux/actionSlice/shoppingCartSlice';
 import Image from '../../../Image';
 

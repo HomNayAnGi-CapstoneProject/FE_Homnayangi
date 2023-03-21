@@ -95,13 +95,13 @@ const Item = (props) => {
         <div className="flex sm:w-4/6 w-5/6 gap-5">
           {/* img */}
           <div
-            className="xs:block hidden w-[80px] h-[80px] bg-cover bg-center bg-no-repeat"
+            className="xs:block hidden bg-cover bg-center bg-no-repeat"
             //  style={{ backgroundImage: `url(${product})` }}
           >
             <Image className="w-[80px] h-[80px] object-cover rounded-[5px]" src={props?.item?.img || ''} />
           </div>
           {/* name, type, buttons */}
-          <div>
+          <div className="flex-1">
             <p className="text-[18px] font-medium line-clamp-1">{props?.item?.orderName}</p>
             <p className="text-[14px] mb-3 text-gray-500">
               {' '}

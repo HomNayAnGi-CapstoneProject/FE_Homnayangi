@@ -14,6 +14,7 @@ import styles from '../../../style';
 import { useDispatch, useSelector } from 'react-redux';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Navigation } from 'swiper';
+import { useNavigate } from 'react-router-dom';
 import 'swiper/css';
 // import 'swiper/css/pagination';
 import 'swiper/css/navigation';
@@ -21,6 +22,7 @@ import 'swiper/css/navigation';
 const SuggestRegion = (props) => {
   // ** States, Const
   const { NorthFood } = props;
+  const navigate = useNavigate();
   const store = useSelector((state) => state.global);
   const [regionData, setRegionData] = useState('');
 
@@ -81,7 +83,10 @@ const SuggestRegion = (props) => {
                     ))}
                 </div>
                 <div className="flex justify-center">
-                  <button className="rounded-[30px] hover:bg-primaryHover transition bg-primary flex items-center gap-3 py-[10px] px-[20px] text-[20px] font-medium text-white">
+                  <button
+                    onClick={() => navigate('/recipe')}
+                    className="rounded-[30px] hover:bg-primaryHover transition bg-primary flex items-center gap-3 py-[10px] px-[20px] text-[20px] font-medium text-white"
+                  >
                     Xem thêm
                     <div
                       className="bg-cover w-[20px] h-[20px]"
@@ -134,7 +139,10 @@ const SuggestRegion = (props) => {
               </Swiper>
             </div>
             <div className="flex justify-center">
-              <button className="rounded-[30px] hover:bg-primaryHover transition bg-primary flex items-center gap-3 py-[10px] px-[20px] text-[20px] font-medium text-white">
+              <button
+                onClick={() => navigate('/recipe')}
+                className="rounded-[30px] hover:bg-primaryHover transition bg-primary flex items-center gap-3 py-[10px] px-[20px] text-[20px] font-medium text-white"
+              >
                 Xem thêm
                 <div className="bg-cover w-[20px] h-[20px]" style={{ backgroundImage: `url(${ic_boiling_white})` }} />
               </button>

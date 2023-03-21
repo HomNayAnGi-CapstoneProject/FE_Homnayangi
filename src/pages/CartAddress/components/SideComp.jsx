@@ -1,10 +1,12 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
+import instances from '../../../utils/plugin/axios';
 import { ic_document_black } from '../../../assets';
 import CartItem from '../../../share/components/Modal/ModalShoppingCart/components/CartItem';
 
 //** Third party components*/
 import { useDispatch, useSelector } from 'react-redux';
 import jwt_decode from 'jwt-decode';
+import { toast } from 'react-toastify';
 
 const SideComp = () => {
   const cartList = useSelector((state) => state.cart.shoppingCart);
@@ -48,6 +50,41 @@ const SideComp = () => {
     return { total, totalPrice };
   };
   const totalItem = totalItemInCart();
+
+  // ** handle create order
+  const handleCreateOrder = (data) => {
+    if (accessToken) {
+      let requestData = {
+        shippedAddress: 'test',
+        totalPrice: totalItem.totalPrice,
+        paymentMethod: 1,
+        orderDetails: data.map((item) => {
+          return { ingredientId: item.id, quantity: item.amount, price: item.price };
+        }),
+      };
+      console.log(requestData);
+      toast.promise(
+        instances
+          .post('/orders', {
+            shippedAddress: 'test',
+            totalPrice: totalItem.totalPrice,
+            paymentMethod: 1,
+            orderDetails: data.map((item) => {
+              return { ingredientId: item.id, quantity: item.amount, price: item.price };
+            }),
+          })
+          .then((response) => {
+            console.log(response);
+          }),
+        {
+          success: 'Đang chuyển hướng...',
+          pending: 'Đang tạo đơn hàng',
+          error: 'Có lỗi xảy ra!',
+        },
+      );
+    }
+  };
+
   return (
     <>
       {/* cart info */}
@@ -85,10 +122,11 @@ const SideComp = () => {
       </div>
       {/* button */}
       <button
-        // onClick={() => navigate('/cart-address')}
+        onClick={() => handleCreateOrder(currentCart)}
         disabled={currentCart?.length > 0 ? false : true}
-        className={`uppercase select-none text-white font-semibold w-full text-center py-2 rounded-[5px]
-${currentCart?.length > 0 ? 'cursor-pointer bg-primary' : 'cursor-not-allowed bg-secondary'}`}
+        className={`uppercase select-none text-white font-semibold w-full text-center py-2 rounded-[5px] ${
+          currentCart?.length > 0 ? 'cursor-pointer bg-primary' : 'cursor-not-allowed bg-secondary'
+        }`}
       >
         Thanh toán ngay
       </button>

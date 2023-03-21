@@ -44,15 +44,11 @@ const Navigation = (props) => {
     decoded_jwt = jwt_decode(accessToken);
   }
 
-  // ** set account info
+  //**  Get shopping cart, set account info
   useEffect(() => {
     if (decoded_jwt) {
       dispatch(setAccountInfo(decoded_jwt));
     }
-  }, [decoded_jwt]);
-
-  //**  Get shopping cart
-  useEffect(() => {
     dispatch(getShoppingCart());
   }, []);
 

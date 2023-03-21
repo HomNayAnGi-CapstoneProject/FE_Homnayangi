@@ -82,12 +82,12 @@ const AddressForm = (props) => {
           <div className="flex-1">
             <input
               type="number"
-              name="phonenumber"
+              name="PhoneNumber"
               placeholder="Số điện thoại"
               className={`block w-full h-[47px] ${
-                errors?.phonenumber ? 'mb-[5px]' : 'mb-[20px]'
+                errors?.PhoneNumber ? 'mb-[5px]' : 'mb-[20px]'
               } p-[12px] text-subText sm:text-md  border border-[#B9B9B9] rounded-[5px] focus:outline-primary`}
-              {...register('phonenumber', {
+              {...register('PhoneNumber', {
                 required: true,
                 minLength: 10,
                 maxLength: 11,
@@ -96,12 +96,12 @@ const AddressForm = (props) => {
                 },
               })}
             />
-            {errors?.phonenumber?.type === 'required' && (
+            {errors?.PhoneNumber?.type === 'required' && (
               <p className="mb-[5px] text-redError text-[14px]">Số điện thoại không được trống</p>
             )}
-            {(errors?.phonenumber?.type === 'maxLength' ||
-              errors?.phonenumber?.type === 'minLength' ||
-              errors?.phonenumber?.type === 'pattern') && (
+            {(errors?.PhoneNumber?.type === 'maxLength' ||
+              errors?.PhoneNumber?.type === 'minLength' ||
+              errors?.PhoneNumber?.type === 'pattern') && (
               <p className="mb-[5px] text-redError text-[14px]">Số điện thoại không hợp lệ</p>
             )}
           </div>
@@ -189,7 +189,12 @@ const AddressForm = (props) => {
               onChange={handleChangeDistricts}
               displayEmpty
               renderValue={activeDistricts !== '' ? undefined : () => <p className="text-[#898989]">Chọn quận/huyện</p>}
-              inputProps={{ ...register('districts', { required: true }) }}
+              inputProps={{
+                ...register(
+                  'districts',
+                  // { required: true }
+                ),
+              }}
               className={`block w-full h-[47px] ${
                 errors?.districts ? 'mb-[5px]' : 'mb-[20px]'
               } p-[12px] text-subText sm:text-md  border rounded-[5px] focus:outline-primary`}
@@ -218,7 +223,12 @@ const AddressForm = (props) => {
               onChange={handleChangeWards}
               displayEmpty
               renderValue={activeWards !== '' ? undefined : () => <p className="text-[#898989]">Chọn phường/xã</p>}
-              inputProps={{ ...register('wards', { required: true }) }}
+              inputProps={{
+                ...register(
+                  'wards',
+                  //  { required: true }
+                ),
+              }}
               className={`block w-full h-[47px] ${
                 errors?.wards ? 'mb-[5px]' : 'mb-[20px]'
               } p-[12px] text-subText sm:text-md  border rounded-[5px] focus:outline-primary`}
@@ -249,7 +259,7 @@ const AddressForm = (props) => {
           className="p-2.5 w-full text-subText bg-white border-[2px] rounded border-[#d2d2d2]
             focus:outline-none focus:bg-white focus:border-[2px] focus:border-primary resize-none"
           {...register('description', {
-            required: true,
+            // required: true,
           })}
         ></textarea>
         {errors?.description?.type === 'required' && (

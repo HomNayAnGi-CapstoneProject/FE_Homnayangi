@@ -12,21 +12,26 @@ import CommentSection from './components/CommentSection/CommentSection';
 // ** Assets
 
 // ** Third party libraries **
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import Breadcrumbs from '../../share/components/Breadcrumbs';
 
 const BlogDetail = () => {
   const params = useParams();
   const [blogDetail, setBlogDetail] = useState();
+  const navigate = useNavigate();
 
   useEffect(() => {
     // console.log(params);
     const fetch = async () => {
-      const res = await instances.get(`/blogs/${params?.id}`);
-      // console.log(res.data);
-      setBlogDetail(res.data);
-      document.title = res.data.title;
+      try {
+        const res = await instances.get(`/blogs/${params?.id}`);
+        // console.log(res);
+        setBlogDetail(res.data);
+        document.title = res.data.title;
+      } catch (error) {
+        navigate('/');
+      }
     };
     fetch();
   }, [params.id]);
@@ -50,7 +55,7 @@ const BlogDetail = () => {
                 </div>
               </div>
               <div className="xxlg:w-[30%] w-full sticky top-[100px] h-fit">
-                <RelativeBlog />
+                <RelativeBlog relativeBlogs={blogDetail?.relatedBlogs} />
               </div>
             </div>
           </div>

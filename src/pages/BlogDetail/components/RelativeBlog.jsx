@@ -2,7 +2,8 @@ import React from 'react';
 import RelaBlogCard from './RelaBlogCard';
 import scrollToWithOffset from '../../../utils/scrollToWithOffset';
 
-const RelativeBlog = () => {
+const RelativeBlog = (props) => {
+  const { relativeBlogs } = props;
   return (
     <div className="font-inter">
       <div className="bg-white rounded-[5px] p-5 sm:block hidden">
@@ -30,18 +31,15 @@ const RelativeBlog = () => {
 
       <div className="bg-white rounded-[5px] p-5 mt-[20px]">
         <div className="pb-3 border-b-[#d2d2d2] border-b">
-          <p className="uppercase font-semibold">Món chung thực đơn</p>
+          <p className="uppercase font-semibold">Món tương tự</p>
         </div>
         <div className="mt-2 sm:flex xxlg:flex-col flex-row">
-          <div className="mt-2 sm:flex-1">
-            <RelaBlogCard />
-          </div>
-          <div className="mt-2 sm:flex-1">
-            <RelaBlogCard />
-          </div>
-          <div className="mt-2 sm:flex-1">
-            <RelaBlogCard />
-          </div>
+          {relativeBlogs?.length > 0 &&
+            relativeBlogs?.map((item) => (
+              <div key={item.blogId} className="mt-2 sm:flex-1">
+                <RelaBlogCard data={item} />
+              </div>
+            ))}
         </div>
       </div>
     </div>

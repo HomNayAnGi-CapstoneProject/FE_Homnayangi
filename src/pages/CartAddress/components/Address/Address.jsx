@@ -26,7 +26,13 @@ const Address = (props) => {
         <p className="uppercase text-black font-medium text-[18px]">Thông tin địa chỉ</p>
       </div>
       {/* body */}
-      <div className="mt-5">{userInfo ? <AddressForm userInfo={userInfo} /> : <Loading />}</div>
+      <div className="mt-5">
+        {Object.keys(userInfo).length === 0 && userInfo.constructor === Object ? (
+          <Loading />
+        ) : (
+          <AddressForm userInfo={userInfo} />
+        )}
+      </div>
     </div>
   );
 };
