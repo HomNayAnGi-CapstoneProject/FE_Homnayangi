@@ -86,7 +86,7 @@ const EditBlog = () => {
     if (params.blogId) {
       const fetch = async () => {
         const res = await instances.get(`/blogs/staff-preview/${params.blogId}`);
-        // console.log(res.data);
+        console.log(res.data);
         dispatch(setContentBlog({ title: res.data?.title }));
         dispatch(setContentBlog({ minSize: res.data?.minSize }));
         dispatch(setContentBlog({ maxSize: res.data?.maxSize }));
@@ -94,6 +94,7 @@ const EditBlog = () => {
         dispatch(setContentBlog({ packagePrice: res.data?.packagePrice }));
         dispatch(setContentBlog({ cookedPrice: res.data?.cookedPrice }));
         dispatch(setContentBlog({ totalKcal: res.data?.totalKcal }));
+        dispatch(setContentBlog({ videoUrl: res.data?.videoUrl }));
         dispatch(setContentBlog({ description: { html: res.data?.descriptionHTML, text: res.data?.descriptionText } }));
         dispatch(setContentBlog({ preparation: { html: res.data?.preparationHTML, text: res.data?.preparationText } }));
         dispatch(setContentBlog({ processing: { html: res.data?.processingHTML, text: res.data?.processingText } }));
@@ -155,7 +156,7 @@ const EditBlog = () => {
                 // finished: contentBlog?.finished?.html || null,
                 imageUrl: contentBlog?.coverImage?.url || null,
                 blogStatus: 2, // (DELETED: 0, ACTIVE: 1, DRAFT:2, PENDING: 3)
-                videoUrl: null,
+                videoUrl: contentBlog?.videoUrl || null,
               },
               Recipe: {
                 packagePrice: parseInt(contentBlog?.packagePrice) || null,
@@ -567,6 +568,9 @@ const EditBlog = () => {
             />
           </div>
         </div>
+
+        {/* ================================= VIDEO ================================= */}
+        <div className="my-7"></div>
       </div>
     </div>
   );
