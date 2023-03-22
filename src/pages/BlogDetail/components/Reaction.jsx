@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import instances from '../../../utils/plugin/axios';
-import { setReturnUrl } from '../../../redux/actionSlice/globalSlice';
+import ModalRequireLogin from '../../../share/components/Modal/ModalRequireLogin';
 
 // ** assets
 import eyes from '../../../assets/images/eyes.png';
@@ -15,7 +15,6 @@ import { ic_clipboard } from '../../../assets';
 import jwt_decode from 'jwt-decode';
 import { Modal } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 
 const Reaction = (props) => {
@@ -32,8 +31,6 @@ const Reaction = (props) => {
       position: 'top-center',
     });
   const params = useParams();
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
   const [isHover, setIsHover] = useState(false);
   const [isYourReaction, setYourReaction] = useState(false);
   const [isHoverShare, setIsHoverShare] = useState(false);
@@ -86,32 +83,10 @@ const Reaction = (props) => {
     }
   };
 
-  // ** open share modal
-  const handleOpenShareModal = () => {};
-
   return (
     <>
       {openRequireLogin && (
-        <Modal open={openRequireLogin} onClose={() => setOpenRequireLogin(false)}>
-          <div
-            className="fixed left-[50%]
-          top-[50%] translate-y-[-50%] translate-x-[-50%] bg-white rounded-[5px] max-w-[500px]"
-          >
-            <div className="flex flex-col items-center justify-center px-7 py-6">
-              <p>Bạn cần đăng nhập để có thể thực hiện chức năng này</p>
-              <button
-                onClick={() => {
-                  // console.log(location.pathname);
-                  dispatch(setReturnUrl(location.pathname));
-                  navigate('/login');
-                }}
-                className="py-1 px-3 mt-4 bg-primary rounded-[5px] text-white font-medium uppercase"
-              >
-                Đăng nhập
-              </button>
-            </div>
-          </div>
-        </Modal>
+        <ModalRequireLogin openRequireLogin={openRequireLogin} setOpenRequireLogin={setOpenRequireLogin} />
       )}
       <div className="reaction-container font-inter sticky top-[100px] flex flex-col items-center">
         <div

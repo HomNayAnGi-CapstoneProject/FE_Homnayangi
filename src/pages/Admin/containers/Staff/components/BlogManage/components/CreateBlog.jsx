@@ -40,7 +40,7 @@ const CreateBlog = () => {
 
   // ** Functions
   const handlePublish = () => {
-    console.log(contentBlog);
+    // console.log(contentBlog);
     let subCateList = contentBlog?.subCategory?.map(function (item) {
       return { subCateId: item.subCategoryId, blogId: contentStore.blogId };
     });

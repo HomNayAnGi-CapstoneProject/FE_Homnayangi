@@ -8,6 +8,7 @@ import styles from '../../../style';
 //* Third party library
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Navigation } from 'swiper';
+import { useNavigate } from 'react-router-dom';
 import 'swiper/css';
 // import 'swiper/css/pagination';
 import 'swiper/css/navigation';
@@ -17,6 +18,7 @@ const SuggestCheap = (props) => {
   // ** Const
   const { Food } = props;
   const [cheapData, setCheapData] = useState(null);
+  const navigate = useNavigate();
 
   // ** call api
 
@@ -61,7 +63,7 @@ const SuggestCheap = (props) => {
                 {cheapData?.length > 0 &&
                   cheapData.map((item) => (
                     <SwiperSlide key={item.blogId}>
-                      <FoodCard food={item} />
+                      <FoodCard isCheap={true} food={item} />
                     </SwiperSlide>
                   ))}
               </Swiper>
@@ -84,14 +86,17 @@ const SuggestCheap = (props) => {
                 {cheapData?.length > 0 &&
                   cheapData.map((item) => (
                     <SwiperSlide key={item.blogId}>
-                      <FoodCard food={item} />
+                      <FoodCard isCheap={true} food={item} />
                     </SwiperSlide>
                   ))}
               </div>
             </Swiper>
           </div>
           <div className="flex justify-center mt-10">
-            <button className="rounded-[30px] hover:bg-primaryHover transition bg-primary flex items-center gap-3 py-[10px] px-[20px] text-[20px] font-medium text-white">
+            <button
+              onClick={() => navigate('/recipe')}
+              className="rounded-[30px] hover:bg-primaryHover transition bg-primary flex items-center gap-3 py-[10px] px-[20px] text-[20px] font-medium text-white"
+            >
               Xem thêm
               <div className="bg-cover w-[20px] h-[20px]" style={{ backgroundImage: `url(${ic_boiling_white})` }} />
             </button>

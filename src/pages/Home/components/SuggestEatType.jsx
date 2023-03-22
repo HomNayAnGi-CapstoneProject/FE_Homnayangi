@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import instances from '../../../utils/plugin/axios';
 import Image from '../../../share/components/Image';
 import generateSlug from '../../../utils/generateSlug';
+import { addItemNoStock, getShoppingCart } from '../../../redux/actionSlice/shoppingCartSlice';
+import ModalRequireLogin from '../../../share/components/Modal/ModalRequireLogin';
 
 // ** Assets
 import styles from '../../../style';
@@ -18,71 +20,119 @@ import 'swiper/css';
 // import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import { useNavigate } from 'react-router-dom';
+import jwt_decode from 'jwt-decode';
+import { useDispatch } from 'react-redux';
 
 // ** Card Comp
 const Card = (props) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const accessToken = localStorage.getItem('accessToken');
+  let decoded_jwt = {};
+  if (accessToken) {
+    decoded_jwt = jwt_decode(accessToken);
+  }
+  const [openRequireLogin, setOpenRequireLogin] = useState(false);
+
+  // ** functions
+  //** handle add to cart */
+  const handleAddToCart = (data, isCook) => {
+    if (accessToken) {
+      let requestObject = {
+        cusId: decoded_jwt.Id,
+        orderDetails: data.recipeDetails,
+        isCook: isCook,
+        orderName: data.recipeTitle,
+        id: data.recipeId,
+        img: data.imageUrl,
+        price: isCook ? data.cookedPrice : data.packagePrice,
+      };
+      // console.log(requestObject);
+      dispatch(addItemNoStock(requestObject));
+      dispatch(getShoppingCart());
+    } else {
+      setOpenRequireLogin(true);
+    }
+  };
+
   return (
-    <div className="relative font-inter rounded-[10px] sm:w-[450px] sm:h-[200px] md:w-[586px] w-[100%] md:h-[220px] h-fit bg-[#FFA883] p-[10px] flex sm:flex-row flex-col gap-[18px] drop-shadow-3xl">
-      <div className="flex gap-[18px]">
-        {/* <div
+    <>
+      {openRequireLogin && (
+        <ModalRequireLogin openRequireLogin={openRequireLogin} setOpenRequireLogin={setOpenRequireLogin} />
+      )}
+      <div className="relative font-inter rounded-[10px] sm:w-[450px] sm:h-[200px] md:w-[586px] w-[100%] md:h-[220px] h-fit bg-[#FFA883] p-[10px] flex sm:flex-row flex-col gap-[18px] drop-shadow-3xl">
+        <div className="flex gap-[18px]">
+          {/* <div
           className="rounded-[10px] border-[2px] border-solid border-white bg-cover sm:h-[180px] sm:w-[180px] md:w-[198px] w-[150px] h-[150px] md:h-[198px] bg-center"
           style={{ backgroundImage: `url(${props?.data?.imageUrl})` }}
         /> */}
-        <Image
-          className="rounded-[10px] border-[2px] border-solid border-white object-cover bg-cover sm:h-[180px] sm:w-[180px] md:w-[198px] w-[150px] h-[150px] md:h-[198px] bg-center"
-          src={props?.data?.imageUrl}
-          alt={''}
-        />
-        <div className="flex-1">
-          <p className="sm:text-[20px] text-[18px] font-semibold text-black mb-[5px] line-clamp-1">
-            {props?.data?.title}
-          </p>
-          <div className="flex gap-[7px]">
-            {props?.data?.listSubCateName?.length > 0 &&
-              props?.data?.listSubCateName?.slice(0, 3)?.map((item, index) => (
+          <Image
+            className="rounded-[10px] border-[2px] border-solid border-white object-cover bg-cover sm:h-[180px] sm:w-[180px] md:w-[198px] w-[150px] h-[150px] md:h-[198px] bg-center"
+            src={props?.data?.imageUrl}
+            alt={''}
+          />
+          <div className="flex-1">
+            <p className="sm:text-[20px] text-[18px] font-semibold text-black mb-[5px] line-clamp-1">
+              {props?.data?.title}
+            </p>
+            <div className="flex gap-[7px]">
+              {props?.data?.listSubCateName?.length > 0 &&
+                props?.data?.listSubCateName?.slice(0, 3)?.map((item, index) => (
+                  <div
+                    key={index}
+                    className="rounded-full w-max bg-[#EAD35B] border-[2px] border-[#8F8137] border-solid xs:px-[10px] px-[2px] py-[0px] text-[12px] text-[#525252]"
+                  >
+                    {item}
+                  </div>
+                ))}
+            </div>
+            <div
+              dangerouslySetInnerHTML={{ __html: props?.data?.description }}
+              className="leading-[25px] mt-[10px] md:line-clamp-3  line-clamp-2"
+            ></div>
+            <div className="sm:flex hidden absolute bottom-[10px]  gap-[8px]">
+              <button
+                onClick={() => navigate(`/recipe/${props?.data?.blogId}/${generateSlug(props?.data?.title)}`)}
+                className="bg-[#FF7940] rounded-[10px] cursor-pointer text-white font-medium xs:text-[18px] sm:text-[16px] text-[1vw] md:px-[15px] sm:py-[10px] px-[6px] py-[10px] flex items-center gap-2"
+              >
+                Công thức
+                <div className="bg-cover w-[20px] h-[20px]" style={{ backgroundImage: `url(${ic_boiling_white})` }} />
+              </button>
+              <button
+                onClick={() => handleAddToCart(props?.data, true)}
+                className="bg-redError rounded-[10px] cursor-pointer text-white font-medium xs:text-[18px] sm:text-[16px] text-[1vw] md:px-[15px] sm:py-[10px] px-[6px] py-[10px] flex items-center gap-2"
+              >
+                Đặt làm
                 <div
-                  key={index}
-                  className="rounded-full w-max bg-[#EAD35B] border-[2px] border-[#8F8137] border-solid xs:px-[10px] px-[2px] py-[0px] text-[12px] text-[#525252]"
-                >
-                  {item}
-                </div>
-              ))}
-          </div>
-          <div
-            dangerouslySetInnerHTML={{ __html: props?.data?.description }}
-            className="leading-[25px] mt-[10px] md:line-clamp-3  line-clamp-2"
-          ></div>
-          <div className="sm:flex hidden absolute bottom-[10px]  gap-[8px]">
-            <button className="bg-[#FF7940] rounded-[10px] cursor-pointer text-white font-medium xs:text-[18px] sm:text-[16px] text-[1vw] md:px-[15px] sm:py-[10px] px-[6px] py-[10px] flex items-center gap-2">
-              Công thức
-              <div className="bg-cover w-[20px] h-[20px]" style={{ backgroundImage: `url(${ic_boiling_white})` }} />
-            </button>
-            <button className="bg-redError rounded-[10px] cursor-pointer text-white font-medium xs:text-[18px] sm:text-[16px] text-[1vw] md:px-[15px] sm:py-[10px] px-[6px] py-[10px] flex items-center gap-2">
-              Đặt làm
-              <div className="bg-cover w-[20px] h-[20px]" style={{ backgroundImage: `url(${ic_add_to_cart_white})` }} />
-            </button>
+                  className="bg-cover w-[20px] h-[20px]"
+                  style={{ backgroundImage: `url(${ic_add_to_cart_white})` }}
+                />
+              </button>
+            </div>
           </div>
         </div>
+        <div className="flex sm:hidden gap-[8px]">
+          <button
+            onClick={() => navigate(`/recipe/${props?.data?.blogId}/${generateSlug(props?.data?.title)}`)}
+            className="bg-[#FF7940] flex-1 rounded-[10px] cursor-pointer text-white font-medium xs:text-[18px] xs:px-[20px] px-1 py-[10px] flex justify-center items-center gap-2"
+          >
+            Công thức
+            <div className="bg-cover w-[20px] h-[20px]" style={{ backgroundImage: `url(${ic_boiling_white})` }} />
+          </button>
+          <button
+            onClick={() => handleAddToCart(props?.data, true)}
+            className="bg-redError flex-1 rounded-[10px] cursor-pointer text-white font-medium xs:text-[18px] xs:px-[20px]  px-1 py-[10px] flex justify-center items-center gap-2"
+          >
+            Đặt làm
+            <div className="bg-cover w-[20px] h-[20px]" style={{ backgroundImage: `url(${ic_add_to_cart_white})` }} />
+          </button>
+        </div>
+        <div className="absolute top-0 left-0 w-[50px] h-[60px] bg-gradient-to-t from-redError to-primary rounded-tl-[10px] rounded-br-[10px] flex flex-col items-center justify-center">
+          <p className="text-[12px] font-medium text-white">Kcal</p>
+          <p className="font-bold text-white line-clamp-1 ">{Intl.NumberFormat().format(props?.data?.totalKcal)}</p>
+        </div>
       </div>
-      <div className="flex sm:hidden gap-[8px]">
-        <button
-          onClick={() => navigate(`/recipe/${props?.data?.blogId}/${generateSlug(props?.data?.title)}`)}
-          className="bg-[#FF7940] flex-1 rounded-[10px] cursor-pointer text-white font-medium xs:text-[18px] xs:px-[20px] px-1 py-[10px] flex justify-center items-center gap-2"
-        >
-          Công thức
-          <div className="bg-cover w-[20px] h-[20px]" style={{ backgroundImage: `url(${ic_boiling_white})` }} />
-        </button>
-        <button className="bg-redError flex-1 rounded-[10px] cursor-pointer text-white font-medium xs:text-[18px] xs:px-[20px]  px-1 py-[10px] flex justify-center items-center gap-2">
-          Đặt làm
-          <div className="bg-cover w-[20px] h-[20px]" style={{ backgroundImage: `url(${ic_add_to_cart_white})` }} />
-        </button>
-      </div>
-      <div className="absolute top-0 left-0 w-[50px] h-[60px] bg-gradient-to-t from-redError to-primary rounded-tl-[10px] rounded-br-[10px] flex flex-col items-center justify-center">
-        <p className="text-[12px] font-medium text-white">Kcal</p>
-        <p className="font-bold text-white line-clamp-1 ">{Intl.NumberFormat().format(props?.data?.totalKcal)}</p>
-      </div>
-    </div>
+    </>
   );
 };
 
@@ -106,6 +156,7 @@ const SuggestEatType = () => {
   // ** Const
   const [eatTypeData, setEatTypeData] = useState('');
   const [type, setType] = useState(0);
+  const navigate = useNavigate();
 
   // ** call api
   useEffect(() => {
@@ -204,7 +255,10 @@ const SuggestEatType = () => {
               </div>
 
               <div className="sm:w-full flex justify-center mt-5">
-                <button className="rounded-[30px] hover:bg-primaryHover transition bg-primary flex items-center gap-3 py-[10px] px-[20px] text-[20px] font-medium text-white">
+                <button
+                  onClick={() => navigate('/recipe')}
+                  className="rounded-[30px] hover:bg-primaryHover transition bg-primary flex items-center gap-3 py-[10px] px-[20px] text-[20px] font-medium text-white"
+                >
                   Xem thêm
                   <div className="bg-cover w-[20px] h-[20px]" style={{ backgroundImage: `url(${ic_boiling_white})` }} />
                 </button>

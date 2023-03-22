@@ -79,7 +79,7 @@ const InfoForm = (props) => {
                 email: data.email !== '' ? data.email : null,
                 gender: data.gender,
                 phonenumber: data.phonenumber,
-                avatar: data.avatar !== '' ? data.avatar : null,
+                avatar: null,
                 username: data.username,
                 displayname: null,
               })
@@ -104,11 +104,7 @@ const InfoForm = (props) => {
       {
         pending: 'Đang cập nhật thông tin',
         success: 'Đã cập nhật thành công 👌 Một số thông tin sẽ cập nhật sau khi đăng nhập lại',
-        error: {
-          render({ data }) {
-            return data;
-          },
-        },
+        error: 'Có lỗi xảy ra',
       },
     );
   };
