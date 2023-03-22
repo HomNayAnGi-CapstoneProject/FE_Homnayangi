@@ -63,6 +63,9 @@ const Header = (props) => {
                 openLogout ? 'block' : 'hidden'
               } w-max py-1.5 bg-white rounded-[5px] absolute z-[99] shadow-md top-10 right-[20%]`}
             >
+              <li onClick={() => navigate('/')} className=" cursor-pointer hover:bg-secondary py-1 px-4">
+                Trang chủ
+              </li>
               <li onClick={() => handleLogout()} className=" cursor-pointer hover:bg-secondary py-1 px-4">
                 Đăng xuất
               </li>

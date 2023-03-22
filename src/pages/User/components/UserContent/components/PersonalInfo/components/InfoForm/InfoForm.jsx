@@ -13,6 +13,7 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
+import jwt_decode from 'jwt-decode';
 
 const InfoForm = (props) => {
   // ** const
@@ -45,33 +46,67 @@ const InfoForm = (props) => {
     formState: { errors },
   } = useForm({ defaultValues: userData });
 
+  const accessToken = localStorage.getItem('accessToken');
+  let decoded_jwt = {};
+  if (accessToken) {
+    decoded_jwt = jwt_decode(accessToken);
+  }
+
+  // ** check role
+  const isCustomer = () => {
+    switch (decoded_jwt.role) {
+      case 'Customer':
+        return true;
+      case 'Staff':
+        return false;
+      default:
+        break;
+    }
+  };
+
   // ** submit user detail form
   const onSubmit = (data) => {
     // console.log(data);
     setUploading(true);
-    toast.promise(
-      typeof data.avatar !== 'string'
-        ? data.avatar.length > 0
-          ? uploadImage(data.avatar[0]).then((res) => {
-              // console.log(res);
+    if (isCustomer()) {
+      toast.promise(
+        typeof data.avatar !== 'string'
+          ? data.avatar.length > 0
+            ? uploadImage(data.avatar[0]).then((res) => {
+                // console.log(res);
+                instances
+                  .put('/personal-customer', {
+                    customerId: store.accountInfo.Id,
+                    firstname: data.firstname,
+                    lastname: data.lastname,
+                    email: data.email !== '' ? data.email : undefined,
+                    gender: data.gender,
+                    phonenumber: data.phonenumber,
+                    avatar: res,
+                  })
+                  .then((res) => {
+                    setUploading(false);
+                  });
+              })
+            : // .catch((err) => {
+              //   notifyError(err);
+              // })
               instances
                 .put('/personal-customer', {
                   customerId: store.accountInfo.Id,
                   firstname: data.firstname,
                   lastname: data.lastname,
-                  email: data.email !== '' ? data.email : undefined,
+                  email: data.email !== '' ? data.email : null,
                   gender: data.gender,
                   phonenumber: data.phonenumber,
-                  avatar: res,
+                  avatar: null,
+                  username: data.username,
+                  displayname: null,
                 })
                 .then((res) => {
                   setUploading(false);
-                });
-            })
-          : // .catch((err) => {
-            //   notifyError(err);
-            // })
-            instances
+                })
+          : instances
               .put('/personal-customer', {
                 customerId: store.accountInfo.Id,
                 firstname: data.firstname,
@@ -79,34 +114,79 @@ const InfoForm = (props) => {
                 email: data.email !== '' ? data.email : null,
                 gender: data.gender,
                 phonenumber: data.phonenumber,
-                avatar: null,
+                avatar: data.avatar !== '' ? data.avatar : null,
                 username: data.username,
                 displayname: null,
               })
               .then((res) => {
                 setUploading(false);
+              }),
+        {
+          pending: 'Đang cập nhật thông tin',
+          success: 'Đã cập nhật thành công 👌 Một số thông tin sẽ cập nhật sau khi đăng nhập lại',
+          error: 'Có lỗi xảy ra',
+        },
+      );
+    } else {
+      toast.promise(
+        typeof data.avatar !== 'string'
+          ? data.avatar.length > 0
+            ? uploadImage(data.avatar[0]).then((res) => {
+                // console.log(res);
+                instances
+                  .put('/personal-user', {
+                    userId: store.accountInfo.Id,
+                    firstname: data.firstname,
+                    lastname: data.lastname,
+                    email: data.email !== '' ? data.email : undefined,
+                    gender: data.gender,
+                    phonenumber: data.phonenumber,
+                    avatar: res,
+                  })
+                  .then((res) => {
+                    setUploading(false);
+                  });
               })
-        : instances
-            .put('/personal-customer', {
-              customerId: store.accountInfo.Id,
-              firstname: data.firstname,
-              lastname: data.lastname,
-              email: data.email !== '' ? data.email : null,
-              gender: data.gender,
-              phonenumber: data.phonenumber,
-              avatar: data.avatar !== '' ? data.avatar : null,
-              username: data.username,
-              displayname: null,
-            })
-            .then((res) => {
-              setUploading(false);
-            }),
-      {
-        pending: 'Đang cập nhật thông tin',
-        success: 'Đã cập nhật thành công 👌 Một số thông tin sẽ cập nhật sau khi đăng nhập lại',
-        error: 'Có lỗi xảy ra',
-      },
-    );
+            : // .catch((err) => {
+              //   notifyError(err);
+              // })
+              instances
+                .put('/personal-user', {
+                  userId: store.accountInfo.Id,
+                  firstname: data.firstname,
+                  lastname: data.lastname,
+                  email: data.email !== '' ? data.email : null,
+                  gender: data.gender,
+                  phonenumber: data.phonenumber,
+                  avatar: null,
+                  username: data.username,
+                  displayname: null,
+                })
+                .then((res) => {
+                  setUploading(false);
+                })
+          : instances
+              .put('/personal-user', {
+                userId: store.accountInfo.Id,
+                firstname: data.firstname,
+                lastname: data.lastname,
+                email: data.email !== '' ? data.email : null,
+                gender: data.gender,
+                phonenumber: data.phonenumber,
+                avatar: data.avatar !== '' ? data.avatar : null,
+                username: data.username,
+                displayname: null,
+              })
+              .then((res) => {
+                setUploading(false);
+              }),
+        {
+          pending: 'Đang cập nhật thông tin',
+          success: 'Đã cập nhật thành công 👌 Một số thông tin sẽ cập nhật sau khi đăng nhập lại',
+          error: 'Có lỗi xảy ra',
+        },
+      );
+    }
   };
 
   // ** Upload image
