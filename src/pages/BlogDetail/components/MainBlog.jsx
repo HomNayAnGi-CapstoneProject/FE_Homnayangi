@@ -15,6 +15,7 @@ import { setAddedProduct, addItemNoStock, getShoppingCart } from '../../../redux
 import { toast } from 'react-toastify';
 import jwt_decode from 'jwt-decode';
 import { Modal } from '@mui/material';
+import YouTube from 'react-youtube';
 
 const MainBlog = (props) => {
   const { blogDetail } = props;
@@ -26,6 +27,17 @@ const MainBlog = (props) => {
   }
 
   const [openRequireLogin, setOpenRequireLogin] = useState(false);
+  const opts = {
+    height: '420',
+    width: '100%',
+    playerVars: {
+      // https://developers.google.com/youtube/player_parameters
+      // autoplay: 1,
+      // controls: 0,
+      // mute: bannerMId.bannerVolumeClicked ? 1 : 0,
+      modestbranding: 1,
+    },
+  };
 
   // ** functions
   //** handle add to cart */
@@ -47,6 +59,13 @@ const MainBlog = (props) => {
       setOpenRequireLogin(true);
     }
   };
+
+  // ** get url id from URL
+  const getVideoIdFromUrl = (url) => {
+    const urlParams = new URLSearchParams(new URL(url).search);
+    return urlParams.get('v');
+  };
+
   return (
     <>
       {openRequireLogin && (
@@ -171,6 +190,14 @@ const MainBlog = (props) => {
                   dangerouslySetInnerHTML={{ __html: blogDetail?.finishedHTML }}
                   className="completion-content mt-[18px] leading-7 text-[18px] unreset"
                 ></div>
+              </div>
+
+              <div className="mt-[30px]">
+                {blogDetail?.videoUrl && (
+                  <>
+                    <YouTube videoId={getVideoIdFromUrl(blogDetail?.videoUrl)} opts={opts} />
+                  </>
+                )}
               </div>
             </div>
           </>

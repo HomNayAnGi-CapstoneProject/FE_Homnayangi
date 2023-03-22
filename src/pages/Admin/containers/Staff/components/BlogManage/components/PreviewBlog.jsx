@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import instances from '../../../../../../../utils/plugin/axios';
 import Image from '../../../../../../../share/components/Image';
+import YouTube from 'react-youtube';
 
 // ** Redux
 import { getCurrentContent } from '../../../../../../../redux/actionSlice/managementSlice';
@@ -12,6 +13,23 @@ const PreviewBlog = () => {
   // ** Const
   const [previewData, setPreviewData] = useState();
   const params = useParams();
+  const opts = {
+    height: '420',
+    width: '100%',
+    playerVars: {
+      // https://developers.google.com/youtube/player_parameters
+      // autoplay: 1,
+      // controls: 0,
+      // mute: bannerMId.bannerVolumeClicked ? 1 : 0,
+      modestbranding: 1,
+    },
+  };
+
+  // ** get url id from URL
+  const getVideoIdFromUrl = (url) => {
+    const urlParams = new URLSearchParams(new URL(url).search);
+    return urlParams.get('v');
+  };
 
   // ** get data preview
   useEffect(() => {
@@ -109,6 +127,14 @@ const PreviewBlog = () => {
             <div className="mt-[30px]">
               <p className="font-semibold text-[20px]">Thành phẩm:</p>
               <div className="mt-[10px] unreset" dangerouslySetInnerHTML={{ __html: previewData?.finishedHTML }}></div>
+            </div>
+            {/* video */}
+            <div className="mt-[30px]">
+              {previewData?.videoUrl && (
+                <>
+                  <YouTube videoId={getVideoIdFromUrl(previewData?.videoUrl)} opts={opts} />
+                </>
+              )}
             </div>
           </div>
         </>

@@ -223,6 +223,11 @@ const EditBlog = () => {
     }
   };
 
+  // ** handle input videoUrl
+  const handleInputVideoUrl = (e) => {
+    dispatch(setContentBlog({ videoUrl: e.target.value }));
+  };
+
   // ** Functs
   const getHtmlValuee = () => {
     console.log(mdEditDescription.current.getHtmlValue());
@@ -570,7 +575,18 @@ const EditBlog = () => {
         </div>
 
         {/* ================================= VIDEO ================================= */}
-        <div className="my-7"></div>
+        <div className="my-7">
+          <p className="font-semibold text-[20px]">Video hướng dẫn:</p>
+          <div>
+            <input
+              name="videoUrl"
+              placeholder="Dán link vào đây"
+              onChange={(e) => handleInputVideoUrl(e)}
+              value={contentBlog?.videoUrl}
+              className={`block mt-2 w-full h-[47px] p-[12px] text-subText sm:text-md  border border-[#B9B9B9] rounded-[5px] focus:outline-primary`}
+            ></input>
+          </div>
+        </div>
       </div>
     </div>
   );
