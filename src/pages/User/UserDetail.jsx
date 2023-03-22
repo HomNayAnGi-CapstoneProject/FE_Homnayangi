@@ -38,7 +38,7 @@ const UserDetail = ({ title }) => {
         <div className={`${styles.container} xx4lg:px-10`}>
           <div className="flex sm:flex-row flex-col font-inter gap-16">
             <div className="sm:w-[280px]">
-              <UserNavigate />
+              <UserNavigate decoded_jwt={decoded_jwt} />
             </div>
             <div className="w-full">
               <UserContent />

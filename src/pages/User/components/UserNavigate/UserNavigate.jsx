@@ -16,12 +16,18 @@ import {
 // ** third party
 import { useNavigate, Navigate, BrowserRouter, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import jwt_decode from 'jwt-decode';
 
-const UserNavigate = () => {
+const UserNavigate = (props) => {
   // ** const
   const store = useSelector((state) => state.account);
   const [active, setActive] = useState('user');
   const location = useLocation();
+  const accessToken = localStorage.getItem('accessToken');
+  let decoded_jwt = {};
+  if (accessToken) {
+    decoded_jwt = jwt_decode(accessToken);
+  }
 
   useEffect(() => {
     // console.log(location.pathname.split('/'));
@@ -45,10 +51,22 @@ const UserNavigate = () => {
     }
   };
 
+  // ** check role
+  const isCustomer = () => {
+    switch (decoded_jwt.role) {
+      case 'Customer':
+        return true;
+      case 'Staff':
+        return false;
+      default:
+        break;
+    }
+  };
+
   return (
     <div>
       <div className="flex items-center gap-3">
-        <Image alt="" src={store.accountInfo?.Avatar || defaultImage} className="object-cover w-[75px] rounded-full " />
+        <Image alt="" src={store.accountInfo?.Avatar || defaultImage} className="object-cover w-[60px] rounded-full " />
         <div className="flex flex-col gap-2">
           <p className="font-semibold text-[18px] text-black">
             {/* {store.accountInfo?.unique_name !== '' && store.accountInfo?.unique_name}
@@ -56,7 +74,7 @@ const UserNavigate = () => {
             {store.accountInfo?.Displayname !== '' && store.accountInfo?.Displayname} */}
             {getName()}
           </p>
-          <p className="font-medium text-[#898989] uppercase text-[14px]">Khách hàng</p>
+          <p className="font-medium text-[#898989] uppercase text-[14px]">{isCustomer() ? 'Khách hàng' : ''}</p>
         </div>
       </div>
       <div className="mt-6">
@@ -68,22 +86,27 @@ const UserNavigate = () => {
           urlActive={ic_user_active}
           active={active}
         />
-        <MenuItem
-          link="user/orders"
-          title="Đơn Mua"
-          id="orders"
-          url={ic_userOrder}
-          urlActive={ic_userOrder_active}
-          active={active}
-        />
-        <MenuItem
-          link="user/accomplishments"
-          title="Thành Quả Của Tôi"
-          id="accomplishments"
-          url={ic_userAccom}
-          urlActive={ic_userAccom_active}
-          active={active}
-        />
+        {/* check if customer then show below */}
+        {isCustomer() && (
+          <>
+            <MenuItem
+              link="user/orders"
+              title="Đơn Mua"
+              id="orders"
+              url={ic_userOrder}
+              urlActive={ic_userOrder_active}
+              active={active}
+            />
+            <MenuItem
+              link="user/accomplishments"
+              title="Thành Quả Của Tôi"
+              id="accomplishments"
+              url={ic_userAccom}
+              urlActive={ic_userAccom_active}
+              active={active}
+            />
+          </>
+        )}
       </div>
     </div>
   );

@@ -9,6 +9,7 @@ import { toast } from 'react-toastify';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import jwt_decode from 'jwt-decode';
 
 const UpdatePassForm = () => {
   // ** const
@@ -35,13 +36,31 @@ const UpdatePassForm = () => {
     formState: { errors },
   } = useForm();
 
+  const accessToken = localStorage.getItem('accessToken');
+  let decoded_jwt = {};
+  if (accessToken) {
+    decoded_jwt = jwt_decode(accessToken);
+  }
+
+  // ** check role
+  const isCustomer = () => {
+    switch (decoded_jwt.role) {
+      case 'Customer':
+        return true;
+      case 'Staff':
+        return false;
+      default:
+        break;
+    }
+  };
+
   // ** submit password form
   const onSubmit = (data) => {
     // console.log(data);
     setUpdating(true);
     toast.promise(
       instances
-        .put('/personal-customer/password', {
+        .put(`/personal-${isCustomer() ? 'customer' : 'user'}/password`, {
           oldPassword: data.oldPassword,
           newPassword: data.newPassword.trim(),
         })
