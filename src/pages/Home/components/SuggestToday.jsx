@@ -89,21 +89,21 @@ const SuggestToday = () => {
 
   // ** call api
   useEffect(() => {
-    const fetch = async () => {
-      try {
-        if (store?.sugesstFormData.Age !== undefined) {
+    if (store?.sugesstFormData?.Age !== undefined) {
+      const fetch = async () => {
+        try {
           const res = await instances.get(
             `/blogs/suggest-blog/${store?.sugesstFormData.Age}/${store?.sugesstFormData.IsMale}/${store?.sugesstFormData.IsLoseWeight}`,
           );
           // console.log(res);
           setTodayData(res.data);
           setImgList(res.data.map((item) => item.imageUrl));
+        } catch (error) {
+          notifyError();
         }
-      } catch (error) {
-        notifyError();
-      }
-    };
-    fetch();
+      };
+      fetch();
+    }
   }, [store?.sugesstFormData]);
 
   // ** functions
