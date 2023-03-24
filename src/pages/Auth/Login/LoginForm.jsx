@@ -53,7 +53,7 @@ const LoginForm = () => {
           const decoded = jwt_decode(res?.data?.result);
           dispatch(setAccountInfo(decoded));
           localStorage.setItem('accessToken', res.data.result);
-          if (decoded?.role === 'Staff' || decoded?.role === 'Admin') {
+          if (decoded?.role === 'Staff' || decoded?.role === 'Admin' || decoded?.role === 'Manager') {
             navigate('/management');
           } else {
             if (store.returnUrl !== '') {
@@ -93,7 +93,7 @@ const LoginForm = () => {
                 const decoded = jwt_decode(res?.data?.result);
                 dispatch(setAccountInfo(decoded));
                 localStorage.setItem('accessToken', res.data.result);
-                if (decoded?.role === 'Staff' || decoded?.role === 'Admin') {
+                if (decoded?.role === 'Staff' || decoded?.role === 'Admin' || decoded?.role === 'Manager') {
                   navigate('/management');
                 } else {
                   if (store.returnUrl !== '') {

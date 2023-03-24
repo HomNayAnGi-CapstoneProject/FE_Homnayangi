@@ -246,6 +246,22 @@ const SideBar = (props) => {
             </>
           )}
 
+          {checkRole() == 'Manager' && (
+            <>
+              <p className="pt-2 pb-5 uppercase text-[#c2c2c2]">quản lý</p>
+              <MenuItem
+                link="management/blog-review"
+                active={active}
+                id="blog-review"
+                url={ic_blog}
+                urlActive={ic_blog_active}
+                title="Duyệt bài viết"
+                setOpenSidebar={props.setOpenSidebar}
+                isTablet={props.isTablet}
+              />
+            </>
+          )}
+
           <p className="py-2 pb-5 uppercase text-[#c2c2c2]">khác</p>
           <div className="cursor-pointer" onClick={() => handleLogout()}>
             <MenuItem url={ic_logout} title="Đăng xuất" />
