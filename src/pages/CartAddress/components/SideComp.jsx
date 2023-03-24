@@ -7,9 +7,12 @@ import CartItem from '../../../share/components/Modal/ModalShoppingCart/componen
 import { useDispatch, useSelector } from 'react-redux';
 import jwt_decode from 'jwt-decode';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router';
 
 const SideComp = () => {
   const cartList = useSelector((state) => state.cart.shoppingCart);
+  const cartType = useSelector((state) => state.cart.cartType);
+  const navigate = useNavigate();
   const accessToken = localStorage.getItem('accessToken');
   let decoded_jwt = {};
   if (accessToken) {
@@ -25,7 +28,12 @@ const SideComp = () => {
       });
     }
     if (currentUser?.cart?.length > 0) {
-      currentCart = currentUser.cart;
+      // cart type = 1 -> isCooked = false
+      if (cartType == 1) {
+        currentCart = currentUser.cart.filter((item) => item.isCook == false);
+      } else {
+        currentCart = currentUser.cart.filter((item) => item.isCook == true);
+      }
     }
     return currentCart;
   };
@@ -42,7 +50,7 @@ const SideComp = () => {
       });
     }
     if (currentUser?.cart?.length > 0) {
-      currentUser?.cart.forEach((item) => {
+      currentCart.forEach((item) => {
         total += item.amount;
         totalPrice += item.amount * item.price;
       });
@@ -51,6 +59,23 @@ const SideComp = () => {
   };
   const totalItem = totalItemInCart();
 
+  const getListTotalIngredients = () => {
+    let listTotalIngre = [];
+    currentCart?.forEach((cartItem) => {
+      listTotalIngre.push(
+        ...cartItem.orderDetails.map((ingre) => {
+          return {
+            ingredientId: ingre.ingredientId,
+            quantity: ingre.quantity,
+            price: ingre.price,
+            recipeId: cartItem.id,
+          };
+        }),
+      );
+    });
+    return listTotalIngre;
+  };
+
   // ** handle create order
   const handleCreateOrder = (data) => {
     if (accessToken) {
@@ -58,23 +83,23 @@ const SideComp = () => {
         shippedAddress: 'test',
         totalPrice: totalItem.totalPrice,
         paymentMethod: 1,
-        orderDetails: data.map((item) => {
-          return { ingredientId: item.id, quantity: item.amount, price: item.price };
-        }),
+        isCooked: cartType == 1 ? false : true,
+        orderDetails: getListTotalIngredients(),
       };
-      console.log(requestData);
+      // console.log(requestData);
       toast.promise(
         instances
           .post('/orders', {
             shippedAddress: 'test',
             totalPrice: totalItem.totalPrice,
             paymentMethod: 1,
-            orderDetails: data.map((item) => {
-              return { ingredientId: item.id, quantity: item.amount, price: item.price };
-            }),
+            isCooked: cartType == 1 ? false : true,
+            orderDetails: getListTotalIngredients(),
           })
           .then((response) => {
-            console.log(response);
+            // console.log(response.data);
+            window.location.replace(response.data);
+            // window.location.href = response.data;
           }),
         {
           success: 'Đang chuyển hướng...',

@@ -12,3 +12,6 @@ export const Regex_Password = /^[A-Za-z0-9]*$/
 
 // ** phone number
 export const Regex_PhoneNumber = /(84|0[3|5|7|8|9])+([0-9]{8})\b/
+
+// ** get guid
+export const Regex_GetGuid = /(\{){0,1}[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}(\}){0,1}/g

@@ -1,4 +1,4 @@
-import React from 'react';
+import { memo } from 'react';
 import emptyCart from '../../../../../share/lottie/emptyCart.json';
 import Item from './components/Item';
 
@@ -16,6 +16,7 @@ const Body = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const cartList = useSelector((state) => state.cart.shoppingCart);
+  const cartType = useSelector((state) => state.cart.cartType);
   const accessToken = localStorage.getItem('accessToken');
   let decoded_jwt = {};
   if (accessToken) {
@@ -32,7 +33,12 @@ const Body = () => {
       });
     }
     if (currentUser?.cart?.length > 0) {
-      currentCart = currentUser.cart;
+      // cart type = 1 -> isCooked = false
+      if (cartType == 1) {
+        currentCart = currentUser.cart.filter((item) => item.isCook == false);
+      } else {
+        currentCart = currentUser.cart.filter((item) => item.isCook == true);
+      }
     }
     return currentCart;
   };

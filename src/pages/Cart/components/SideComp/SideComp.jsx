@@ -8,6 +8,7 @@ import jwt_decode from 'jwt-decode';
 
 const SideComp = () => {
   const cartList = useSelector((state) => state.cart.shoppingCart);
+  const cartType = useSelector((state) => state.cart.cartType);
   const navigate = useNavigate();
   const [openModal, setOpenModal] = useState(false);
   const accessToken = localStorage.getItem('accessToken');
@@ -25,7 +26,12 @@ const SideComp = () => {
       });
     }
     if (currentUser?.cart?.length > 0) {
-      currentCart = currentUser.cart;
+      // cart type = 1 -> isCooked = false
+      if (cartType == 1) {
+        currentCart = currentUser.cart.filter((item) => item.isCook == false);
+      } else {
+        currentCart = currentUser.cart.filter((item) => item.isCook == true);
+      }
     }
     return currentCart;
   };
@@ -42,7 +48,7 @@ const SideComp = () => {
       });
     }
     if (currentUser?.cart?.length > 0) {
-      currentUser?.cart.forEach((item) => {
+      currentCart.forEach((item) => {
         total += item.amount;
         totalPrice += item.amount * item.price;
       });
