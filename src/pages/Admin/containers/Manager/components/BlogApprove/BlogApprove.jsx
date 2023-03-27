@@ -13,6 +13,7 @@ const BlogApprove = () => {
   const [updateTable, setUpdateTable] = useState(false);
   const [dataList, setDataList] = useState([]);
   const [getPendingBlog, setGetPendingBlog] = useState(true);
+  const [totalPendings, setTotalPendings] = useState(0);
 
   // ** get blog list
   useEffect(() => {
@@ -20,16 +21,33 @@ const BlogApprove = () => {
       const res = await instances.get('/blogs/user', {
         params: { isPending: getPendingBlog },
       });
-      console.log(res.data.result);
+      // console.log(res.data.result);
       setDataList(res.data.result || []);
     };
 
     fetch();
   }, [updateTable, getPendingBlog]);
 
+  // ** get totalPending
+  useEffect(() => {
+    const fetch = async () => {
+      const res = await instances.get('/blogs/user', {
+        params: { isPending: true },
+      });
+      // console.log(res.data.result);
+      if (res.data.result?.length > 0) {
+        setTotalPendings(res.data.result.length);
+      } else {
+        setTotalPendings(0);
+      }
+    };
+
+    fetch();
+  }, []);
+
   // ** functions
   const handleOpenDetail = (data) => {
-    navigate(`/management/blog-review/detail/${data?.blogId}`);
+    navigate(`/management/blog-detail/${data?.blogId}`);
   };
 
   return (
@@ -41,6 +59,9 @@ const BlogApprove = () => {
         >
           {getPendingBlog ? 'Xem tất cả' : 'Xem chờ duyệt'}
         </button>
+        <p className="font-semibold text-[#898989]">
+          Bài viết đang chờ duyệt: <span className="text-primary">({totalPendings})</span>
+        </p>
       </div>
       <div>
         <DataTable dataList={dataList} handleOpenDetail={handleOpenDetail} />

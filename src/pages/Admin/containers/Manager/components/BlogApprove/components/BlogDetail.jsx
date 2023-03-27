@@ -72,7 +72,7 @@ const BlogDetail = () => {
     const res = await instances.put(`/blogs/${type}/${params.blogId}`);
     if (res.data.status !== 'failed') {
       successNotify(type);
-      navigate(`/management/blog-review`);
+      navigate(`/management`);
     } else {
       errorNotify();
     }
@@ -191,7 +191,7 @@ const BlogDetail = () => {
       </div>
       <div className="xxlg:w-[30%] w-full sticky top-[100px] h-fit">
         <div className="bg-white px-5 py-3 rounded-[5px]">
-          <p className="font-medium">Tác giả: vanhoa1098</p>
+          <p className="font-medium">Tác giả: {previewData?.authorName}</p>
           {previewData?.blogStatus == 3 && (
             <div className="mt-5 flex gap-3">
               <button

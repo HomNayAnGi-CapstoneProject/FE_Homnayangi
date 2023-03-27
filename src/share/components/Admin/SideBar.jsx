@@ -114,19 +114,19 @@ const SideBar = (props) => {
       <img className="w-[70px]" src={Logo} />
       <div className="mt-[45px]">
         <ul>
-          <p className="pb-5 uppercase text-[#c2c2c2]">Bảng điều khiển</p>
-          <MenuItem
-            link="management"
-            active={active}
-            id="management"
-            url={ic_dashboard}
-            urlActive={ic_dashboard_active}
-            title="Bảng điều khiển"
-            setOpenSidebar={props.setOpenSidebar}
-            isTablet={props.isTablet}
-          />
           {checkRole() == 'Staff' && (
             <>
+              <p className="pb-5 uppercase text-[#c2c2c2]">Bảng điều khiển</p>
+              <MenuItem
+                link="management"
+                active={active}
+                id="management"
+                url={ic_dashboard}
+                urlActive={ic_dashboard_active}
+                title="Bảng điều khiển"
+                setOpenSidebar={props.setOpenSidebar}
+                isTablet={props.isTablet}
+              />
               <p className="pt-2 pb-5 uppercase text-[#c2c2c2]">quản lý</p>
               <MenuItem
                 link="management/order"
@@ -250,9 +250,9 @@ const SideBar = (props) => {
             <>
               <p className="pt-2 pb-5 uppercase text-[#c2c2c2]">quản lý</p>
               <MenuItem
-                link="management/blog-review"
+                link="management"
                 active={active}
-                id="blog-review"
+                id="management"
                 url={ic_blog}
                 urlActive={ic_blog_active}
                 title="Duyệt bài viết"

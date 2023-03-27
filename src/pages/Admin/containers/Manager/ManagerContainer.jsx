@@ -31,12 +31,11 @@ const ManagerContainer = () => {
         <Suspense fallback={<Loading />}>
           <Routes>
             <Route path="/">
-              <Route index element={<Dashboard />} />
-              <Route path="blog-review">
-                <Route index element={<BlogApprove />} />
-                <Route path="detail/:blogId" element={<BlogDetail />} />
-                {/* <Route path="edit/:blogId" element={<CreateBlog />} /> */}
-              </Route>
+              {/* <Route index element={<Dashboard />} /> */}
+              {/* <Route path="blog-review"> */}
+              <Route index element={<BlogApprove />} />
+              <Route path="blog-detail/:blogId" element={<BlogDetail />} />
+              {/* </Route> */}
             </Route>
           </Routes>
         </Suspense>
