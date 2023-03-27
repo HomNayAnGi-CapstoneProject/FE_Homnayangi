@@ -43,7 +43,7 @@ const PersonalInfo = () => {
   return (
     <div>
       <div className="mb-[30px]">{userData ? <InfoForm userData={userData} /> : <Loading />}</div>
-      <div>{isCustomer() && <Address />}</div>
+      {/* <div>{isCustomer() && <Address />}</div> */}
     </div>
   );
 };
