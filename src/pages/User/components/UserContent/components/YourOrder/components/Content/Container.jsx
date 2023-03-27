@@ -8,7 +8,7 @@ import staticFood1 from '../../../../../../../../assets/images/staticFood1.png';
 
 const Container = (props) => {
   // **
-  const { status } = props;
+  const { status, orderData } = props;
   const [orderList, setOrderList] = useState([]);
 
   useEffect(() => {
@@ -51,7 +51,7 @@ const Container = (props) => {
 
   return (
     <div className="mt-4 w-full bg-white rounded-[5px] p-5">
-      {orderList?.length > 0 ? (
+      {orderData?.length > 0 ? (
         <div>
           <div className="xlg:flex hidden pb-3 border-b border-b-[#EDE3E3]">
             <div className="md:w-2/4">
@@ -65,8 +65,11 @@ const Container = (props) => {
             </div>
           </div>
           <div className="max-h-[450px] scroll-bar overflow-y-scroll">
-            {orderList?.map((item) => (
-              <div key={item.id} className="border-t border-gray-400 border-dashed first:border-t-0 mt-2 first:mt-0">
+            {orderData?.map((item) => (
+              <div
+                key={item.orderId}
+                className="border-t border-gray-400 border-dashed first:border-t-0 mt-2 first:mt-0"
+              >
                 <Item data={item} />
               </div>
             ))}

@@ -12,6 +12,9 @@ import { useNavigate } from 'react-router';
 const SideComp = () => {
   const cartList = useSelector((state) => state.cart.shoppingCart);
   const cartType = useSelector((state) => state.cart.cartType);
+  const cartAddress = useSelector((state) => state.cart.cartAddress);
+
+  const [cartAdd, setCartAdd] = useState();
   const navigate = useNavigate();
   const accessToken = localStorage.getItem('accessToken');
   let decoded_jwt = {};
@@ -79,18 +82,21 @@ const SideComp = () => {
   // ** handle create order
   const handleCreateOrder = (data) => {
     if (accessToken) {
-      let requestData = {
-        shippedAddress: 'test',
-        totalPrice: totalItem.totalPrice,
-        paymentMethod: 1,
-        isCooked: cartType == 1 ? false : true,
-        orderDetails: getListTotalIngredients(),
-      };
-      // console.log(requestData);
+      if (cartAddress.split(',')[3] !== '' && cartAddress.split(',')[4] !== '' && cartAddress.split(',')[5] !== '') {
+        console.log(cartAddress.split(','));
+        let requestData = {
+          shippedAddress: cartAddress,
+          totalPrice: totalItem.totalPrice,
+          paymentMethod: 1,
+          isCooked: cartType == 1 ? false : true,
+          orderDetails: getListTotalIngredients(),
+        };
+        console.log(requestData);
+      }
       toast.promise(
         instances
           .post('/orders', {
-            shippedAddress: 'test',
+            shippedAddress: cartAddress,
             totalPrice: totalItem.totalPrice,
             paymentMethod: 1,
             isCooked: cartType == 1 ? false : true,
@@ -141,12 +147,14 @@ const SideComp = () => {
           <p>-0đ</p>
         </div>
         <div className="flex justify-between">
-          <p className="font-semibold">Tổng thanhh toán: </p>
+          <p className="font-semibold">Tổng thanh toán: </p>
           <p className="font-semibold">{Intl.NumberFormat().format(totalItem?.totalPrice)}đ</p>
         </div>
       </div>
       {/* button */}
       <button
+        type="submit"
+        form="address-form"
         onClick={() => handleCreateOrder(currentCart)}
         disabled={currentCart?.length > 0 ? false : true}
         className={`uppercase select-none text-white font-semibold w-full text-center py-2 rounded-[5px] ${

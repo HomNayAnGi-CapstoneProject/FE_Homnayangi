@@ -5,7 +5,7 @@ const Item = (props) => {
   return (
     <div className="w-full h-fit flex gap-4">
       <Image
-        src={props.item?.image}
+        src={props.item?.image || props.item?.ingredientImage}
         alt=""
         className="object-cover w-[126px] h-[126px] border-[2px] border-[#B5B5B5] rounded-[5px]"
       />

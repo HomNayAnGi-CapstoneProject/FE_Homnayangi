@@ -4,7 +4,7 @@ import Item from './components/Item';
 import Image from '../../../components/Image';
 import { ic_clock_red } from '../../../../assets';
 const ModalCartItemDetail = (props) => {
-  const { openDetailModal, setOpenDetailModal, data, detailTotalPrice, detailCookedImg } = props;
+  const { openDetailModal, setOpenDetailModal, data, detailTotalPrice, detailCookedImg, isCooked } = props;
 
   return (
     <Modal open={openDetailModal} onClose={() => setOpenDetailModal(false)}>
@@ -13,11 +13,13 @@ const ModalCartItemDetail = (props) => {
           top-[50%] translate-y-[-50%] translate-x-[-50%] sm:w-fit w-full bg-white rounded-[3px] px-3 py-4"
       >
         {data &&
-          (data.isCook ? (
+          (data.isCook || isCooked ? (
             <div>
               <div className=" border-solid border-b-[1px] pb-2 px-2">
                 <p className="text-[16px] font-semibold">Đặt làm: </p>
-                <p className="text-[16px] line-clamp-2 text-primary font-semibold">{data?.orderName}</p>
+                <p className="text-[16px] line-clamp-2 text-primary font-semibold">
+                  {data?.orderName || data?.recipeName}
+                </p>
               </div>
               <Image src={detailCookedImg} alt="" className="sm:w-[430px] h-[260px] object-cover w-full" />
               <div className="my-5 flex items-center gap-2">
@@ -35,14 +37,23 @@ const ModalCartItemDetail = (props) => {
             <div>
               <div className=" border-solid border-b-[1px] pb-2 px-2">
                 <p className="text-[16px] font-semibold">Gói nguyên liệu: </p>
-                <p className="text-[16px] line-clamp-2 text-primary font-semibold">{data?.orderName}</p>
+                <p className="text-[16px] line-clamp-2 text-primary font-semibold">
+                  {data?.orderName || data?.recipeName}
+                </p>
               </div>
               <div className="max-h-[275px] grid sm:grid-cols-2 gap-[10px] scroll-bar overflow-x-hidden overflow-y-scroll py-[15px]">
-                {data?.orderDetails?.map((item) => (
-                  <div key={item?.ingredientId} className="sm:w-[250px]">
-                    <Item item={item} />
-                  </div>
-                ))}
+                {data?.orderDetails?.length > 0 &&
+                  data?.orderDetails?.map((item) => (
+                    <div key={item?.ingredientId} className="sm:w-[250px]">
+                      <Item item={item} />
+                    </div>
+                  ))}
+                {data?.recipeDetails?.length > 0 &&
+                  data?.recipeDetails?.map((item) => (
+                    <div key={item?.ingredientId} className="sm:w-[250px]">
+                      <Item item={item} />
+                    </div>
+                  ))}
               </div>
               <div className="pt-2 border-solid border-t-[1px]">
                 <p className="text-black font-medium py-2">

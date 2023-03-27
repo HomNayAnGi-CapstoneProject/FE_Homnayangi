@@ -32,6 +32,7 @@ export const cartSlice = createSlice({
         currentUserId: '',
         cart: [],
         cartType: 1,
+        cartAddress: '',
     },
     reducers: {
         //actions
@@ -452,6 +453,13 @@ export const cartSlice = createSlice({
         },
         setCartType: (state, action) => {
             state.cartType = action.payload
+        },
+        setCartAddress: (state, action) => {
+            // state.cartAddress = {
+            //     ...state.cartAddress,
+            //     ...action.payload
+            // }
+            state.cartAddress = action.payload
         }
     }
 })
@@ -460,6 +468,6 @@ export const { addItemNoStock, addItemWithStock, deleteItem,
     cartEmpty, setStockAvailable, setStockAvailablePeek,
     setAddedProduct, setCartPosition, getShoppingCart,
     removeWholeItem, setShowModalCart, removeCart, setCartType,
-    removeCartByStatus } = cartSlice.actions;
+    removeCartByStatus, setCartAddress } = cartSlice.actions;
 export default cartSlice.reducer;
 

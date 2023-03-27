@@ -1,5 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Regex_PhoneNumber, ReGex_VietnameseTitle } from '../../../../utils/regex';
+import instances from '../../../../utils/plugin/axios';
+
+import { setCartAddress } from '../../../../redux/actionSlice/shoppingCartSlice';
+import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
@@ -20,6 +24,7 @@ const AddressForm = (props) => {
     handleSubmit,
     formState: { errors },
   } = useForm({ defaultValues: props.userInfo });
+  const dispatch = useDispatch();
   const [activeDistricts, setActiveDistricts] = useState('');
   const [districts, setDistricts] = useState([]);
   const [activeProvinces, setActiveProvinces] = useState('');
@@ -30,8 +35,47 @@ const AddressForm = (props) => {
 
   // ** submit form
   const onSubmit = (data) => {
-    console.log(data);
+    const address =
+      data.unique_name +
+      ', ' +
+      data.PhoneNumber +
+      ', ' +
+      data.email +
+      ', ' +
+      data.specific_address +
+      ', ' +
+      data.districts +
+      ', ' +
+      data.wards +
+      ', ' +
+      data.description;
+    // console.log(data);
+    dispatch(setCartAddress(address));
   };
+
+  // ** get district, wards
+  useEffect(() => {
+    const fetch = async () => {
+      const res = await instances.get('/orders/local');
+      setDistricts(res.data);
+    };
+
+    fetch();
+  }, []);
+
+  // ** get ward base on district
+  useEffect(() => {
+    console.log(activeWards);
+    if (activeDistricts !== '') {
+      setActiveWards('');
+      const fetch = async () => {
+        const res = await instances.get(`/orders/local/${activeDistricts}`);
+        setWards(res.data);
+      };
+
+      fetch();
+    }
+  }, [activeDistricts]);
 
   // ** functions
   const handleChangeProvinces = (event) => {
@@ -40,7 +84,7 @@ const AddressForm = (props) => {
   };
 
   const handleChangeDistricts = (event) => {
-    // console.log(event.target.value);
+    // console.log(event.target);
     setActiveDistricts(event.target.value);
   };
 
@@ -55,7 +99,11 @@ const AddressForm = (props) => {
 
   return (
     <div>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        id="address-form"
+        //  onBlur={handleSubmit(onSubmit)}
+      >
         {/* name */}
         <input
           name="unique_name"
@@ -190,10 +238,7 @@ const AddressForm = (props) => {
               displayEmpty
               renderValue={activeDistricts !== '' ? undefined : () => <p className="text-[#898989]">Chọn quận/huyện</p>}
               inputProps={{
-                ...register(
-                  'districts',
-                  // { required: true }
-                ),
+                ...register('districts', { required: true }),
               }}
               className={`block w-full h-[47px] ${
                 errors?.districts ? 'mb-[5px]' : 'mb-[20px]'
@@ -201,8 +246,8 @@ const AddressForm = (props) => {
             >
               {districts.length > 0 ? (
                 districts.map((item, i) => (
-                  <MenuItem key={item.id} value={item.id}>
-                    {item.name}
+                  <MenuItem key={i} value={item}>
+                    {item}
                   </MenuItem>
                 ))
               ) : (
@@ -224,10 +269,7 @@ const AddressForm = (props) => {
               displayEmpty
               renderValue={activeWards !== '' ? undefined : () => <p className="text-[#898989]">Chọn phường/xã</p>}
               inputProps={{
-                ...register(
-                  'wards',
-                  //  { required: true }
-                ),
+                ...register('wards', { required: true }),
               }}
               className={`block w-full h-[47px] ${
                 errors?.wards ? 'mb-[5px]' : 'mb-[20px]'
@@ -235,8 +277,8 @@ const AddressForm = (props) => {
             >
               {wards.length > 0 ? (
                 wards.map((item, i) => (
-                  <MenuItem key={item.id} value={item.id}>
-                    {item.name}
+                  <MenuItem key={i} value={item}>
+                    {item}
                   </MenuItem>
                 ))
               ) : (
@@ -265,6 +307,12 @@ const AddressForm = (props) => {
         {errors?.description?.type === 'required' && (
           <p className="mb-[5px] text-redError text-[14px]">Mô tả không được trống</p>
         )}
+        {/* confirm button */}
+        <div className="w-full flex justify-end">
+          <button type="submit" className="bg-primary mt-2 px-5 py-2 text-white font-medium rounded-[5px]">
+            Xác nhận địa chỉ
+          </button>
+        </div>
       </form>
     </div>
   );
