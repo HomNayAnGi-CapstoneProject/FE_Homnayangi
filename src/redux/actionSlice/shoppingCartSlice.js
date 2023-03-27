@@ -31,6 +31,8 @@ export const cartSlice = createSlice({
         showModal: false,
         currentUserId: '',
         cart: [],
+        cartType: 1,
+        cartAddress: '',
     },
     reducers: {
         //actions
@@ -418,8 +420,46 @@ export const cartSlice = createSlice({
                 localStorage.setItem('SHOPPING_CART', JSON.stringify(state.productslist))
             }
         },
+        removeCartByStatus: (state, action) => {
+            //check current user
+            let currentShoppingCart = JSON.parse(localStorage.getItem('SHOPPING_CART'))
+            let currenUser = undefined
+            if (currentShoppingCart?.length > 0) {
+                currenUser = currentShoppingCart.find((user) => {
+                    return user.cusId === action.payload.cusId
+                })
+            }
+
+            if (currenUser.cart?.length > 0) {
+                let removedCart = currenUser.cart.filter((item) => item.isCook !== action.payload.isCook)
+
+                // replace old cart with removed cart
+                let currentUserPosition = currentShoppingCart.indexOf(currenUser)
+                // console.log('currentPors', currentUserPosition)
+                state.productslist.map((pro) => {
+                    if (pro.cusId === currenUser.cusId) {
+                        state.productslist.splice(currentUserPosition, 1)
+                        state.productslist.splice(currentUserPosition, 0, {
+                            cusId: currenUser.cusId,
+                            cart: removedCart
+                        })
+                    }
+                })
+                localStorage.setItem('SHOPPING_CART', JSON.stringify(state.productslist))
+            }
+        },
         setShowModalCart: (state, action) => {
             state.showModal = action.payload
+        },
+        setCartType: (state, action) => {
+            state.cartType = action.payload
+        },
+        setCartAddress: (state, action) => {
+            // state.cartAddress = {
+            //     ...state.cartAddress,
+            //     ...action.payload
+            // }
+            state.cartAddress = action.payload
         }
     }
 })
@@ -427,6 +467,7 @@ export const cartSlice = createSlice({
 export const { addItemNoStock, addItemWithStock, deleteItem,
     cartEmpty, setStockAvailable, setStockAvailablePeek,
     setAddedProduct, setCartPosition, getShoppingCart,
-    removeWholeItem, setShowModalCart, removeCart } = cartSlice.actions;
+    removeWholeItem, setShowModalCart, removeCart, setCartType,
+    removeCartByStatus, setCartAddress } = cartSlice.actions;
 export default cartSlice.reducer;
 

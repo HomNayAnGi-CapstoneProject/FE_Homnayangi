@@ -6,6 +6,7 @@ import Banner from '../../share/components/Banner';
 import Header from './components/CartContent/Header/Header';
 import Body from './components/CartContent/Body/Body';
 import SideComp from './components/SideComp/SideComp';
+import CartType from './components/CartType/CartType';
 
 // ** Assets
 import styles from '../../style';
@@ -20,6 +21,7 @@ const Cart = ({ title }) => {
       <Banner />
       <div className={`${styles.paddingX} ${styles.flexCenter} py-[50px]`}>
         <div className={`${styles.container}`}>
+          <CartType />
           <div className="flex md:flex-row flex-col gap-5">
             <div className="text-black md:w-[70%] w-full font-inter">
               <div>

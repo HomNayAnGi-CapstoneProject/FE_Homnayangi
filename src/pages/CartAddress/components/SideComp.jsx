@@ -7,9 +7,15 @@ import CartItem from '../../../share/components/Modal/ModalShoppingCart/componen
 import { useDispatch, useSelector } from 'react-redux';
 import jwt_decode from 'jwt-decode';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router';
 
 const SideComp = () => {
   const cartList = useSelector((state) => state.cart.shoppingCart);
+  const cartType = useSelector((state) => state.cart.cartType);
+  const cartAddress = useSelector((state) => state.cart.cartAddress);
+
+  const [cartAdd, setCartAdd] = useState();
+  const navigate = useNavigate();
   const accessToken = localStorage.getItem('accessToken');
   let decoded_jwt = {};
   if (accessToken) {
@@ -25,7 +31,12 @@ const SideComp = () => {
       });
     }
     if (currentUser?.cart?.length > 0) {
-      currentCart = currentUser.cart;
+      // cart type = 1 -> isCooked = false
+      if (cartType == 1) {
+        currentCart = currentUser.cart.filter((item) => item.isCook == false);
+      } else {
+        currentCart = currentUser.cart.filter((item) => item.isCook == true);
+      }
     }
     return currentCart;
   };
@@ -42,7 +53,7 @@ const SideComp = () => {
       });
     }
     if (currentUser?.cart?.length > 0) {
-      currentUser?.cart.forEach((item) => {
+      currentCart.forEach((item) => {
         total += item.amount;
         totalPrice += item.amount * item.price;
       });
@@ -51,30 +62,50 @@ const SideComp = () => {
   };
   const totalItem = totalItemInCart();
 
+  const getListTotalIngredients = () => {
+    let listTotalIngre = [];
+    currentCart?.forEach((cartItem) => {
+      listTotalIngre.push(
+        ...cartItem.orderDetails.map((ingre) => {
+          return {
+            ingredientId: ingre.ingredientId,
+            quantity: ingre.quantity,
+            price: ingre.price,
+            recipeId: cartItem.id,
+          };
+        }),
+      );
+    });
+    return listTotalIngre;
+  };
+
   // ** handle create order
   const handleCreateOrder = (data) => {
     if (accessToken) {
-      let requestData = {
-        shippedAddress: 'test',
-        totalPrice: totalItem.totalPrice,
-        paymentMethod: 1,
-        orderDetails: data.map((item) => {
-          return { ingredientId: item.id, quantity: item.amount, price: item.price };
-        }),
-      };
-      console.log(requestData);
+      if (cartAddress.split(',')[3] !== '' && cartAddress.split(',')[4] !== '' && cartAddress.split(',')[5] !== '') {
+        console.log(cartAddress.split(','));
+        let requestData = {
+          shippedAddress: cartAddress,
+          totalPrice: totalItem.totalPrice,
+          paymentMethod: 1,
+          isCooked: cartType == 1 ? false : true,
+          orderDetails: getListTotalIngredients(),
+        };
+        console.log(requestData);
+      }
       toast.promise(
         instances
           .post('/orders', {
-            shippedAddress: 'test',
+            shippedAddress: cartAddress,
             totalPrice: totalItem.totalPrice,
             paymentMethod: 1,
-            orderDetails: data.map((item) => {
-              return { ingredientId: item.id, quantity: item.amount, price: item.price };
-            }),
+            isCooked: cartType == 1 ? false : true,
+            orderDetails: getListTotalIngredients(),
           })
           .then((response) => {
-            console.log(response);
+            // console.log(response.data);
+            window.location.replace(response.data);
+            // window.location.href = response.data;
           }),
         {
           success: 'Đang chuyển hướng...',
@@ -116,12 +147,14 @@ const SideComp = () => {
           <p>-0đ</p>
         </div>
         <div className="flex justify-between">
-          <p className="font-semibold">Tổng thanhh toán: </p>
+          <p className="font-semibold">Tổng thanh toán: </p>
           <p className="font-semibold">{Intl.NumberFormat().format(totalItem?.totalPrice)}đ</p>
         </div>
       </div>
       {/* button */}
       <button
+        type="submit"
+        form="address-form"
         onClick={() => handleCreateOrder(currentCart)}
         disabled={currentCart?.length > 0 ? false : true}
         className={`uppercase select-none text-white font-semibold w-full text-center py-2 rounded-[5px] ${
