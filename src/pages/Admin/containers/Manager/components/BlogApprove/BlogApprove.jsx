@@ -10,17 +10,22 @@ import { toast } from 'react-toastify';
 const BlogApprove = () => {
   // ** const
   const navigate = useNavigate();
-  const [pendingBlogs, setPendingBlogs] = useState(1);
-  const [dataList, setDataList] = useState([
-    {
-      blogId: '15214512',
-      imageUrl: '',
-      authorName: 'vanhoa1908',
-      title: 'Cách làm mì ý sốt bò bằm ngon tại nhà 🥘🥘',
-      createdDate: '2023-03-24T04:48:03.673Z',
-      updatedDate: '2023-03-24T04:48:03.673Z',
-    },
-  ]);
+  const [updateTable, setUpdateTable] = useState(false);
+  const [dataList, setDataList] = useState([]);
+  const [getPendingBlog, setGetPendingBlog] = useState(true);
+
+  // ** get blog list
+  useEffect(() => {
+    const fetch = async () => {
+      const res = await instances.get('/blogs/user', {
+        params: { isPending: getPendingBlog },
+      });
+      console.log(res.data.result);
+      setDataList(res.data.result || []);
+    };
+
+    fetch();
+  }, [updateTable, getPendingBlog]);
 
   // ** functions
   const handleOpenDetail = (data) => {
@@ -29,9 +34,14 @@ const BlogApprove = () => {
 
   return (
     <div>
-      <p className="text-[18px] font-semibold text-[#898989] mb-5">
-        Bài viết đang chờ duyệt <span className="text-[20px] text-primary">({pendingBlogs})</span>
-      </p>
+      <div className="flex items-center gap-3 mb-5">
+        <button
+          onClick={() => setGetPendingBlog((prev) => !prev)}
+          className={`px-5 py-2 rounded-[5px] text-white ${getPendingBlog ? 'bg-primary' : 'bg-gray-400'}`}
+        >
+          {getPendingBlog ? 'Xem tất cả' : 'Xem chờ duyệt'}
+        </button>
+      </div>
       <div>
         <DataTable dataList={dataList} handleOpenDetail={handleOpenDetail} />
       </div>
