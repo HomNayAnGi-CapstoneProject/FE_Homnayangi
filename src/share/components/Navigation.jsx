@@ -106,6 +106,23 @@ const Navigation = (props) => {
 
   const currentCart = getCurrentCart();
 
+  // ** allowManage
+  const allowManage = () => {
+    if (accessToken) {
+      switch (decoded_jwt.role) {
+        case 'Staff':
+          return true;
+        case 'Manager':
+          return true;
+        case 'Admin':
+          return true;
+        default:
+          return false;
+      }
+    }
+  };
+  const isAllowManage = allowManage();
+
   return (
     <>
       {store.openMenuModal && <MenuModal />}
@@ -291,7 +308,7 @@ const Navigation = (props) => {
                         <Link to="/user">
                           <li className="cursor-pointer hover:bg-secondary py-1 px-4">Thông tin cá nhân</li>
                         </Link>
-                        {decoded_jwt.role === 'Staff' && (
+                        {isAllowManage && (
                           <li
                             onClick={() => navigate('/management')}
                             className="cursor-pointer hover:bg-secondary py-1 px-4"
