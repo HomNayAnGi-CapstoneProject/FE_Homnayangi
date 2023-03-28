@@ -16,7 +16,7 @@ const Item = (props) => {
   const handleOpenDetail = (item) => {
     setOpenDetail(true);
     setDetailData(item);
-    setDetailTotalPrice(data?.totalPrice);
+    setDetailTotalPrice(data?.isCooked ? item?.cookedPrice : item?.packagePrice);
     setDetailCookedImg(item?.recipeImage);
   };
 
@@ -38,16 +38,19 @@ const Item = (props) => {
           {data?.orderDetails?.map((item, i) => (
             <div key={item.orderDetailId} className="flex w-full mt-5 first:mt-0">
               <div className="md:w-1/2 flex gap-3">
-                <Image alt="" className={'object-cover rounded-[5px] w-[80px] h-[80px]'} src={item?.ingredientImage} />
-                <div>
+                <Image alt="" className={'object-cover rounded-[5px] w-[80px] h-[80px]'} src={item?.recipeImage} />
+                <div className="flex-1">
                   <p className="line-clamp-2 text-black">{item?.ingredientName}</p>
                   <p className="text-[#897D7D] text-[14px]">{item?.recipeName}</p>
                 </div>
               </div>
-              <div className="md:w-1/2 flex justify-end">
-                <p>
-                  {Intl.NumberFormat().format(item?.price)} x{item?.quantity}
-                </p>
+              <div className="md:w-1/2 flex flex-col items-end">
+                <div className="w-fit">
+                  <p>
+                    {Intl.NumberFormat().format(data?.isCooked ? item?.cookedPrice : item?.packagePrice)}đ x
+                    {item?.recipeQuantity}
+                  </p>
+                </div>
                 <button onClick={() => handleOpenDetail(item)} className="underline text-[14px] text-primary">
                   Chi tiết
                 </button>

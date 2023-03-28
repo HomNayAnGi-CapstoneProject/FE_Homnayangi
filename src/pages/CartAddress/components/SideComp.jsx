@@ -72,6 +72,7 @@ const SideComp = () => {
             quantity: ingre.quantity,
             price: ingre.price,
             recipeId: cartItem.id,
+            // recipeQuantity: cartItem.amount,
           };
         }),
       );
@@ -83,7 +84,7 @@ const SideComp = () => {
   const handleCreateOrder = (data) => {
     if (accessToken) {
       if (cartAddress.split(',')[3] !== '' && cartAddress.split(',')[4] !== '' && cartAddress.split(',')[5] !== '') {
-        console.log(cartAddress.split(','));
+        // console.log(cartAddress.split(','));
         let requestData = {
           shippedAddress: cartAddress,
           totalPrice: totalItem.totalPrice,
@@ -91,7 +92,7 @@ const SideComp = () => {
           isCooked: cartType == 1 ? false : true,
           orderDetails: getListTotalIngredients(),
         };
-        console.log(requestData);
+        // console.log(requestData);
       }
       toast.promise(
         instances
