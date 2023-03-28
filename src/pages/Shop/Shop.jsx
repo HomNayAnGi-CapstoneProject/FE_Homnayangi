@@ -25,9 +25,9 @@ const Shop = ({ title }) => {
           <div className="mt-5 mb-8">
             <IngredientSection />
           </div>
-          <div className="my-5">
+          {/* <div className="my-5">
             <BlogSection />
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
