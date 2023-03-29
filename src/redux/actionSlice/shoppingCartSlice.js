@@ -78,7 +78,7 @@ export const cartSlice = createSlice({
             // ]
 
             // undefind: first time 
-            notify(action.payload.orderName, 1)
+            notify(action.payload.orderName, action.payload.amount)
             let cart = []
             if (currenUser === undefined) {
                 state.productslist = [...state.productslist,
@@ -89,7 +89,7 @@ export const cartSlice = createSlice({
                         orderName: action.payload.orderName,
                         img: action.payload.img,
                         price: action.payload.price,
-                        amount: 1,
+                        amount: action.payload.amount,
                         isCook: action.payload.isCook,
                         cusId: action.payload.cusId,
                         orderDetails: action.payload.orderDetails,
@@ -111,7 +111,7 @@ export const cartSlice = createSlice({
                                     orderName: action.payload.orderName,
                                     img: action.payload.img,
                                     price: action.payload.price,
-                                    amount: 1,
+                                    amount: action.payload.amount,
                                     isCook: action.payload.isCook,
                                     cusId: action.payload.cusId,
                                     orderDetails: action.payload.orderDetails,
@@ -126,7 +126,7 @@ export const cartSlice = createSlice({
                     // console.log(addedPosition)
                     currenUser.cart.map((pro, index) => {
                         if (pro.id === addedWithCusId.id && pro.isCook === addedWithCusId.isCook) {
-                            newAmount = pro.amount + 1
+                            newAmount = pro.amount + action.payload.amount
                             currenUser.cart.splice(addedPosition, 1)
                             currenUser.cart.splice(addedPosition, 0, {
                                 id: action.payload.id,

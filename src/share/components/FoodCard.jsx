@@ -32,6 +32,7 @@ const FoodCard = (props) => {
         isCook: isCook,
         orderName: data.recipeTitle,
         id: data.recipeId,
+        amount: 1,
         img: data.imageUrl,
         price: isCook ? data.cookedPrice : data.packagePrice,
       };

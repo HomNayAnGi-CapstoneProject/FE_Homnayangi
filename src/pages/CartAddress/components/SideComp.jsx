@@ -64,17 +64,25 @@ const SideComp = () => {
 
   const getListTotalIngredients = () => {
     let listTotalIngre = [];
-    currentCart?.forEach((cartItem) => {
-      listTotalIngre.push(
-        ...cartItem.orderDetails.map((ingre) => {
-          return {
-            ingredientId: ingre.ingredientId,
-            quantity: ingre.quantity,
-            price: ingre.price,
-            recipeId: cartItem.id,
-          };
-        }),
-      );
+    // currentCart?.forEach((cartItem) => {
+    //   listTotalIngre.push(
+    //     ...cartItem.orderDetails.map((ingre) => {
+    //       return {
+    //         ingredientId: ingre.ingredientId,
+    //         quantity: ingre.quantity,
+    //         price: ingre.price,
+    //         recipeId: cartItem.id !== '' ? cartItem.id : null,
+    //       };
+    //     }),
+    //   );
+    // });
+    listTotalIngre = currentCart?.map((cartItem) => {
+      return {
+        ingredientId: cartItem.id == '' ? cartItem.orderDetails[0].ingredientId : null,
+        quantity: cartItem.amount,
+        price: cartItem.price,
+        recipeId: cartItem.id !== '' ? cartItem.id : null,
+      };
     });
     return listTotalIngre;
   };
@@ -91,7 +99,7 @@ const SideComp = () => {
           isCooked: cartType == 1 ? false : true,
           orderDetails: getListTotalIngredients(),
         };
-        console.log(requestData);
+        // console.log(requestData);
       }
       toast.promise(
         instances

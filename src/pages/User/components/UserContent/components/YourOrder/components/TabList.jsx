@@ -44,7 +44,7 @@ const TabList = (props) => {
     <div className="rounded-[5px] bg-white w-full flex justify-around">
       <div className="flex-1" onClick={() => handleChange('PENDING')}>
         <Tab
-          label="chờ xác nhận"
+          label="đã xác nhận"
           status={status}
           value="PENDING"
           iconActive={ic_wait_accept_active}
