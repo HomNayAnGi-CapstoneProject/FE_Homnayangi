@@ -19,15 +19,15 @@ const Shop = ({ title }) => {
       <Banner />
       <div className={`${styles.paddingX} ${styles.flexCenter} py-[50px]`}>
         <div className={`${styles.container}`}>
-          <div className="pb-4 border-b border-b-[#d2d2d2]">
+          {/* <div className="pb-4 border-b border-b-[#d2d2d2]">
             <Search placeholder="Tìm kiếm..." />
-          </div>
+          </div> */}
           <div className="mt-5 mb-8">
             <IngredientSection />
           </div>
-          <div className="my-5">
+          {/* <div className="my-5">
             <BlogSection />
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

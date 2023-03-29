@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import AddressForm from './AddressForm';
 import Loading from '../../../../share/components/Admin/Loading';
+import { setCartAddress } from '../../../../redux/actionSlice/shoppingCartSlice';
 
 // ** assets
 import { ic_location_black, ic_payment_black, ic_document_black } from '../../../../assets';
 
 // ** third party
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Modal } from '@mui/material';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
@@ -14,9 +15,13 @@ import MenuItem from '@mui/material/MenuItem';
 const Address = (props) => {
   // ** const
   const { userInfo } = props;
-
+  const dispatch = useDispatch();
   const [activeDistricts, setActiveDistricts] = useState('');
   const [districts, setDistricts] = useState([]);
+
+  useEffect(() => {
+    dispatch(setCartAddress(''));
+  }, []);
 
   return (
     <div className="font-inter w-full bg-white rounded-[5px] px-[14px] py-2">

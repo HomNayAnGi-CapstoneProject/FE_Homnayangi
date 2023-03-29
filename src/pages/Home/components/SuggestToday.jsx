@@ -117,6 +117,7 @@ const SuggestToday = () => {
         orderName: data.recipeTitle,
         id: data.recipeId,
         img: data.imageUrl,
+        amount: 1,
         price: isCook ? data.cookedPrice : data.packagePrice,
       };
       // console.log(requestObject);

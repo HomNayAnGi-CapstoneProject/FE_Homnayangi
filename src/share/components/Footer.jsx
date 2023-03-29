@@ -43,6 +43,9 @@ const Footer = () => {
                     <li className="hover:text-primary cursor-pointer py-1">
                       <Link to="/about">Về chúng tôi</Link>
                     </li>
+                    <li className="hover:text-primary cursor-pointer py-1">
+                      <Link to="/shop">Cửa hàng</Link>
+                    </li>
                   </ul>
                 </div>
                 <div>

@@ -48,7 +48,7 @@ const CartItem = (props) => {
           {props?.item?.isCook ? (
             <span className="text-redError">Đặt nấu</span>
           ) : (
-            <span className="text-gray-500">Gói nguyên liệu</span>
+            <span className="text-gray-500">{props?.item?.id !== '' ? 'Gói nguyên liệu' : 'Nguyên liệu'}</span>
           )}
         </p>
         <div className="flex items-center justify-between mt-1 text-primary">

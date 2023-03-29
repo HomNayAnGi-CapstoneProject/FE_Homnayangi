@@ -15,7 +15,7 @@ const CartType = (props) => {
         onClick={() => dispatch(setCartType(1))}
         className={`px-5 py-2 rounded-[5px] font-semibold text-white ${cartType == 1 ? ' bg-primary' : 'bg-[#D3D3D3]'}`}
       >
-        Gói nguyên liệu
+        Nguyên liệu
       </button>
       <button
         onClick={() => dispatch(setCartType(2))}

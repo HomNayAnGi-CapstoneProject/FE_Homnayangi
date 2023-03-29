@@ -131,6 +131,14 @@ const MenuModal = () => {
               </div>
             </NavLink>
           </li>
+          <li className="uppercase font-bold" onClick={() => handleCloseModal()}>
+            <NavLink className={(navData) => (navData.isActive ? 'text-primary' : 'text-black')} to="/shop">
+              <div className="flex items-center justify-between border-t py-1">
+                <p>Cửa hàng</p>
+                <div className="bg-cover w-[44px] h-[44px]" style={{ backgroundImage: `url(${ic_caret_right})` }} />
+              </div>
+            </NavLink>
+          </li>
           <li className="uppercase font-bold" onClick={() => setOpenUser((prev) => !prev)}>
             <div className="flex cursor-pointer items-center justify-between border-t py-1">
               <p>Thông tin tài khoản</p>

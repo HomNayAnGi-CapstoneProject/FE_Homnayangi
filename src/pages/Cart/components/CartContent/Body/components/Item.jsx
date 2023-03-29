@@ -63,6 +63,7 @@ const Item = (props) => {
         isCook: item.isCook,
         orderName: item.orderName,
         id: item.id,
+        amount: 1,
         img: item.img,
         price: item.price,
       };
@@ -109,7 +110,7 @@ const Item = (props) => {
               {props?.item?.isCook ? (
                 <span className="text-redError">Đặt nấu</span>
               ) : (
-                <span className="text-gray-500">Gói nguyên liệu</span>
+                <span className="text-gray-500">{props?.item?.id !== '' ? 'Gói nguyên liệu' : 'Nguyên liệu'}</span>
               )}
             </p>
             <div className="flex items-center gap-3">
@@ -121,9 +122,11 @@ const Item = (props) => {
                 {/* <img alt="" className="object-contain w-[20px]" src={ic_trash_orange} />  */}
                 Xóa
               </button>
-              <button onClick={() => handleOpenDetail(props?.item)} className="text-[#897D7D] font-medium underline">
-                Chi tiết
-              </button>
+              {props?.item?.id !== '' && (
+                <button onClick={() => handleOpenDetail(props?.item)} className="text-[#897D7D] font-medium underline">
+                  Chi tiết
+                </button>
+              )}
             </div>
             {/* mobile amount buttons */}
             <div className="sm:hidden flex mt-5 ">

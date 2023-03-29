@@ -177,6 +177,18 @@ const Navigation = (props) => {
                   Giới thiệu
                 </NavLink>
               </li>
+              <li className={`cursor-pointer `}>
+                <NavLink
+                  className={(navData) =>
+                    navData.isActive
+                      ? 'text-primary font-bold relative after:block after:bg-primary after:w-[30px] after:h-[3px] after:absolute after:left-[50%] after:translate-x-[-50%] after:rounded after:bottom-[-8px]'
+                      : 'text-black hover:text-primary  transition-[1.2s]'
+                  }
+                  to="/shop"
+                >
+                  Cửa hàng
+                </NavLink>
+              </li>
             </ul>
           </div>
           {/* nav menu responsive */}
