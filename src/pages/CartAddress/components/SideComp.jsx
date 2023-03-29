@@ -64,18 +64,25 @@ const SideComp = () => {
 
   const getListTotalIngredients = () => {
     let listTotalIngre = [];
-    currentCart?.forEach((cartItem) => {
-      listTotalIngre.push(
-        ...cartItem.orderDetails.map((ingre) => {
-          return {
-            ingredientId: ingre.ingredientId,
-            quantity: ingre.quantity,
-            price: ingre.price,
-            recipeId: cartItem.id,
-            // recipeQuantity: cartItem.amount,
-          };
-        }),
-      );
+    // currentCart?.forEach((cartItem) => {
+    //   listTotalIngre.push(
+    //     ...cartItem.orderDetails.map((ingre) => {
+    //       return {
+    //         ingredientId: ingre.ingredientId,
+    //         quantity: ingre.quantity,
+    //         price: ingre.price,
+    //         recipeId: cartItem.id !== '' ? cartItem.id : null,
+    //       };
+    //     }),
+    //   );
+    // });
+    listTotalIngre = currentCart?.map((cartItem) => {
+      return {
+        ingredientId: cartItem.id == '' ? cartItem.orderDetails[0].ingredientId : null,
+        quantity: cartItem.amount,
+        price: cartItem.price,
+        recipeId: cartItem.id !== '' ? cartItem.id : null,
+      };
     });
     return listTotalIngre;
   };
@@ -84,7 +91,7 @@ const SideComp = () => {
   const handleCreateOrder = (data) => {
     if (accessToken) {
       if (cartAddress.split(',')[3] !== '' && cartAddress.split(',')[4] !== '' && cartAddress.split(',')[5] !== '') {
-        // console.log(cartAddress.split(','));
+        console.log(cartAddress.split(','));
         let requestData = {
           shippedAddress: cartAddress,
           totalPrice: totalItem.totalPrice,

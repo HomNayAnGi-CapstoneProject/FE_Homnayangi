@@ -35,12 +35,12 @@ const Item = (props) => {
       <div className="md:flex mt-5">
         {/* thông tin đơn hàng */}
         <div className="md:w-2/4 max-h-[180px] scroll-bar overflow-y-scroll">
-          {data?.orderDetails?.map((item, i) => (
-            <div key={item.orderDetailId} className="flex w-full mt-5 first:mt-0">
+          {/* recipeDetails */}
+          {data?.orderDetailRecipes?.map((item, i) => (
+            <div key={item.recipeId} className="flex w-full mt-5 first:mt-0">
               <div className="md:w-1/2 flex gap-3">
                 <Image alt="" className={'object-cover rounded-[5px] w-[80px] h-[80px]'} src={item?.recipeImage} />
                 <div className="flex-1">
-                  <p className="line-clamp-2 text-black">{item?.ingredientName}</p>
                   <p className="text-[#897D7D] text-[14px]">{item?.recipeName}</p>
                 </div>
               </div>
@@ -57,6 +57,29 @@ const Item = (props) => {
               </div>
             </div>
           ))}
+          {/* ingredientDetail */}
+          {data?.orderDetailIngredients?.length > 0 &&
+            data?.orderDetailIngredients?.map((item) => (
+              <div key={item.ingredientId} className="flex w-full mt-5 first:mt-0">
+                <div className="md:w-1/2 flex gap-3">
+                  <Image
+                    alt=""
+                    className={'object-cover rounded-[5px] w-[80px] h-[80px]'}
+                    src={item?.ingredientImage}
+                  />
+                  <div className="flex-1">
+                    <p className="text-[#897D7D] text-[14px]">{item?.ingredientName}</p>
+                  </div>
+                </div>
+                <div className="md:w-1/2 flex flex-col items-end">
+                  <div className="w-fit">
+                    <p>
+                      {Intl.NumberFormat().format(item?.price)}đ x{item?.quantity}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
         </div>
         {/* thong tin nguoi nhan */}
         <div className="md:w-1/4 flex flex-col">
@@ -122,7 +145,7 @@ const Item = (props) => {
           <div className="flex items-end justify-end  mt-5">
             {data?.orderStatus == 2 && (
               <div className="px-5 w-fit py-3 rounded-[2px] border uppercase text-[#D9D9D9] border-[#D9D9D9]">
-                chờ xác nhận
+                đã xác nhận
               </div>
             )}
             {data?.orderStatus == 3 && (
