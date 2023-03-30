@@ -18,6 +18,7 @@ const RelatedRecipe = (props) => {
       const res = await instances.get(`/blogs/ingredients/${ingreId}`);
       if (res.data.status == 'success') {
         setRecipeList(res.data.result);
+        console.log(res.data.result);
       } else {
         setRecipeList([]);
       }
@@ -51,7 +52,7 @@ const RelatedRecipe = (props) => {
               },
             }}
             grabCursor={true}
-            loop={true}
+            // loop={true}
             autoplay={{
               delay: 3500,
               disableOnInteraction: false,
