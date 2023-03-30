@@ -25,7 +25,7 @@ const AwardManagement = () => {
     const fetch = async () => {
       const res = await instances.get('/badges');
       // console.log(res.data);
-      setBadegesList(res.data);
+      setBadegesList(res.data.resource);
     };
     fetch();
   }, [updateTable]);
@@ -41,7 +41,7 @@ const AwardManagement = () => {
   };
 
   const handleConfirmDelete = () => {
-    // console.log(confirmData?.unitId);
+    // console.log(confirmData?.badgeId);
     toast.promise(
       instances.delete(`/badges/${confirmData?.badgeId}`).then(() => {
         setUpdateTable((prev) => !prev);
@@ -57,11 +57,12 @@ const AwardManagement = () => {
   const handleConfirmRestore = () => {
     toast.promise(
       instances
-        .put(`/bagdes`, {
-          unitId: confirmData?.unitId,
+        .put(`/badges`, {
+          badgeId: confirmData?.badgeId,
           name: confirmData?.name,
           description: confirmData?.description,
-          status: true,
+          ImageUrl: confirmData?.imageUrl,
+          status: 1,
         })
         .then((res) => {
           setUpdateTable((prev) => !prev);
@@ -70,7 +71,7 @@ const AwardManagement = () => {
       {
         pending: 'Đang phục hồi',
         success: 'Đã phục hồi thành công! 👌',
-        error: {},
+        error: 'Có lỗi xảy ra',
       },
     );
   };
@@ -81,8 +82,8 @@ const AwardManagement = () => {
           setIsShowModal={setIsShowModal}
           data={confirmData}
           modalTitle="Huy hiệu"
-          statusTypeAvai={true}
-          statusTypeNotAvai={false}
+          statusTypeAvai={1}
+          statusTypeNotAvai={0}
           setUpdateTable={setUpdateTable}
           itemName={confirmData?.name}
           handleConfirmDelete={handleConfirmDelete}
@@ -94,7 +95,7 @@ const AwardManagement = () => {
           onClick={() => navigate('/management/award/new')}
           className="flex items-center w-fit gap-2 py-2 px-3 bg-primary text-white font-medium rounded-[10px]"
         >
-          Thêm huy hiệu
+          Thêm danh hiệu
           <img src={ic_blog_create} />
         </button>
       </div>

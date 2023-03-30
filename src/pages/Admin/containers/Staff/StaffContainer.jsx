@@ -83,7 +83,7 @@ const StaffContainer = (props) => {
               <Route path="award">
                 <Route index element={<AwardManagement />} />
                 <Route path="new" element={<CreateAward />} />
-                <Route path="award/:badgeId" element={<EditAward />} />
+                <Route path="edit/:badgeId" element={<EditAward />} />
               </Route>
 
               <Route path="accomplishment" element={<AccomplishmentManagement />} />

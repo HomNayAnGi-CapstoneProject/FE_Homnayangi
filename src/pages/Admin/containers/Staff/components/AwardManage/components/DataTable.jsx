@@ -14,17 +14,17 @@ const columns = [
     headerName: 'Ảnh mô tả',
     width: 100,
     renderCell: (params) => (
-      <Image className="rounded-[5px] h-[40px] w-[60px] object-cover" src={params.row.imageUrl} />
+      <Image className="rounded-[5px] h-[40px] w-[60px] object-contain" src={params.row.imageUrl} />
     ),
   },
   {
-    field: 'title',
+    field: 'name',
     headerName: 'Tên huy hiệu',
     width: 250,
     renderCell: (params) => (
       <div className="">
-        <Tooltip title={`${params.row.title}`} placement="top">
-          <p className="">{params.row.title}</p>
+        <Tooltip title={`${params.row.name}`} placement="top">
+          <p className="">{params.row.name}</p>
         </Tooltip>
       </div>
     ),
@@ -55,10 +55,10 @@ const columns = [
     renderCell: (params) => (
       <div className={`cellWithStatus ${params.row.status}`}>
         {/* {checkStatus(params.row.status)} */}
-        {params.row.status === 'AVAILABLE' ? (
-          <p className="text-white px-3 rounded-full text-[14px] bg-green-500">{params.row.status}</p>
+        {params.row.status === 1 ? (
+          <p className="text-white px-3 rounded-full text-[14px] bg-green-500">AVAILABLE</p>
         ) : (
-          <p className="text-white px-3 rounded-full text-[14px] bg-red-500">{params.row.status}</p>
+          <p className="text-white px-3 rounded-full text-[14px] bg-red-500">DELETED</p>
         )}
       </div>
     ),
@@ -79,16 +79,9 @@ const DataTable = (props) => {
               <img src={ic_edit} />
             </IconButton>
           </Tooltip>
-          <Tooltip
-            title={params.row.status == 1 || params.row.status == 2 || params.row.status == 3 ? 'Xóa' : 'Khôi phục'}
-            placement="right"
-          >
+          <Tooltip title={params.row.status == 1 ? 'Xóa' : 'Khôi phục'} placement="right">
             <IconButton onClick={() => props?.handleOpenDelete(params.row)} aria-label="remove">
-              {params.row.status == 1 || params.row.status == 2 || params.row.status == 3 ? (
-                <img src={ic_delete_red} />
-              ) : (
-                <img src={ic_delete_green} />
-              )}
+              {params.row.status == 1 ? <img src={ic_delete_red} /> : <img src={ic_delete_green} />}
             </IconButton>
           </Tooltip>
         </div>

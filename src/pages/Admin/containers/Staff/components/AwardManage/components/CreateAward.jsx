@@ -37,43 +37,37 @@ const CreateAward = () => {
   // ** Functs
   //submit form
   const onSubmit = (data) => {
-    console.log(data);
+    // console.log(data);
     setUploading(true);
-    // toast.promise(
-    //   // console.log(listImages);
-    //   uploadImage(data.picture[0])
-    //     .then((res) => {
-    //       // console.log(res);
-    //       instances
-    //         .post('/ingredients', {
-    //           name: data.name,
-    //           description: data.description,
-    //           unitId: data.unitId,
-    //           kcal: data.kcal,
-    //           price: data.price,
-    //           typeId: data.typeId,
-    //           listImagePosition: folderID,
-    //           picture: res,
-    //           listImage: listImages,
-    //         })
-    //         .then((res) => {
-    //           setUploading(false);
-    //           navigate('/management/product');
-    //         });
-    //     })
-    //     .catch((err) => {
-    //       notifyError(err);
-    //     }),
-    //   {
-    //     pending: 'Đang tạo sản phẩm',
-    //     // success: 'Đã tạo thành công! 👌',
-    //     error: {
-    //       render({ data }) {
-    //         // return data;
-    //       },
-    //     },
-    //   },
-    // );
+    toast.promise(
+      // console.log(listImages);
+      uploadImage(data.picture[0])
+        .then((res) => {
+          // console.log(res);
+          instances
+            .post('/badges', {
+              name: data.name,
+              description: data.description,
+              ImageUrl: res,
+            })
+            .then((res) => {
+              setUploading(false);
+              navigate('/management/award');
+            });
+        })
+        .catch((err) => {
+          notifyError(err);
+        }),
+      {
+        pending: 'Đang tạo huy hiệu',
+        // success: 'Đã tạo thành công! 👌',
+        error: {
+          render({ data }) {
+            // return data;
+          },
+        },
+      },
+    );
   };
 
   // ** Upload image
@@ -112,7 +106,7 @@ const CreateAward = () => {
       //upload image
       uploadBytes(imageRef, imageUp).then((snapshot) => {
         getDownloadURL(snapshot.ref).then((url) => {
-          setThumbnailURL(url);
+          // setThumbnailURL(url);
           resolve(url);
           // setUploading(false);
         });
@@ -122,14 +116,14 @@ const CreateAward = () => {
 
   return (
     <div>
-      <p className="font-semibold text-[18px]">Thêm huy hiệu</p>
+      <p className="font-semibold text-[18px]">Thêm danh hiệu</p>
       <div className="bg-white py-5 px-5 rounded-[5px] mt-4">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="flex ss:flex-row flex-col justify-between gap-5">
             {/* infos */}
             <div className="flex-1">
               <div className=" gap-1 items-baseline">
-                <label>Tên huy hiệu</label>
+                <label>Tên danh hiệu</label>
               </div>
               <input
                 name="name"
@@ -144,13 +138,13 @@ const CreateAward = () => {
                 })}
               />
               {errors?.name?.type === 'required' && (
-                <p className="mb-[5px] text-redError text-[14px]">Tên huy hiệu không được trống</p>
+                <p className="mb-[5px] text-redError text-[14px]">Tên danh hiệu không được trống</p>
               )}
               {errors?.name?.type === 'pattern' && (
-                <p className="mb-[5px] text-redError text-[14px]">Tên huy hiệu không hợp lệ</p>
+                <p className="mb-[5px] text-redError text-[14px]">Tên danh hiệu không hợp lệ</p>
               )}
 
-              <label>Mô tả huy hiệu</label>
+              <label>Mô tả danh hiệu</label>
               <textarea
                 name="description"
                 // onBlur={(e) => props?.handleInputNote(e.target.value)}
@@ -172,7 +166,7 @@ const CreateAward = () => {
                   htmlFor="picture"
                   className="cursor-pointer w-fit bg-white border-primary border-[2px] rounded-[5px] text-primary font-medium py-2 px-3 mt-5"
                 >
-                  {!badgesImg ? 'Chọn ảnh huy hiệu' : 'Thay đổi'}
+                  {!badgesImg ? 'Chọn ảnh danh hiệu' : 'Thay đổi'}
                   <input
                     name="picture"
                     id="picture"
@@ -194,7 +188,7 @@ const CreateAward = () => {
                 />
               </div>
               {errors?.picture?.type === 'required' && (
-                <p className="mb-[5px] text-redError text-[14px]">Ảnh huy hiệu không được trống</p>
+                <p className="mb-[5px] text-redError text-[14px]">Ảnh danh hiệu không được trống</p>
               )}
             </div>
           </div>
