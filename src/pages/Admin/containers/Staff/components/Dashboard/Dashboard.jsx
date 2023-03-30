@@ -6,11 +6,16 @@ import { ic_blog_active, ic_product_active, ic_unit_active } from '../../../../.
 // ** components
 import CountingNumComponent from './components/CountingNumComponent';
 import DataTable from './components/DataTable';
+import ModalStaffOrderDetail from '../../../../../../share/components/Modal/ModalStaffOrderDetail/ModalStaffOrderDetail';
 
 const Dashboard = () => {
   const [blogCount, setBlogCount] = useState(0);
   const [ingredientCount, setIngredientCount] = useState(0);
   const [categoryCount, setCategoryCount] = useState(0);
+  const [orderCount, setOrderCount] = useState(0);
+  const [orderList, setOrderList] = useState([]);
+  const [openDetailModal, setOpenDetailModal] = useState(false);
+  const [orderDetailData, setOrderDetailData] = useState();
 
   // count ingredients
   useEffect(() => {
@@ -42,8 +47,36 @@ const Dashboard = () => {
     fetch();
   }, []);
 
+  // get orders
+  useEffect(() => {
+    const fetch = async () => {
+      const res = await instances.get(`/orders`);
+      // console.log(res.data);
+      setOrderList(res.data);
+      setOrderCount(res?.data?.length || 0);
+    };
+
+    fetch();
+  }, []);
+
+  // handle open detail
+  const handelOpenDetail = (data) => {
+    setOrderDetailData(data);
+    setOpenDetailModal(true);
+  };
+
+  // handle change order status
+  const handleChangeStatus = () => {};
+
   return (
     <div>
+      {openDetailModal && (
+        <ModalStaffOrderDetail
+          openDetailModal={openDetailModal}
+          setOpenDetailModal={setOpenDetailModal}
+          data={orderDetailData}
+        />
+      )}
       <div className="flex items-center gap-4 flex-wrap">
         <CountingNumComponent
           name="Bài viết"
@@ -71,12 +104,12 @@ const Dashboard = () => {
         />
       </div>
       <div className="mt-8">
-        <p className="text-[20px] font-semibold text-[#585858]">Đơn hàng mới</p>
+        <p className="text-[20px] font-semibold text-[#585858]">Đơn hàng ({orderCount})</p>
         <div className="mt-2">
           <DataTable
-          // unitList={unitList}
-          // handleOpenEdit={handleOpenEdit}
-          // handleOpenDelete={handleOpenDelete}
+            orderList={orderList}
+            handelOpenDetail={handelOpenDetail}
+            handleChangeStatus={handleChangeStatus}
           />
         </div>
       </div>
