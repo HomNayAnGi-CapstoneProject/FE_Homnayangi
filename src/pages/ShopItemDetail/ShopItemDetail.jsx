@@ -18,6 +18,7 @@ const ShopItemDetail = () => {
   // ** get data
   useEffect(() => {
     const fetch = async () => {
+      setDetailData([]);
       const res = await instances.get(`/ingredients/${params?.id}`);
       setDetailData(res.data.result);
     };
@@ -33,11 +34,11 @@ const ShopItemDetail = () => {
         </div>
         {/* Related recipe */}
         <div className="mb-5">
-          <RelatedRecipe />
+          <RelatedRecipe ingreId={params?.id} />
         </div>
         {/* related item */}
         <div className="mb-5">
-          <RelatedItem />
+          <RelatedItem ingreId={params?.id} typeId={detailData?.typeId} />
         </div>
       </div>
     </div>
