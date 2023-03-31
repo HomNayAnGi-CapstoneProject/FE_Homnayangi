@@ -45,10 +45,15 @@ const Item = (props) => {
                 </div>
               </div>
               <div className="md:w-1/2 flex flex-col items-end">
-                <div className="w-fit">
+                <div className="w-fit text-[14px]">
                   <p>
-                    {Intl.NumberFormat().format(data?.isCooked ? item?.cookedPrice : item?.packagePrice)}đ x
-                    {item?.recipeQuantity}
+                    Đơn giá:
+                    <span className="font-semibold">
+                      {Intl.NumberFormat().format(data?.isCooked ? item?.cookedPrice : item?.packagePrice)}đ
+                    </span>
+                  </p>
+                  <p>
+                    Số lượng: <span className="font-semibold">{item?.recipeQuantity}</span>
                   </p>
                 </div>
                 <button onClick={() => handleOpenDetail(item)} className="underline text-[14px] text-primary">
@@ -72,9 +77,12 @@ const Item = (props) => {
                   </div>
                 </div>
                 <div className="md:w-1/2 flex flex-col items-end">
-                  <div className="w-fit">
+                  <div className="w-fit text-[14px]">
                     <p>
-                      {Intl.NumberFormat().format(item?.price)}đ x{item?.quantity}
+                      Đơn giá: <span className="font-semibold">{Intl.NumberFormat().format(item?.price)}đ</span>
+                    </p>
+                    <p>
+                      Số lượng: <span className="font-semibold">{item?.quantity}</span>
                     </p>
                   </div>
                 </div>

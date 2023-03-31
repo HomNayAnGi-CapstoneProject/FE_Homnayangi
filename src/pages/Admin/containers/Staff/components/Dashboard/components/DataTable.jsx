@@ -13,13 +13,13 @@ function checkStatus(status) {
       return <p className="text-white px-3 rounded-full text-[14px] bg-green-500">ACCEPTED</p>;
       break;
     case 5:
-      return <p className="text-white px-3 rounded-full text-[14px] bg-yellow-500">SHIPPING</p>;
+      return <p className="text-white px-3 rounded-full text-[14px] bg-yellow-500">DELEVERING</p>;
       break;
     case 3:
       return <p className="text-white px-3 rounded-full text-[14px] bg-red-500">CANCELED</p>;
       break;
     case 6:
-      return <p className="text-white px-3 rounded-full text-[14px] bg-gray-400">SHIPPED</p>;
+      return <p className="text-white px-3 rounded-full text-[14px] bg-gray-400">DELIVERED</p>;
       break;
     default:
       break;
