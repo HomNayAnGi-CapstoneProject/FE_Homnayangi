@@ -89,6 +89,8 @@ import ic_document_black from './ic_document_black.svg'
 import ic_online_payment from './ic_online_payment.svg'
 import ic_cash_payment from './ic_cash_payment.svg'
 
+import ic_navigation from './ic_navigation.svg'
+
 export {
     ic_nofitication, ic_cart, ic_caret_down_white, ic_nav_menu, ic_close_modal, ic_caret_right, ic_location,
     ic_notification_white, ic_cart_white, ic_left_arrow, ic_boiling_white, ic_add_to_cart_white, ic_refresh_white,
@@ -101,5 +103,5 @@ export {
     ic_wait_accept_active, ic_wait_accept, ic_delivery_active, ic_delivery, ic_recive_active, ic_recive, ic_cancel_active,
     ic_cancel, ic_user_gray, ic_phone_gray, ic_location_gray, ic_time_gray, ic_repcomment, ic_menu_dots, ic_clipboard,
     ic_trash_orange, ic_plus_black, ic_subtract_black, ic_clock_red, ic_location_black, ic_payment_black, ic_document_black,
-    ic_online_payment, ic_cash_payment
+    ic_online_payment, ic_cash_payment, ic_navigation
 }
