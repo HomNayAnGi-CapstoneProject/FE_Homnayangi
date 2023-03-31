@@ -3,12 +3,16 @@ import instances from '../../../../../../utils/plugin/axios';
 
 import { ic_blog_active, ic_product_active, ic_unit_active } from '../../../../../../assets';
 
+// ** third party
+import { useNavigate } from 'react-router-dom';
+
 // ** components
 import CountingNumComponent from './components/CountingNumComponent';
 import DataTable from './components/DataTable';
 import ModalStaffOrderDetail from '../../../../../../share/components/Modal/ModalStaffOrderDetail/ModalStaffOrderDetail';
 
 const Dashboard = () => {
+  const navigate = useNavigate();
   const [blogCount, setBlogCount] = useState(0);
   const [ingredientCount, setIngredientCount] = useState(0);
   const [categoryCount, setCategoryCount] = useState(0);
@@ -104,7 +108,15 @@ const Dashboard = () => {
         />
       </div>
       <div className="mt-8">
-        <p className="text-[20px] font-semibold text-[#585858]">Đơn hàng ({orderCount})</p>
+        <div className="flex items-center gap-3">
+          <p className="text-[20px] font-semibold text-[#585858]">Đơn hàng ({orderCount})</p>
+          <button
+            onClick={() => navigate('/management/order')}
+            className="px-5 py-2 rounded-[10px] bg-primary text-white font-medium"
+          >
+            Quản lý đơn hàng
+          </button>
+        </div>
         <div className="mt-2">
           <DataTable
             orderList={orderList}
