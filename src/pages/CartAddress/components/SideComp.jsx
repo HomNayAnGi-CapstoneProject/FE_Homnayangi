@@ -118,7 +118,7 @@ const SideComp = () => {
         {
           success: 'Đang chuyển hướng...',
           pending: 'Đang tạo đơn hàng',
-          error: 'Có lỗi xảy ra!',
+          error: 'Vui lòng xác nhận địa chỉ!',
         },
       );
     }

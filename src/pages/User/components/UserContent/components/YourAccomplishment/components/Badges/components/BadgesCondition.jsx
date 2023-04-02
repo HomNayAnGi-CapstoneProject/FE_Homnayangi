@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import instances from '../../../../../../../../../utils/plugin/axios';
 
 import ModalBadgeInfo from './ModalBadgeInfo/ModalBadgeInfo';
 
@@ -21,59 +22,46 @@ const data = {
 
 const BadgesCondition = (props) => {
   const [openDetailModal, setOpenDetailModal] = useState(false);
+  const [badgeNotEarn, setBadgeNotEarn] = useState([]);
+
+  // ** get badges not get
+  useEffect(() => {
+    const fetch = async () => {
+      const res = await instances.get('/customerbadges/badgeconditions');
+      console.log(res.data);
+      setBadgeNotEarn(res.data);
+    };
+    fetch();
+  }, []);
+
   return (
     <>
       {openDetailModal && (
         <ModalBadgeInfo openDetailModal={openDetailModal} setOpenDetailModal={setOpenDetailModal} data={data} />
       )}
       <div>
-        <div className="flex items-center gap-2 mb-2 px-5 py-1 ">
-          <img src={badge1} alt="" className="object-contain w-[30px] h-[30px]" />
-          <div>
-            <p className="font-semibold text-black">Khởi đầu</p>
-            {/* conditions */}
-            <div className="flex gap-1">
-              <p className="text-primary font-bold">
-                5 <span className="text-[#929292] font-normal">đơn hàng,</span>
-              </p>
-              <p className="text-primary font-bold">
-                0 <span className="text-[#929292] font-normal">thành quả cá nhân</span>
-              </p>
+        {badgeNotEarn?.length > 0 ? (
+          badgeNotEarn?.slice(0, 2)?.map((item) => (
+            <div className="flex items-center gap-2 mb-2 px-5 py-1 ">
+              <img src={item?.badge?.imageUrl} alt="" className="object-contain w-[30px] h-[30px]" />
+              <div>
+                <p className="font-semibold text-black">{item?.badge?.name}</p>
+                {/* conditions */}
+                <div className="flex gap-1">
+                  <p className="text-primary font-bold">
+                    {item?.orders} <span className="text-[#929292] font-normal">đơn hàng,</span>
+                  </p>
+                  <p className="text-primary font-bold">
+                    {item?.accomplishments || 0} <span className="text-[#929292] font-normal">thành quả cá nhân</span>
+                  </p>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-2 mb-2 px-5 py-1 ">
-          <img src={badge2} alt="" className="object-contain w-[30px] h-[30px]" />
-          <div>
-            <p className="font-semibold text-black">Làm Quen</p>
-            {/* conditions */}
-            <div className="flex gap-1">
-              <p className="text-primary font-bold">
-                10 <span className="text-[#929292] font-normal">đơn hàng,</span>
-              </p>
-              <p className="text-primary font-bold">
-                5 <span className="text-[#929292] font-normal">thành quả cá nhân</span>
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-2 mb-2 px-5 py-1 ">
-          <img src={badge3} alt="" className="object-contain w-[30px] h-[30px]" />
-          <div>
-            <p className="font-semibold text-black">Hội viên</p>
-            {/* conditions */}
-            <div className="flex gap-1">
-              <p className="text-primary font-bold">
-                20 <span className="text-[#929292] font-normal">đơn hàng,</span>
-              </p>
-              <p className="text-primary font-bold">
-                10 <span className="text-[#929292] font-normal">thành quả cá nhân</span>
-              </p>
-            </div>
-          </div>
-        </div>
+          ))
+        ) : (
+          <div className="mb-2 px-5 py-1">Chưa có dữ liệu</div>
+        )}
+        {/* fake data */}
 
         <p
           onClick={() => setOpenDetailModal(true)}
