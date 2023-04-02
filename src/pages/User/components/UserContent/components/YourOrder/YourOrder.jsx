@@ -11,7 +11,7 @@ import { useDispatch } from 'react-redux';
 
 // ** third party
 import jwt_decode from 'jwt-decode';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { Modal } from '@mui/material';
 
 // ** componetns
@@ -21,6 +21,7 @@ import Container from './components/Content/Container';
 const YourOrder = () => {
   //** const */
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [status, setStatus] = useState('PENDING');
   const [openModal, setOpenModal] = useState(false);
   const [isComfirmOrder, setIsComfirmOrder] = useState(false);
@@ -69,12 +70,13 @@ const YourOrder = () => {
       } else {
         const fetch = async () => {
           await instances.put(`/orders/${cancel ? 'cancel' : 'accept'}/${guid}`);
-          const res = await instances.get('/orders/status', {
+          const res = await instances.get('/orders/status/customer', {
             params: {
               status: orderStatus,
             },
           });
           setOrdersData(res.data);
+          navigate('/user/orders');
           // if payment success (remove item from cart)
           if (cancel == false) {
             dispatch(
@@ -90,7 +92,7 @@ const YourOrder = () => {
       }
     } else {
       const fetch = async () => {
-        const res = await instances.get('/orders/status', { params: { status: orderStatus } });
+        const res = await instances.get('/orders/status/customer', { params: { status: orderStatus } });
         setOrdersData(res.data);
       };
       fetch();
