@@ -14,6 +14,7 @@ import jwt_decode from 'jwt-decode';
 const ItemVariants = (props) => {
   const { productDetail } = props;
   const dispatch = useDispatch();
+  const shippedDate = localStorage.getItem('curShDate');
   const accessToken = localStorage.getItem('accessToken');
   let decoded_jwt = {};
   if (accessToken) {
@@ -54,6 +55,7 @@ const ItemVariants = (props) => {
         img: productDetail.picture,
         amount: productValue,
         price: productDetail.price,
+        shippedDate: shippedDate ? shippedDate : null,
       };
       // console.log(requestObject);
       dispatch(addItemNoStock(requestObject));

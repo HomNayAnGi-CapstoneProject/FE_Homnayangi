@@ -17,6 +17,7 @@ const SideComp = () => {
   const [cartAdd, setCartAdd] = useState();
   const navigate = useNavigate();
   const accessToken = localStorage.getItem('accessToken');
+  const shippedDate = localStorage.getItem('curShDate');
   let decoded_jwt = {};
   if (accessToken) {
     decoded_jwt = jwt_decode(accessToken);
@@ -38,10 +39,10 @@ const SideComp = () => {
         currentCart = currentUser.cart.filter((item) => item.isCook == true);
       }
     }
-    return currentCart;
+    return { currentCart, currentUser };
   };
 
-  const currentCart = getCurrentCart();
+  const current = getCurrentCart();
 
   const totalItemInCart = () => {
     let total = 0;
@@ -53,7 +54,7 @@ const SideComp = () => {
       });
     }
     if (currentUser?.cart?.length > 0) {
-      currentCart.forEach((item) => {
+      current.currentCart.forEach((item) => {
         total += item.amount;
         totalPrice += item.amount * item.price;
       });
@@ -76,7 +77,7 @@ const SideComp = () => {
     //     }),
     //   );
     // });
-    listTotalIngre = currentCart?.map((cartItem) => {
+    listTotalIngre = current.currentCart?.map((cartItem) => {
       return {
         ingredientId: cartItem.id == '' ? cartItem.orderDetails[0].ingredientId : null,
         quantity: cartItem.amount,
@@ -90,20 +91,24 @@ const SideComp = () => {
   // ** handle create order
   const handleCreateOrder = (data) => {
     if (accessToken) {
-      if (cartAddress.split(',')[3] !== '' && cartAddress.split(',')[4] !== '' && cartAddress.split(',')[5] !== '') {
-        console.log(cartAddress.split(','));
-        let requestData = {
-          shippedAddress: cartAddress,
-          totalPrice: totalItem.totalPrice,
-          paymentMethod: 1,
-          isCooked: cartType == 1 ? false : true,
-          orderDetails: getListTotalIngredients(),
-        };
-        // console.log(requestData);
-      }
+      // if (cartAddress.split(',')[3] !== '' && cartAddress.split(',')[4] !== '' && cartAddress.split(',')[5] !== '') {
+      // console.log(cartAddress.split(','));
+      let requestData = {
+        shippedDate: cartType == 1 ? null : new Date(current.currentUser.shippedDate).toISOString(),
+        discount: 0,
+        shippedAddress: cartAddress,
+        totalPrice: totalItem.totalPrice,
+        paymentMethod: 1,
+        isCooked: cartType == 1 ? false : true,
+        orderDetails: getListTotalIngredients(),
+      };
+      // console.log(requestData);
+      // }
       toast.promise(
         instances
           .post('/orders', {
+            shippedDate: cartType == 1 ? null : new Date(current.currentUser.shippedDate).toISOString(),
+            discount: 0,
             shippedAddress: cartAddress,
             totalPrice: totalItem.totalPrice,
             paymentMethod: 1,
@@ -136,13 +141,24 @@ const SideComp = () => {
         {/* body */}
         <div>
           <div className="max-h-[260px] scroll-bar overflow-x-hidden overflow-y-scroll py-[15px]">
-            {currentCart?.map((item) => (
+            {current.currentCart?.map((item) => (
               <div key={item?.id + crypto.randomUUID()} className="border-t border-dashed first:border-t-0">
                 <CartItem item={item} />
               </div>
             ))}
           </div>
         </div>
+        {/* shippedTime for cooked item */}
+        {cartType == 2 ? (
+          current.currentUser.shippedDate && (
+            <p className="text-redError font-medium">
+              Món ăn sẽ được chuẩn bị và giao vào{' '}
+              {new Date(new Date(current.currentUser.shippedDate).setSeconds(0)).toLocaleString()}
+            </p>
+          )
+        ) : (
+          <></>
+        )}
       </div>
       {/* discount, total price */}
       <div className="w-full bg-white rounded-[5px] px-[14px] py-2 my-3">
@@ -163,10 +179,10 @@ const SideComp = () => {
       <button
         type="submit"
         form="address-form"
-        onClick={() => handleCreateOrder(currentCart)}
-        disabled={currentCart?.length > 0 ? false : true}
+        onClick={() => handleCreateOrder(current.currentCart)}
+        disabled={current.currentCart?.length > 0 ? false : true}
         className={`uppercase select-none text-white font-semibold w-full text-center py-2 rounded-[5px] ${
-          currentCart?.length > 0 ? 'cursor-pointer bg-primary' : 'cursor-not-allowed bg-secondary'
+          current.currentCart?.length > 0 ? 'cursor-pointer bg-primary' : 'cursor-not-allowed bg-secondary'
         }`}
       >
         Thanh toán ngay

@@ -2,25 +2,31 @@ import React from 'react';
 import Loading from '../../../../../../../share/components/Admin/Loading';
 import { ic_edit, ic_delete_red, ic_delete_green, ic_navigation, ic_eye_gray } from '../../../../../../../assets';
 
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, GridToolbarContainer, GridToolbarExport } from '@mui/x-data-grid';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import moment from 'moment/moment';
 
+function CustomToolbar() {
+  return (
+    <GridToolbarContainer>
+      <GridToolbarExport />
+    </GridToolbarContainer>
+  );
+}
+
 function checkStatus(status) {
   switch (status) {
+    case 1:
+      return <p className="text-white px-3 rounded-full text-[14px] bg-gray-500">CHỜ THANH TOÁN</p>;
     case 2:
-      return <p className="text-white px-3 rounded-full text-[14px] bg-green-500">ACCEPTED</p>;
-      break;
+      return <p className="text-white px-3 rounded-full text-[14px] bg-blue-500">ĐÃ THANH TOÁN</p>;
     case 5:
-      return <p className="text-white px-3 rounded-full text-[14px] bg-yellow-500">DELEVERING</p>;
-      break;
+      return <p className="text-white px-3 rounded-full text-[14px] bg-yellow-500">ĐANG GIAO</p>;
     case 3:
-      return <p className="text-white px-3 rounded-full text-[14px] bg-red-500">CANCELED</p>;
-      break;
+      return <p className="text-white px-3 rounded-full text-[14px] bg-red-500">ĐÃ HỦY</p>;
     case 6:
-      return <p className="text-white px-3 rounded-full text-[14px] bg-gray-400">DELIVERED</p>;
-      break;
+      return <p className="text-white px-3 rounded-full text-[14px] bg-green-400">ĐÃ GIAO</p>;
     default:
       break;
   }
@@ -64,7 +70,7 @@ const columns = [
   {
     field: 'status',
     headerName: 'Trạng thái',
-    width: 150,
+    width: 200,
     // flex: 1,
     renderCell: (params) => (
       <div className={`cellWithStatus ${params.row.orderStatus}`}>
@@ -107,6 +113,9 @@ const DataTable = (props) => {
   return (
     <div className="h-[75vh] bg-white">
       <DataGrid
+        localeText={{
+          toolbarExport: 'Xuất dữ liệu',
+        }}
         rows={props.orderList}
         columns={columns.concat(actionColumn)}
         pageSize={9}
@@ -117,6 +126,7 @@ const DataTable = (props) => {
         // loading={!rows.length}
         components={{
           LoadingOverlay: Loading,
+          Toolbar: CustomToolbar,
         }}
         sx={{
           '& .MuiDataGrid-columnHeaderTitle': {

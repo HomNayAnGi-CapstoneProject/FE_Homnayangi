@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { ic_boiling_white } from '../../assets';
 import { ic_add_to_cart_white } from '../../assets';
 import { addItemNoStock, getShoppingCart } from '../../redux/actionSlice/shoppingCartSlice';
+
+import ModalOrderCooked from './Modal/ModalOrderCooked/ModalOrderCooked';
 import ModalRequireLogin from './Modal/ModalRequireLogin';
 
 import Image from './Image';
@@ -21,24 +23,30 @@ const FoodCard = (props) => {
     decoded_jwt = jwt_decode(accessToken);
   }
   const [openRequireLogin, setOpenRequireLogin] = useState(false);
+  const [openOrderCooked, setOpenOrderCooked] = useState(false);
+  const [orderCookedData, setOrderCookedData] = useState();
 
   // ** functions
   //** handle add to cart */
   const handleAddToCart = (data, isCook) => {
     if (accessToken) {
-      let requestObject = {
-        cusId: decoded_jwt.Id,
-        orderDetails: data.recipeDetails,
-        isCook: isCook,
-        orderName: data.recipeTitle,
-        id: data.recipeId,
-        amount: 1,
-        img: data.imageUrl,
-        price: isCook ? data.cookedPrice : data.packagePrice,
-      };
-      // console.log(requestObject);
-      dispatch(addItemNoStock(requestObject));
-      dispatch(getShoppingCart());
+      if (isCook) {
+        setOpenOrderCooked(true);
+        setOrderCookedData(data);
+        // let requestObject = {
+        //   cusId: decoded_jwt.Id,
+        //   orderDetails: data.recipeDetails,
+        //   isCook: isCook,
+        //   orderName: data.recipeTitle,
+        //   id: data.recipeId,
+        //   amount: 1,
+        //   img: data.imageUrl,
+        //   price: isCook ? data.cookedPrice : data.packagePrice,
+        // };
+        // // console.log(requestObject);
+        // dispatch(addItemNoStock(requestObject));
+        // dispatch(getShoppingCart());
+      }
     } else {
       setOpenRequireLogin(true);
     }
@@ -48,6 +56,14 @@ const FoodCard = (props) => {
     <>
       {openRequireLogin && (
         <ModalRequireLogin openRequireLogin={openRequireLogin} setOpenRequireLogin={setOpenRequireLogin} />
+      )}
+
+      {openOrderCooked && (
+        <ModalOrderCooked
+          openCookedOrderModal={openOrderCooked}
+          setOpenCookedOrderModal={setOpenOrderCooked}
+          data={orderCookedData}
+        />
       )}
       <div
         // key={food.blogId}
@@ -106,6 +122,7 @@ const FoodCard = (props) => {
               </button>
               <button
                 onClick={() => handleAddToCart(food, true)}
+                // onClick={() => setOpenOrderCooked(true)}
                 className="bg-redError rounded-[10px] cursor-pointer text-white font-medium xs:text-[18px] sm:text-[16px] text-[1vw] xxlg:px-[15px] sm:py-[10px] xlg:px-[3px] md:px-[3px] px-[15px] py-[10px] flex items-center gap-2"
               >
                 Đặt làm

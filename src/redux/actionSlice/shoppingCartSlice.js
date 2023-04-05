@@ -8,8 +8,10 @@ const notify = (name, value) => toast.success(`Đã thêm ${value} ${name} vào 
 const notifyError = () => toast.error("Có lỗi xảy ra !", {
     pauseOnHover: false,
 });
-const notifyWarn = (value, valueLeft) => toast.warn(`Bạn đã thêm ${value} sản phẩm này! Số lượng còn lại có thể thêm: ${valueLeft}`, {
+const notifyWarn = (value, valueLeft) => toast.warn(`Bạn đã đặt làm món này vào ${value}, vui lòng thanh toán đơn hàng hiện tại trước nếu bạn muốn đặt làm thêm món này vào khung giờ khác`, {
     pauseOnHover: false,
+    position: 'top-center',
+    autoClose: 6000
 });
 
 export const cartSlice = createSlice({
@@ -56,7 +58,14 @@ export const cartSlice = createSlice({
             let addedWithCusId = undefined
             if (currenUser !== undefined) {
                 addedWithCusId = currenUser.cart.find((item) => {
-                    return item.id === action.payload.id && item.isCook === action.payload.isCook
+                    // return item.id === action.payload.id && item.isCook === action.payload.isCook
+                    if (action.payload.id !== '') {
+                        return item.id === action.payload.id && item.isCook === action.payload.isCook
+                    } else {
+                        if (item.id == '') {
+                            return item.orderDetails[0].ingredientId === action.payload.orderDetails[0].ingredientId && item.isCook === action.payload.isCook
+                        }
+                    }
                 })
             }
 
@@ -77,13 +86,26 @@ export const cartSlice = createSlice({
             //     },
             // ]
 
-            // undefind: first time 
+            // check if order isCooked has difference shippedDate at the same recipe
+            let otherShippedDate = false
+            if (addedWithCusId !== undefined) {
+                let payLoadTime = new Date(action.payload?.shippedDate).setSeconds(0)
+                let addedTime = new Date(addedWithCusId.shippedDate).setSeconds(0)
+                if (payLoadTime !== addedTime) {
+                    otherShippedDate = true
+                }
+            }
+            // if (otherShippedDate == true) {
+            // notifyWarn(new Date(new Date(addedWithCusId.shippedDate).setSeconds(0)).toLocaleString())
+            // } else {
             notify(action.payload.orderName, action.payload.amount)
             let cart = []
+            // undefind: first time 
             if (currenUser === undefined) {
                 state.productslist = [...state.productslist,
                 {
                     cusId: action.payload.cusId,
+                    shippedDate: action.payload?.shippedDate,
                     cart: [...cart, {
                         id: action.payload.id,
                         orderName: action.payload.orderName,
@@ -93,6 +115,7 @@ export const cartSlice = createSlice({
                         isCook: action.payload.isCook,
                         cusId: action.payload.cusId,
                         orderDetails: action.payload.orderDetails,
+                        shippedDate: action.payload.isCook == true ? action.payload?.shippedDate : null
                     }]
                 }]
                 localStorage.setItem('SHOPPING_CART', JSON.stringify(state.productslist))
@@ -106,6 +129,7 @@ export const cartSlice = createSlice({
                             state.productslist.splice(currentUserPosition, 1)
                             state.productslist.splice(currentUserPosition, 0, {
                                 cusId: currenUser.cusId,
+                                shippedDate: action.payload?.shippedDate,
                                 cart: [...currenUser.cart, {
                                     id: action.payload.id,
                                     orderName: action.payload.orderName,
@@ -115,6 +139,7 @@ export const cartSlice = createSlice({
                                     isCook: action.payload.isCook,
                                     cusId: action.payload.cusId,
                                     orderDetails: action.payload.orderDetails,
+                                    shippedDate: action.payload.isCook == true ? action.payload?.shippedDate : null
                                 }]
                             })
                         }
@@ -125,19 +150,41 @@ export const cartSlice = createSlice({
                     let addedPosition = currenUser.cart.indexOf(addedWithCusId)
                     // console.log(addedPosition)
                     currenUser.cart.map((pro, index) => {
-                        if (pro.id === addedWithCusId.id && pro.isCook === addedWithCusId.isCook) {
-                            newAmount = pro.amount + action.payload.amount
-                            currenUser.cart.splice(addedPosition, 1)
-                            currenUser.cart.splice(addedPosition, 0, {
-                                id: action.payload.id,
-                                orderName: action.payload.orderName,
-                                img: action.payload.img,
-                                price: action.payload.price,
-                                amount: newAmount,
-                                isCook: action.payload.isCook,
-                                cusId: action.payload.cusId,
-                                orderDetails: action.payload.orderDetails,
-                            })
+                        // check if payload is ingredient (id=='')
+                        if (addedWithCusId.id !== '') {
+                            if (pro.id === addedWithCusId.id && pro.isCook === addedWithCusId.isCook) {
+                                newAmount = pro.amount + action.payload.amount
+                                currenUser.cart.splice(addedPosition, 1)
+                                currenUser.cart.splice(addedPosition, 0, {
+                                    id: action.payload.id,
+                                    orderName: action.payload.orderName,
+                                    img: action.payload.img,
+                                    price: action.payload.price,
+                                    amount: newAmount,
+                                    isCook: action.payload.isCook,
+                                    cusId: action.payload.cusId,
+                                    orderDetails: action.payload.orderDetails,
+                                    shippedDate: action.payload.isCook == true ? action.payload?.shippedDate : null
+                                })
+                            }
+                        } else { //payload is ingredient
+                            if (pro.id == '') {
+                                if (pro.orderDetails[0].ingredientId === addedWithCusId.orderDetails[0].ingredientId && pro.isCook === addedWithCusId.isCook) {
+                                    newAmount = pro.amount + action.payload.amount
+                                    currenUser.cart.splice(addedPosition, 1)
+                                    currenUser.cart.splice(addedPosition, 0, {
+                                        id: action.payload.id,
+                                        orderName: action.payload.orderName,
+                                        img: action.payload.img,
+                                        price: action.payload.price,
+                                        amount: newAmount,
+                                        isCook: action.payload.isCook,
+                                        cusId: action.payload.cusId,
+                                        orderDetails: action.payload.orderDetails,
+                                        shippedDate: action.payload.isCook == true ? action.payload?.shippedDate : null
+                                    })
+                                }
+                            }
                         }
                     })
                     // console.log(state.productslist)
@@ -148,6 +195,7 @@ export const cartSlice = createSlice({
                             state.productslist.splice(currentUserPosition, 1)
                             state.productslist.splice(currentUserPosition, 0, {
                                 cusId: currenUser.cusId,
+                                shippedDate: action.payload?.shippedDate,
                                 cart: currenUser.cart
                             })
                         }
@@ -155,6 +203,7 @@ export const cartSlice = createSlice({
                     localStorage.setItem('SHOPPING_CART', JSON.stringify(state.productslist))
                 }
             }
+            // }
 
             // Basic add to cart logic
 
@@ -294,7 +343,14 @@ export const cartSlice = createSlice({
             let addedWithCusId = undefined
             if (currenUser !== undefined) {
                 addedWithCusId = currenUser.cart.find((item) => {
-                    return item.id === action.payload.id && item.isCook === action.payload.isCook
+                    // return item.id === action.payload.id && item.isCook === action.payload.isCook
+                    if (action.payload.id !== '') {
+                        return item.id === action.payload.id && item.isCook === action.payload.isCook
+                    } else {
+                        if (item.id == '') {
+                            return item.orderDetails[0].ingredientId === action.payload.orderDetails[0].ingredientId && item.isCook === action.payload.isCook
+                        }
+                    }
                 })
             }
 
@@ -302,19 +358,40 @@ export const cartSlice = createSlice({
             let addedPosition = currenUser.cart.indexOf(addedWithCusId)
             // console.log(addedPosition)
             currenUser.cart.map((pro, index) => {
-                if (pro.id === addedWithCusId.id && pro.isCook === addedWithCusId.isCook) {
-                    newAmount = pro.amount - 1
-                    currenUser.cart.splice(addedPosition, 1)
-                    currenUser.cart.splice(addedPosition, 0, {
-                        id: action.payload.id,
-                        orderName: action.payload.orderName,
-                        img: action.payload.img,
-                        price: action.payload.price,
-                        amount: newAmount,
-                        isCook: action.payload.isCook,
-                        cusId: action.payload.cusId,
-                        orderDetails: action.payload.orderDetails,
-                    })
+                if (addedWithCusId.id !== '') {
+                    if (pro.id === addedWithCusId.id && pro.isCook === addedWithCusId.isCook) {
+                        newAmount = pro.amount - 1
+                        currenUser.cart.splice(addedPosition, 1)
+                        currenUser.cart.splice(addedPosition, 0, {
+                            id: action.payload.id,
+                            orderName: action.payload.orderName,
+                            img: action.payload.img,
+                            price: action.payload.price,
+                            amount: newAmount,
+                            isCook: action.payload.isCook,
+                            cusId: action.payload.cusId,
+                            orderDetails: action.payload.orderDetails,
+                            shippedDate: action.payload.isCook == true ? action.payload?.shippedDate : null
+                        })
+                    }
+                } else {
+                    if (pro.id == '') {
+                        if (pro.orderDetails[0].ingredientId === addedWithCusId.orderDetails[0].ingredientId && pro.isCook === addedWithCusId.isCook) {
+                            newAmount = pro.amount - 1
+                            currenUser.cart.splice(addedPosition, 1)
+                            currenUser.cart.splice(addedPosition, 0, {
+                                id: action.payload.id,
+                                orderName: action.payload.orderName,
+                                img: action.payload.img,
+                                price: action.payload.price,
+                                amount: newAmount,
+                                isCook: action.payload.isCook,
+                                cusId: action.payload.cusId,
+                                orderDetails: action.payload.orderDetails,
+                                shippedDate: action.payload.isCook == true ? action.payload?.shippedDate : null
+                            })
+                        }
+                    }
                 }
             })
             // console.log(state.productslist)
@@ -325,6 +402,7 @@ export const cartSlice = createSlice({
                     state.productslist.splice(currentUserPosition, 1)
                     state.productslist.splice(currentUserPosition, 0, {
                         cusId: currenUser.cusId,
+                        shippedDate: currenUser?.shippedDate,
                         cart: currenUser.cart
                     })
                 }
@@ -387,14 +465,30 @@ export const cartSlice = createSlice({
 
             if (currenUser.cart?.length > 0) {
                 let added = currenUser.cart.find((item) => {
-                    return item.id === action.payload.id && item.isCook === action.payload.isCook
+                    // return item.id === action.payload.id && item.isCook === action.payload.isCook
+                    if (action.payload.id !== '') {
+                        return item.id === action.payload.id && item.isCook === action.payload.isCook
+                    } else {
+                        if (item.id == '') {
+                            return item.orderDetails[0].ingredientId === action.payload.orderDetails[0].ingredientId && item.isCook === action.payload.isCook
+                        }
+                    }
                 })
                 // remove that item from current cart
                 let removedCart = currenUser.cart
                 currenUser.cart.map((item, index) => {
-                    if (item.id === added.id && item.isCook === added.isCook) {
-                        currenUser.cart.splice(index, 1)
-                        removedCart = [...currenUser.cart]
+                    if (added.id !== '') {
+                        if (item.id === added.id && item.isCook === added.isCook) {
+                            currenUser.cart.splice(index, 1)
+                            removedCart = [...currenUser.cart]
+                        }
+                    } else {
+                        if (item.id == '') {
+                            if (item.orderDetails[0].ingredientId === added.orderDetails[0].ingredientId && item.isCook === added.isCook) {
+                                currenUser.cart.splice(index, 1)
+                                removedCart = [...currenUser.cart]
+                            }
+                        }
                     }
                 })
                 // replace old cart with removed cart
@@ -405,6 +499,7 @@ export const cartSlice = createSlice({
                         state.productslist.splice(currentUserPosition, 1)
                         state.productslist.splice(currentUserPosition, 0, {
                             cusId: currenUser.cusId,
+                            shippedDate: currenUser?.shippedDate,
                             cart: removedCart
                         })
                     }
@@ -441,6 +536,7 @@ export const cartSlice = createSlice({
                         state.productslist.splice(currentUserPosition, 1)
                         state.productslist.splice(currentUserPosition, 0, {
                             cusId: currenUser.cusId,
+                            shippedDate: currenUser?.shippedDate,
                             cart: removedCart
                         })
                     }

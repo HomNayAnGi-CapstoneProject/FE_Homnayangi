@@ -27,6 +27,7 @@ import { ref, uploadBytes, listAll, getDownloadURL, deleteObject } from 'firebas
 import SubcateSelect from './SubcateSelect/SubcateSelect';
 import MaterialSelect from './MaterialSelect/MaterialSelect';
 import Portion from './Portion/Portion';
+import CookTime from './CookTime/CookTime';
 
 // ** Markdown
 import MarkdownIt from 'markdown-it';
@@ -86,7 +87,7 @@ const EditBlog = () => {
     if (params.blogId) {
       const fetch = async () => {
         const res = await instances.get(`/blogs/staff-preview/${params.blogId}`);
-        console.log(res.data);
+        // console.log(res.data);
         dispatch(setContentBlog({ title: res.data?.title }));
         dispatch(setContentBlog({ minSize: res.data?.minSize }));
         dispatch(setContentBlog({ maxSize: res.data?.maxSize }));
@@ -430,9 +431,10 @@ const EditBlog = () => {
           className={`text-[30px] text-[#a1a1a1] font-semibold outline-none border-none w-full max-h-[150px] scroll-bar resize-none`}
         />
 
-        {/* ================================= KHẨU PHẦN ĂN ================================= */}
-        <div className="my-7 flex items-center gap-2 text-[#8f8f8f]">
+        {/* ================================= KHẨU PHẦN ĂN, THỜI GIAN NẤU================================= */}
+        <div className="my-7 flex items-center gap-6 text-[#8f8f8f]">
           <Portion />
+          <CookTime />
         </div>
 
         {/* ================================= DANH MỤC PHỤ ================================= */}

@@ -57,16 +57,11 @@ const BadgeConditionExplan = (props) => {
               <BadgeItem
                 img={item?.badge?.imageUrl}
                 name={item?.badge?.name}
-                orderNeed={item?.orders}
+                orderNeed={item?.orders || 0}
                 accomNeed={item?.accomplishments || 0}
               />
             </div>
           ))}
-        {/* <BadgeItem img={data.badge2} name={'Làm quen'} orderNeed={10} accomNeed={5} />
-        <BadgeItem img={data.badge3} name={'Hội viên'} orderNeed={20} accomNeed={10} />
-        <BadgeItem img={data.badge4} name={'Khách quý'} orderNeed={30} accomNeed={20} />
-        <BadgeItem img={data.badge5} name={'Lão làng'} orderNeed={30} accomNeed={20} />
-        <BadgeItem img={data.badge6} name={'Chuyên gia mua sắm'} orderNeed={60} accomNeed={20} /> */}
       </div>
     </div>
   );

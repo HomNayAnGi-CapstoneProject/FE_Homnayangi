@@ -4,7 +4,7 @@ import Item from './components/Item';
 import Image from '../../../components/Image';
 import { ic_clock_red } from '../../../../assets';
 const ModalCartItemDetail = (props) => {
-  const { openDetailModal, setOpenDetailModal, data, detailTotalPrice, detailCookedImg, isCooked } = props;
+  const { openDetailModal, setOpenDetailModal, data, detailTotalPrice, detailCookedImg, isCooked, shippedDate } = props;
 
   return (
     <Modal open={openDetailModal} onClose={() => setOpenDetailModal(false)}>
@@ -24,7 +24,13 @@ const ModalCartItemDetail = (props) => {
               <Image src={detailCookedImg} alt="" className="sm:w-[430px] h-[260px] object-cover w-full" />
               <div className="my-5 flex items-center gap-2">
                 <img src={ic_clock_red} className="w-[24px] h-[24px] object-contain" />
-                <p className="text-redError">Đọc từ config</p>
+                {/* <p className="text-redError">{new Date(new Date(data?.shippedDate).setSeconds(0)).toLocaleString()}</p> */}
+                <p className="text-gray-500">
+                  Món sẽ được giao vào lúc{' '}
+                  <span className="text-redError">
+                    {new Date(new Date(shippedDate).setSeconds(0)).toLocaleString()}
+                  </span>
+                </p>
               </div>
               <button
                 onClick={() => setOpenDetailModal(false)}

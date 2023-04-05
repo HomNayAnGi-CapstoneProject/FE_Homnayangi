@@ -25,6 +25,7 @@ const BlogDetail = () => {
     // console.log(params);
     const fetch = async () => {
       try {
+        setBlogDetail();
         const res = await instances.get(`/blogs/${params?.id}`);
         // console.log(res);
         setBlogDetail(res.data);

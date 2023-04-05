@@ -65,7 +65,7 @@ const AddressForm = (props) => {
 
   // ** get ward base on district
   useEffect(() => {
-    console.log(activeWards);
+    // console.log(activeWards);
     if (activeDistricts !== '') {
       setActiveWards('');
       const fetch = async () => {
