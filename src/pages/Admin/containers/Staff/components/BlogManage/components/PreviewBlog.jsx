@@ -58,9 +58,16 @@ const PreviewBlog = () => {
           )}
           <div className="py-5 px-5">
             <p className="text-[30px] text-black font-semibold">{previewData?.title}</p>
-            <p className="mt-[12px] text-[14px] text-[#8f8f8f]">
-              <span className="font-medium">Khẩu phần:</span> từ {previewData?.minSize} đến {previewData?.maxSize} người
-            </p>
+            <div className="flex gap-6 items-center mt-[12px]">
+              <p className="text-[16px] text-[#8f8f8f]">
+                <span className="font-medium text-black">Khẩu phần:</span> từ {previewData?.minSize} đến{' '}
+                {previewData?.maxSize}
+                người
+              </p>
+              <p className="text-[16px] text-[#8f8f8f]">
+                <span className="font-bold text-black">Thời gian nấu:</span> 5 phút
+              </p>
+            </div>
             <div className="mt-[12px] flex flex-wrap gap-2">
               {previewData?.subCates?.map((item, i) => (
                 <div

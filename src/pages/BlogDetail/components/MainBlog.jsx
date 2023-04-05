@@ -3,6 +3,7 @@ import moment from 'moment';
 import Breadcrumbs from '../../../share/components/Breadcrumbs';
 import Image from '../../../share/components/Image';
 import ModalRequireLogin from '../../../share/components/Modal/ModalRequireLogin';
+import ModalOrderCooked from '../../../share/components/Modal/ModalOrderCooked/ModalOrderCooked';
 
 // ** Assets
 import staticFood from '../../../assets/images/about_1.webp';
@@ -20,6 +21,7 @@ import YouTube from 'react-youtube';
 const MainBlog = (props) => {
   const { blogDetail } = props;
   const dispatch = useDispatch();
+  const shippedDate = localStorage.getItem('curShDate');
   const accessToken = localStorage.getItem('accessToken');
   let decoded_jwt = {};
   if (accessToken) {
@@ -27,6 +29,9 @@ const MainBlog = (props) => {
   }
 
   const [openRequireLogin, setOpenRequireLogin] = useState(false);
+  const [openOrderCooked, setOpenOrderCooked] = useState(false);
+  const [orderCookedData, setOrderCookedData] = useState();
+
   const opts = {
     height: '420',
     width: '100%',
@@ -43,19 +48,25 @@ const MainBlog = (props) => {
   //** handle add to cart */
   const handleAddToCart = (data, isCook) => {
     if (accessToken) {
-      let requestObject = {
-        cusId: decoded_jwt.Id,
-        orderDetails: data.recipeDetails,
-        isCook: isCook,
-        orderName: data.recipeTitle,
-        id: data.recipeId,
-        amount: 1,
-        img: data.imageUrl,
-        price: isCook ? data.cookedPrice : data.packagePrice,
-      };
-      // console.log(requestObject);
-      dispatch(addItemNoStock(requestObject));
-      dispatch(getShoppingCart());
+      if (isCook) {
+        setOpenOrderCooked(true);
+        setOrderCookedData(data);
+      } else {
+        let requestObject = {
+          cusId: decoded_jwt.Id,
+          orderDetails: data.recipeDetails,
+          isCook: isCook,
+          orderName: data.recipeTitle,
+          id: data.recipeId,
+          amount: 1,
+          img: data.imageUrl,
+          price: isCook ? data.cookedPrice : data.packagePrice,
+          shippedDate: shippedDate ? shippedDate : null,
+        };
+        // console.log(requestObject);
+        dispatch(addItemNoStock(requestObject));
+        dispatch(getShoppingCart());
+      }
     } else {
       setOpenRequireLogin(true);
     }
@@ -72,6 +83,13 @@ const MainBlog = (props) => {
       {openRequireLogin && (
         <ModalRequireLogin openRequireLogin={openRequireLogin} setOpenRequireLogin={setOpenRequireLogin} />
       )}
+      {openOrderCooked && (
+        <ModalOrderCooked
+          openCookedOrderModal={openOrderCooked}
+          setOpenCookedOrderModal={setOpenOrderCooked}
+          data={orderCookedData}
+        />
+      )}
       <div className="font-inter bg-white rounded-[5px] shadow-md">
         {blogDetail ? (
           <>
@@ -85,9 +103,15 @@ const MainBlog = (props) => {
                 {moment(blogDetail?.createdDate).startOf('day').fromNow()}
               </p>
               <p className="text-[30px] text-black font-semibold">{blogDetail?.title}</p>
-              <p className="mt-[12px] text-[14px] text-[#8f8f8f]">
-                <span className="font-medium">Khẩu phần:</span> từ {blogDetail?.minSize} đến {blogDetail?.maxSize} người
-              </p>
+              <div className="flex gap-6 items-center mt-[12px]">
+                <p className="text-[16px] text-[#8f8f8f]">
+                  <span className="font-bold text-black">Khẩu phần:</span> từ {blogDetail?.minSize} đến{' '}
+                  {blogDetail?.maxSize} người
+                </p>
+                <p className="text-[16px] text-[#8f8f8f]">
+                  <span className="font-bold text-black">Thời gian nấu:</span> 5 phút
+                </p>
+              </div>
               <div className="mt-[20px] flex flex-wrap gap-2">
                 {blogDetail?.subCates?.map((item, i) => (
                   <div
@@ -203,7 +227,7 @@ const MainBlog = (props) => {
             </div>
           </>
         ) : (
-          <div className="text-center py-2">Đang load...</div>
+          <div className="text-center py-2">Đang tải...</div>
         )}
       </div>
     </>

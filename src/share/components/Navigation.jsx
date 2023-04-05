@@ -101,10 +101,16 @@ const Navigation = (props) => {
     if (currentUser?.cart?.length > 0) {
       currentCart = currentUser.cart;
     }
-    return currentCart;
+    return { currentCart, currentUser };
   };
 
-  const currentCart = getCurrentCart();
+  const current = getCurrentCart();
+
+  useEffect(() => {
+    if (current.currentUser?.shippedDate) {
+      localStorage.setItem('curShDate', new Date(current.currentUser.shippedDate).toISOString());
+    }
+  }, [current.currentUser]);
 
   // ** allowManage
   const allowManage = () => {
@@ -262,7 +268,7 @@ const Navigation = (props) => {
               >
                 <NotifyItemCart decoded_jwt={decoded_jwt} shoppingCart={cartStore?.shoppingCart} />
               </div>
-              {currentCart?.length > 0 && (
+              {current.currentCart?.length > 0 && (
                 <div onMouseEnter={() => handleOpenModal(true)} onMouseLeave={() => handleOpenModal(false)}>
                   <AnimatePresence>
                     {cartStore.showModal && (

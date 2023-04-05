@@ -17,6 +17,7 @@ import { toast } from 'react-toastify';
 
 const Item = (props) => {
   const dispatch = useDispatch();
+  const shippedDate = localStorage.getItem('curShDate');
   const accessToken = localStorage.getItem('accessToken');
   const cartList = useSelector((state) => state.cart.shoppingCart);
   const [productValue, setProductValue] = useState(props?.item.amount);
@@ -43,9 +44,10 @@ const Item = (props) => {
           orderDetails: item.orderDetails,
           isCook: item.isCook,
           orderName: item.orderName,
-          id: item.id,
+          id: item.id !== '' ? item.id : '',
           img: item.img,
           price: item.price,
+          shippedDate: shippedDate ? shippedDate : null,
         };
         dispatch(deleteItem(requestObject));
         dispatch(getShoppingCart());
@@ -62,10 +64,11 @@ const Item = (props) => {
         orderDetails: item.orderDetails,
         isCook: item.isCook,
         orderName: item.orderName,
-        id: item.id,
+        id: item.id !== '' ? item.id : '',
         amount: 1,
         img: item.img,
         price: item.price,
+        shippedDate: shippedDate ? shippedDate : null,
       };
       dispatch(addItemNoStock(requestObject));
       dispatch(getShoppingCart());
@@ -89,6 +92,7 @@ const Item = (props) => {
           data={detailData}
           detailTotalPrice={detailTotalPrice}
           detailCookedImg={detailCookedImg}
+          shippedDate={props?.shippedDate}
         />
       )}
       <div className="py-6 w-full flex font-maven">
@@ -105,7 +109,6 @@ const Item = (props) => {
           <div className="flex-1">
             <p className="text-[18px] font-medium line-clamp-1">{props?.item?.orderName}</p>
             <p className="text-[14px] mb-3 text-gray-500">
-              {' '}
               Loại:{' '}
               {props?.item?.isCook ? (
                 <span className="text-redError">Đặt nấu</span>
@@ -113,6 +116,14 @@ const Item = (props) => {
                 <span className="text-gray-500">{props?.item?.id !== '' ? 'Gói nguyên liệu' : 'Nguyên liệu'}</span>
               )}
             </p>
+            {/* {props?.item?.isCook && (
+              <p className="text-gray-500 text-[14px] mb-3">
+                Món sẽ được giao vào lúc{' '}
+                <span className="text-redError">
+                  {new Date(new Date(props?.item?.shippedDate).setSeconds(0)).toLocaleString()}
+                </span>
+              </p>
+            )} */}
             <div className="flex items-center gap-3">
               <button
                 onClick={() => handleRemoveItem(props?.item)}

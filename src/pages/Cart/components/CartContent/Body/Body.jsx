@@ -40,21 +40,21 @@ const Body = () => {
         currentCart = currentUser.cart.filter((item) => item.isCook == true);
       }
     }
-    return currentCart;
+    return { currentCart, currentUser };
   };
 
-  const currentCart = getCurrentCart();
+  const current = getCurrentCart();
 
   return (
     <div className="w-full bg-white rounded-[5px] px-[14px] py-2">
-      {currentCart?.length > 0 ? (
+      {current.currentCart?.length > 0 ? (
         <div>
-          {currentCart?.map((item) => (
+          {current.currentCart?.map((item) => (
             <div
               key={item.id + crypto.randomUUID()}
               className="border-t border-gray-400 border-dashed first:border-t-0 w-full"
             >
-              <Item item={item} />
+              <Item item={item} shippedDate={current.currentUser?.shippedDate} />
             </div>
           ))}
         </div>

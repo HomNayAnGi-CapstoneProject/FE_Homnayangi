@@ -11,16 +11,16 @@ import moment from 'moment/moment';
 function checkStatus(status) {
   switch (status) {
     case 1:
-      return <p className="text-white px-3 rounded-full text-[14px] bg-green-500">AVAILABLE</p>;
+      return <p className="text-white px-3 rounded-full text-[14px] bg-green-500">HOẠT ĐỘNG</p>;
       break;
     case 2:
-      return <p className="text-white px-3 rounded-full text-[14px] bg-yellow-500">DRAFT</p>;
+      return <p className="text-white px-3 rounded-full text-[14px] bg-yellow-500">BẢN NHÁP</p>;
       break;
     case 0:
-      return <p className="text-white px-3 rounded-full text-[14px] bg-red-500">DELETED</p>;
+      return <p className="text-white px-3 rounded-full text-[14px] bg-red-500">ĐÃ XÓA</p>;
       break;
     case 3:
-      return <p className="text-white px-3 rounded-full text-[14px] bg-gray-400">PENDING</p>;
+      return <p className="text-white px-3 rounded-full text-[14px] bg-gray-400">CHỜ DUYỆT</p>;
       break;
     default:
       break;

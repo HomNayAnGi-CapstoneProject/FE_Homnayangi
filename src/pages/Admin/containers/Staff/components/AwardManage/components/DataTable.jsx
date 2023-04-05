@@ -56,9 +56,9 @@ const columns = [
       <div className={`cellWithStatus ${params.row.status}`}>
         {/* {checkStatus(params.row.status)} */}
         {params.row.status === 1 ? (
-          <p className="text-white px-3 rounded-full text-[14px] bg-green-500">AVAILABLE</p>
+          <p className="text-white px-3 rounded-full text-[14px] bg-green-500">HOẠT ĐỘNG</p>
         ) : (
-          <p className="text-white px-3 rounded-full text-[14px] bg-red-500">DELETED</p>
+          <p className="text-white px-3 rounded-full text-[14px] bg-red-500">ĐÃ XÓA</p>
         )}
       </div>
     ),

@@ -4,6 +4,7 @@ import Image from '../../../share/components/Image';
 import generateSlug from '../../../utils/generateSlug';
 import { addItemNoStock, getShoppingCart } from '../../../redux/actionSlice/shoppingCartSlice';
 import ModalRequireLogin from '../../../share/components/Modal/ModalRequireLogin';
+import ModalOrderCooked from '../../../share/components/Modal/ModalOrderCooked/ModalOrderCooked';
 
 // ** Assets
 import styles from '../../../style';
@@ -33,24 +34,30 @@ const Card = (props) => {
     decoded_jwt = jwt_decode(accessToken);
   }
   const [openRequireLogin, setOpenRequireLogin] = useState(false);
+  const [openOrderCooked, setOpenOrderCooked] = useState(false);
+  const [orderCookedData, setOrderCookedData] = useState();
 
   // ** functions
   //** handle add to cart */
   const handleAddToCart = (data, isCook) => {
     if (accessToken) {
-      let requestObject = {
-        cusId: decoded_jwt.Id,
-        orderDetails: data.recipeDetails,
-        isCook: isCook,
-        orderName: data.recipeTitle,
-        id: data.recipeId,
-        amount: 1,
-        img: data.imageUrl,
-        price: isCook ? data.cookedPrice : data.packagePrice,
-      };
-      // console.log(requestObject);
-      dispatch(addItemNoStock(requestObject));
-      dispatch(getShoppingCart());
+      if (isCook) {
+        setOpenOrderCooked(true);
+        setOrderCookedData(data);
+      }
+      // let requestObject = {
+      //   cusId: decoded_jwt.Id,
+      //   orderDetails: data.recipeDetails,
+      //   isCook: isCook,
+      //   orderName: data.recipeTitle,
+      //   id: data.recipeId,
+      //   amount: 1,
+      //   img: data.imageUrl,
+      //   price: isCook ? data.cookedPrice : data.packagePrice,
+      // };
+      // // console.log(requestObject);
+      // dispatch(addItemNoStock(requestObject));
+      // dispatch(getShoppingCart());
     } else {
       setOpenRequireLogin(true);
     }
@@ -60,6 +67,13 @@ const Card = (props) => {
     <>
       {openRequireLogin && (
         <ModalRequireLogin openRequireLogin={openRequireLogin} setOpenRequireLogin={setOpenRequireLogin} />
+      )}
+      {openOrderCooked && (
+        <ModalOrderCooked
+          openCookedOrderModal={openOrderCooked}
+          setOpenCookedOrderModal={setOpenOrderCooked}
+          data={orderCookedData}
+        />
       )}
       <div className="relative font-inter rounded-[10px] sm:w-[450px] sm:h-[200px] md:w-[586px] w-[100%] md:h-[220px] h-fit bg-[#FFA883] p-[10px] flex sm:flex-row flex-col gap-[18px] drop-shadow-3xl">
         <div className="flex gap-[18px]">

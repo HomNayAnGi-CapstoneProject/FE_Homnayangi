@@ -22,11 +22,12 @@ const YourOrder = () => {
   //** const */
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [status, setStatus] = useState('PENDING');
+  const [status, setStatus] = useState('NOTPAID');
   const [openModal, setOpenModal] = useState(false);
   const [isComfirmOrder, setIsComfirmOrder] = useState(false);
   const [isCancel, setIsCancel] = useState();
   const [ordersData, setOrdersData] = useState([]);
+  const [ordersList, setOrdersList] = useState([]);
 
   const accessToken = localStorage.getItem('accessToken');
   let decoded_jwt = {};
@@ -37,6 +38,8 @@ const YourOrder = () => {
   // ** check tab status
   const getTabStatus = () => {
     switch (status) {
+      case 'NOTPAID':
+        return 1;
       case 'PENDING':
         return 2;
       case 'SHIPPING':
@@ -76,6 +79,8 @@ const YourOrder = () => {
             },
           });
           setOrdersData(res.data);
+          const ress = await instances.get('/orders/status/customer', { params: { status: -1 } });
+          setOrdersList(ress.data);
           navigate('/user/orders');
           // if payment success (remove item from cart)
           if (cancel == false) {
@@ -94,10 +99,20 @@ const YourOrder = () => {
       const fetch = async () => {
         const res = await instances.get('/orders/status/customer', { params: { status: orderStatus } });
         setOrdersData(res.data);
+        const ress = await instances.get('/orders/status/customer', { params: { status: -1 } });
+        setOrdersList(ress.data);
       };
       fetch();
     }
   }, [isComfirmOrder, orderStatus]);
+
+  // useEffect(() => {
+  //   const fetch = async () => {
+  //     const res = await instances.get('/orders/status/customer', { params: { status: -1 } });
+  //     setOrdersList(res.data);
+  //   };
+  //   fetch();
+  // }, []);
 
   if (accessToken) {
     if (Object.keys(decoded_jwt).length === 0 && decoded_jwt.constructor === Object) {
@@ -138,7 +153,7 @@ const YourOrder = () => {
                 </div>
               </Modal>
               <div className="font-inter">
-                <TabList setStatus={setStatus} status={status} />
+                <TabList setStatus={setStatus} status={status} ordersList={ordersList} />
                 <Container status={status} orderData={ordersData} />
               </div>
             </>

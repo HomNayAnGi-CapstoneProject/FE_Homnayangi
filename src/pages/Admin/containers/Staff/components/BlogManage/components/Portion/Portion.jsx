@@ -26,7 +26,7 @@ const Portion = () => {
 
   return (
     <div className="flex items-center gap-2">
-      <p className="font-medium">Khẩu phần: </p>
+      <p className="font-medium text-black">Khẩu phần: </p>
       <p>Từ </p>
       <input
         type="number"

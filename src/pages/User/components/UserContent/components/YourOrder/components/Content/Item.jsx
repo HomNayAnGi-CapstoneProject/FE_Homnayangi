@@ -140,7 +140,7 @@ const Item = (props) => {
             </div>
           </div>
           <div className="flex md:justify-end">
-            <p>
+            <p className="text-[15px]">
               Loại:{' '}
               <span className={`${data?.isCooked ? 'text-redError' : 'text-primary'}`}>
                 {data?.isCooked ? 'Đặt nấu' : 'Gói nguyên liệu'}
@@ -148,11 +148,33 @@ const Item = (props) => {
             </p>
           </div>
           <div className="flex md:justify-end mt-2">
+            <p className="text-[15px]">
+              Thanh toán <span className={``}>{data?.paymentMethod == 1 ? 'Online' : 'khi nhận hàng'}</span>
+            </p>
+          </div>
+          <div className="flex md:justify-end mt-2">
             <p className="text-[18px] font-bold text-redError">{Intl.NumberFormat().format(data?.totalPrice)}đ</p>
           </div>
           <div className="flex items-end justify-end  mt-5">
+            {data?.orderStatus == 1 && data?.paymentMethod == 1 ? (
+              <div
+                onClick={() => window.location.replace(data.paypalUrl)}
+                className="cursor-pointer px-5 w-fit py-3 rounded-[2px] border uppercase bg-primary text-white font-medium"
+              >
+                thanh toán lại
+              </div>
+            ) : (
+              <></>
+            )}
+            {data?.orderStatus == 1 && data?.paymentMethod == 0 ? (
+              <div className="cursor-pointer px-5 w-fit py-3 rounded-[2px] border uppercase text-[#acacac] border-[#acacac]">
+                chờ duyệt
+              </div>
+            ) : (
+              <></>
+            )}
             {data?.orderStatus == 2 && (
-              <div className="px-5 w-fit py-3 rounded-[2px] border uppercase text-[#D9D9D9] border-[#D9D9D9]">
+              <div className="px-5 w-fit py-3 rounded-[2px] border uppercase text-blue-500 border-blue-500">
                 đã xác nhận
               </div>
             )}
