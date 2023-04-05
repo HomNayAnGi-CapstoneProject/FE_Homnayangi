@@ -40,10 +40,24 @@ const OrderManagement = () => {
     setOpenChangeStatusModal(true);
   };
 
-  const handleChangeOrderStatus = (data) => {
+  const getOrderStatus = (status) => {
+    switch (status) {
+      case 1:
+        return 'accept';
+      case 2:
+        return 'shipping';
+      case 5:
+        return 'delivered';
+      default:
+        break;
+    }
+  };
+
+  const handleChangeOrderStatus = (data, isCancel) => {
     // console.log(confirmData?.unitId);
-    let status = data?.orderStatus == 2 ? 'shipping' : 'delivered';
-    // console.log(data?.orderId);
+    let status = isCancel ? 'cancel' : getOrderStatus(data?.orderStatus);
+
+    // console.log(status);
     toast.promise(
       instances.put(`/orders/${status}/${data?.orderId}`).then(() => {
         setUpdateTable((prev) => !prev);

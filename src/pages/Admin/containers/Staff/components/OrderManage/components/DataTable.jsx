@@ -15,12 +15,20 @@ function CustomToolbar() {
   );
 }
 
-function checkStatus(status) {
+function checkStatus(status, paymentMethod) {
   switch (status) {
     case 1:
-      return <p className="text-white px-3 rounded-full text-[14px] bg-gray-500">CHỜ THANH TOÁN</p>;
+      return (
+        <p className="text-white px-3 rounded-full text-[14px] bg-gray-500">
+          {paymentMethod == 1 ? 'CHỜ THANH TOÁN' : 'CHỜ DUYỆT'}
+        </p>
+      );
     case 2:
-      return <p className="text-white px-3 rounded-full text-[14px] bg-blue-500">ĐÃ THANH TOÁN</p>;
+      return (
+        <p className="text-white px-3 rounded-full text-[14px] bg-blue-500">
+          {paymentMethod == 1 ? 'ĐÃ THANH TOÁN' : 'ĐÃ DUYỆT'}
+        </p>
+      );
     case 5:
       return <p className="text-white px-3 rounded-full text-[14px] bg-yellow-500">ĐANG GIAO</p>;
     case 3:
@@ -32,12 +40,29 @@ function checkStatus(status) {
   }
 }
 
+function checkStatusExport(status, paymentMethod) {
+  switch (status) {
+    case 1:
+      return paymentMethod == 1 ? 'CHỜ THANH TOÁN' : 'CHỜ DUYỆT';
+    case 2:
+      return paymentMethod == 1 ? 'ĐÃ THANH TOÁN' : 'ĐÃ DUYỆT';
+    case 5:
+      return 'ĐANG GIAO';
+    case 3:
+      return 'ĐÃ HỦY';
+    case 6:
+      return 'ĐÃ GIAO';
+    default:
+      break;
+  }
+}
+
 const columns = [
   // { field: 'blogId', headerName: 'ID', width: 70 },
   {
     field: 'orderId',
     headerName: 'Mã đơn hàng',
-    width: 200,
+    width: 120,
   },
   {
     field: 'isCooked',
@@ -52,29 +77,42 @@ const columns = [
         </Tooltip>
       </div>
     ),
+    valueGetter: (params) => (params.row.isCooked ? 'Đặt nấu' : 'Nguyên liệu'),
   },
   {
     field: 'totalPrice',
     headerName: 'Đơn giá',
-    width: 200,
+    width: 150,
     renderCell: (params) => (
       <p className="text-redError font-bold">{Intl.NumberFormat().format(params.row.totalPrice)}đ</p>
     ),
+  },
+  {
+    field: 'paymentMethod',
+    headerName: 'Hình thức thanh toán',
+    width: 200,
+    renderCell: (params) => (
+      <p className={`${params.row.paymentMethod == 0 ? 'text-primary' : 'text-blue-500'} font-bold`}>
+        {params.row.paymentMethod == 0 ? 'COD' : 'Online'}
+      </p>
+    ),
+    valueGetter: (params) => (params.row.paymentMethod == 0 ? 'COD' : 'Online'),
   },
   {
     field: 'orderDate',
     headerName: 'Ngày đặt',
     width: 150,
     renderCell: (params) => moment(params.row.orderDate).format('Do MMM YY'),
+    valueGetter: (params) => new Date(params.row.orderDate).toLocaleString(),
   },
   {
-    field: 'status',
+    field: 'orderStatus',
     headerName: 'Trạng thái',
     width: 200,
     // flex: 1,
     renderCell: (params) => (
       <div className={`cellWithStatus ${params.row.orderStatus}`}>
-        {checkStatus(params.row.orderStatus)}
+        {checkStatus(params.row.orderStatus, params.row.paymentMethod)}
         {/* {params.row.status == true ? (
           <p className="text-white px-3 rounded-full text-[14px] bg-green-500">AVAILABLE</p>
         ) : (
@@ -82,6 +120,7 @@ const columns = [
         )} */}
       </div>
     ),
+    valueGetter: (params) => checkStatusExport(params.row.orderStatus, params.row.paymentMethod),
   },
 ];
 
@@ -99,7 +138,9 @@ const DataTable = (props) => {
               <img src={ic_eye_gray} />
             </IconButton>
           </Tooltip>
-          {(params.row.orderStatus == 2 || params.row.orderStatus == 5) && (
+          {(params.row.orderStatus == 2 ||
+            params.row.orderStatus == 5 ||
+            (params.row.orderStatus == 1 && params.row.paymentMethod == 0)) && (
             <Tooltip title="Đổi trạng thái đơn hàng" placement="right">
               <IconButton onClick={() => props?.handleChangeStatus(params.row)} aria-label="edit">
                 <img src={ic_navigation} />

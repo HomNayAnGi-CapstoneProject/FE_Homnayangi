@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import instances from '../../../utils/plugin/axios';
 import { ic_document_black } from '../../../assets';
 import CartItem from '../../../share/components/Modal/ModalShoppingCart/components/CartItem';
+import { removeCartByStatus, getShoppingCart } from '../../../redux/actionSlice/shoppingCartSlice';
 
 //** Third party components*/
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,10 +12,13 @@ import { useNavigate } from 'react-router';
 
 const SideComp = () => {
   const cartList = useSelector((state) => state.cart.shoppingCart);
-  const cartType = useSelector((state) => state.cart.cartType);
+  // const cartType = useSelector((state) => state.cart.cartType);
+  const cartType = localStorage.getItem('cartType');
   const cartAddress = useSelector((state) => state.cart.cartAddress);
+  const paymentMethod = useSelector((state) => state.cart.paymentMethod);
 
   const [cartAdd, setCartAdd] = useState();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const accessToken = localStorage.getItem('accessToken');
   const shippedDate = localStorage.getItem('curShDate');
@@ -22,6 +26,18 @@ const SideComp = () => {
   if (accessToken) {
     decoded_jwt = jwt_decode(accessToken);
   }
+
+  // ** notify
+  const notifyAddressError = () =>
+    toast.error('Vui lòng điền đầy đủ thông tin và ấn xác nhận địa chỉ !', {
+      pauseOnHover: false,
+      autoClose: 4000,
+    });
+  const notifyPaymentError = () =>
+    toast.error('Vui lòng chọn phương thức thanh toán !', {
+      pauseOnHover: false,
+      autoClose: 4000,
+    });
 
   const getCurrentCart = () => {
     let currentCart = [];
@@ -98,34 +114,57 @@ const SideComp = () => {
         discount: 0,
         shippedAddress: cartAddress,
         totalPrice: totalItem.totalPrice,
-        paymentMethod: 1,
+        paymentMethod: paymentMethod,
         isCooked: cartType == 1 ? false : true,
         orderDetails: getListTotalIngredients(),
       };
-      // console.log(requestData);
+      // if (paymentMethod == 0 || cartAddress == '') {
+      //   notifyPaymentError();
+      // } else {
+      //   console.log(requestData);
       // }
-      toast.promise(
-        instances
-          .post('/orders', {
-            shippedDate: cartType == 1 ? null : new Date(current.currentUser.shippedDate).toISOString(),
-            discount: 0,
-            shippedAddress: cartAddress,
-            totalPrice: totalItem.totalPrice,
-            paymentMethod: 1,
-            isCooked: cartType == 1 ? false : true,
-            orderDetails: getListTotalIngredients(),
-          })
-          .then((response) => {
-            // console.log(response.data);
-            window.location.replace(response.data);
-            // window.location.href = response.data;
-          }),
-        {
-          success: 'Đang chuyển hướng...',
-          pending: 'Đang tạo đơn hàng',
-          error: 'Vui lòng xác nhận địa chỉ!',
-        },
-      );
+      // }
+      if (cartAddress == '') {
+        notifyAddressError();
+      } else {
+        if (paymentMethod == -1) {
+          notifyPaymentError();
+        } else {
+          toast.promise(
+            instances
+              .post('/orders', {
+                shippedDate: cartType == 1 ? null : new Date(current.currentUser.shippedDate).toISOString(),
+                discount: 0,
+                shippedAddress: cartAddress,
+                totalPrice: totalItem.totalPrice,
+                paymentMethod: paymentMethod,
+                isCooked: cartType == 1 ? false : true,
+                orderDetails: getListTotalIngredients(),
+              })
+              .then((response) => {
+                // console.log(response.data);
+                if (response.data) {
+                  window.location.replace(response.data);
+                  // window.location.href = response.data;
+                } else {
+                  dispatch(
+                    removeCartByStatus({
+                      cusId: decoded_jwt.Id,
+                      isCook: cartType == 1 ? false : true,
+                    }),
+                  );
+                  dispatch(getShoppingCart());
+                  navigate('/user/orders/');
+                }
+              }),
+            {
+              success: 'Đang chuyển hướng...',
+              pending: 'Đang tạo đơn hàng',
+              error: 'Có lỗi xảy ra khi tạo đơn hàng!',
+            },
+          );
+        }
+      }
     }
   };
 
@@ -150,7 +189,7 @@ const SideComp = () => {
         </div>
         {/* shippedTime for cooked item */}
         {cartType == 2 ? (
-          current.currentUser.shippedDate && (
+          current.currentUser?.shippedDate && (
             <p className="text-redError font-medium">
               Món ăn sẽ được chuẩn bị và giao vào{' '}
               {new Date(new Date(current.currentUser.shippedDate).setSeconds(0)).toLocaleString()}

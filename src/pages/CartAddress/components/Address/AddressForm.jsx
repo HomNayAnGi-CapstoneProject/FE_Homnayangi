@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
+import { toast } from 'react-toastify';
 
 const AddressForm = (props) => {
   const ITEM_HEIGHT = 48;
@@ -19,6 +20,11 @@ const AddressForm = (props) => {
       },
     },
   };
+  // ** notify
+  const notifyConfirmAddress = () =>
+    toast.success('Đã xác nhận địa chỉ !', {
+      pauseOnHover: false,
+    });
   const {
     register,
     handleSubmit,
@@ -49,8 +55,9 @@ const AddressForm = (props) => {
       data.wards +
       ', ' +
       data.description;
-    // console.log(data);
+    // console.log(address);
     dispatch(setCartAddress(address));
+    // notifyConfirmAddress();
   };
 
   // ** get district, wards

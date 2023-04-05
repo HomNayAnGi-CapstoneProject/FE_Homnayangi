@@ -35,6 +35,7 @@ export const cartSlice = createSlice({
         cart: [],
         cartType: 1,
         cartAddress: '',
+        paymentMethod: -1,
     },
     reducers: {
         //actions
@@ -549,6 +550,7 @@ export const cartSlice = createSlice({
         },
         setCartType: (state, action) => {
             state.cartType = action.payload
+            localStorage.setItem('cartType', action.payload)
         },
         setCartAddress: (state, action) => {
             // state.cartAddress = {
@@ -556,6 +558,9 @@ export const cartSlice = createSlice({
             //     ...action.payload
             // }
             state.cartAddress = action.payload
+        },
+        setPaymentMethod: (state, action) => {
+            state.paymentMethod = action.payload
         }
     }
 })
@@ -564,6 +569,6 @@ export const { addItemNoStock, addItemWithStock, deleteItem,
     cartEmpty, setStockAvailable, setStockAvailablePeek,
     setAddedProduct, setCartPosition, getShoppingCart,
     removeWholeItem, setShowModalCart, removeCart, setCartType,
-    removeCartByStatus, setCartAddress } = cartSlice.actions;
+    removeCartByStatus, setCartAddress, setPaymentMethod } = cartSlice.actions;
 export default cartSlice.reducer;
 
