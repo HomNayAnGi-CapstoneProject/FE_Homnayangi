@@ -77,17 +77,6 @@ const Accomplishments = (props) => {
       autoClose: 6000,
     });
 
-  // // ** get accom list
-  // useEffect(() => {
-  //   const fetch = async () => {
-  //     const res = await instances.get(`/accomplishments/blogs/${params.id}`);
-  //     console.log(res.data.result);
-  //     setAccomNum(res.data.result.length);
-  //     // setCommentList(res.data.result);
-  //   };
-  //   fetch();
-  // }, []);
-
   //** functs */
   const handleDoComment = async () => {
     if (!commentValue.trim()) {

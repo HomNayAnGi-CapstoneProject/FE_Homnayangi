@@ -11,6 +11,7 @@ import BadgeContainer from './components/Badges/BadgeContainer';
 const YourAccomplishment = () => {
   const [status, setStatus] = useState('all');
   const [accomsData, setAccomsData] = useState([]);
+  const [updateAccom, setUpdateAccom] = useState(false);
 
   const accessToken = localStorage.getItem('accessToken');
   let decoded_jwt = {};
@@ -26,7 +27,7 @@ const YourAccomplishment = () => {
       setAccomsData(res.data.result);
     };
     fetch();
-  }, []);
+  }, [updateAccom]);
 
   if (accessToken) {
     if (Object.keys(decoded_jwt).length === 0 && decoded_jwt.constructor === Object) {
@@ -38,7 +39,12 @@ const YourAccomplishment = () => {
             <div className="font-inter">
               <BadgeContainer />
               <TabList setStatus={setStatus} status={status} accomsData={accomsData} />
-              <Container status={status} accomsData={accomsData} />
+              <Container
+                status={status}
+                accomsData={accomsData}
+                accessToken={accessToken}
+                setUpdateAccom={setUpdateAccom}
+              />
             </div>
           );
         default:

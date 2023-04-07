@@ -3,6 +3,7 @@ import instances from '../../../../../utils/plugin/axios';
 import Image from '../../../../../share/components/Image';
 import { setReturnUrl } from '../../../../../redux/actionSlice/globalSlice';
 import ModalRequireLogin from '../../../../../share/components/Modal/ModalRequireLogin';
+import generateSlug from '../../../../../utils/generateSlug';
 
 import {
   ic_repcomment,
@@ -32,7 +33,7 @@ import OutsideClickHandler from 'react-outside-click-handler';
 import { Tooltip } from '@mui/material';
 
 const Accomplishment = (props) => {
-  const { data, setUpdateAccom, setOpenModal, accessToken } = props;
+  const { data, setUpdateAccom, setOpenModal, accessToken, isFromYourAccom } = props;
 
   let decoded_jwt = {};
   if (accessToken) {
@@ -786,6 +787,14 @@ const Accomplishment = (props) => {
           <div className="flex items-center gap-2">
             <p className="text-black font-semibold">{data?.authorFullName}</p>
             <p className="text-[#A9A8A8] text-[14px]">{moment(data?.createdDate).calendar()}</p>
+            {isFromYourAccom && (
+              <p
+                onClick={() => navigate(`/recipe/${data?.blogId}/${generateSlug(data.blogTitle)}`)}
+                className="text-primary text-[14px] underline cursor-pointer"
+              >
+                {data?.blogTitle}
+              </p>
+            )}
           </div>
           <div className="flex items-center gap-2 w-full">
             {/* text area */}
@@ -810,34 +819,63 @@ const Accomplishment = (props) => {
               </div>
             )}
             {/* handle edit, delete comment poppup */}
-            {data.authorId === decoded_jwt.Id && (
-              <div className="relative">
-                <button
-                  onClick={() => handleCmtOptions()}
-                  className="w-[30px] h-[30px] flex items-center justify-center rounded-full hover:bg-[#e5e5e58c]"
-                >
-                  <img className="object-contain w-[20px] h-[20px]" src={ic_menu_dots} />
-                </button>
-                {openOpenUpdateEdit && (
-                  <OutsideClickHandler onOutsideClick={() => setOpenOpenUpdateEdit(false)}>
-                    <div className="absolute bottom-[45px] right-[50%] transform translate-x-[50%] w-[100px] bg-white rounded-[5px] z-20 shadow-md">
-                      <button
-                        onClick={() => handleOpenEdit()}
-                        className="text-[14px] px-3 py-1 hover:bg-[#e5e5e58c] w-full"
-                      >
-                        Chỉnh sửa
-                      </button>
-                      <button
-                        onClick={() => handleDelete()}
-                        className="text-[14px] px-3 py-1 hover:bg-[#e5e5e58c] w-full"
-                      >
-                        Xóa
-                      </button>
-                    </div>
-                  </OutsideClickHandler>
+            {isFromYourAccom
+              ? data.status == 2 && (
+                  <div className="relative">
+                    <button
+                      onClick={() => handleCmtOptions()}
+                      className="w-[30px] h-[30px] flex items-center justify-center rounded-full hover:bg-[#e5e5e58c]"
+                    >
+                      <img className="object-contain w-[20px] h-[20px]" src={ic_menu_dots} />
+                    </button>
+                    {openOpenUpdateEdit && (
+                      <OutsideClickHandler onOutsideClick={() => setOpenOpenUpdateEdit(false)}>
+                        <div className="absolute right-[50%] w-[100px] bg-white rounded-[5px] z-20 shadow-md">
+                          <button
+                            onClick={() => handleOpenEdit()}
+                            className="text-[14px] px-3 py-1 hover:bg-[#e5e5e58c] w-full"
+                          >
+                            Chỉnh sửa
+                          </button>
+                          <button
+                            onClick={() => handleDelete()}
+                            className="text-[14px] px-3 py-1 hover:bg-[#e5e5e58c] w-full"
+                          >
+                            Xóa
+                          </button>
+                        </div>
+                      </OutsideClickHandler>
+                    )}
+                  </div>
+                )
+              : data.authorId === decoded_jwt.Id && (
+                  <div className="relative">
+                    <button
+                      onClick={() => handleCmtOptions()}
+                      className="w-[30px] h-[30px] flex items-center justify-center rounded-full hover:bg-[#e5e5e58c]"
+                    >
+                      <img className="object-contain w-[20px] h-[20px]" src={ic_menu_dots} />
+                    </button>
+                    {openOpenUpdateEdit && (
+                      <OutsideClickHandler onOutsideClick={() => setOpenOpenUpdateEdit(false)}>
+                        <div className="absolute bottom-[45px] right-[50%] transform translate-x-[50%] w-[100px] bg-white rounded-[5px] z-20 shadow-md">
+                          <button
+                            onClick={() => handleOpenEdit()}
+                            className="text-[14px] px-3 py-1 hover:bg-[#e5e5e58c] w-full"
+                          >
+                            Chỉnh sửa
+                          </button>
+                          <button
+                            onClick={() => handleDelete()}
+                            className="text-[14px] px-3 py-1 hover:bg-[#e5e5e58c] w-full"
+                          >
+                            Xóa
+                          </button>
+                        </div>
+                      </OutsideClickHandler>
+                    )}
+                  </div>
                 )}
-              </div>
-            )}
           </div>
           {/* edit buttons */}
           {editContent && (
@@ -1033,12 +1071,19 @@ const Accomplishment = (props) => {
               ))} */}
           </div>
           {/* reaction */}
-          <Tooltip title="Yêu thích" placement="left">
-            <div onClick={() => handleReaction()} className="cursor-pointer mt-3 flex gap-2 items-center">
-              <img alt="" className="object-contain w-[20px] h-[20px]" src={isYourReaction ? heart_red : heart} />
+          {isFromYourAccom ? (
+            <div className=" mt-3 flex gap-2 items-center">
+              <img alt="" className="object-contain w-[20px] h-[20px]" src={heart} />
               <p>{reaction}</p>
             </div>
-          </Tooltip>
+          ) : (
+            <Tooltip title="Yêu thích" placement="left">
+              <div onClick={() => handleReaction()} className="cursor-pointer mt-3 flex gap-2 items-center">
+                <img alt="" className="object-contain w-[20px] h-[20px]" src={isYourReaction ? heart_red : heart} />
+                <p>{reaction}</p>
+              </div>
+            </Tooltip>
+          )}
         </div>
       </div>
     </div>
