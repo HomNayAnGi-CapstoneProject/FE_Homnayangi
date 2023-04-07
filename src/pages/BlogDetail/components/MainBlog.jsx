@@ -109,7 +109,7 @@ const MainBlog = (props) => {
                   {blogDetail?.maxSize} người
                 </p>
                 <p className="text-[16px] text-[#8f8f8f]">
-                  <span className="font-bold text-black">Thời gian nấu:</span> 5 phút
+                  <span className="font-bold text-black">Thời gian nấu:</span> {blogDetail?.minutesToCook} phút
                 </p>
               </div>
               <div className="mt-[20px] flex flex-wrap gap-2">

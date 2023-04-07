@@ -8,6 +8,10 @@ const CartType = (props) => {
   // ** const
   const dispatch = useDispatch();
   const cartType = useSelector((state) => state.cart.cartType);
+  useEffect(() => {
+    dispatch(setCartType(1));
+  }, []);
+
   return (
     <div className="font-inter mb-4 flex items-center gap-3">
       <p className="text-[#898989] font-medium">Giỏ hàng: </p>

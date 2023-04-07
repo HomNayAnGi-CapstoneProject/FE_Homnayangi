@@ -18,8 +18,9 @@ import EditSubCate from './components/CateManage/components/SubCategory/EditSubC
 import OrderManagement from './components/OrderManage/OrderManagement';
 
 import VoucherManagement from './components/VoucherManagement';
-import AccomplishmentManagement from './components/AccomplishmentManagement';
 import CustomerManagement from './components/CustomerManagement';
+
+import AccomplishmentManagement from './components/AccomplishmentManage/AccomplishmentManagement';
 
 import AwardManagement from './components/AwardManage/AwardManagement';
 import CreateAward from './components/AwardManage/components/CreateAward';

@@ -106,14 +106,6 @@ const YourOrder = () => {
     }
   }, [isComfirmOrder, orderStatus]);
 
-  // useEffect(() => {
-  //   const fetch = async () => {
-  //     const res = await instances.get('/orders/status/customer', { params: { status: -1 } });
-  //     setOrdersList(res.data);
-  //   };
-  //   fetch();
-  // }, []);
-
   if (accessToken) {
     if (Object.keys(decoded_jwt).length === 0 && decoded_jwt.constructor === Object) {
       return <Navigate replace to="/" />;

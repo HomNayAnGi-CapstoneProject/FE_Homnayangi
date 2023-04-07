@@ -11,7 +11,7 @@ const Item = (props) => {
   const [detailData, setDetailData] = useState();
   const [detailTotalPrice, setDetailTotalPrice] = useState(0);
   const [detailCookedImg, setDetailCookedImg] = useState();
-
+  console.log(data);
   // ** handle open detail item
   const handleOpenDetail = (item) => {
     setOpenDetail(true);
@@ -30,6 +30,8 @@ const Item = (props) => {
           detailTotalPrice={detailTotalPrice}
           detailCookedImg={detailCookedImg}
           isCooked={data?.isCooked}
+          shippedDate={data?.shippedDate}
+          isDone={true}
         />
       )}
       <div className="md:flex mt-5">
