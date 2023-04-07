@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import instances from '../../../../utils/plugin/axios';
-import { Modal } from '@mui/material';
 import OrderDetailItem from './components/OrderDetailItem';
+
+import { Modal } from '@mui/material';
+import { QRCodeSVG } from 'qrcode.react';
 
 const ModalStaffOrderDetail = (props) => {
   const { openDetailModal, setOpenDetailModal, data, detailTotalPrice, detailCookedImg, isCooked } = props;
@@ -20,6 +22,23 @@ const ModalStaffOrderDetail = (props) => {
     fetch();
   }, []);
 
+  function checkStatus(status, paymentMethod) {
+    switch (status) {
+      case 1:
+        return <p className="text-gray-500 font-medium">{paymentMethod == 1 ? 'CHỜ THANH TOÁN' : 'CHỜ DUYỆT'}</p>;
+      case 2:
+        return <p className="text-blue-500 font-medium">{paymentMethod == 1 ? 'ĐÃ THANH TOÁN' : 'ĐÃ DUYỆT'}</p>;
+      case 5:
+        return <p className="text-yellow-500 font-medium">ĐANG GIAO</p>;
+      case 3:
+        return <p className="text-red-500 font-medium">ĐÃ HỦY</p>;
+      case 6:
+        return <p className="text-green-400 font-medium">ĐÃ GIAO</p>;
+      default:
+        break;
+    }
+  }
+
   return (
     <Modal open={openDetailModal} onClose={() => setOpenDetailModal(false)}>
       <div
@@ -29,40 +48,54 @@ const ModalStaffOrderDetail = (props) => {
         {detailData && (
           <div className="font-inter">
             {/* header */}
-            <div className="pb-2 border-b border-[#b7b7b7]">
-              <p className="text-[18px] font-medium">Thông tin đơn hàng</p>
+            <div className="pb-2 border-b border-[#b7b7b7] ">
+              <div className="flex gap-4 items-center">
+                <p className="text-[18px] font-medium">Thông tin đơn hàng</p>
+                {checkStatus(data?.orderStatus, data?.paymentMethod)}
+              </div>
             </div>
             {/* content */}
             <OrderDetailItem data={detailData} />
-            {/* footer */}
-            <div className="pt-2 border-t border-[#b7b7b7]">
-              <p className="text-[18px] font-medium">Thông tin khách hàng</p>
-              <p className="mt-2 font-medium text-gray-400">
-                Khách hàng: <span className="text-black">{detailData?.shippedAddress.split(',')[0]}</span>
-              </p>
-              <p className="mt-2 font-medium text-gray-400">
-                Sđt: <span className="text-black">{detailData?.shippedAddress.split(',')[1]}</span>
-              </p>
-              <p className="mt-2 font-medium text-gray-400">
-                Địa chỉ:{' '}
-                <span className="text-black">
-                  {detailData?.shippedAddress.split(',')[3] +
-                    ', ' +
-                    detailData?.shippedAddress.split(',')[4] +
-                    ', ' +
-                    detailData?.shippedAddress.split(',')[5]}
-                </span>
-              </p>
-              <p className="text-[18px] mt-2 text-redError font-bold">
-                Tổng: <span>{Intl.NumberFormat().format(detailData?.totalPrice)}đ</span>
-              </p>
-              <button
-                onClick={() => setOpenDetailModal(false)}
-                className="bg-primary mt-5 w-full rounded-[5px] px-5 py-2 text-white font-medium"
-              >
-                Xác nhận
-              </button>
+            <div className="w-full flex gap-10 border-t border-[#b7b7b7] pt-5">
+              {/* QRcode */}
+              {data?.orderStatus == 5 && (
+                <div>
+                  <p className="text-[18px] font-medium">Mã đơn hàng</p>
+                  <div className="my-3">
+                    <QRCodeSVG value={data?.orderId} size={150} level={'H'} />
+                  </div>
+                </div>
+              )}
+              {/* footer */}
+              <div className="sm:w-[350px] w-full ">
+                <p className="text-[18px] font-medium">Thông tin khách hàng</p>
+                <p className="mt-2 font-medium text-gray-400">
+                  Khách hàng: <span className="text-black">{detailData?.shippedAddress.split(',')[0]}</span>
+                </p>
+                <p className="mt-2 font-medium text-gray-400">
+                  Sđt: <span className="text-black">{detailData?.shippedAddress.split(',')[1]}</span>
+                </p>
+                <p className="mt-2 font-medium text-gray-400">
+                  Địa chỉ:{' '}
+                  <span className="text-black">
+                    {detailData?.shippedAddress.split(',')[3] +
+                      ', ' +
+                      detailData?.shippedAddress.split(',')[4] +
+                      ', ' +
+                      detailData?.shippedAddress.split(',')[5]}
+                  </span>
+                </p>
+                <p className="text-[18px] mt-2 text-redError font-bold">
+                  Tổng: <span>{Intl.NumberFormat().format(detailData?.totalPrice)}đ</span>
+                </p>
+              </div>
             </div>
+            <button
+              onClick={() => setOpenDetailModal(false)}
+              className="bg-primary mt-5 w-full rounded-[5px] px-5 py-2 text-white font-medium"
+            >
+              Xác nhận
+            </button>
           </div>
         )}
         {/* {data &&

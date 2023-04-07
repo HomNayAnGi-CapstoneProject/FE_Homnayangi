@@ -139,7 +139,7 @@ const DataTable = (props) => {
             </IconButton>
           </Tooltip>
           {(params.row.orderStatus == 2 ||
-            params.row.orderStatus == 5 ||
+            // params.row.orderStatus == 5 ||
             (params.row.orderStatus == 1 && params.row.paymentMethod == 0)) && (
             <Tooltip title="Đổi trạng thái đơn hàng" placement="right">
               <IconButton onClick={() => props?.handleChangeStatus(params.row)} aria-label="edit">
