@@ -53,6 +53,7 @@ const CreateBlog = () => {
             imageUrl: contentBlog?.coverImage?.url || null,
             blogStatus: 3, // (DELETED: 0, ACTIVE: 1, DRAFT:2, PENDING: 3)
             videoUrl: contentBlog?.videoUrl || null,
+            minutesToCook: contentBlog?.minutesToCook || null,
           },
           Recipe: {
             packagePrice: parseInt(contentBlog?.packagePrice) || null,

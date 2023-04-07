@@ -91,6 +91,7 @@ const EditBlog = () => {
         dispatch(setContentBlog({ title: res.data?.title }));
         dispatch(setContentBlog({ minSize: res.data?.minSize }));
         dispatch(setContentBlog({ maxSize: res.data?.maxSize }));
+        dispatch(setContentBlog({ minutesToCook: res.data?.minutesToCook }));
         dispatch(setContentBlog({ coverImage: res.data?.imageUrl ? { url: res.data?.imageUrl } : undefined }));
         dispatch(setContentBlog({ packagePrice: res.data?.packagePrice }));
         dispatch(setContentBlog({ cookedPrice: res.data?.cookedPrice }));
@@ -158,6 +159,7 @@ const EditBlog = () => {
                 imageUrl: contentBlog?.coverImage?.url || null,
                 blogStatus: 2, // (DELETED: 0, ACTIVE: 1, DRAFT:2, PENDING: 3)
                 videoUrl: contentBlog?.videoUrl || null,
+                minutesToCook: parseInt(contentBlog?.minutesToCook) || null,
               },
               Recipe: {
                 packagePrice: parseInt(contentBlog?.packagePrice) || null,

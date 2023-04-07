@@ -5,6 +5,7 @@ import { setReturnUrl } from '../../../../../redux/actionSlice/globalSlice';
 import ModalRequireLogin from '../../../../../share/components/Modal/ModalRequireLogin';
 
 import { ic_repcomment, ic_menu_dots } from '../../../../../assets';
+import default_user from '../../../../../assets/images/default_user.png';
 
 // ** third party
 import moment from 'moment/moment';
@@ -185,7 +186,11 @@ const Comment = (props) => {
         {/* parent comment */}
         <div className="flex gap-3">
           {/* avatar */}
-          <Image alt="avatar" className="object-cover rounded-full w-[40px] h-[40px]" src={data.item1?.avatar} />
+          <Image
+            alt="avatar"
+            className="object-cover rounded-full w-[40px] h-[40px]"
+            src={data.item1?.avatar || default_user}
+          />
           {/* content */}
           <div className="w-full">
             <div className="w-full">
@@ -193,7 +198,7 @@ const Comment = (props) => {
                 <p className="text-black font-semibold">{data.item1?.fullNameAuthor}</p>
                 <p className="text-[#A9A8A8] text-[14px]">{moment(data.item1?.createdDate).calendar()}</p>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 mt-1">
                 {/* parent comment content, toggle between edit and content  */}
                 {editParent ? (
                   <textarea
@@ -308,13 +313,17 @@ const Comment = (props) => {
               data.item2.map((item) => (
                 <div key={item.commentId} className="mt-4 first:mt-0">
                   <div className="flex gap-3">
-                    <Image alt="avatar" className="object-cover rounded-full w-[40px] h-[40px]" src={item.avatar} />
+                    <Image
+                      alt="avatar"
+                      className="object-cover rounded-full w-[40px] h-[40px]"
+                      src={item.avatar || default_user}
+                    />
                     <div className="w-full">
                       <div className="flex items-center gap-2">
                         <p className="text-black font-semibold">{item.fullNameAuthor}</p>
                         <p className="text-[#A9A8A8] text-[14px]">{moment(item.createdDate).calendar()}</p>
                       </div>
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-2 mt-1">
                         {/* rep content, toggle between edit and content */}
                         {editRep == item.commentId ? (
                           <textarea

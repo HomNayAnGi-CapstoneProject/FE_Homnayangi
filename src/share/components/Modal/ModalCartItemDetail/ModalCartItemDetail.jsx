@@ -4,7 +4,18 @@ import Item from './components/Item';
 import Image from '../../../components/Image';
 import { ic_clock_red } from '../../../../assets';
 const ModalCartItemDetail = (props) => {
-  const { openDetailModal, setOpenDetailModal, data, detailTotalPrice, detailCookedImg, isCooked, shippedDate } = props;
+  const {
+    openDetailModal,
+    setOpenDetailModal,
+    data,
+    detailTotalPrice,
+    detailCookedImg,
+    isCooked,
+    shippedDate,
+    isDone,
+  } = props;
+
+  console.log(shippedDate);
 
   return (
     <Modal open={openDetailModal} onClose={() => setOpenDetailModal(false)}>
@@ -57,7 +68,7 @@ const ModalCartItemDetail = (props) => {
                 {data?.recipeDetails?.length > 0 &&
                   data?.recipeDetails?.map((item) => (
                     <div key={item?.ingredientId} className="sm:w-[250px]">
-                      <Item item={item} />
+                      <Item item={item} isDone={isDone} />
                     </div>
                   ))}
               </div>

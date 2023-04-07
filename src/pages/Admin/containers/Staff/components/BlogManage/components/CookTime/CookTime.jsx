@@ -30,10 +30,10 @@ const CookTime = () => {
         <input
           type="number"
           inputMode="numeric"
-          // value={contentBlog?.cookTime || ''}
-          // onChange={(e) => dispatch(setContentBlog({ cookTime: e.target.value }))}
+          value={contentBlog?.minutesToCook || ''}
+          onChange={(e) => dispatch(setContentBlog({ minutesToCook: e.target.value }))}
           onKeyDown={handleKeyDown}
-          className="outline-none border-b border-b-black  px-2 w-[30px]"
+          className="outline-none border-b border-b-black  px-2 w-[50px]"
         />
         <p>phút </p>
       </div>

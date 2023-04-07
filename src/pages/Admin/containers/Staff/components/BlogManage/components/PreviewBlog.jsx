@@ -65,7 +65,7 @@ const PreviewBlog = () => {
                 người
               </p>
               <p className="text-[16px] text-[#8f8f8f]">
-                <span className="font-bold text-black">Thời gian nấu:</span> 5 phút
+                <span className="font-bold text-black">Thời gian nấu:</span> {previewData?.minutesToCook} phút
               </p>
             </div>
             <div className="mt-[12px] flex flex-wrap gap-2">
