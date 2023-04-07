@@ -20,7 +20,11 @@ const ModalOrderStatus = (props) => {
             <p>
               Trạng thái hiện tại:{' '}
               {data?.orderStatus == 1 && <span className="text-gray-500 font-semibold">chờ duyệt</span>}{' '}
-              {data?.orderStatus == 2 && <span className="text-blue-500 font-semibold">đã thanh toán</span>}{' '}
+              {data?.orderStatus == 2 && (
+                <span className="text-blue-500 font-semibold">
+                  {data?.paymentMethod == 0 ? 'đã duyệt' : 'đã thanh toán'}
+                </span>
+              )}{' '}
               {data?.orderStatus == 5 && <span className="text-yellow-500 font-semibold">đang giao</span>}
             </p>
           </div>
@@ -36,7 +40,7 @@ const ModalOrderStatus = (props) => {
               {data?.orderStatus == 5 && 'đã giao'}
             </button>
             {/* COD payment */}
-            {data?.paymentMethod == 0 && (
+            {data?.paymentMethod == 0 && data?.orderStatus == 1 && (
               <button
                 onClick={() => {
                   handleChangeOrderStatus(data, true);

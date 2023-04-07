@@ -132,7 +132,7 @@ const Accomplishment = (props) => {
   const handleDelete = async () => {
     if (data.authorId === decoded_jwt.Id) {
       try {
-        const res = await instances.put(`/accomplishments/reject/${data.accomplishmentId}`);
+        const res = await instances.delete(`/accomplishments/customer-delete/${data.accomplishmentId}`);
         // console.log(res);
         setUpdateAccom((prev) => !prev);
       } catch (error) {
