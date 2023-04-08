@@ -32,6 +32,8 @@ import {
   ic_pack_active,
   ic_unit,
   ic_unit_active,
+  ic_config,
+  ic_config_active,
 } from '../../../assets';
 
 const MenuItem = (props) => {
@@ -272,6 +274,16 @@ const SideBar = (props) => {
                 url={ic_award}
                 urlActive={ic_award_active}
                 title="Điều kiện danh hiệu"
+                setOpenSidebar={props.setOpenSidebar}
+                isTablet={props.isTablet}
+              />
+              <MenuItem
+                link="management/cronjob"
+                active={active}
+                id="cronjob"
+                url={ic_config}
+                urlActive={ic_config_active}
+                title="Thiết lập thời gian"
                 setOpenSidebar={props.setOpenSidebar}
                 isTablet={props.isTablet}
               />
