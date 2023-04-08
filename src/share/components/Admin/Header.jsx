@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import instances from '../../../utils/plugin/axios';
 
 import default_user from '../../../assets/images/default_user.png';
 import { ic_menu, ic_caret_gray, ic_nofitication_orange } from '../../../assets';
@@ -23,6 +24,15 @@ const Header = (props) => {
     navigate('/login');
     dispatch(setAccountInfo({}));
   };
+
+  // ** call bengin cronjob
+  useEffect(() => {
+    const fetch = async () => {
+      await instances.get('/customervouchers/begin-voucher');
+      await instances.get('/badges/begin-badge');
+    };
+    fetch();
+  }, []);
 
   return (
     <div className="sticky top-0 z-50 w-full flex items-center justify-between py-4 px-6 bg-[#f0f0f0]">

@@ -1,7 +1,12 @@
 import { useEffect, useState } from 'react';
 import instances from '../../../../../../../../utils/plugin/axios';
 import defaultImage from '../../../../../../../../assets/images/default_user.png';
-import { ReGex_VietnameseTitle, Regex_PhoneNumber, Regex_Password } from '../../../../../../../../utils/regex';
+import {
+  ReGex_VietnameseTitle,
+  Regex_PhoneNumber,
+  Regex_Password,
+  Regex_Email,
+} from '../../../../../../../../utils/regex';
 import Loading from '../../../../../../../../share/components/Admin/Loading';
 import { storage } from '../../../../../../../../firebase';
 import { ref, uploadBytes, listAll, getDownloadURL, deleteObject } from 'firebase/storage';
@@ -311,9 +316,9 @@ const InfoForm = (props) => {
                     } p-[12px] text-subText sm:text-md  border border-[#B9B9B9] rounded-[5px] focus:outline-primary`}
                     {...register('email', {
                       // required: true,
-                      // pattern: {
-                      //   value: ReGex_VietnameseTitle,
-                      // },
+                      pattern: {
+                        value: Regex_Email,
+                      },
                     })}
                   />
                   {errors?.email?.type === 'required' && (
