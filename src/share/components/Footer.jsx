@@ -77,7 +77,7 @@ const Footer = () => {
                     </li>
                     <li className="py-1 md:flex gap-1">
                       <p className="font-semibold">Email:</p>
-                      <p className="">info.homnayangi@gmail.com</p>
+                      <p className="">homnayangii.info@gmail.com</p>
                     </li>
                   </ul>
                 </div>

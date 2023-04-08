@@ -13,6 +13,9 @@ import BadgeConditionManage from './components/BadgeConditionManage/BadgeConditi
 import CreateBadgeCondition from './components/BadgeConditionManage/components/CreateBadgeCondition';
 import EditBadgeCondition from './components/BadgeConditionManage/components/EditBadgeCondition';
 
+import CronJobManage from './components/CronJobConfig/CronJobConfigManage';
+import EditCronJob from './components/CronJobConfig/components/EditCronJob';
+
 const AdminContainer = () => {
   return (
     <div className={`${styles.flexCenter} mt-[45px] text-black font-inter w-full`}>
@@ -23,6 +26,10 @@ const AdminContainer = () => {
               <Route index element={<BadgeConditionManage />} />
               <Route path="new-badge-condition" element={<CreateBadgeCondition />} />
               <Route path="edit-badge-condition/:badgeConditionId" element={<EditBadgeCondition />} />
+              <Route path="cronjob">
+                <Route index element={<CronJobManage />} />
+                <Route path="edit/:cronJobTimeConfigId" element={<EditCronJob />} />
+              </Route>
             </Route>
           </Routes>
         </Suspense>

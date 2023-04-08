@@ -34,9 +34,13 @@ const CreateBadgeCondition = () => {
   const notifyError = (error) =>
     toast.error(error, {
       pauseOnHover: false,
-      position: 'top-center',
-      autoClose: 2000,
     });
+
+  const notifySuccess = (mess) => {
+    toast.success(mess, {
+      pauseOnHover: false,
+    });
+  };
 
   // ** get badge list
   useEffect(() => {
@@ -53,27 +57,22 @@ const CreateBadgeCondition = () => {
   const onSubmit = (data) => {
     // console.log(data);
     setCreating(true);
-    toast.promise(
-      instances
-        .post('/badgecondition', {
-          accomplishments: parseInt(data.accomplishments),
-          orders: parseInt(data.orders),
-          badgeId: data.badgeId,
-        })
-        .then((res) => {
+    instances
+      .post('/badgecondition', {
+        accomplishments: parseInt(data.accomplishments),
+        orders: parseInt(data.orders),
+        badgeId: data.badgeId,
+      })
+      .then((res) => {
+        if (res.data.status == 'failed') {
+          setCreating(false);
+          notifyError('Điều kiện vừa tạo đã trùng với điều kiện khác trong hệ thống');
+        } else {
           setCreating(false);
           navigate('/management');
-        }),
-      {
-        pending: 'Đang tạo mới',
-        success: 'Đã tạo thành công! 👌',
-        error: {
-          render({ data }) {
-            // return data.response?.data.error;
-          },
-        },
-      },
-    );
+          notifySuccess('Đã tạo thành công !');
+        }
+      });
   };
 
   return (
