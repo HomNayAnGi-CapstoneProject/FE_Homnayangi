@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import instances from '../../utils/plugin/axios';
 import MenuModal from './MenuModal';
 import styles from '../../style';
 import ModalShoppingCart from './Modal/ModalShoppingCart/ModalShoppingCart';
@@ -43,6 +44,15 @@ const Navigation = (props) => {
   if (accessToken) {
     decoded_jwt = jwt_decode(accessToken);
   }
+
+  // ** call bengin cronjob
+  useEffect(() => {
+    const fetch = async () => {
+      await instances.get('/customervouchers/begin-voucher');
+      await instances.get('/badges/begin-badge');
+    };
+    fetch();
+  }, []);
 
   //**  Get shopping cart, set account info
   useEffect(() => {
