@@ -4,6 +4,7 @@ import { setAccountInfo } from '../../../redux/actionSlice/accountSlice';
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import jwt_decode from 'jwt-decode';
+import { Tooltip } from '@mui/material';
 
 // ** Assets
 import Logo from '../../../assets/images/Logo.png';
@@ -52,13 +53,17 @@ const MenuItem = (props) => {
             } py-[12px] px-4 mb-[8px] rounded-[10px]  text-[15px]  font-medium flex items-center gap-4 select-none`}
           >
             <img src={props.active == props.id ? props.urlActive : props.url} />
-            {props.title}
+            <Tooltip title={props.title} placement="right">
+              <span className="line-clamp-1">{props.title}</span>
+            </Tooltip>
           </li>
         </NavLink>
       ) : (
         <li className="py-[12px] px-4 mb-[8px] rounded-[10px] hover:bg-[#f5f5f5] text-[15px] text-[#898989] font-medium flex items-center gap-4 transition select-none">
           <img src={props.url} />
-          {props.title}
+          <Tooltip title={props.title} placement="right">
+            <span className="line-clamp-1">{props.title}</span>
+          </Tooltip>
         </li>
       )}
     </>
@@ -168,7 +173,7 @@ const SideBar = (props) => {
                 id="voucher"
                 url={ic_voucher}
                 urlActive={ic_voucher_active}
-                title="Quản lý voucher"
+                title="Quản lý mã giảm giá"
                 setOpenSidebar={props.setOpenSidebar}
                 isTablet={props.isTablet}
               />

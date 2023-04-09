@@ -17,8 +17,11 @@ import EditSubCate from './components/CateManage/components/SubCategory/EditSubC
 
 import OrderManagement from './components/OrderManage/OrderManagement';
 
-import VoucherManagement from './components/VoucherManagement';
 import CustomerManagement from './components/CustomerManagement';
+
+import VoucherManagement from './components/VoucherManage/VoucherManagement';
+import CreateVoucher from './components/VoucherManage/components/CreateVoucher';
+import EditVoucher from './components/VoucherManage/components/EditVoucher';
 
 import AccomplishmentManagement from './components/AccomplishmentManage/AccomplishmentManagement';
 
@@ -81,7 +84,12 @@ const StaffContainer = (props) => {
                 <Route path="new" element={<CreateProduct />} />
                 <Route path="edit/:ingredientId" element={<EditProduct />} />
               </Route>
-              <Route path="voucher" element={<VoucherManagement />} />
+              <Route path="voucher">
+                <Route index element={<VoucherManagement />} />
+                <Route path="new" element={<CreateVoucher />} />
+                <Route path="edit/:voucherId" element={<EditVoucher />} />
+              </Route>
+
               <Route path="award">
                 <Route index element={<AwardManagement />} />
                 <Route path="new" element={<CreateAward />} />

@@ -10,17 +10,21 @@ import moment from 'moment/moment';
 
 const columns = [
   {
-    field: 'imageUrl',
-    headerName: 'Ảnh mô tả',
-    width: 100,
+    field: 'authorName',
+    headerName: 'Người tạo',
+    width: 150,
     renderCell: (params) => (
-      <Image className="rounded-[5px] h-[40px] w-[60px] object-contain" src={params.row.imageUrl} />
+      <div className="">
+        <Tooltip title={`${params.row.authorName}`} placement="top">
+          <p className="">{params.row.authorName}</p>
+        </Tooltip>
+      </div>
     ),
   },
   {
     field: 'name',
-    headerName: 'Tên huy hiệu',
-    width: 250,
+    headerName: 'Tên mã giảm giá',
+    width: 150,
     renderCell: (params) => (
       <div className="">
         <Tooltip title={`${params.row.name}`} placement="top">
@@ -32,7 +36,48 @@ const columns = [
   {
     field: 'description',
     headerName: 'Mô tả',
+    width: 150,
+    renderCell: (params) => (
+      <div className="">
+        <Tooltip title={`${params.row.description}`} placement="top">
+          <p className="">{params.row.description}</p>
+        </Tooltip>
+      </div>
+    ),
+  },
+  {
+    field: 'discount',
+    headerName: 'Giảm giá',
+    renderCell: (params) => <p className="text-red-500">{Intl.NumberFormat().format(params.row.discount)}đ</p>,
+  },
+  {
+    field: 'minimumOrderPrice',
+    headerName: 'Giá trị đơn hàng tối thiểu',
     width: 200,
+    renderCell: (params) => (
+      <p className="text-blue-500">{Intl.NumberFormat().format(params.row.minimumOrderPrice)}đ</p>
+    ),
+  },
+  {
+    field: 'maximumOrderPrice',
+    headerName: 'Giá trị đơn hàng tối đa',
+    width: 200,
+
+    renderCell: (params) => (
+      <p className="text-orange-500">{Intl.NumberFormat().format(params.row.maximumOrderPrice)}đ</p>
+    ),
+  },
+  {
+    field: 'validFrom',
+    headerName: 'Hiệu lực',
+    width: 150,
+    renderCell: (params) => moment(params.row.validFrom).format('Do MMM YY'),
+  },
+  {
+    field: 'validTo',
+    headerName: 'Hết hạn',
+    width: 150,
+    renderCell: (params) => moment(params.row.validTo).format('Do MMM YY'),
   },
   {
     field: 'createdDate',
@@ -91,13 +136,13 @@ const DataTable = (props) => {
   return (
     <div className="h-[75vh] bg-white">
       <DataGrid
-        rows={props.badgesList}
+        rows={props.voucherList}
         columns={columns.concat(actionColumn)}
         pageSize={9}
         rowsPerPageOptions={[9]}
         className="datagrid"
-        getRowId={(row) => row.badgeId}
-        loading={!props?.badgesList?.length}
+        getRowId={(row) => row.voucherId}
+        loading={!props?.voucherList?.length}
         components={{
           LoadingOverlay: Loading,
         }}
