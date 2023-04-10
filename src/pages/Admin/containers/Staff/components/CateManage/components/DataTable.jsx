@@ -78,7 +78,7 @@ const DataTable = (props) => {
     {
       id: 'status',
       label: 'Trạng thái',
-      width: 90,
+      width: 150,
       flex: 1,
       fontWeight: 700,
       format: (value) => (
@@ -139,15 +139,15 @@ const DataTable = (props) => {
     {
       id: 'status',
       label: 'Trạng thái',
-      width: 90,
+      width: 150,
       flex: 1,
       fontWeight: 700,
       format: (value) => (
         <div className={`cellWithStatus ${value}`}>
           {value == true ? (
-            <p className="text-white w-fit px-3 rounded-full text-[14px] bg-green-500">AVAILABLE</p>
+            <p className="text-white w-fit px-3 rounded-full text-[14px] bg-green-500">HOẠT ĐỘNG</p>
           ) : (
-            <p className="text-white w-fit px-3 rounded-full text-[14px] bg-red-500">DELETED</p>
+            <p className="text-white w-fit px-3 rounded-full text-[14px] bg-red-500">ĐÃ XÓA</p>
           )}
         </div>
       ),

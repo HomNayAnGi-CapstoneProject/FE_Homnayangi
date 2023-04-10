@@ -14,6 +14,9 @@ import Dashboard from './components/Dashboard/Dashboard';
 import BlogApprove from './components/BlogApprove/BlogApprove';
 import BlogDetail from './components/BlogApprove/components/BlogDetail';
 
+import StaffManage from './components/StaffManage/StaffManage';
+import CreateStaff from './components/StaffManage/components/CreateStaff';
+
 const ManagerContainer = () => {
   //** Const  */
   const dispatch = useDispatch();
@@ -31,11 +34,12 @@ const ManagerContainer = () => {
         <Suspense fallback={<Loading />}>
           <Routes>
             <Route path="/">
-              {/* <Route index element={<Dashboard />} /> */}
-              {/* <Route path="blog-review"> */}
               <Route index element={<BlogApprove />} />
               <Route path="blog-detail/:blogId" element={<BlogDetail />} />
-              {/* </Route> */}
+              <Route path="staff-manage">
+                <Route index element={<StaffManage />} />
+                <Route path="new" element={<CreateStaff />} />
+              </Route>
             </Route>
           </Routes>
         </Suspense>
