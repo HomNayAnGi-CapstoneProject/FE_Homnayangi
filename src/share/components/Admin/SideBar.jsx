@@ -178,6 +178,17 @@ const SideBar = (props) => {
                 isTablet={props.isTablet}
               />
 
+              <MenuItem
+                link="management/customer-manage"
+                active={active}
+                id="customer-manage"
+                url={ic_customer}
+                urlActive={ic_customer_active}
+                title="Quản lý khách hàng"
+                setOpenSidebar={props.setOpenSidebar}
+                isTablet={props.isTablet}
+              />
+
               <p className="py-2 pb-5 uppercase text-[#c2c2c2]">nguyên liệu</p>
               <MenuItem
                 link="management/product"
@@ -263,6 +274,16 @@ const SideBar = (props) => {
                 url={ic_blog}
                 urlActive={ic_blog_active}
                 title="Duyệt bài viết"
+                setOpenSidebar={props.setOpenSidebar}
+                isTablet={props.isTablet}
+              />
+              <MenuItem
+                link="management/staff-manage"
+                active={active}
+                id="staff-manage"
+                url={ic_customer}
+                urlActive={ic_customer_active}
+                title="Quản lý nhân viên"
                 setOpenSidebar={props.setOpenSidebar}
                 isTablet={props.isTablet}
               />

@@ -250,7 +250,7 @@ const InfoForm = (props) => {
               {/* first name */}
               <div className="md:flex md:items-center">
                 <div className="md:w-1/3">
-                  <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-3 pr-4">Họ</label>
+                  <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-3 pr-4">Tên</label>
                 </div>
                 <div className="md:w-2/3">
                   <input
@@ -267,17 +267,17 @@ const InfoForm = (props) => {
                     })}
                   />
                   {errors?.firstname?.type === 'required' && (
-                    <p className="mb-[5px] text-redError text-[14px]">Họ không được trống</p>
+                    <p className="mb-[5px] text-redError text-[14px]">Tên không được trống</p>
                   )}
                   {errors?.firstname?.type === 'pattern' && (
-                    <p className="mb-[5px] text-redError text-[14px]">Họ không hợp lệ</p>
+                    <p className="mb-[5px] text-redError text-[14px]">Tên không hợp lệ</p>
                   )}
                 </div>
               </div>
               {/* last name */}
               <div className="md:flex md:items-center">
                 <div className="md:w-1/3">
-                  <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-3 pr-4">Tên</label>
+                  <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-3 pr-4">Họ</label>
                 </div>
                 <div className="md:w-2/3">
                   <input
@@ -294,10 +294,10 @@ const InfoForm = (props) => {
                     })}
                   />
                   {errors?.lastname?.type === 'required' && (
-                    <p className="mb-[5px] text-redError text-[14px]">Tên không được trống</p>
+                    <p className="mb-[5px] text-redError text-[14px]">Họ không được trống</p>
                   )}
                   {errors?.lastname?.type === 'pattern' && (
-                    <p className="mb-[5px] text-redError text-[14px]">Tên không hợp lệ</p>
+                    <p className="mb-[5px] text-redError text-[14px]">Họ không hợp lệ</p>
                   )}
                 </div>
               </div>

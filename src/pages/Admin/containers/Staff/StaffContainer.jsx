@@ -17,7 +17,7 @@ import EditSubCate from './components/CateManage/components/SubCategory/EditSubC
 
 import OrderManagement from './components/OrderManage/OrderManagement';
 
-import CustomerManagement from './components/CustomerManagement';
+import CustomerManagement from './components/CustomerManage/CustomerManagement';
 
 import VoucherManagement from './components/VoucherManage/VoucherManagement';
 import CreateVoucher from './components/VoucherManage/components/CreateVoucher';
@@ -104,7 +104,7 @@ const StaffContainer = (props) => {
                 <Route path="sub-category/new" element={<CreateSubCate />} />
                 <Route path="sub-category/edit/:subCategoryId" element={<EditSubCate />} />
               </Route>
-              <Route path="customer" element={<CustomerManagement />} />
+              <Route path="customer-manage" element={<CustomerManagement />}></Route>
               <Route path="type">
                 <Route index element={<ProductTypeManagement />} />
                 <Route path="new" element={<CreateType />} />
