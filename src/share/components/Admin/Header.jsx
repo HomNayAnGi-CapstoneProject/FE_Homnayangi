@@ -9,6 +9,7 @@ import { setAccountInfo } from '../../../redux/actionSlice/accountSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
 import OutsideClickHandler from 'react-outside-click-handler';
+import jwt_decode from 'jwt-decode';
 
 const Header = (props) => {
   //** Const */
@@ -18,6 +19,12 @@ const Header = (props) => {
   const store = useSelector((state) => state.management);
   const loggedInUser = JSON.parse(localStorage.getItem('ACCOUNT_INFO'));
   const [openLogout, setOpenLogout] = useState(false);
+
+  const accessToken = localStorage.getItem('accessToken');
+  let decoded_jwt = {};
+  if (accessToken) {
+    decoded_jwt = jwt_decode(accessToken);
+  }
 
   const handleLogout = async () => {
     localStorage.removeItem('accessToken');
@@ -73,9 +80,11 @@ const Header = (props) => {
                 openLogout ? 'block' : 'hidden'
               } w-max py-1.5 bg-white rounded-[5px] absolute z-[99] shadow-md top-10 right-[20%]`}
             >
-              <li onClick={() => navigate('/')} className=" cursor-pointer hover:bg-secondary py-1 px-4">
-                Trang chủ
-              </li>
+              {decoded_jwt?.role !== 'Admin' && (
+                <li onClick={() => navigate('/')} className=" cursor-pointer hover:bg-secondary py-1 px-4">
+                  Trang chủ
+                </li>
+              )}
               <li onClick={() => handleLogout()} className=" cursor-pointer hover:bg-secondary py-1 px-4">
                 Đăng xuất
               </li>

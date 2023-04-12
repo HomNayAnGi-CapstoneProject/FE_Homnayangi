@@ -20,13 +20,15 @@ function checkStatus(status, paymentMethod) {
     case 1:
       return (
         <p className="text-white px-3 rounded-full text-[14px] bg-gray-500">
-          {paymentMethod == 1 ? 'CHỜ THANH TOÁN' : 'CHỜ DUYỆT'}
+          {/* {paymentMethod == 1 ? 'CHỜ THANH TOÁN' : 'CHỜ DUYỆT'} */}
+          {paymentMethod == 1 ? 'CHỜ XÁC NHẬN' : 'CHỜ XÁC NHẬN'}
         </p>
       );
     case 2:
       return (
         <p className="text-white px-3 rounded-full text-[14px] bg-blue-500">
-          {paymentMethod == 1 ? 'ĐÃ THANH TOÁN' : 'ĐÃ DUYỆT'}
+          {/* {paymentMethod == 1 ? 'ĐÃ THANH TOÁN' : 'ĐÃ DUYỆT'} */}
+          {paymentMethod == 1 ? 'ĐÃ XÁC NHẬN' : 'ĐÃ XÁC NHẬN'}
         </p>
       );
     case 5:
@@ -43,9 +45,9 @@ function checkStatus(status, paymentMethod) {
 function checkStatusExport(status, paymentMethod) {
   switch (status) {
     case 1:
-      return paymentMethod == 1 ? 'CHỜ THANH TOÁN' : 'CHỜ DUYỆT';
+      return paymentMethod == 1 ? 'CHỜ XÁC NHẬN' : 'CHỜ XÁC NHẬN';
     case 2:
-      return paymentMethod == 1 ? 'ĐÃ THANH TOÁN' : 'ĐÃ DUYỆT';
+      return paymentMethod == 1 ? 'ĐÃ XÁC NHẬN' : 'ĐÃ XÁC NHẬN';
     case 5:
       return 'ĐANG GIAO';
     case 3:

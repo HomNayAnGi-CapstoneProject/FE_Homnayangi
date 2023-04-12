@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import instances from '../../../../../../utils/plugin/axios';
+import Loading from '../../../../../../share/components/Admin/Loading';
 
 // ** assets
 import orderConfirm from '../../../../../../assets/images/orderConfirm.webp';
@@ -28,6 +29,7 @@ const YourOrder = () => {
   const [isCancel, setIsCancel] = useState();
   const [ordersData, setOrdersData] = useState([]);
   const [ordersList, setOrdersList] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const accessToken = localStorage.getItem('accessToken');
   let decoded_jwt = {};
@@ -72,6 +74,7 @@ const YourOrder = () => {
         setOpenModal(true);
       } else {
         const fetch = async () => {
+          setLoading(true);
           await instances.put(`/orders/${cancel ? 'cancel' : 'accept'}/${guid}`);
           const res = await instances.get('/orders/status/customer', {
             params: {
@@ -82,6 +85,7 @@ const YourOrder = () => {
           const ress = await instances.get('/orders/status/customer', { params: { status: -1 } });
           setOrdersList(ress.data);
           navigate('/user/orders');
+          setLoading(false);
           // if payment success (remove item from cart)
           if (cancel == false) {
             dispatch(
@@ -97,10 +101,12 @@ const YourOrder = () => {
       }
     } else {
       const fetch = async () => {
+        setLoading(true);
         const res = await instances.get('/orders/status/customer', { params: { status: orderStatus } });
         setOrdersData(res.data);
         const ress = await instances.get('/orders/status/customer', { params: { status: -1 } });
         setOrdersList(ress.data);
+        setLoading(false);
       };
       fetch();
     }
@@ -145,8 +151,14 @@ const YourOrder = () => {
                 </div>
               </Modal>
               <div className="font-inter">
-                <TabList setStatus={setStatus} status={status} ordersList={ordersList} />
-                <Container status={status} orderData={ordersData} />
+                {loading == false ? (
+                  <>
+                    <TabList setStatus={setStatus} status={status} ordersList={ordersList} />
+                    <Container status={status} orderData={ordersData} />
+                  </>
+                ) : (
+                  <Loading />
+                )}
               </div>
             </>
           );

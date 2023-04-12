@@ -159,18 +159,28 @@ const Item = (props) => {
           </div>
           <div className="flex items-end justify-end  mt-5">
             {data?.orderStatus == 1 && data?.paymentMethod == 1 ? (
-              <div
-                onClick={() => window.location.replace(data.paypalUrl)}
-                className="cursor-pointer px-5 w-fit py-3 rounded-[2px] border uppercase bg-primary text-white font-medium"
-              >
-                thanh toán lại
+              <div>
+                <div
+                  onClick={() => window.location.replace(data.paypalUrl)}
+                  className="cursor-pointer px-5 w-fit py-3 rounded-[2px] border uppercase bg-primary text-white font-medium"
+                >
+                  thanh toán lại
+                </div>
+                <button className="bg-redError text-white font-medium w-full mt-3 uppercase px-5 py-3 rounded-[2px]">
+                  Hủy đơn
+                </button>
               </div>
             ) : (
               <></>
             )}
             {data?.orderStatus == 1 && data?.paymentMethod == 0 ? (
-              <div className="cursor-pointer px-5 w-fit py-3 rounded-[2px] border uppercase text-[#acacac] border-[#acacac]">
-                chờ duyệt
+              <div>
+                <div className="cursor-pointer px-5 w-fit py-3 rounded-[2px] border uppercase text-[#acacac] border-[#acacac]">
+                  chờ duyệt
+                </div>
+                <button className="bg-redError text-white font-medium w-full mt-3 uppercase px-5 py-3 rounded-[2px]">
+                  Hủy đơn
+                </button>
               </div>
             ) : (
               <></>

@@ -1,18 +1,18 @@
 import { lazy } from 'react';
 import { HomeLayout, AdminLayout } from '../share/layouts';
-const Home = lazy(() => import('../pages/Home/Home'));
-const About = lazy(() => import('../pages/About/About'));
+const Home = lazy(() => import('../pages/Home/HomeContainer'));
+const About = lazy(() => import('../pages/About/AboutContainer'));
 const MissingRoute = lazy(() => import('../share/components/MissingRoute'));
-const Recipe = lazy(() => import('../pages/Recipe/Recipe'));
+const Recipe = lazy(() => import('../pages/Recipe/RecipeContainer'));
 const Login = lazy(() => import('../pages/Auth/Login/Login'));
 const Register = lazy(() => import('../pages/Auth/Register/Register'));
-const BlogDetail = lazy(() => import('../pages/BlogDetail/BlogDetail'));
+const BlogDetail = lazy(() => import('../pages/BlogDetail/BlogDetailContainer'));
 const Admin = lazy(() => import('../pages/Admin/Admin'));
-const Cart = lazy(() => import('../pages/Cart/Cart'));
+const Cart = lazy(() => import('../pages/Cart/CartContainer'));
 const User = lazy(() => import('../pages/User/UserDetail'))
-const CartAddress = lazy(() => import('../pages/CartAddress/CartAddress'))
-const Shop = lazy(() => import('../pages/Shop/Shop'))
-const ShopItemDetail = lazy(() => import('../pages/ShopItemDetail/ShopItemDetail'))
+const CartAddress = lazy(() => import('../pages/CartAddress/CartAddressContainer'))
+const Shop = lazy(() => import('../pages/Shop/ShopContainer'))
+const ShopItemDetail = lazy(() => import('../pages/ShopItemDetail/ShopItemDetailContainer'))
 const Err = lazy(() => import('../pages/Err/Err'))
 
 // ** public routes (no need authen)

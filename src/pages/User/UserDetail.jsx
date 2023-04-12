@@ -33,20 +33,24 @@ const UserDetail = ({ title }) => {
   }, [decoded_jwt]);
 
   if (accessToken) {
-    return (
-      <div className={`md:px-[90px] ${styles.flexCenter} py-16`}>
-        <div className={`${styles.container} xx4lg:px-10`}>
-          <div className="flex sm:flex-row flex-col font-inter gap-16">
-            <div className="sm:w-[280px]">
-              <UserNavigate decoded_jwt={decoded_jwt} />
-            </div>
-            <div className="w-full">
-              <UserContent />
+    if (decoded_jwt.role == 'Admin') {
+      return <Navigate replace to="/management" />;
+    } else {
+      return (
+        <div className={`md:px-[90px] ${styles.flexCenter} py-16`}>
+          <div className={`${styles.container} xx4lg:px-10`}>
+            <div className="flex sm:flex-row flex-col font-inter gap-16">
+              <div className="sm:w-[280px]">
+                <UserNavigate decoded_jwt={decoded_jwt} />
+              </div>
+              <div className="w-full">
+                <UserContent />
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    );
+      );
+    }
   } else {
     return <Navigate replace to="/" />;
   }
