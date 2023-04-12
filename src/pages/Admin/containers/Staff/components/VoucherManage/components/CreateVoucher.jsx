@@ -67,7 +67,7 @@ const CreateVoucher = () => {
     //   validFrom: validFromTime,
     //   validTo: validToTime,
     // });
-    if (parseInt(data?.minimumOrderPrice) > parseInt(data?.maximumOrderPrice)) {
+    if (parseInt(data?.minimumOrderPrice) >= parseInt(data?.maximumOrderPrice)) {
       notifyError('Giá trị đơn hàng tối thiếu không được lớn hơn giá trị đơn hàng tối đa');
     } else if (validFromTime >= validToTime) {
       notifyError('Thời gian hết hạn phải dài hơn thời gian hiệu lực');

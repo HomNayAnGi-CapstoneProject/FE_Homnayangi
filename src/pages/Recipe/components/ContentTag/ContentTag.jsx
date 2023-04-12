@@ -4,12 +4,14 @@ import MultiSelect from '../MultiSelectTags/MultiSelect';
 import BlogCard from '../../../../share/components/BlogCard';
 import SeeMore from '../../../../share/components/SeeMore';
 
+import useDebounce from '../../../../share/hooks/useDebounce';
+
 import { useSelector } from 'react-redux';
 
 import ic_loading from '../../../../assets/images/sand-clock.png';
 
 const ContentTag = (props) => {
-  const { tags, subCategoryList, sortValue } = props;
+  const { tags, subCategoryList, sortValue, searchInput } = props;
 
   //** const */
   const store = useSelector((state) => state.global);
@@ -18,6 +20,7 @@ const ContentTag = (props) => {
   const [currentPageSize, setCurrentPageSize] = useState(9);
   const [totalCount, setTotalCount] = useState(0);
   const [pageSizeIns, setPageSizeIns] = useState(0);
+  const debounced = useDebounce(searchInput, 600);
 
   // ** reset page size
   useEffect(() => {
@@ -30,9 +33,10 @@ const ContentTag = (props) => {
       try {
         const res = await instances.get('/blogs/category/sub-categories', {
           params: {
-            subCateIds: store.subCategoryList.length > 0 ? (subCateId == 0 ? null : subCateId) : null,
+            SubCateIds: store.subCategoryList.length > 0 ? (subCateId == 0 ? null : subCateId) : null,
             PageSize: currentPageSize,
             PageNumber: null,
+            SearchString: debounced?.trim(),
             sort: sortValue,
             sortDesc: null,
           },
@@ -45,7 +49,7 @@ const ContentTag = (props) => {
       }
     };
     fetch();
-  }, [subCateId, store.subCategoryList, sortValue, pageSizeIns, currentPageSize]);
+  }, [subCateId, store.subCategoryList, sortValue, pageSizeIns, currentPageSize, debounced]);
 
   return (
     <div>

@@ -1,17 +1,22 @@
 import { useState, useEffect } from 'react';
 import instances from '../../../../utils/plugin/axios';
 import ic_loading from '../../../../assets/images/sand-clock.png';
+import useDebounce from '../../../../share/hooks/useDebounce';
+import { useSelector } from 'react-redux';
 
 // ** components
 import SeeMore from '../../../../share/components/SeeMore';
 import IngredientCard from '../../../../share/components/IngredientCard';
 
-const IngredientSection = () => {
+const IngredientSection = (props) => {
   // ** const
+  const store = useSelector((state) => state.global);
+  const { searchInput } = props;
   const [ingredientList, setIngredientList] = useState([]);
   const [currentPageSize, setCurrentPageSize] = useState(10);
   const [totalCount, setTotalCount] = useState(0);
   const [pageSizeIns, setPageSizeIns] = useState(0);
+  const debounced = useDebounce(searchInput, 600);
 
   // ** get ingredients
   useEffect(() => {
@@ -20,6 +25,8 @@ const IngredientSection = () => {
         params: {
           PageSize: currentPageSize,
           PageNumber: null,
+          SearchString: debounced?.trim(),
+          TypeId: store.activeShopCate !== 0 ? store.activeShopCate : null,
         },
       });
       setIngredientList(res.data.result.resource);
@@ -27,12 +34,12 @@ const IngredientSection = () => {
     };
 
     fetch();
-  }, [currentPageSize, pageSizeIns]);
+  }, [currentPageSize, pageSizeIns, debounced, store.activeShopCate]);
 
   return (
     <div className="font-inter">
       <p className="text-black font-semibold text-[20px] mb-3">Nguyên liệu</p>
-      <div className="grid xs:grid-cols-2 smd:grid-cols-4 xxlg:grid-cols-5 xl:grid-cols-5 gap-[6px]">
+      <div className="grid xs:grid-cols-2 smd:grid-cols-3 xxlg:grid-cols-4 xl:grid-cols-4 gap-[6px]">
         {ingredientList?.length > 0 ? (
           ingredientList?.map((item) => (
             <div key={item.ingredientId}>

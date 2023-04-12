@@ -23,8 +23,8 @@ const CustomerManagement = () => {
   useEffect(() => {
     const fetch = async () => {
       const res = await instances.get('/customers');
-      // console.log(res.data.result.resource);
-      setCustomerList(res.data.result.resource);
+      // console.log(res.data.result);
+      setCustomerList(res.data.result);
     };
     fetch();
   }, [updateTable]);
@@ -37,7 +37,7 @@ const CustomerManagement = () => {
   const handleConfirmDelete = () => {
     // console.log(confirmData?.unitId);
     toast.promise(
-      instances.delete(`/customers/${confirmData?.customerId}`).then(() => {
+      instances.delete(`/customers/${confirmData?.id}`).then(() => {
         setUpdateTable((prev) => !prev);
         setIsShowModal(false);
       }),
@@ -50,23 +50,10 @@ const CustomerManagement = () => {
   };
   const handleConfirmRestore = () => {
     toast.promise(
-      instances
-        .put(`/customers`, {
-          customerId: confirmData?.customerId,
-          username: confirmData?.username,
-          displayname: confirmData?.displayname,
-          firstname: confirmData?.firstname,
-          lastname: confirmData?.lastname,
-          email: confirmData?.email,
-          phonenumber: confirmData?.phonenumber,
-          gender: confirmData?.gender,
-          avatar: null,
-          status: true,
-        })
-        .then((res) => {
-          setUpdateTable((prev) => !prev);
-          setIsShowModal(false);
-        }),
+      instances.put(`/customers/status/${confirmData?.id}`).then((res) => {
+        setUpdateTable((prev) => !prev);
+        setIsShowModal(false);
+      }),
       {
         pending: 'Đang phục hồi',
         success: 'Đã phục hồi thành công! 👌',
@@ -79,7 +66,7 @@ const CustomerManagement = () => {
       {isShowModal && (
         <ConfirmModal
           setIsShowModal={setIsShowModal}
-          data={confirmData}
+          data={{ status: !confirmData.isBlocked }}
           modalTitle="Khách hàng"
           statusTypeAvai={true}
           statusTypeNotAvai={false}
