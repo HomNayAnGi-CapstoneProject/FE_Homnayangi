@@ -63,4 +63,18 @@ instances.interceptors.request.use(
   (error) => Promise.reject(error),
 );
 
+instances.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    if (!error.response) {
+      window.location = '/err';
+      console.log('Please check your internet connection.');
+    }
+
+    return Promise.reject(error);
+  },
+);
+
 export default instances;

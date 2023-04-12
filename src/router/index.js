@@ -13,6 +13,7 @@ const User = lazy(() => import('../pages/User/UserDetail'))
 const CartAddress = lazy(() => import('../pages/CartAddress/CartAddress'))
 const Shop = lazy(() => import('../pages/Shop/Shop'))
 const ShopItemDetail = lazy(() => import('../pages/ShopItemDetail/ShopItemDetail'))
+const Err = lazy(() => import('../pages/Err/Err'))
 
 // ** public routes (no need authen)
 const publicRoutes = [
@@ -26,6 +27,7 @@ const publicRoutes = [
   { path: '/cart', component: Cart, title: 'Giỏ hàng' },
   { path: '/shop', component: Shop, title: 'Cửa hàng' },
   { path: '/shop/:id/:title', component: ShopItemDetail },
+  { path: '/err', component: Err, layout: null },
 ];
 
 // ** private routes (need authen + authorization)
