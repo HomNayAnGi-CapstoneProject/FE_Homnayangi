@@ -313,6 +313,16 @@ const SideBar = (props) => {
                 setOpenSidebar={props.setOpenSidebar}
                 isTablet={props.isTablet}
               />
+              <MenuItem
+                link="management/users-manage"
+                active={active}
+                id="users-manage"
+                url={ic_customer}
+                urlActive={ic_customer_active}
+                title="Quản lý chức vụ"
+                setOpenSidebar={props.setOpenSidebar}
+                isTablet={props.isTablet}
+              />
             </>
           )}
 

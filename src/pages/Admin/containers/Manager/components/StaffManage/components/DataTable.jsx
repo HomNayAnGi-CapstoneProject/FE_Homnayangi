@@ -68,13 +68,13 @@ const columns = [
   //   renderCell: (params) => moment(params.row.createDate).format('Do MMM YY'),
   // },
   {
-    field: 'status',
+    field: 'isBlocked',
     headerName: 'Trạng thái',
     width: 150,
     // flex: 1,
     renderCell: (params) => (
-      <div className={`cellWithStatus ${params.row.status}`}>
-        {params.row.status == true ? (
+      <div className={`cellWithStatus ${params.row.isBlocked}`}>
+        {params.row.isBlocked == false ? (
           <p className="text-white px-3 rounded-full text-[14px] bg-green-500">HOẠT ĐỘNG</p>
         ) : (
           <p className="text-white px-3 rounded-full text-[14px] bg-red-500">ĐÃ ẨN</p>
@@ -98,9 +98,9 @@ const DataTable = (props) => {
               <img src={ic_edit} />
             </IconButton>
           </Tooltip> */}
-          <Tooltip title={params.row.status == true ? 'Xóa' : 'Khôi phục'} placement="right">
+          <Tooltip title={params.row.isBlocked == false ? 'Xóa' : 'Khôi phục'} placement="right">
             <IconButton onClick={() => props?.handleOpenDelete(params.row)} aria-label="remove">
-              {params.row.status == true ? <img src={ic_delete_red} /> : <img src={ic_delete_green} />}
+              {params.row.isBlocked == false ? <img src={ic_delete_red} /> : <img src={ic_delete_green} />}
             </IconButton>
           </Tooltip>
         </div>

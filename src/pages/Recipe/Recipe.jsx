@@ -9,6 +9,7 @@ import Search from '../../share/components/Search';
 import ContentTag from './components/ContentTag/ContentTag';
 import ContentCombo from './components/ContentCombo/ContentCombo';
 import Modal from '@mui/material/Modal';
+import useDebounce from '../../share/hooks/useDebounce';
 
 import { setOpenCategoryMenuModal } from '../../redux/actionSlice/globalSlice';
 import { useDispatch, useSelector } from 'react-redux';
@@ -47,6 +48,7 @@ const Recipe = ({ title }) => {
   const [categoryList, setCategoryList] = useState([]);
   const [subCategoryList, setSubCategoryList] = useState([]);
   const [sortValue, setSortValue] = useState(1);
+  const [searchInput, setSearchhInput] = useState(null);
 
   useEffect(() => {
     document.title = title;
@@ -91,7 +93,7 @@ const Recipe = ({ title }) => {
             <div className="flex-1 calc-width">
               <div className="sm:flex justify-between">
                 <div className="sm:mb-0 mb-4">
-                  <Search placeholder="Tìm công thức..." />
+                  <Search placeholder="Tìm công thức..." setSearchhInput={setSearchhInput} />
                 </div>
                 <div className="sm:flex-none flex flex-wrap gap-4 justify-between">
                   <Filter setSortValue={setSortValue} />
@@ -124,6 +126,7 @@ const Recipe = ({ title }) => {
                   // subCateId={categoryChange}
                   sortValue={sortValue}
                   tags={TagsList}
+                  searchInput={searchInput}
                 />
               }
 

@@ -66,7 +66,7 @@ const ItemSlider = (props) => {
                     // h-full w-full overflow-hidden cursor-pointer pt-[100%]`} style={{ backgroundImage: `url('${item?.url_thumb}')` }} />
                     <Image
                       alt=""
-                      className="w-full h-[90px] swiper-slide-media cursor-pointer object-cover"
+                      className="sm:w-full w-[90px] h-[90px] swiper-slide-media cursor-pointer object-cover"
                       src={item}
                     />
                   }

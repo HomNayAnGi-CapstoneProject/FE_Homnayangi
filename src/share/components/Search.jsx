@@ -1,6 +1,8 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 
 const Search = (props) => {
+  const { setSearchhInput, placeholder } = props;
+
   return (
     <div className="relative">
       <svg
@@ -19,10 +21,11 @@ const Search = (props) => {
         ></path>
       </svg>
       <input
+        onChange={(e) => setSearchhInput(e.target.value)}
         type="text"
         id="search"
         className="block w-full sm:w-[312px] p-[8px] pl-[40px] text-subText sm:text-md  border border-[#b5b5b5] rounded-[10px] bg-[#ffffff] focus:outline-primary "
-        placeholder={props?.placeholder || 'Search...'}
+        placeholder={placeholder || 'Search...'}
       />
     </div>
   );

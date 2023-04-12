@@ -55,23 +55,10 @@ const StaffManage = () => {
   };
   const handleConfirmRestore = () => {
     toast.promise(
-      instances
-        .put(`/users`, {
-          userId: confirmData?.id,
-          username: confirmData?.username,
-          displayname: confirmData?.displayname,
-          firstname: confirmData?.firstname,
-          lastname: confirmData?.lastname,
-          email: confirmData?.email,
-          phonenumber: confirmData?.phonenumber,
-          gender: confirmData?.gender,
-          avatar: null,
-          status: true,
-        })
-        .then((res) => {
-          setUpdateTable((prev) => !prev);
-          setIsShowModal(false);
-        }),
+      instances.put(`/users/status/${confirmData?.id}`).then((res) => {
+        setUpdateTable((prev) => !prev);
+        setIsShowModal(false);
+      }),
       {
         pending: 'Đang phục hồi',
         success: 'Đã phục hồi thành công! 👌',
@@ -85,7 +72,7 @@ const StaffManage = () => {
       {isShowModal && (
         <ConfirmModal
           setIsShowModal={setIsShowModal}
-          data={confirmData}
+          data={{ status: !confirmData.isBlocked }}
           modalTitle="Nhân viên"
           statusTypeAvai={true}
           statusTypeNotAvai={false}

@@ -1,6 +1,6 @@
 import React from 'react';
 import Loading from '../../../../../../../share/components/Admin/Loading';
-import { ic_edit, ic_delete_red, ic_delete_green } from '../../../../../../../assets';
+import { ic_edit, ic_delete_red, ic_delete_green, ic_uprole, ic_downrole } from '../../../../../../../assets';
 
 import { DataGrid } from '@mui/x-data-grid';
 import Tooltip from '@mui/material/Tooltip';
@@ -29,12 +29,16 @@ const columns = [
     headerName: 'Tài khoản',
     width: 200,
   },
-  // {
-  //   field: 'role',
-  //   headerName: 'Chức vụ',
-  //   width: 150,
-  //   renderCell: (params) => <div className="">{getRoleName(params.row.role)}</div>,
-  // },
+  {
+    field: 'role',
+    headerName: 'Chức vụ',
+    width: 150,
+    renderCell: (params) => (
+      <div className={`${params.row.role == 'Manager' ? 'text-primary' : 'text-blue-500'} font-bold`}>
+        {getRoleName(params.row.role)}
+      </div>
+    ),
+  },
   {
     field: 'firstname',
     headerName: 'Tên',
@@ -51,32 +55,30 @@ const columns = [
     width: 150,
     renderCell: (params) => <div>{params.row.gender == 1 ? 'Nam' : 'Nữ'}</div>,
   },
-  {
-    field: 'phonenumber',
-    headerName: 'Số điện thoại',
-    width: 150,
-  },
-  {
-    field: 'email',
-    headerName: 'Email',
-    width: 150,
-  },
   // {
-  //   field: 'isGoogle',
-  //   headerName: 'Tài khoản',
+  //   field: 'phonenumber',
+  //   headerName: 'Số điện thoại',
   //   width: 150,
-  //   renderCell: (params) => {
-  //     <div>{params.row?.isGoogle == true ? 'Đăng nhập bằng Google' : 'Đăng ký hệ thống'}</div>;
-  //   },
+  // },
+  // {
+  //   field: 'email',
+  //   headerName: 'Email',
+  //   width: 150,
+  // },
+  // {
+  //   field: 'createDate',
+  //   headerName: 'Ngày tạo',
+  //   width: 150,
+  //   renderCell: (params) => moment(params.row.createDate).format('Do MMM YY'),
   // },
   {
-    field: 'status',
+    field: 'isBlocked',
     headerName: 'Trạng thái',
     width: 150,
     // flex: 1,
     renderCell: (params) => (
-      <div className={`cellWithStatus ${params.row?.isBlocked}`}>
-        {params.row?.isBlocked == false ? (
+      <div className={`cellWithStatus ${params.row.isBlocked}`}>
+        {params.row.isBlocked == false ? (
           <p className="text-white px-3 rounded-full text-[14px] bg-green-500">HOẠT ĐỘNG</p>
         ) : (
           <p className="text-white px-3 rounded-full text-[14px] bg-red-500">ĐÃ ẨN</p>
@@ -100,9 +102,9 @@ const DataTable = (props) => {
               <img src={ic_edit} />
             </IconButton>
           </Tooltip> */}
-          <Tooltip title={params.row.isBlocked == false ? 'Xóa' : 'Khôi phục'} placement="right">
+          <Tooltip title={params.row.role == 'Manager' ? 'Giáng chức' : 'Thăng chức'} placement="right">
             <IconButton onClick={() => props?.handleOpenDelete(params.row)} aria-label="remove">
-              {params.row.isBlocked == false ? <img src={ic_delete_red} /> : <img src={ic_delete_green} />}
+              {params.row.role == 'Manager' ? <img src={ic_downrole} /> : <img src={ic_uprole} />}
             </IconButton>
           </Tooltip>
         </div>
@@ -112,13 +114,13 @@ const DataTable = (props) => {
   return (
     <div className="h-[75vh] bg-white">
       <DataGrid
-        rows={props.customerList}
+        rows={props.userList}
         columns={columns.concat(actionColumn)}
         pageSize={9}
         rowsPerPageOptions={[9]}
         className="datagrid"
         getRowId={(row) => row.id}
-        loading={!props?.customerList.length}
+        loading={!props?.userList.length}
         // loading={!rows.length}
         components={{
           LoadingOverlay: Loading,
