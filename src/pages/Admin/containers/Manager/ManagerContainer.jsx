@@ -17,6 +17,9 @@ import BlogDetail from './components/BlogApprove/components/BlogDetail';
 import StaffManage from './components/StaffManage/StaffManage';
 import CreateStaff from './components/StaffManage/components/CreateStaff';
 
+import ProductManage from './components/ProductManage/ProductManage';
+import EditProduct from './components/ProductManage/components/EditProduct';
+
 const ManagerContainer = () => {
   //** Const  */
   const dispatch = useDispatch();
@@ -39,6 +42,10 @@ const ManagerContainer = () => {
               <Route path="staff-manage">
                 <Route index element={<StaffManage />} />
                 <Route path="new" element={<CreateStaff />} />
+              </Route>
+              <Route path="product-manage">
+                <Route index element={<ProductManage />} />
+                <Route path="edit/:ingredientId" element={<EditProduct />} />
               </Route>
             </Route>
           </Routes>

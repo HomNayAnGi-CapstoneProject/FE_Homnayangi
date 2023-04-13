@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import instances from '../../../../../../utils/plugin/axios';
 import Loading from '../../../../../../share/components/Admin/Loading';
+import Image from '../../../../../../share/components/Image';
 
 // ** assets
 import orderConfirm from '../../../../../../assets/images/orderConfirm.webp';
@@ -30,6 +31,7 @@ const YourOrder = () => {
   const [ordersData, setOrdersData] = useState([]);
   const [ordersList, setOrdersList] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [updateCalls, setUpdateCalls] = useState(false);
 
   const accessToken = localStorage.getItem('accessToken');
   let decoded_jwt = {};
@@ -101,16 +103,16 @@ const YourOrder = () => {
       }
     } else {
       const fetch = async () => {
-        setLoading(true);
+        // setLoading(true);
         const res = await instances.get('/orders/status/customer', { params: { status: orderStatus } });
         setOrdersData(res.data);
         const ress = await instances.get('/orders/status/customer', { params: { status: -1 } });
         setOrdersList(ress.data);
-        setLoading(false);
+        // setLoading(false);
       };
       fetch();
     }
-  }, [isComfirmOrder, orderStatus]);
+  }, [isComfirmOrder, orderStatus, updateCalls]);
 
   if (accessToken) {
     if (Object.keys(decoded_jwt).length === 0 && decoded_jwt.constructor === Object) {
@@ -134,7 +136,7 @@ const YourOrder = () => {
                   <div className="flex flex-col items-center justify-center px-7 py-6">
                     <img
                       alt="order-confirm"
-                      className="object-cover w-[250px]"
+                      className="object-cover w-[250px] h-[250px]"
                       src={isCancel == true ? orderCancel : orderConfirm}
                     />
                     <p className="font-semibold">Đơn hàng đã {isCancel == true ? 'được hủy' : 'được tạo'}</p>
@@ -154,7 +156,7 @@ const YourOrder = () => {
                 {loading == false ? (
                   <>
                     <TabList setStatus={setStatus} status={status} ordersList={ordersList} />
-                    <Container status={status} orderData={ordersData} />
+                    <Container status={status} orderData={ordersData} setUpdateCalls={setUpdateCalls} />
                   </>
                 ) : (
                   <Loading />

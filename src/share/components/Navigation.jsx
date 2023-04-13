@@ -4,6 +4,7 @@ import MenuModal from './MenuModal';
 import styles from '../../style';
 import ModalShoppingCart from './Modal/ModalShoppingCart/ModalShoppingCart';
 import NotifyItemCart from './NotifyItemCart';
+import ModalNotification from './Modal/ModalNotification/ModalNotification';
 
 // ** Assets
 import Logo from '../../assets/images/Logo.png';
@@ -32,6 +33,7 @@ import { setAccountInfo } from '../../redux/actionSlice/accountSlice';
 const Navigation = (props) => {
   // ** States, Const
   const [openCountry, setOpenCountry] = useState(false);
+  const [openNotifycation, setOpenNotification] = useState(false);
   const [openUser, setOpenUser] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -271,7 +273,10 @@ const Navigation = (props) => {
               </div> */}
               <div
                 onClick={() => navigate('/cart')}
-                onMouseEnter={() => handleOpenModal(true)}
+                onMouseEnter={() => {
+                  handleOpenModal(true);
+                  setOpenNotification(false);
+                }}
                 onMouseLeave={() => handleOpenModal(false)}
                 className="relative bg-cover w-[24px] h-[24px] cursor-pointer"
                 style={{ backgroundImage: `url(${ic_cart})` }}
@@ -302,10 +307,18 @@ const Navigation = (props) => {
               )}
             </div>
             {/* notifications */}
-            <div
-              className="relative bg-cover w-[24px] h-[24px] cursor-pointer"
-              style={{ backgroundImage: `url(${ic_nofitication})` }}
-            ></div>
+            <div className="relative cursor-pointer">
+              <div
+                onClick={() => setOpenNotification((prev) => !prev)}
+                className="relative bg-cover w-[24px] h-[24px] cursor-pointer"
+                style={{ backgroundImage: `url(${ic_nofitication})` }}
+              >
+                {/* Notify num */}
+              </div>
+              <OutsideClickHandler onOutsideClick={() => setOpenNotification(false)}>
+                {openNotifycation && <ModalNotification />}
+              </OutsideClickHandler>
+            </div>
             {/* authentication user */}
             <div
               className="relative bg-cover w-[30px] h-[30px] cursor-pointer rounded-full"

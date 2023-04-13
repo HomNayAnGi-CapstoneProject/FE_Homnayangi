@@ -8,7 +8,7 @@ import staticFood1 from '../../../../../../../../assets/images/staticFood1.png';
 
 const Container = (props) => {
   // **
-  const { status, orderData } = props;
+  const { status, orderData, setUpdateCalls } = props;
 
   return (
     <div className="mt-4 w-full bg-white rounded-[5px] p-5">
@@ -31,7 +31,7 @@ const Container = (props) => {
                 key={item.orderId}
                 className="border-t border-gray-400 border-dashed first:border-t-0 mt-2 first:mt-0"
               >
-                <Item data={item} />
+                <Item data={item} setUpdateCalls={setUpdateCalls} />
               </div>
             ))}
           </div>

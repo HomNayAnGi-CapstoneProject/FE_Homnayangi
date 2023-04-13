@@ -41,7 +41,7 @@ const BadgeConditionExplan = (props) => {
     <div>
       <p className="leading-[25px] text-justify">
         Mỗi huy hiệu sẽ đi kèm với các điều kiện nhất định, sau khi bạn đã hoàn tất đủ các điều kiện của 1 huy hiệu nào
-        đó thì hệ thống sẽ trao tặng bạn huy hiệu đó kèm theo các ưu đãi hấp dẫn ✨
+        đó thì hệ thống sẽ định kỳ trao tặng bạn huy hiệu đó kèm theo các ưu đãi hấp dẫn ✨
         <span
           onClick={() => setActiveTab(1)}
           className="underline italic font-medium text-primary cursor-pointer w-fit mr-2"
@@ -50,7 +50,7 @@ const BadgeConditionExplan = (props) => {
         </span>
       </p>
 
-      <div className="my-5">
+      <div className="my-5  max-h-[200px] scroll-bar overflow-x-hidden overflow-y-scroll">
         {allBadges?.length > 0 &&
           allBadges?.map((item) => (
             <div key={item.badgeConditionId}>
