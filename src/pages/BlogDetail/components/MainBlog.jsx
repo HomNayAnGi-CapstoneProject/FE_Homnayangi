@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import moment from 'moment';
+import moment from 'moment/moment';
 import Breadcrumbs from '../../../share/components/Breadcrumbs';
 import Image from '../../../share/components/Image';
 import ModalRequireLogin from '../../../share/components/Modal/ModalRequireLogin';

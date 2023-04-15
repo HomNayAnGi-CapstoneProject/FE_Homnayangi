@@ -7,6 +7,7 @@ import jwt_decode from 'jwt-decode';
 import TabList from './components/TabList';
 import Container from './components/Content/Container';
 import BadgeContainer from './components/Badges/BadgeContainer';
+import VouchersContainer from './components/Vouchers/VouchersContainer';
 
 const YourAccomplishment = () => {
   const [status, setStatus] = useState('all');
@@ -37,7 +38,8 @@ const YourAccomplishment = () => {
         case 'Customer':
           return (
             <div className="font-inter">
-              <BadgeContainer />
+              <BadgeContainer accessToken={accessToken} decoded_jwt={decoded_jwt} />
+              <VouchersContainer />
               <TabList setStatus={setStatus} status={status} accomsData={accomsData} />
               <Container
                 status={status}

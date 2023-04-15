@@ -132,8 +132,8 @@ const OrderManagement = () => {
           <button
             onClick={() => setCurrentOrderStatus(-1)}
             className={`flex items-center w-fit gap-2 py-2 px-3 ${
-              currentOrderStatus == -1 ? 'bg-primary' : 'bg-secondary'
-            }  text-white font-medium rounded-[10px]`}
+              currentOrderStatus == -1 ? 'bg-primary text-white' : 'bg-white text-black'
+            }  font-medium rounded-[10px]`}
           >
             Tổng đơn hàng ({orderCount})
           </button>
@@ -142,8 +142,8 @@ const OrderManagement = () => {
           <button
             onClick={() => setCurrentOrderStatus(1)}
             className={`flex items-center w-fit gap-2 py-2 px-3 ${
-              currentOrderStatus == 1 ? 'bg-primary' : 'bg-secondary'
-            }  text-white font-medium rounded-[10px]`}
+              currentOrderStatus == 1 ? 'bg-primary text-white ' : 'bg-white text-black'
+            } font-medium rounded-[10px]`}
           >
             Chờ xác nhận ({needConfirmCount})
           </button>
@@ -152,8 +152,8 @@ const OrderManagement = () => {
           <button
             onClick={() => setCurrentOrderStatus(10)}
             className={`flex items-center w-fit gap-2 py-2 px-3 ${
-              currentOrderStatus == 10 ? 'bg-primary' : 'bg-secondary'
-            }  text-white font-medium rounded-[10px]`}
+              currentOrderStatus == 10 ? 'bg-primary text-white' : 'bg-white text-black'
+            }   font-medium rounded-[10px]`}
           >
             Đợi hoàn tiền ({needRefundCount})
           </button>
