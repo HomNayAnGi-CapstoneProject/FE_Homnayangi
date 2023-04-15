@@ -48,7 +48,13 @@ const columns = [
   {
     field: 'discount',
     headerName: 'Giảm giá',
-    renderCell: (params) => <p className="text-red-500">{Intl.NumberFormat().format(params.row.discount)}đ</p>,
+    renderCell: (params) => (
+      <p className="text-red-500">
+        {params.row.discount <= 1
+          ? `${params.row.discount * 100}%`
+          : `${Intl.NumberFormat().format(params.row.discount)}đ`}
+      </p>
+    ),
   },
   {
     field: 'minimumOrderPrice',

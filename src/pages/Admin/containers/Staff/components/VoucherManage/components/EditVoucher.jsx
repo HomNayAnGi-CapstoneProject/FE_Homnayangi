@@ -20,6 +20,7 @@ const EditForm = (props) => {
   const today = dayjs();
   const [validFromDate, setValidFromDate] = useState();
   const [validToDate, setValidToDate] = useState();
+  const [checkedValue, setCheckedValue] = useState(props.data?.discount <= 1 ? 'percent' : 'vnd');
 
   const notifyError = (err) => {
     toast.error(err, {
@@ -58,7 +59,7 @@ const EditForm = (props) => {
       description: props.data.description,
       validFrom: dayjs(props.data.validFrom),
       validTo: dayjs(props.data.validTo),
-      discount: props.data?.discount,
+      discount: props.data?.discount <= 1 ? props.data?.discount * 100 : props.data?.discount,
       minimumOrderPrice: props.data?.minimumOrderPrice,
       maximumOrderPrice: props.data?.maximumOrderPrice,
     },
@@ -82,12 +83,14 @@ const EditForm = (props) => {
       setEditing(true);
       toast.promise(
         instances
-          .post('/vouchers', {
+          .put('/vouchers', {
+            voucherId: params.voucherId,
             name: data.name,
             description: data.description,
             validFrom: validFrom,
             validTo: validTo,
-            discount: parseInt(data?.discount),
+            // discount: parseInt(data?.discount),
+            discount: checkedValue == 'vnd' ? parseInt(data?.discount) : parseInt(data?.discount) / 100,
             minimumOrderPrice: parseInt(data?.minimumOrderPrice),
             maximumOrderPrice: parseInt(data?.maximumOrderPrice),
           })
@@ -96,8 +99,8 @@ const EditForm = (props) => {
             navigate('/management/voucher');
           }),
         {
-          pending: 'Đang tạo mới',
-          success: 'Đã tạo thành công! 👌',
+          pending: 'Đang chỉnh sửa',
+          success: 'Đã chỉnh sửa thành công! 👌',
           error: {
             render({ data }) {
               // return data.response?.data.error;
@@ -134,7 +137,39 @@ const EditForm = (props) => {
             <p className="mb-[5px] text-redError text-[14px]">Tên mã giảm giá không hợp lệ</p>
           )}
 
-          <label>Giảm giá (vnd)</label>
+          <label>Chọn đơn vị giảm giá</label>
+
+          <div className="flex gap-3 mt-2 mb-3">
+            <div className="flex items-center">
+              <input
+                checked={checkedValue == 'vnd' ? true : false}
+                id="inline-vnd"
+                type="radio"
+                value="vnd"
+                name="currency"
+                onChange={() => setCheckedValue('vnd')}
+                className="w-4 h-4 bg-gray-200"
+              />
+              <label for="inline-vnd" className="ml-2 font-medium text-gray-500">
+                VNĐ
+              </label>
+            </div>
+            <div className="flex items-center">
+              <input
+                checked={checkedValue == 'percent' ? true : false}
+                id="inline-percent"
+                type="radio"
+                value="percent"
+                name="currency"
+                onChange={() => setCheckedValue('percent')}
+                className="w-4 h-4 bg-gray-200 "
+              />
+              <label for="inline-percent" className="ml-2 font-medium text-gray-500">
+                Phần trăm
+              </label>
+            </div>
+          </div>
+          <label>Giảm giá</label>
           <input
             name="discount"
             type="number"
@@ -144,7 +179,8 @@ const EditForm = (props) => {
             } p-[12px] text-subText sm:text-md  border border-[#B9B9B9] rounded-[5px] focus:outline-primary`}
             {...register('discount', {
               required: true,
-              min: 1000,
+              min: checkedValue == 'vnd' ? 1000 : 1,
+              max: checkedValue == 'vnd' ? 100000 : 100,
               // pattern: {
               //   value: ReGex_VietnameseTitle,
               // },
@@ -157,7 +193,14 @@ const EditForm = (props) => {
             <p className="mb-[5px] text-redError text-[14px]">Giảm giá không hợp lệ</p>
           )}
           {errors?.discount?.type === 'min' && (
-            <p className="mb-[5px] text-redError text-[14px]">Giảm giá tối thiểu là 1000đ</p>
+            <p className="mb-[5px] text-redError text-[14px]">
+              Giảm giá tối thiểu là {checkedValue == 'vnd' ? '1000đ' : '1%'}
+            </p>
+          )}
+          {errors?.discount?.type === 'max' && (
+            <p className="mb-[5px] text-redError text-[14px]">
+              Giảm giá tối đa là {checkedValue == 'vnd' ? '100.000đ' : '100%'}
+            </p>
           )}
 
           <label>Giá trị đơn hàng tối thiểu (vnd)</label>
@@ -186,30 +229,34 @@ const EditForm = (props) => {
             <p className="mb-[5px] text-redError text-[14px]">Giá trị đơn hàng tối thiểu là 1000đ</p>
           )}
 
-          <label>Giá trị đơn hàng tối đa (vnd)</label>
-          <input
-            name="maximumOrderPrice"
-            type="number"
-            // placeholder="Tên đăng nhập"
-            className={`block mt-2 w-full h-[47px] ${
-              errors?.maximumOrderPrice ? 'mb-[5px]' : 'mb-[20px]'
-            } p-[12px] text-subText sm:text-md  border border-[#B9B9B9] rounded-[5px] focus:outline-primary`}
-            {...register('maximumOrderPrice', {
-              required: true,
-              min: 1000,
-              // pattern: {
-              //   value: ReGex_VietnameseTitle,
-              // },
-            })}
-          />
-          {errors?.maximumOrderPrice?.type === 'required' && (
-            <p className="mb-[5px] text-redError text-[14px]">Giá trị đơn hàng tối đa không được trống</p>
-          )}
-          {errors?.maximumOrderPrice?.type === 'pattern' && (
-            <p className="mb-[5px] text-redError text-[14px]">Giá trị đơn hàng tối đa không hợp lệ</p>
-          )}
-          {errors?.maximumOrderPrice?.type === 'min' && (
-            <p className="mb-[5px] text-redError text-[14px]">Giá trị đơn hàng tối đa là 1000đ</p>
+          {checkedValue == 'percent' && (
+            <>
+              <label>Giá trị đơn hàng tối đa (vnd)</label>
+              <input
+                name="maximumOrderPrice"
+                type="number"
+                // placeholder="Tên đăng nhập"
+                className={`block mt-2 w-full h-[47px] ${
+                  errors?.maximumOrderPrice ? 'mb-[5px]' : 'mb-[20px]'
+                } p-[12px] text-subText sm:text-md  border border-[#B9B9B9] rounded-[5px] focus:outline-primary`}
+                {...register('maximumOrderPrice', {
+                  required: true,
+                  min: 1000,
+                  // pattern: {
+                  //   value: ReGex_VietnameseTitle,
+                  // },
+                })}
+              />
+              {errors?.maximumOrderPrice?.type === 'required' && (
+                <p className="mb-[5px] text-redError text-[14px]">Giá trị đơn hàng tối đa không được trống</p>
+              )}
+              {errors?.maximumOrderPrice?.type === 'pattern' && (
+                <p className="mb-[5px] text-redError text-[14px]">Giá trị đơn hàng tối đa không hợp lệ</p>
+              )}
+              {errors?.maximumOrderPrice?.type === 'min' && (
+                <p className="mb-[5px] text-redError text-[14px]">Giá trị đơn hàng tối đa là 1000đ</p>
+              )}
+            </>
           )}
         </div>
         {/* time picker */}

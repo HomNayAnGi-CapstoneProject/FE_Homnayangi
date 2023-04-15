@@ -20,6 +20,8 @@ const CreateAward = () => {
   const folderID = crypto.randomUUID();
   const [badgesImg, setBadgesImg] = useState();
   const [uploading, setUploading] = useState(false);
+  const [voucherList, setVoucherList] = useState([]);
+  const navigate = useNavigate();
 
   const {
     register,
@@ -33,7 +35,17 @@ const CreateAward = () => {
       position: 'top-center',
       autoClose: 2000,
     });
-  const navigate = useNavigate();
+
+  // ** get voucher list
+  useEffect(() => {
+    const fetch = async () => {
+      const res = await instances.get('/vouchers/active-vouchers');
+      // console.log(res.data.result);
+      setVoucherList(res.data.result);
+    };
+    fetch();
+  }, []);
+
   // ** Functs
   //submit form
   const onSubmit = (data) => {
@@ -49,6 +61,7 @@ const CreateAward = () => {
               name: data.name,
               description: data.description,
               ImageUrl: res,
+              voucherId: data.voucherId,
             })
             .then((res) => {
               setUploading(false);
@@ -122,6 +135,25 @@ const CreateAward = () => {
           <div className="flex ss:flex-row flex-col justify-between gap-5">
             {/* infos */}
             <div className="flex-1">
+              <label>Mã giảm giá</label>
+              <select
+                className={`block mt-2 w-full h-[47px] ${
+                  errors?.voucherId ? 'mb-[5px]' : 'mb-[20px]'
+                } p-[12px] text-subText sm:text-md max-h-[100px] overflow-y-scroll border border-[#B9B9B9] rounded-[5px] focus:outline-primary`}
+                {...register('voucherId', { required: true })}
+              >
+                <option value="">Chọn mã giảm giá</option>
+                {voucherList &&
+                  voucherList.map((type) => (
+                    <option key={type.voucherId} value={type.voucherId}>
+                      {type.voucherName}
+                    </option>
+                  ))}
+              </select>
+              {errors?.voucherId?.type === 'required' && (
+                <p className="mb-[5px] text-redError text-[14px]">Mã giảm giá không được trống</p>
+              )}
+
               <div className=" gap-1 items-baseline">
                 <label>Tên danh hiệu</label>
               </div>
