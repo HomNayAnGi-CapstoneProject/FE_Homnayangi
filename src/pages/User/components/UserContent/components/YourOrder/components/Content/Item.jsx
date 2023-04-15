@@ -193,7 +193,7 @@ const Item = (props) => {
             <p className="text-[18px] font-bold text-redError">{Intl.NumberFormat().format(data?.totalPrice)}đ</p>
           </div>
           <div className="flex items-end justify-end  mt-5">
-            {data?.orderStatus == 1 && data?.paymentMethod == 1 ? (
+            {data?.orderStatus == 9 && data?.paymentMethod == 1 ? (
               <div>
                 <div
                   onClick={() => window.location.replace(data.paypalUrl)}
@@ -211,9 +211,9 @@ const Item = (props) => {
             ) : (
               <></>
             )}
-            {data?.orderStatus == 1 && data?.paymentMethod == 0 ? (
+            {data?.orderStatus == 1 ? (
               <div>
-                <div className="cursor-pointer px-5 w-fit py-3 rounded-[2px] border uppercase text-[#acacac] border-[#acacac]">
+                <div className="px-5 w-fit py-3 rounded-[2px] border uppercase text-[#acacac] border-[#acacac]">
                   chờ duyệt
                 </div>
                 <button
@@ -233,6 +233,24 @@ const Item = (props) => {
             )}
             {data?.orderStatus == 3 && (
               <div className="px-5 w-fit py-3 rounded-[2px] border uppercase text-redError border-redError">đã hủy</div>
+            )}
+            {data?.orderStatus == 4 && (
+              <div className="px-5 w-fit py-3 rounded-[2px] border uppercase text-red-300 border-red-300">từ chối</div>
+            )}
+            {data?.orderStatus == 7 && (
+              <div className="px-5 w-fit py-3 rounded-[2px] border uppercase text-lime-300 border-lime-300">
+                giao thất bại
+              </div>
+            )}
+            {data?.orderStatus == 8 && (
+              <div className="px-5 w-fit py-3 rounded-[2px] border uppercase text-rose-500 border-rose-500">
+                đã hoàn tiền
+              </div>
+            )}
+            {data?.orderStatus == 10 && (
+              <div className="px-5 w-fit py-3 rounded-[2px] border uppercase text-rose-300 border-rose-300">
+                đợi hoàn tiền
+              </div>
             )}
             {data?.orderStatus == 5 && (
               <div className="px-5 w-fit py-3 rounded-[2px] border uppercase text-primary border-primary">

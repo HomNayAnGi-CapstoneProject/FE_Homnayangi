@@ -24,6 +24,7 @@ import OutsideClickHandler from 'react-outside-click-handler';
 import { useDispatch, useSelector } from 'react-redux';
 import jwt_decode from 'jwt-decode';
 import { motion, AnimatePresence } from 'framer-motion';
+import { HubConnection, HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
 
 // ** Redux
 import { setOpenMenuModal, setCountrySide } from '../../redux/actionSlice/globalSlice';
@@ -32,6 +33,7 @@ import { setAccountInfo } from '../../redux/actionSlice/accountSlice';
 
 const Navigation = (props) => {
   // ** States, Const
+  const [connection, setConnection] = useState();
   const [openCountry, setOpenCountry] = useState(false);
   const [openNotifycation, setOpenNotification] = useState(false);
   const [openUser, setOpenUser] = useState(false);
@@ -55,6 +57,41 @@ const Navigation = (props) => {
     };
     fetch();
   }, []);
+
+  // ** get connection signalR
+  useEffect(() => {
+    if (accessToken) {
+      // console.log(`${import.meta.env.VITE_LOCAL_URL}signalRServer`);
+      const connect = new HubConnectionBuilder()
+        .withUrl(`${import.meta.env.VITE_LOCAL_URL}/signalRServer`)
+        .configureLogging(LogLevel.Information)
+        .withAutomaticReconnect()
+        .build();
+
+      setConnection(connect);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (connection) {
+      connection
+        .start()
+        .then(() => {
+          connection.on('OrderStatusChanged', (message) => {
+            console.log(message);
+          });
+        })
+        .catch((error) => console.log(error));
+    }
+  }, [connection]);
+
+  // const SendMess = async (mess) => {
+  //   try {
+  //     await connection.invoke('SendMessage', mess);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   //**  Get shopping cart, set account info
   useEffect(() => {

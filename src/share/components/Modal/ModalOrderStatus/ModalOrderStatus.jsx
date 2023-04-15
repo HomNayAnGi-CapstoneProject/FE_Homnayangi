@@ -19,13 +19,20 @@ const ModalOrderStatus = (props) => {
           <div className="mt-2 mb-3">
             <p>
               Trạng thái hiện tại:{' '}
-              {data?.orderStatus == 1 && <span className="text-gray-500 font-semibold">chờ duyệt</span>}{' '}
+              {data?.orderStatus == 1 && <span className="text-gray-500 font-semibold uppercase">chờ xác nhận</span>}{' '}
               {data?.orderStatus == 2 && (
-                <span className="text-blue-500 font-semibold">
-                  {data?.paymentMethod == 0 ? 'đã duyệt' : 'đã thanh toán'}
+                <span className="text-blue-500 font-semibold uppercase">
+                  {data?.paymentMethod == 0 ? 'đã xác nhận' : 'đã thanh toán'}
                 </span>
               )}{' '}
-              {data?.orderStatus == 5 && <span className="text-yellow-500 font-semibold">đang giao</span>}
+              {data?.orderStatus == 5 && <span className="text-yellow-500 font-semibold uppercase">đang giao</span>}
+              {data?.orderStatus == 10 && <span className="text-rose-800 font-semibold uppercase">đợi hoàn tiền</span>}
+            </p>
+            <p className="mt-2">
+              Phương thức thanh toán:{' '}
+              <span className={`${data?.paymentMethod == 1 ? 'text-blue-500' : 'text-primary'} font-semibold`}>
+                {data?.paymentMethod == 1 ? 'Online' : 'COD'}
+              </span>
             </p>
           </div>
           <div className="flex gap-3">
@@ -36,11 +43,12 @@ const ModalOrderStatus = (props) => {
               }}
               className="py-1 px-3 mt-4 bg-primary rounded-[5px] text-white font-medium uppercase"
             >
-              Xác nhận và chuyển sang {data?.orderStatus == 1 && 'đã duyệt'} {data?.orderStatus == 2 && 'giao hàng'}{' '}
+              Xác nhận và chuyển sang {data?.orderStatus == 1 && 'đã xác nhận'} {data?.orderStatus == 2 && 'giao hàng'}{' '}
+              {data?.orderStatus == 10 && 'đã hoàn tiền'}
               {data?.orderStatus == 5 && 'đã giao'}
             </button>
             {/* COD payment */}
-            {data?.paymentMethod == 0 && data?.orderStatus == 1 && (
+            {data?.orderStatus == 1 && (
               <button
                 onClick={() => {
                   handleChangeOrderStatus(data, true);
@@ -48,7 +56,7 @@ const ModalOrderStatus = (props) => {
                 }}
                 className="py-1 px-3 mt-4 bg-redError rounded-[5px] text-white font-medium uppercase"
               >
-                không duyệt
+                không xác nhận
               </button>
             )}
           </div>

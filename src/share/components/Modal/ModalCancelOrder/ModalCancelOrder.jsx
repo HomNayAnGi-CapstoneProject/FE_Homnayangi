@@ -3,6 +3,7 @@ import { Modal } from '@mui/material';
 
 const ModalCancelOrder = (props) => {
   const { openModal, setOpenModal, data, handleCancelOrder, canceling } = props;
+  console.log(data);
 
   return (
     <Modal open={openModal} onClose={() => setOpenModal(false)}>
@@ -13,12 +14,12 @@ const ModalCancelOrder = (props) => {
         {data && (
           <div className="px-7 py-6 sm:w-[400px]">
             <p className="text-[18px] font-medium">Xác nhận hủy đơn hàng?</p>
-            {data?.paymentMethod == 0 ? (
-              <></>
-            ) : (
+            {data?.paymentMethod == 1 && data?.orderStatus == 1 ? (
               <p className="mt-2 font-medium text-red-500">
                 Bạn sẽ được hoàn lại số tiền đã thanh toán cho đơn hàng này
               </p>
+            ) : (
+              <></>
             )}
             <div className="mt-5 flex gap-2 sm:flex-row flex-col">
               <button

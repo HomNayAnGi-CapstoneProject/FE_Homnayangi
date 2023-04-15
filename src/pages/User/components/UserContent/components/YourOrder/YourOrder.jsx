@@ -24,7 +24,7 @@ const YourOrder = () => {
   //** const */
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [status, setStatus] = useState('NOTPAID');
+  const [status, setStatus] = useState('PAYING');
   const [openModal, setOpenModal] = useState(false);
   const [isComfirmOrder, setIsComfirmOrder] = useState(false);
   const [isCancel, setIsCancel] = useState();
@@ -42,6 +42,8 @@ const YourOrder = () => {
   // ** check tab status
   const getTabStatus = () => {
     switch (status) {
+      case 'PAYING':
+        return 9;
       case 'NOTPAID':
         return 1;
       case 'PENDING':
@@ -77,13 +79,13 @@ const YourOrder = () => {
       } else {
         const fetch = async () => {
           setLoading(true);
-          await instances.put(`/orders/${cancel ? 'cancel' : 'accept'}/${guid}`);
-          const res = await instances.get('/orders/status/customer', {
-            params: {
-              status: orderStatus,
-            },
-          });
-          setOrdersData(res.data);
+          await instances.put(`/orders/${cancel ? 'cancel' : 'paid'}/${guid}`);
+          // const res = await instances.get('/orders/status/customer', {
+          //   params: {
+          //     status: orderStatus,
+          //   },
+          // });
+          // setOrdersData(res.data);
           const ress = await instances.get('/orders/status/customer', { params: { status: -1 } });
           setOrdersList(ress.data);
           navigate('/user/orders');
@@ -103,16 +105,16 @@ const YourOrder = () => {
       }
     } else {
       const fetch = async () => {
-        // setLoading(true);
-        const res = await instances.get('/orders/status/customer', { params: { status: orderStatus } });
-        setOrdersData(res.data);
+        setLoading(true);
+        // const res = await instances.get('/orders/status/customer', { params: { status: orderStatus } });
+        // setOrdersData(res.data);
         const ress = await instances.get('/orders/status/customer', { params: { status: -1 } });
         setOrdersList(ress.data);
-        // setLoading(false);
+        setLoading(false);
       };
       fetch();
     }
-  }, [isComfirmOrder, orderStatus, updateCalls]);
+  }, [isComfirmOrder, updateCalls]);
 
   if (accessToken) {
     if (Object.keys(decoded_jwt).length === 0 && decoded_jwt.constructor === Object) {
@@ -155,7 +157,12 @@ const YourOrder = () => {
               <div className="font-inter">
                 {loading == false ? (
                   <>
-                    <TabList setStatus={setStatus} status={status} ordersList={ordersList} />
+                    <TabList
+                      setStatus={setStatus}
+                      status={status}
+                      ordersList={ordersList}
+                      setOrdersData={setOrdersData}
+                    />
                     <Container status={status} orderData={ordersData} setUpdateCalls={setUpdateCalls} />
                   </>
                 ) : (

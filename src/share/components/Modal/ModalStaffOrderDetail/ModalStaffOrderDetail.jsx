@@ -25,15 +25,23 @@ const ModalStaffOrderDetail = (props) => {
   function checkStatus(status, paymentMethod) {
     switch (status) {
       case 1:
-        return <p className="text-gray-500 font-medium">{paymentMethod == 1 ? 'CHỜ THANH TOÁN' : 'CHỜ DUYỆT'}</p>;
+        return <p className="text-gray-500 font-medium">{paymentMethod == 1 ? 'CHỜ XÁC NHẬN' : 'CHỜ XÁC NHẬN'}</p>;
       case 2:
-        return <p className="text-blue-500 font-medium">{paymentMethod == 1 ? 'ĐÃ THANH TOÁN' : 'ĐÃ DUYỆT'}</p>;
-      case 5:
-        return <p className="text-yellow-500 font-medium">ĐANG GIAO</p>;
+        return <p className="text-blue-500 font-medium">{paymentMethod == 1 ? 'ĐÃ XÁC NHẬN' : 'ĐÃ XÁC NHẬN'}</p>;
       case 3:
-        return <p className="text-red-500 font-medium">ĐÃ HỦY</p>;
+        return <p className="font-medium text-red-500">ĐÃ HỦY</p>;
+      case 4:
+        return <p className="font-medium text-red-300">TỪ CHỐI</p>;
+      case 5:
+        return <p className="font-medium text-yellow-500">ĐANG GIAO</p>;
       case 6:
-        return <p className="text-green-400 font-medium">ĐÃ GIAO</p>;
+        return <p className="font-medium text-green-400">ĐÃ GIAO</p>;
+      case 7:
+        return <p className="font-medium text-lime-300">GIAO THẤT BẠI</p>;
+      case 8:
+        return <p className="font-medium text-rose-400">ĐÃ HOÀN TIỀN</p>;
+      case 9:
+        return <p className="font-medium text-orange-400">CHỜ THANH TOÁN</p>;
       default:
         break;
     }
