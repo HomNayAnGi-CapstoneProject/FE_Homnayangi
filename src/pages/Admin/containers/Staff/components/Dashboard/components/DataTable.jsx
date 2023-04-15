@@ -20,21 +20,33 @@ function checkStatus(status, paymentMethod) {
     case 1:
       return (
         <p className="text-white px-3 rounded-full text-[14px] bg-gray-500">
-          {paymentMethod == 1 ? 'CHỜ THANH TOÁN' : 'CHỜ DUYỆT'}
+          {/* {paymentMethod == 1 ? 'CHỜ THANH TOÁN' : 'CHỜ DUYỆT'} */}
+          {paymentMethod == 1 ? 'CHỜ XÁC NHẬN' : 'CHỜ XÁC NHẬN'}
         </p>
       );
     case 2:
       return (
         <p className="text-white px-3 rounded-full text-[14px] bg-blue-500">
-          {paymentMethod == 1 ? 'ĐÃ THANH TOÁN' : 'ĐÃ DUYỆT'}
+          {/* {paymentMethod == 1 ? 'ĐÃ THANH TOÁN' : 'ĐÃ DUYỆT'} */}
+          {paymentMethod == 1 ? 'ĐÃ XÁC NHẬN' : 'ĐÃ XÁC NHẬN'}
         </p>
       );
+    case 3:
+      return <p className="text-white px-3 rounded-full text-[14px] bg-red-400">ĐÃ HỦY</p>;
+    case 4:
+      return <p className="text-white px-3 rounded-full text-[14px] bg-red-600">TỪ CHỐI</p>;
     case 5:
       return <p className="text-white px-3 rounded-full text-[14px] bg-yellow-500">ĐANG GIAO</p>;
-    case 3:
-      return <p className="text-white px-3 rounded-full text-[14px] bg-red-500">ĐÃ HỦY</p>;
     case 6:
       return <p className="text-white px-3 rounded-full text-[14px] bg-green-400">ĐÃ GIAO</p>;
+    case 7:
+      return <p className="text-white px-3 rounded-full text-[14px] bg-lime-300">GIAO THẤT BẠI</p>;
+    case 8:
+      return <p className="text-white px-3 rounded-full text-[14px] bg-rose-500">ĐÃ HOÀN TIỀN</p>;
+    case 9:
+      return <p className="text-white px-3 rounded-full text-[14px] bg-orange-400">CHỜ THANH TOÁN</p>;
+    case 10:
+      return <p className="text-white px-3 rounded-full text-[14px] bg-rose-800">ĐỢI HOÀN TIỀN</p>;
     default:
       break;
   }
@@ -43,15 +55,25 @@ function checkStatus(status, paymentMethod) {
 function checkStatusExport(status, paymentMethod) {
   switch (status) {
     case 1:
-      return paymentMethod == 1 ? 'CHỜ THANH TOÁN' : 'CHỜ DUYỆT';
+      return paymentMethod == 1 ? 'CHỜ XÁC NHẬN' : 'CHỜ XÁC NHẬN';
     case 2:
-      return paymentMethod == 1 ? 'ĐÃ THANH TOÁN' : 'ĐÃ DUYỆT';
-    case 5:
-      return 'ĐANG GIAO';
+      return paymentMethod == 1 ? 'ĐÃ XÁC NHẬN' : 'ĐÃ XÁC NHẬN';
     case 3:
       return 'ĐÃ HỦY';
+    case 4:
+      return 'TỪ CHỐI';
+    case 5:
+      return 'ĐANG GIAO';
     case 6:
       return 'ĐÃ GIAO';
+    case 7:
+      return 'GIAO THẤT BẠI';
+    case 8:
+      return 'ĐÃ HOÀN TIỀN';
+    case 9:
+      return 'CHỜ THANH TOÁN';
+    case 10:
+      return 'ĐỢI HOÀN TIỀN';
     default:
       break;
   }

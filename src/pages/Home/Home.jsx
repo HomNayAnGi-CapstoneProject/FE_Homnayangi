@@ -16,15 +16,6 @@ const Home = ({ title }) => {
     document.title = title;
   }, [title]);
 
-  // useEffect(() => {
-  //   const fetch = async () => {
-  //     const res = await instances.get('/home/category/6B21EB68-5BA7-4091-A453-0C6E239A371D/blogs');
-  //     console.log(res);
-  //   };
-
-  //   fetch();
-  // }, []);
-
   return (
     <div className="">
       <HeroSection />

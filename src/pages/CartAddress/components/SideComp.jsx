@@ -28,16 +28,12 @@ const SideComp = () => {
   }
 
   // ** notify
-  const notifyAddressError = () =>
-    toast.error('Vui lòng điền đầy đủ thông tin và ấn xác nhận địa chỉ !', {
+  const notifyError = (msg) => {
+    toast.error(msg, {
       pauseOnHover: false,
       autoClose: 4000,
     });
-  const notifyPaymentError = () =>
-    toast.error('Vui lòng chọn phương thức thanh toán !', {
-      pauseOnHover: false,
-      autoClose: 4000,
-    });
+  };
 
   const getCurrentCart = () => {
     let currentCart = [];
@@ -125,44 +121,55 @@ const SideComp = () => {
       // }
       // }
       if (cartAddress == '') {
-        notifyAddressError();
+        // notifyAddressError();
+        notifyError('Vui lòng điền đầy đủ thông tin và ấn xác nhận địa chỉ !');
       } else {
         if (paymentMethod == -1) {
-          notifyPaymentError();
+          notifyError('Vui lòng chọn phương thức thanh toán !');
+          // notifyPaymentError();
         } else {
-          toast.promise(
-            instances
-              .post('/orders', {
-                shippedDate: cartType == 1 ? null : new Date(current.currentUser.shippedDate).toISOString(),
-                discount: 0,
-                shippedAddress: cartAddress,
-                totalPrice: totalItem.totalPrice,
-                paymentMethod: paymentMethod,
-                isCooked: cartType == 1 ? false : true,
-                orderDetails: getListTotalIngredients(),
-              })
-              .then((response) => {
-                // console.log(response.data);
-                if (response.data) {
-                  window.location.replace(response.data);
-                  // window.location.href = response.data;
-                } else {
-                  dispatch(
-                    removeCartByStatus({
-                      cusId: decoded_jwt.Id,
-                      isCook: cartType == 1 ? false : true,
-                    }),
-                  );
-                  dispatch(getShoppingCart());
-                  navigate('/user/orders/');
-                }
-              }),
-            {
-              success: 'Đang chuyển hướng...',
-              pending: 'Đang tạo đơn hàng',
-              error: 'Có lỗi xảy ra khi tạo đơn hàng!',
-            },
-          );
+          let allowCreateOrder = true;
+          if (paymentMethod == 1) {
+            if (totalItem.totalPrice <= 10000) {
+              notifyError('Tổng giá trị đơn hàng khi thanh toán online phải tối thiểu 10000đ');
+              allowCreateOrder = false;
+            }
+          }
+          if (allowCreateOrder) {
+            toast.promise(
+              instances
+                .post('/orders', {
+                  shippedDate: cartType == 1 ? null : new Date(current.currentUser.shippedDate).toISOString(),
+                  discount: 0,
+                  shippedAddress: cartAddress,
+                  totalPrice: totalItem.totalPrice,
+                  paymentMethod: paymentMethod,
+                  isCooked: cartType == 1 ? false : true,
+                  orderDetails: getListTotalIngredients(),
+                })
+                .then((response) => {
+                  // console.log(response.data);
+                  if (response.data) {
+                    window.location.replace(response.data);
+                    // window.location.href = response.data;
+                  } else {
+                    dispatch(
+                      removeCartByStatus({
+                        cusId: decoded_jwt.Id,
+                        isCook: cartType == 1 ? false : true,
+                      }),
+                    );
+                    dispatch(getShoppingCart());
+                    navigate('/user/orders/');
+                  }
+                }),
+              {
+                success: 'Đang chuyển hướng...',
+                pending: 'Đang tạo đơn hàng',
+                error: 'Có lỗi xảy ra khi tạo đơn hàng!',
+              },
+            );
+          }
         }
       }
     }

@@ -81,7 +81,7 @@ const EditForm = (props) => {
               })
               .then((res) => {
                 setEditing(false);
-                navigate('/management/product');
+                navigate('/management/product-manage');
               });
           })
           .catch((err) => {
@@ -211,10 +211,9 @@ const EditForm = (props) => {
 
           <label>Giá tiền</label>
           <input
-            disabled={true}
             type="number"
             name="price"
-            className={`cursor-not-allowed block mt-2 w-full h-[47px] ${
+            className={`block mt-2 w-full h-[47px] ${
               errors?.price ? 'mb-[5px]' : 'mb-[20px]'
             } p-[12px] text-subText sm:text-md  border border-[#B9B9B9] rounded-[5px] focus:outline-primary`}
             {...register('price', {

@@ -68,7 +68,7 @@ const EditForm = (props) => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       {/* minute (hour) */}
-      <label className="font-medium">Phút </label>
+      <label className="font-semibold text-[18px]">Phút </label>
       <p className="text-[16px] italic text-gray-500">
         Quét định kỳ <span className="text-red-500 font-bold">mỗi đầu giờ</span> dựa trên số phút đã chọn. (vd: "số
         phút: <span className="font-bold text-red-500">5</span>", thời gian hiện tại là {new Date().getHours()}h{' '}
@@ -104,7 +104,7 @@ const EditForm = (props) => {
       {errors?.minute?.type === 'max' && <p className="mb-[5px] text-redError text-[14px]">Số phút từ 0 - 59 </p>}
 
       {/* hour (daily) */}
-      <label className="font-medium">Giờ </label>
+      <label className="font-semibold text-[18px]">Giờ </label>
       <p className="text-[16px] italic text-gray-500">
         Quét định kỳ <span className="text-red-500 font-bold">mỗi ngày bắt đầu vào số giờ</span> đã chọn. (vd: "số giờ:{' '}
         <span className="font-bold text-red-500">5(am)</span>", thời gian đến lần quét tiếp theo: hôm sau lúc{' '}
@@ -137,7 +137,7 @@ const EditForm = (props) => {
       {errors?.hour?.type === 'min' && <p className="mb-[5px] text-redError text-[14px]">Số giờ từ 0 - 23 </p>}
 
       {/* day (monthly) */}
-      <label className="font-medium">Ngày </label>
+      <label className="font-semibold text-[18px]">Ngày </label>
       <p className="text-[16px] italic text-gray-500">
         Quét định kỳ <span className="text-red-500 font-bold">mỗi tháng bắt đầu vào ngày</span> đã chọn. (vd: "ngày:{' '}
         <span className="font-bold text-red-500">5</span>", thời gian đến lần quét tiếp theo: tháng sau vào{' '}

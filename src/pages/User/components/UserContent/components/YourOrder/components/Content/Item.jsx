@@ -1,23 +1,49 @@
 import { useState, useEffect } from 'react';
+import instances from '../../../../../../../../utils/plugin/axios';
 import Image from '../../../../../../../../share/components/Image';
 import { ic_user_gray, ic_phone_gray, ic_location_gray, ic_time_gray } from '../../../../../../../../assets';
 import ModalCartItemDetail from '../../../../../../../../share/components/Modal/ModalCartItemDetail/ModalCartItemDetail';
+import ModalCancelOrder from '../../../../../../../../share/components/Modal/ModalCancelOrder/ModalCancelOrder';
 
 import moment from 'moment/moment';
+import { toast } from 'react-toastify';
 
 const Item = (props) => {
-  const { data } = props;
+  const { data, setUpdateCalls } = props;
   const [openDetail, setOpenDetail] = useState(false);
+  const [openCancel, setOpenCancel] = useState(false);
+  const [canceling, setCanceling] = useState(false);
+  const [cancelDetail, setCancelDetail] = useState();
   const [detailData, setDetailData] = useState();
   const [detailTotalPrice, setDetailTotalPrice] = useState(0);
   const [detailCookedImg, setDetailCookedImg] = useState();
-  console.log(data);
+
+  const successNotify = (msg) => {
+    toast.success(msg, {});
+  };
+
   // ** handle open detail item
   const handleOpenDetail = (item) => {
     setOpenDetail(true);
     setDetailData(item);
     setDetailTotalPrice(data?.isCooked ? item?.cookedPrice : item?.packagePrice);
     setDetailCookedImg(item?.recipeImage);
+  };
+
+  // ** handle open cancel order
+  const handleOpenCancelOrder = (item) => {
+    setOpenCancel(true);
+    setCancelDetail(item);
+  };
+
+  // ** handle cancel order
+  const handleCancelOrder = async (data) => {
+    // console.log(data?.orderId);
+    setCanceling(true);
+    await instances.put(`/orders/cancel/${data?.orderId}`);
+    setCanceling(false);
+    successNotify('Đơn hàng đã được hủy');
+    setUpdateCalls((prev) => !prev);
   };
 
   return (
@@ -32,6 +58,15 @@ const Item = (props) => {
           isCooked={data?.isCooked}
           shippedDate={data?.shippedDate}
           isDone={true}
+        />
+      )}
+      {openCancel && (
+        <ModalCancelOrder
+          openModal={openCancel}
+          setOpenModal={setOpenCancel}
+          data={cancelDetail}
+          handleCancelOrder={handleCancelOrder}
+          canceling={canceling}
         />
       )}
       <div className="md:flex mt-5">
@@ -158,19 +193,35 @@ const Item = (props) => {
             <p className="text-[18px] font-bold text-redError">{Intl.NumberFormat().format(data?.totalPrice)}đ</p>
           </div>
           <div className="flex items-end justify-end  mt-5">
-            {data?.orderStatus == 1 && data?.paymentMethod == 1 ? (
-              <div
-                onClick={() => window.location.replace(data.paypalUrl)}
-                className="cursor-pointer px-5 w-fit py-3 rounded-[2px] border uppercase bg-primary text-white font-medium"
-              >
-                thanh toán lại
+            {data?.orderStatus == 9 && data?.paymentMethod == 1 ? (
+              <div>
+                <div
+                  onClick={() => window.location.replace(data.paypalUrl)}
+                  className="cursor-pointer px-5 w-fit py-3 rounded-[2px] border uppercase bg-primary text-white font-medium"
+                >
+                  thanh toán lại
+                </div>
+                <button
+                  onClick={() => handleOpenCancelOrder(data)}
+                  className="bg-redError text-white font-medium w-full mt-3 uppercase px-5 py-3 rounded-[2px]"
+                >
+                  Hủy đơn
+                </button>
               </div>
             ) : (
               <></>
             )}
-            {data?.orderStatus == 1 && data?.paymentMethod == 0 ? (
-              <div className="cursor-pointer px-5 w-fit py-3 rounded-[2px] border uppercase text-[#acacac] border-[#acacac]">
-                chờ duyệt
+            {data?.orderStatus == 1 ? (
+              <div>
+                <div className="px-5 w-fit py-3 rounded-[2px] border uppercase text-[#acacac] border-[#acacac]">
+                  chờ duyệt
+                </div>
+                <button
+                  onClick={() => handleOpenCancelOrder(data)}
+                  className="bg-redError text-white font-medium w-full mt-3 uppercase px-5 py-3 rounded-[2px]"
+                >
+                  Hủy đơn
+                </button>
               </div>
             ) : (
               <></>
@@ -182,6 +233,24 @@ const Item = (props) => {
             )}
             {data?.orderStatus == 3 && (
               <div className="px-5 w-fit py-3 rounded-[2px] border uppercase text-redError border-redError">đã hủy</div>
+            )}
+            {data?.orderStatus == 4 && (
+              <div className="px-5 w-fit py-3 rounded-[2px] border uppercase text-red-300 border-red-300">từ chối</div>
+            )}
+            {data?.orderStatus == 7 && (
+              <div className="px-5 w-fit py-3 rounded-[2px] border uppercase text-lime-300 border-lime-300">
+                giao thất bại
+              </div>
+            )}
+            {data?.orderStatus == 8 && (
+              <div className="px-5 w-fit py-3 rounded-[2px] border uppercase text-rose-500 border-rose-500">
+                đã hoàn tiền
+              </div>
+            )}
+            {data?.orderStatus == 10 && (
+              <div className="px-5 w-fit py-3 rounded-[2px] border uppercase text-rose-300 border-rose-300">
+                đợi hoàn tiền
+              </div>
             )}
             {data?.orderStatus == 5 && (
               <div className="px-5 w-fit py-3 rounded-[2px] border uppercase text-primary border-primary">

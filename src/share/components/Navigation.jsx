@@ -4,6 +4,7 @@ import MenuModal from './MenuModal';
 import styles from '../../style';
 import ModalShoppingCart from './Modal/ModalShoppingCart/ModalShoppingCart';
 import NotifyItemCart from './NotifyItemCart';
+import ModalNotification from './Modal/ModalNotification/ModalNotification';
 
 // ** Assets
 import Logo from '../../assets/images/Logo.png';
@@ -23,6 +24,7 @@ import OutsideClickHandler from 'react-outside-click-handler';
 import { useDispatch, useSelector } from 'react-redux';
 import jwt_decode from 'jwt-decode';
 import { motion, AnimatePresence } from 'framer-motion';
+import { HubConnection, HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
 
 // ** Redux
 import { setOpenMenuModal, setCountrySide } from '../../redux/actionSlice/globalSlice';
@@ -31,7 +33,9 @@ import { setAccountInfo } from '../../redux/actionSlice/accountSlice';
 
 const Navigation = (props) => {
   // ** States, Const
+  const [connection, setConnection] = useState();
   const [openCountry, setOpenCountry] = useState(false);
+  const [openNotifycation, setOpenNotification] = useState(false);
   const [openUser, setOpenUser] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -53,6 +57,41 @@ const Navigation = (props) => {
     };
     fetch();
   }, []);
+
+  // ** get connection signalR
+  useEffect(() => {
+    if (accessToken) {
+      // console.log(`${import.meta.env.VITE_LOCAL_URL}signalRServer`);
+      const connect = new HubConnectionBuilder()
+        .withUrl(`${import.meta.env.VITE_LOCAL_URL}/signalRServer`)
+        .configureLogging(LogLevel.Information)
+        .withAutomaticReconnect()
+        .build();
+
+      setConnection(connect);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (connection) {
+      connection
+        .start()
+        .then(() => {
+          connection.on('OrderStatusChanged', (message) => {
+            console.log(message);
+          });
+        })
+        .catch((error) => console.log(error));
+    }
+  }, [connection]);
+
+  // const SendMess = async (mess) => {
+  //   try {
+  //     await connection.invoke('SendMessage', mess);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   //**  Get shopping cart, set account info
   useEffect(() => {
@@ -271,7 +310,10 @@ const Navigation = (props) => {
               </div> */}
               <div
                 onClick={() => navigate('/cart')}
-                onMouseEnter={() => handleOpenModal(true)}
+                onMouseEnter={() => {
+                  handleOpenModal(true);
+                  setOpenNotification(false);
+                }}
                 onMouseLeave={() => handleOpenModal(false)}
                 className="relative bg-cover w-[24px] h-[24px] cursor-pointer"
                 style={{ backgroundImage: `url(${ic_cart})` }}
@@ -302,10 +344,18 @@ const Navigation = (props) => {
               )}
             </div>
             {/* notifications */}
-            <div
-              className="relative bg-cover w-[24px] h-[24px] cursor-pointer"
-              style={{ backgroundImage: `url(${ic_nofitication})` }}
-            ></div>
+            <div className="relative cursor-pointer">
+              <div
+                onClick={() => setOpenNotification((prev) => !prev)}
+                className="relative bg-cover w-[24px] h-[24px] cursor-pointer"
+                style={{ backgroundImage: `url(${ic_nofitication})` }}
+              >
+                {/* Notify num */}
+              </div>
+              <OutsideClickHandler onOutsideClick={() => setOpenNotification(false)}>
+                {openNotifycation && <ModalNotification />}
+              </OutsideClickHandler>
+            </div>
             {/* authentication user */}
             <div
               className="relative bg-cover w-[30px] h-[30px] cursor-pointer rounded-full"

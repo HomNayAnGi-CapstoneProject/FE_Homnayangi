@@ -102,7 +102,7 @@ const DataTable = (props) => {
               <img src={ic_edit} />
             </IconButton>
           </Tooltip> */}
-          <Tooltip title={params.row.role == 'Manager' ? 'Giáng chức' : 'Thăng chức'} placement="right">
+          <Tooltip title={'Thay đổi chức vụ'} placement="right">
             <IconButton onClick={() => props?.handleOpenDelete(params.row)} aria-label="remove">
               {params.row.role == 'Manager' ? <img src={ic_downrole} /> : <img src={ic_uprole} />}
             </IconButton>

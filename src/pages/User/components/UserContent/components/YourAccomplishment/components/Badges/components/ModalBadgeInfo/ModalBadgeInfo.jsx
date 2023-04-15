@@ -21,7 +21,7 @@ const ModalBadgeInfo = (props) => {
           <p className="text-[18px] font-medium">Tìm hiểu về huy hiệu và phần thưởng</p>
         </div>
         {/* body */}
-        <div className="mt-5 max-h-[300px] scroll-bar overflow-x-hidden overflow-y-scroll">
+        <div className="mt-5">
           {activeTab == 0 && <BadgeConditionExplan setActiveTab={setActiveTab} data={data} />}
           {activeTab == 1 && <AwardExplan setActiveTab={setActiveTab} data={data} />}
         </div>

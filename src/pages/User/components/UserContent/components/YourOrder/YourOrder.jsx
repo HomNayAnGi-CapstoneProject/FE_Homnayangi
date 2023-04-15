@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import instances from '../../../../../../utils/plugin/axios';
+import Loading from '../../../../../../share/components/Admin/Loading';
+import Image from '../../../../../../share/components/Image';
 
 // ** assets
 import orderConfirm from '../../../../../../assets/images/orderConfirm.webp';
@@ -22,12 +24,14 @@ const YourOrder = () => {
   //** const */
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [status, setStatus] = useState('NOTPAID');
+  const [status, setStatus] = useState('PAYING');
   const [openModal, setOpenModal] = useState(false);
   const [isComfirmOrder, setIsComfirmOrder] = useState(false);
   const [isCancel, setIsCancel] = useState();
   const [ordersData, setOrdersData] = useState([]);
   const [ordersList, setOrdersList] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [updateCalls, setUpdateCalls] = useState(false);
 
   const accessToken = localStorage.getItem('accessToken');
   let decoded_jwt = {};
@@ -38,6 +42,8 @@ const YourOrder = () => {
   // ** check tab status
   const getTabStatus = () => {
     switch (status) {
+      case 'PAYING':
+        return 9;
       case 'NOTPAID':
         return 1;
       case 'PENDING':
@@ -72,16 +78,18 @@ const YourOrder = () => {
         setOpenModal(true);
       } else {
         const fetch = async () => {
-          await instances.put(`/orders/${cancel ? 'cancel' : 'accept'}/${guid}`);
-          const res = await instances.get('/orders/status/customer', {
-            params: {
-              status: orderStatus,
-            },
-          });
-          setOrdersData(res.data);
+          setLoading(true);
+          await instances.put(`/orders/${cancel ? 'cancel' : 'paid'}/${guid}`);
+          // const res = await instances.get('/orders/status/customer', {
+          //   params: {
+          //     status: orderStatus,
+          //   },
+          // });
+          // setOrdersData(res.data);
           const ress = await instances.get('/orders/status/customer', { params: { status: -1 } });
           setOrdersList(ress.data);
           navigate('/user/orders');
+          setLoading(false);
           // if payment success (remove item from cart)
           if (cancel == false) {
             dispatch(
@@ -97,14 +105,16 @@ const YourOrder = () => {
       }
     } else {
       const fetch = async () => {
-        const res = await instances.get('/orders/status/customer', { params: { status: orderStatus } });
-        setOrdersData(res.data);
+        setLoading(true);
+        // const res = await instances.get('/orders/status/customer', { params: { status: orderStatus } });
+        // setOrdersData(res.data);
         const ress = await instances.get('/orders/status/customer', { params: { status: -1 } });
         setOrdersList(ress.data);
+        setLoading(false);
       };
       fetch();
     }
-  }, [isComfirmOrder, orderStatus]);
+  }, [isComfirmOrder, updateCalls]);
 
   if (accessToken) {
     if (Object.keys(decoded_jwt).length === 0 && decoded_jwt.constructor === Object) {
@@ -128,7 +138,7 @@ const YourOrder = () => {
                   <div className="flex flex-col items-center justify-center px-7 py-6">
                     <img
                       alt="order-confirm"
-                      className="object-cover w-[250px]"
+                      className="object-cover w-[250px] h-[250px]"
                       src={isCancel == true ? orderCancel : orderConfirm}
                     />
                     <p className="font-semibold">Đơn hàng đã {isCancel == true ? 'được hủy' : 'được tạo'}</p>
@@ -145,8 +155,19 @@ const YourOrder = () => {
                 </div>
               </Modal>
               <div className="font-inter">
-                <TabList setStatus={setStatus} status={status} ordersList={ordersList} />
-                <Container status={status} orderData={ordersData} />
+                {loading == false ? (
+                  <>
+                    <TabList
+                      setStatus={setStatus}
+                      status={status}
+                      ordersList={ordersList}
+                      setOrdersData={setOrdersData}
+                    />
+                    <Container status={status} orderData={ordersData} setUpdateCalls={setUpdateCalls} />
+                  </>
+                ) : (
+                  <Loading />
+                )}
               </div>
             </>
           );
