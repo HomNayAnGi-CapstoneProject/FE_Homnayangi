@@ -2,18 +2,19 @@ import { useEffect, useState } from 'react';
 import instances from '../../../../../../../../../utils/plugin/axios';
 import moment from 'moment/moment';
 import { Tooltip } from '@mui/material';
+import jwt_decode from 'jwt-decode';
 
 // ** Voucher component
 const Voucher = (props) => {
   const { data } = props;
   return (
-    <div className={`w-full rounded bg-secondary border-2 border-primary p-4 `}>
+    <div className={`w-full h-full rounded bg-secondary border-2 border-primary p-4 `}>
       {/* header */}
       <div className="pb-2 border-b-2 border-b-primary">
-        <p className="text-black font-semibold text-[18px]">{data?.voucherName}</p>
+        <p className="text-black font-semibold text-[18px]">{data?.name}</p>
       </div>
       {/* body */}
-      <div className="mt-2">
+      <div className="mt-2 h-full">
         <p className=" leading-[30px]">
           Giảm{' '}
           <span className="text-redError text-[18px] font-bold">
@@ -21,11 +22,11 @@ const Voucher = (props) => {
           </span>{' '}
           <span>cho đơn hàng có tổng giá trị từ</span>{' '}
           <span className="text-black font-medium">{Intl.NumberFormat().format(data.minimumOrderPrice)}đ</span>
-          {data?.maximumOrderPrice && (
+          {data?.discount <= 1 && (
             <>
               {' '}
               <span>đến</span>{' '}
-              <span className="text-black font-medium">{Intl.NumberFormat().format(data.maximumOrderPrice)}đ</span>
+              <span className="text-black font-medium">{Intl.NumberFormat().format(data?.maximumOrderPrice)}đ</span>
             </>
           )}
         </p>
@@ -48,39 +49,28 @@ const Voucher = (props) => {
 
 const VoucherShowCase = () => {
   // ** const
-  const [voucherOwnList, setVoucherOwnList] = useState([
-    {
-      voucherId: '15151550sfsf',
-      voucherName: 'Giảm giá cực mạnh',
-      discount: 0.5,
-      validFrom: '2023-04-15T05:42:06.213Z',
-      validTo: '2023-04-15T05:42:06.213Z',
-      minimumOrderPrice: 20000,
-    },
-    {
-      voucherId: '15151550sfsadadf',
-      voucherName: 'Giảm giá cực nhẹ',
-      discount: 50000,
-      validFrom: '2023-04-15T05:42:06.213Z',
-      validTo: '2023-04-15T05:42:06.213Z',
-      minimumOrderPrice: 20000,
-      maximumOrderPrice: 20000,
-    },
-  ]);
-  // useEffect(() => {
-  //   const fetch = async () => {
-  //     const res = await instances.get(`/customervouchers/customer/${decoded_jwt?.Id}/vouchers`);
-  //     console.log(res.data);
-  //   };
-  //   fetch();
-  // }, []);
+  const accessToken = localStorage.getItem('accessToken');
+  let decoded_jwt = {};
+  if (accessToken) {
+    decoded_jwt = jwt_decode(accessToken);
+  }
+  const [voucherOwnList, setVoucherOwnList] = useState([]);
+
+  useEffect(() => {
+    const fetch = async () => {
+      const res = await instances.get(`/customervouchers/customer/${decoded_jwt?.Id}/vouchers`);
+      setVoucherOwnList(res.data.result);
+    };
+    fetch();
+  }, []);
+
   return (
     <div>
       {voucherOwnList?.length > 0 ? (
         <div className="grid xs:grid-cols-1 smd:grid-cols-2 xxlg:grid-cols-3 xl:grid-cols-3 gap-[8px]">
           {voucherOwnList?.map((item) => (
-            <div key={item.voucherId}>
-              <Voucher data={item} />
+            <div key={item.voucher.voucherId}>
+              <Voucher data={item.voucher} />
             </div>
           ))}
         </div>
