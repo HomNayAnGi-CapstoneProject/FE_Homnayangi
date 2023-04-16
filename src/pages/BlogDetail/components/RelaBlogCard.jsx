@@ -5,7 +5,7 @@ import heart from '../../../assets/images/heart.png';
 import Image from '../../../share/components/Image';
 import generateSlug from '../../../utils/generateSlug';
 
-import moment from 'moment';
+import moment from 'moment/moment';
 import { useNavigate } from 'react-router-dom';
 
 const RelaBlogCard = (props) => {

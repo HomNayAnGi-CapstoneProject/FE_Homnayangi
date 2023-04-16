@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import instances from '../../../utils/plugin/axios';
-import { ic_document_black } from '../../../assets';
+import { ic_document_black, ic_plus_black, ic_close_modal } from '../../../assets';
+import ModalSelectVoucher from '../../../share/components/Modal/ModalSelectVoucher/ModalSelectVoucher';
 import CartItem from '../../../share/components/Modal/ModalShoppingCart/components/CartItem';
 import { removeCartByStatus, getShoppingCart } from '../../../redux/actionSlice/shoppingCartSlice';
 
@@ -9,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import jwt_decode from 'jwt-decode';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router';
+import { Tooltip } from '@mui/material';
 
 const SideComp = () => {
   const cartList = useSelector((state) => state.cart.shoppingCart);
@@ -26,6 +28,19 @@ const SideComp = () => {
   if (accessToken) {
     decoded_jwt = jwt_decode(accessToken);
   }
+  const [voucherOwnList, setVoucherOwnList] = useState([]);
+  const [openModalVoucher, setOpenModalVoucher] = useState(false);
+  const [selectedVoucher, setSelectedVoucher] = useState();
+
+  // ** get customer voucher
+
+  useEffect(() => {
+    const fetch = async () => {
+      const res = await instances.get(`/customervouchers/customer/${decoded_jwt?.Id}/vouchers`);
+      setVoucherOwnList(res.data.result);
+    };
+    fetch();
+  }, []);
 
   // ** notify
   const notifyError = (msg) => {
@@ -107,19 +122,26 @@ const SideComp = () => {
       // console.log(cartAddress.split(','));
       let requestData = {
         shippedDate: cartType == 1 ? null : new Date(current.currentUser.shippedDate).toISOString(),
-        discount: 0,
+        discount: selectedVoucher ? selectedVoucher.discount : 0,
         shippedAddress: cartAddress,
-        totalPrice: totalItem.totalPrice,
+        totalPrice: selectedVoucher
+          ? selectedVoucher?.discount <= 1
+            ? totalItem.totalPrice - selectedVoucher?.discount * 100
+            : totalItem.totalPrice - selectedVoucher?.discount
+          : totalItem.totalPrice,
         paymentMethod: paymentMethod,
         isCooked: cartType == 1 ? false : true,
         orderDetails: getListTotalIngredients(),
+        voucherId: selectedVoucher?.voucherId || null,
       };
+      console.log(requestData);
       // if (paymentMethod == 0 || cartAddress == '') {
       //   notifyPaymentError();
       // } else {
       //   console.log(requestData);
       // }
       // }
+
       if (cartAddress == '') {
         // notifyAddressError();
         notifyError('Vui lòng điền đầy đủ thông tin và ấn xác nhận địa chỉ !');
@@ -140,12 +162,24 @@ const SideComp = () => {
               instances
                 .post('/orders', {
                   shippedDate: cartType == 1 ? null : new Date(current.currentUser.shippedDate).toISOString(),
-                  discount: 0,
+                  // discount: 0,
+                  // shippedAddress: cartAddress,
+                  // totalPrice: totalItem.totalPrice,
+                  // paymentMethod: paymentMethod,
+                  // isCooked: cartType == 1 ? false : true,
+                  // orderDetails: getListTotalIngredients(),
+
+                  discount: selectedVoucher ? selectedVoucher.discount : 0,
                   shippedAddress: cartAddress,
-                  totalPrice: totalItem.totalPrice,
+                  totalPrice: selectedVoucher
+                    ? selectedVoucher?.discount <= 1
+                      ? totalItem.totalPrice - selectedVoucher?.discount * 100
+                      : totalItem.totalPrice - selectedVoucher?.discount
+                    : totalItem.totalPrice,
                   paymentMethod: paymentMethod,
                   isCooked: cartType == 1 ? false : true,
                   orderDetails: getListTotalIngredients(),
+                  voucherId: selectedVoucher?.voucherId || null,
                 })
                 .then((response) => {
                   // console.log(response.data);
@@ -175,8 +209,23 @@ const SideComp = () => {
     }
   };
 
+  // ** handle select voucher
+  const handleSelectVoucher = (data) => {
+    setSelectedVoucher(data);
+    setOpenModalVoucher(false);
+  };
+
   return (
     <>
+      {openModalVoucher && (
+        <ModalSelectVoucher
+          openModalVoucher={openModalVoucher}
+          setOpenModalVoucher={setOpenModalVoucher}
+          data={voucherOwnList}
+          handleSelectVoucher={handleSelectVoucher}
+          orderTotalPrice={totalItem.totalPrice}
+        />
+      )}
       {/* cart info */}
       <div className="font-inter w-full bg-white rounded-[5px] px-[14px] py-2">
         {/* header */}
@@ -206,6 +255,43 @@ const SideComp = () => {
           <></>
         )}
       </div>
+      {/* select voucher */}
+      {voucherOwnList?.length > 0 && (
+        <div className="font-inter w-full bg-white rounded-[5px] px-[14px] py-2 my-3">
+          {/* title */}
+          <p className="">
+            Áp dụng mã giảm giá{' '}
+            <span className="text-gray-500 text-[14px]">(mỗi đơn hàng chỉ sử dụng 1 mã giảm giá)</span>
+          </p>
+          {selectedVoucher ? (
+            <div className="w-full mt-2 flex justify-between px-3 py-3 border-2 border-primary rounded">
+              <div>
+                <p className="line-clamp-1 mb-2 font-semibold">{selectedVoucher.name}</p>
+                <p className="">
+                  Giảm{' '}
+                  <span className="text-redError text-[18px] font-bold">
+                    {selectedVoucher?.discount <= 1
+                      ? `${selectedVoucher.discount * 100}%`
+                      : `${Intl.NumberFormat().format(selectedVoucher.discount)}đ`}
+                  </span>
+                </p>
+              </div>
+              <Tooltip title="Bỏ chọn mã giảm giá" placement="top">
+                <button onClick={() => setSelectedVoucher()}>
+                  <img src={ic_close_modal} className="w-[20px] h-[20px] object-contain" />
+                </button>
+              </Tooltip>
+            </div>
+          ) : (
+            <button
+              onClick={() => setOpenModalVoucher(true)}
+              className="w-full mt-2 uppercase font-medium text-gray-400 py-3 flex items-center gap-2 justify-center hover:bg-gray-200"
+            >
+              Chọn mã giảm giá của bạn <img className="w-[24px] h-[24px] object-contain" src={ic_plus_black} />
+            </button>
+          )}
+        </div>
+      )}
       {/* discount, total price */}
       <div className="w-full bg-white rounded-[5px] px-[14px] py-2 my-3">
         <div className="flex justify-between mb-3">
@@ -214,11 +300,25 @@ const SideComp = () => {
         </div>
         <div className="flex justify-between mb-3">
           <p>Giảm giá: </p>
-          <p>-0đ</p>
+          <p>
+            -
+            {selectedVoucher
+              ? selectedVoucher?.discount <= 1
+                ? `${selectedVoucher.discount * 100}%`
+                : `${Intl.NumberFormat().format(selectedVoucher.discount)}đ`
+              : `${0}đ`}
+          </p>
         </div>
         <div className="flex justify-between">
           <p className="font-semibold">Tổng thanh toán: </p>
-          <p className="font-semibold">{Intl.NumberFormat().format(totalItem?.totalPrice)}đ</p>
+          <p className="font-semibold">
+            {selectedVoucher
+              ? selectedVoucher?.discount <= 1
+                ? Intl.NumberFormat().format(totalItem.totalPrice - selectedVoucher?.discount * 100)
+                : Intl.NumberFormat().format(totalItem.totalPrice - selectedVoucher?.discount)
+              : Intl.NumberFormat().format(totalItem.totalPrice)}
+            đ
+          </p>
         </div>
       </div>
       {/* button */}
