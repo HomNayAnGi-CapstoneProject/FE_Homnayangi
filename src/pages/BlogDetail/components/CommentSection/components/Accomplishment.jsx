@@ -1078,7 +1078,7 @@ const Accomplishment = (props) => {
             </div>
           ) : (
             <Tooltip title="Yêu thích" placement="left">
-              <div onClick={() => handleReaction()} className="cursor-pointer mt-3 flex gap-2 items-center">
+              <div onClick={() => handleReaction()} className="cursor-pointer w-fit mt-3 flex gap-2 items-center">
                 <img alt="" className="object-contain w-[20px] h-[20px]" src={isYourReaction ? heart_red : heart} />
                 <p>{reaction}</p>
               </div>

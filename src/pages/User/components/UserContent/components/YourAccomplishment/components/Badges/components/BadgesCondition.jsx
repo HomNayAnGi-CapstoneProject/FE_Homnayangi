@@ -28,7 +28,7 @@ const BadgesCondition = (props) => {
   useEffect(() => {
     const fetch = async () => {
       const res = await instances.get('/customerbadges/badgeconditions');
-      console.log(res.data);
+      // console.log(res.data);
       setBadgeNotEarn(res.data);
     };
     fetch();
