@@ -54,7 +54,7 @@ const Payments = () => {
               className="w-[24px] h-[24px] bg-center bg-cover bg-no-repeat"
               style={{ backgroundImage: `url(${ic_online_payment})` }}
             />
-            <p className="">Thanh toán online (Paypal)</p>
+            <p className="">Thanh toán online (PayPal)</p>
           </div>
         </div>
       </div>

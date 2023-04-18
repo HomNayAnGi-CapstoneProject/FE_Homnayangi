@@ -8,10 +8,12 @@ import Search from '../../../../../../share/components/Search';
 import DataTable from './components/DataTable';
 
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const BlogManagement = () => {
   //** Const */
   const navigate = useNavigate();
+  const globalStore = useSelector((state) => state.global);
   const [updateTable, setUpdateTable] = useState(false);
   const [blogDataList, setBlogDataList] = useState([]);
   const [confirmData, setConfirmData] = useState();
@@ -20,13 +22,24 @@ const BlogManagement = () => {
   // ** Call api
   useEffect(() => {
     const fetch = async () => {
+      setBlogDataList([]);
       const res = await instances.get('/blogs/user');
       // console.log(res.data.result);
       setBlogDataList(res.data.result || []);
     };
 
-    fetch();
-  }, [updateTable]);
+    let handler = null;
+    if (globalStore.previousUrl == '/management/blog/new') {
+      handler = setTimeout(() => {
+        fetch();
+      }, 600);
+    } else {
+      fetch();
+    }
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [updateTable, globalStore]);
 
   // ** Func
   const handleCreateBlog = () => {
