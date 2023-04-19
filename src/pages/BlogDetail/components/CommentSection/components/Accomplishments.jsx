@@ -34,8 +34,7 @@ const Accomplishments = (props) => {
   const videosRef = useRef(null);
   const [commentValue, setCommentValue] = useState('');
   const [openModal, setOpenModal] = useState(false);
-  const [updateComments, setUpdateComments] = useState(false);
-  const [commentList, setCommentList] = useState([]);
+  const [checkHadAccom, setCheckHadAccom] = useState();
   const [imageList, setImageList] = useState([]);
   const [videoList, setVideoList] = useState([]);
   const [uploading, setUploading] = useState(false);
@@ -76,6 +75,26 @@ const Accomplishments = (props) => {
       pauseOnHover: false,
       autoClose: 6000,
     });
+
+  // ** check if customer had accomplishment onn this blog
+  useEffect(() => {
+    if (accessToken) {
+      let allAccomList = [];
+      let foundAccom = undefined;
+      const fetch = async () => {
+        const res = await instances.get(`/accomplishments/customer-manage`);
+        allAccomList = res.data.result.filter((item) => item.status == 3 || item.status == 1);
+        foundAccom = allAccomList.find((item) => item.blogId == params.id);
+        if (foundAccom !== undefined) {
+          // console.log(foundAccom);
+          setCheckHadAccom(foundAccom);
+        } else {
+          setCheckHadAccom();
+        }
+      };
+      fetch();
+    }
+  }, []);
 
   //** functs */
   const handleDoComment = async () => {
@@ -330,178 +349,196 @@ const Accomplishments = (props) => {
         <div className="flex gap-5 relative">
           {/* check authen user */}
           {accessToken ? (
-            <>
-              <img
-                alt="user_avartar"
-                className="object-cover rounded-full w-[40px] h-[40px]"
-                src={accessToken ? (decoded_jwt.Avatar == '' ? default_user : decoded_jwt.Avatar) : default_user}
-              />
-              <div className="w-full">
-                <textarea
-                  name="comment"
-                  value={commentValue}
-                  placeholder="Chia sẻ thành quả..."
-                  // onBlur={(e) => props?.handleInputNote(e.target.value)}
-                  onChange={(e) => setCommentValue(e.target.value)}
-                  rows="1"
-                  className="p-2.5 w-full text-gray-900 bg-white rounded border border-gray-400
+            checkHadAccom == undefined ? (
+              <>
+                <img
+                  alt="user_avartar"
+                  className="object-cover rounded-full w-[40px] h-[40px]"
+                  src={accessToken ? (decoded_jwt.Avatar == '' ? default_user : decoded_jwt.Avatar) : default_user}
+                />
+                <div className="w-full">
+                  <textarea
+                    name="comment"
+                    value={commentValue}
+                    placeholder="Chia sẻ thành quả..."
+                    // onBlur={(e) => props?.handleInputNote(e.target.value)}
+                    onChange={(e) => setCommentValue(e.target.value)}
+                    rows="1"
+                    className="p-2.5 w-full text-gray-900 bg-white rounded border border-gray-400
       focus:outline-none focus:bg-white focus:border-primary"
-                ></textarea>
-                <div className="flex gap-3">
-                  {/* create accom button */}
-                  <button
-                    disabled={commentValue == '' ? true : uploading ? true : false}
-                    onClick={() => handleDoComment()}
-                    className={`${
-                      commentValue == ''
-                        ? 'bg-secondary cursor-not-allowed'
-                        : uploading
-                        ? 'bg-secondary cursor-not-allowed'
-                        : 'bg-primary'
-                    } px-4 py-1 rounded-[5px] text-white font-medium`}
-                  >
-                    {uploading ? 'Đang đăng thành quá...' : 'Xác nhận'}
-                  </button>
-                  {/* image list */}
-                  <label
-                    htmlFor="listImage"
-                    className={`cursor-pointer w-fit ${
-                      commentValue == ''
-                        ? 'bg-white cursor-not-allowed text-gray-300 border-gray-300'
-                        : uploading
-                        ? 'bg-white cursor-not-allowed text-gray-300 border-gray-300'
-                        : 'bg-white text-black border-black'
-                    } px-4 py-1 rounded-[5px] font-medium border flex items-center gap-2`}
-                  >
-                    {!imageList.length > 0 ? (
-                      <>
-                        Chọn ảnh
-                        <img
-                          src={commentValue == '' ? ic_image_gray : ic_image_black}
-                          alt=""
-                          className="object-contain w-[24px] h-[24px]"
-                        />
-                      </>
-                    ) : (
-                      <>
-                        Thay đổi
-                        <img
-                          src={commentValue == '' ? ic_image_gray : ic_image_black}
-                          alt=""
-                          className="object-contain w-[24px] h-[24px]"
-                        />
-                      </>
-                    )}
-                    <input
-                      ref={imagesRef}
-                      disabled={commentValue == '' ? true : false}
-                      multiple
-                      name="listImage"
-                      id="listImage"
-                      style={{ display: 'none' }}
-                      type="file"
-                      accept="image/png, image/gif, image/jpeg, image/jpg"
-                      onChange={(e) => handleSelectListImage(e)}
-                    />
-                  </label>
-                  {/* video list */}
-                  <label
-                    htmlFor="videoList"
-                    className={`cursor-pointer w-fit ${
-                      commentValue == ''
-                        ? 'bg-white cursor-not-allowed text-gray-300 border-gray-300'
-                        : uploading
-                        ? 'bg-white cursor-not-allowed text-gray-300 border-gray-300'
-                        : 'bg-white text-black border-black'
-                    } px-4 py-1 rounded-[5px] font-medium border flex items-center gap-2`}
-                  >
-                    {!videoList.length > 0 ? (
-                      <>
-                        Chọn video
-                        <img
-                          src={commentValue == '' ? ic_video_gray : ic_video_black}
-                          alt=""
-                          className="object-contain w-[24px] h-[24px]"
-                        />
-                      </>
-                    ) : (
-                      <>
-                        Thay đổi
-                        <img
-                          src={commentValue == '' ? ic_video_gray : ic_video_black}
-                          alt=""
-                          className="object-contain w-[24px] h-[24px]"
-                        />
-                      </>
-                    )}
-                    <input
-                      ref={videosRef}
-                      disabled={commentValue == '' ? true : false}
-                      multiple
-                      name="videoList"
-                      id="videoList"
-                      style={{ display: 'none' }}
-                      type="file"
-                      accept="video/*"
-                      onChange={(e) => handleSelectListVideo(e)}
-                    />
-                  </label>
-                </div>
-                {/* preview images */}
-                <div className="flex flex-wrap gap-2 mt-5">
-                  {imageList &&
-                    imageList.map((item, i) => (
-                      <img
-                        key={i}
-                        className="w-[80px] h-[80px] object-cover rounded"
-                        src={URL.createObjectURL(item)}
-                        alt="default-img_list"
+                  ></textarea>
+                  <div className="flex gap-3">
+                    {/* create accom button */}
+                    <button
+                      disabled={commentValue == '' ? true : uploading ? true : false}
+                      onClick={() => handleDoComment()}
+                      className={`${
+                        commentValue == ''
+                          ? 'bg-secondary cursor-not-allowed'
+                          : uploading
+                          ? 'bg-secondary cursor-not-allowed'
+                          : 'bg-primary'
+                      } px-4 py-1 rounded-[5px] text-white font-medium`}
+                    >
+                      {uploading ? 'Đang đăng thành quá...' : 'Xác nhận'}
+                    </button>
+                    {/* image list */}
+                    <label
+                      htmlFor="listImage"
+                      className={`cursor-pointer w-fit ${
+                        commentValue == ''
+                          ? 'bg-white cursor-not-allowed text-gray-300 border-gray-300'
+                          : uploading
+                          ? 'bg-white cursor-not-allowed text-gray-300 border-gray-300'
+                          : 'bg-white text-black border-black'
+                      } px-4 py-1 rounded-[5px] font-medium border flex items-center gap-2`}
+                    >
+                      {!imageList.length > 0 ? (
+                        <>
+                          Chọn ảnh
+                          <img
+                            src={commentValue == '' ? ic_image_gray : ic_image_black}
+                            alt=""
+                            className="object-contain w-[24px] h-[24px]"
+                          />
+                        </>
+                      ) : (
+                        <>
+                          Thay đổi
+                          <img
+                            src={commentValue == '' ? ic_image_gray : ic_image_black}
+                            alt=""
+                            className="object-contain w-[24px] h-[24px]"
+                          />
+                        </>
+                      )}
+                      <input
+                        ref={imagesRef}
+                        disabled={commentValue == '' ? true : false}
+                        multiple
+                        name="listImage"
+                        id="listImage"
+                        style={{ display: 'none' }}
+                        type="file"
+                        accept="image/png, image/gif, image/jpeg, image/jpg"
+                        onChange={(e) => handleSelectListImage(e)}
                       />
-                    ))}
-                  {imageList?.length > 0 && !uploading && (
-                    <Tooltip title="Xóa tất cả ảnh đã chọn" placement="right">
-                      <button
-                        onClick={() => {
-                          setImageList([]);
-                          imagesRef.current.value = null;
-                        }}
-                        className="px-2 py-1 h-fit rounded-[5px] font-medium bg-redError text-white flex items-center gap-2"
-                      >
-                        <img src={ic_trash_white} alt="" className="object-contain w-[20px] h-[20px]" />
-                      </button>
-                    </Tooltip>
-                  )}
-                </div>
-                {/* preview videos */}
-                <div className="flex flex-wrap gap-2 mt-5">
-                  {videoList &&
-                    videoList.map((item, i) => (
-                      <video
-                        controls
-                        key={i}
-                        className="w-[220px] h-[120px] object-cover rounded"
-                        src={URL.createObjectURL(item)}
-                        alt="default-img_list"
+                    </label>
+                    {/* video list */}
+                    <label
+                      htmlFor="videoList"
+                      className={`cursor-pointer w-fit ${
+                        commentValue == ''
+                          ? 'bg-white cursor-not-allowed text-gray-300 border-gray-300'
+                          : uploading
+                          ? 'bg-white cursor-not-allowed text-gray-300 border-gray-300'
+                          : 'bg-white text-black border-black'
+                      } px-4 py-1 rounded-[5px] font-medium border flex items-center gap-2`}
+                    >
+                      {!videoList.length > 0 ? (
+                        <>
+                          Chọn video
+                          <img
+                            src={commentValue == '' ? ic_video_gray : ic_video_black}
+                            alt=""
+                            className="object-contain w-[24px] h-[24px]"
+                          />
+                        </>
+                      ) : (
+                        <>
+                          Thay đổi
+                          <img
+                            src={commentValue == '' ? ic_video_gray : ic_video_black}
+                            alt=""
+                            className="object-contain w-[24px] h-[24px]"
+                          />
+                        </>
+                      )}
+                      <input
+                        ref={videosRef}
+                        disabled={commentValue == '' ? true : false}
+                        multiple
+                        name="videoList"
+                        id="videoList"
+                        style={{ display: 'none' }}
+                        type="file"
+                        accept="video/*"
+                        onChange={(e) => handleSelectListVideo(e)}
                       />
-                    ))}
-                  {videoList?.length > 0 && !uploading && (
-                    <Tooltip title="Xóa tất cả video đã chọn" placement="right">
-                      <button
-                        onClick={() => {
-                          setVideoList([]);
-                          videosRef.current.value = null;
-                        }}
-                        className="px-2 py-1 h-fit rounded-[5px] font-medium bg-redError text-white flex items-center gap-2"
-                      >
-                        <img src={ic_trash_white} alt="" className="object-contain w-[20px] h-[20px]" />
-                      </button>
-                    </Tooltip>
-                  )}
+                    </label>
+                  </div>
+                  {/* preview images */}
+                  <div className="flex flex-wrap gap-2 mt-5">
+                    {imageList &&
+                      imageList.map((item, i) => (
+                        <img
+                          key={i}
+                          className="w-[80px] h-[80px] object-cover rounded"
+                          src={URL.createObjectURL(item)}
+                          alt="default-img_list"
+                        />
+                      ))}
+                    {imageList?.length > 0 && !uploading && (
+                      <Tooltip title="Xóa tất cả ảnh đã chọn" placement="right">
+                        <button
+                          onClick={() => {
+                            setImageList([]);
+                            imagesRef.current.value = null;
+                          }}
+                          className="px-2 py-1 h-fit rounded-[5px] font-medium bg-redError text-white flex items-center gap-2"
+                        >
+                          <img src={ic_trash_white} alt="" className="object-contain w-[20px] h-[20px]" />
+                        </button>
+                      </Tooltip>
+                    )}
+                  </div>
+                  {/* preview videos */}
+                  <div className="flex flex-wrap gap-2 mt-5">
+                    {videoList &&
+                      videoList.map((item, i) => (
+                        <video
+                          controls
+                          key={i}
+                          className="w-[220px] h-[120px] object-cover rounded"
+                          src={URL.createObjectURL(item)}
+                          alt="default-img_list"
+                        />
+                      ))}
+                    {videoList?.length > 0 && !uploading && (
+                      <Tooltip title="Xóa tất cả video đã chọn" placement="right">
+                        <button
+                          onClick={() => {
+                            setVideoList([]);
+                            videosRef.current.value = null;
+                          }}
+                          className="px-2 py-1 h-fit rounded-[5px] font-medium bg-redError text-white flex items-center gap-2"
+                        >
+                          <img src={ic_trash_white} alt="" className="object-contain w-[20px] h-[20px]" />
+                        </button>
+                      </Tooltip>
+                    )}
+                  </div>
+                  {/* uploading mess */}
+                  {uploading && <p className="mt-5">Đang đăng thành quả...</p>}
                 </div>
-                {/* uploading mess */}
-                {uploading && <p className="mt-5">Đang đăng thành quả...</p>}
+              </>
+            ) : (
+              <div className="h-full bg-white w-full text-center pb-3">
+                <p>💡 Bạn chỉ được đăng thành quả cá nhân một lần trong mỗi bài viết</p>
+                {checkHadAccom?.status == 3 && (
+                  <p className="text-[14px] italic text-gray-500">
+                    (thành quả của bạn ở bài viết này đang được chờ duyệt!{' '}
+                    <span
+                      onClick={() => navigate('/user/accomplishments')}
+                      className="underline text-primary cursor-pointer"
+                    >
+                      kiểm tra
+                    </span>
+                    )
+                  </p>
+                )}
               </div>
-            </>
+            )
           ) : (
             <div className="h-full bg-white w-full text-center">
               <p>Bạn cần đăng nhập để có thể thực hiện chức năng này</p>

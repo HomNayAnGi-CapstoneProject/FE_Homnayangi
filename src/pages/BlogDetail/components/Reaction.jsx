@@ -49,7 +49,7 @@ const Reaction = (props) => {
     if (accessToken) {
       const fetch = async () => {
         const res = await instances.get(`blogreactions/blogs/${params.id}`);
-        if (res.data.status == 'success') {
+        if (res.data.result.status == true) {
           setYourReaction(true);
         } else {
           setYourReaction(false);

@@ -5,6 +5,7 @@ import default_user from '../../../assets/images/default_user.png';
 import { ic_menu, ic_caret_gray, ic_nofitication_orange } from '../../../assets';
 import { setShowSideBar, clearBlogContent } from '../../../redux/actionSlice/managementSlice';
 import { setAccountInfo } from '../../../redux/actionSlice/accountSlice';
+import { setPreviousUrl } from '../../../redux/actionSlice/globalSlice';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -56,6 +57,7 @@ const Header = (props) => {
         {location.pathname.split('/').length >= 4 && (
           <button
             onClick={() => {
+              dispatch(setPreviousUrl(location.pathname));
               history.back();
             }}
             className="text-[#a1a1a1] text-[13px] font-medium uppercase flex items-center gap-1 group"

@@ -59,12 +59,12 @@ const columns = [
     width: 150,
     renderCell: (params) => moment(params.row.createdDate).format('Do MMM YY'),
   },
-  {
-    field: 'updatedDate',
-    headerName: 'Ngày chỉnh sửa',
-    width: 150,
-    renderCell: (params) => moment(params.row.updatedDate).format('Do MMM YY'),
-  },
+  // {
+  //   field: 'updatedDate',
+  //   headerName: 'Ngày chỉnh sửa',
+  //   width: 150,
+  //   renderCell: (params) => moment(params.row.updatedDate).format('Do MMM YY'),
+  // },
   {
     field: 'reaction',
     headerName: 'Lượt yêu thích',

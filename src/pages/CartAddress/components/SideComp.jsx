@@ -4,6 +4,7 @@ import { ic_document_black, ic_plus_black, ic_close_modal } from '../../../asset
 import ModalSelectVoucher from '../../../share/components/Modal/ModalSelectVoucher/ModalSelectVoucher';
 import CartItem from '../../../share/components/Modal/ModalShoppingCart/components/CartItem';
 import { removeCartByStatus, getShoppingCart } from '../../../redux/actionSlice/shoppingCartSlice';
+import scrollToWithOffset from '../../../utils/scrollToWithOffset';
 
 //** Third party components*/
 import { useDispatch, useSelector } from 'react-redux';
@@ -148,6 +149,7 @@ const SideComp = () => {
       } else {
         if (paymentMethod == -1) {
           notifyError('Vui lòng chọn phương thức thanh toán !');
+          scrollToWithOffset(100, 'paymentMethod');
           // notifyPaymentError();
         } else {
           let allowCreateOrder = true;

@@ -24,7 +24,7 @@ const YourAccomplishment = () => {
   useEffect(() => {
     const fetch = async () => {
       const res = await instances.get(`/accomplishments/customer-manage`);
-      // console.log(res.data.result);
+      // console.log(res.data.result.filter((item) => item.status == 3 || item.status == 1));
       setAccomsData(res.data.result);
     };
     fetch();

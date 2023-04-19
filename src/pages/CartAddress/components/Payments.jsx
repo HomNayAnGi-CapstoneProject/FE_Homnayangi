@@ -15,7 +15,7 @@ const Payments = () => {
   }, []);
 
   return (
-    <div className="font-inter w-full bg-white rounded-[5px] px-[14px] py-2">
+    <div id="paymentMethod" className="font-inter w-full bg-white rounded-[5px] px-[14px] py-2">
       {/* header */}
       <div className="pb-2 border-b flex items-center gap-2">
         <img alt="" src={ic_payment_black} className="object-contain w-[24px] h-[24px]" />
@@ -54,7 +54,7 @@ const Payments = () => {
               className="w-[24px] h-[24px] bg-center bg-cover bg-no-repeat"
               style={{ backgroundImage: `url(${ic_online_payment})` }}
             />
-            <p className="">Thanh toán online (Paypal)</p>
+            <p className="">Thanh toán online (PayPal)</p>
           </div>
         </div>
       </div>

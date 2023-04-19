@@ -38,34 +38,38 @@ const BlogDetail = () => {
   }, [params.id]);
 
   return (
-    <>
-      <div className={`md:px-[90px] ${styles.flexCenter} py-16`}>
-        <div className={`${styles.container} xx4lg:px-10`}>
-          <div className="flex gap-5 justify-between">
-            <div className="w-[5%] sm:block hidden">
-              <Reaction iniReaction={blogDetail?.reaction} iniView={blogDetail?.view} />
-            </div>
-            <div className="sm:w-[95%] w-full flex gap-5 xxlg:flex-row flex-col">
-              <div className="xxlg:w-[70%] w-full relative">
-                <div className="ss:block hidden sm:px-[0px] px-5 absolute top-[-35px]">
-                  <Breadcrumbs title={blogDetail?.title} location1="/recipe" location2="/recipe" />
+    <div>
+      {blogDetail && (
+        <>
+          <div className={`md:px-[90px] ${styles.flexCenter} py-16`}>
+            <div className={`${styles.container} xx4lg:px-10`}>
+              <div className="flex gap-5 justify-between">
+                <div className="w-[5%] sm:block hidden">
+                  <Reaction iniReaction={blogDetail?.reaction} iniView={blogDetail?.view} />
                 </div>
-                <MainBlog blogDetail={blogDetail} />
-                <div id="comment">
-                  <CommentSection />
+                <div className="sm:w-[95%] w-full flex gap-5 xxlg:flex-row flex-col">
+                  <div className="xxlg:w-[70%] w-full relative">
+                    <div className="ss:block hidden sm:px-[0px] px-5 absolute top-[-35px]">
+                      <Breadcrumbs title={blogDetail?.title} location1="/recipe" location2="/recipe" />
+                    </div>
+                    <MainBlog blogDetail={blogDetail} />
+                    <div id="comment">
+                      <CommentSection />
+                    </div>
+                  </div>
+                  <div className="xxlg:w-[30%] w-full sticky top-[100px] h-fit">
+                    <RelativeBlog relativeBlogs={blogDetail?.relatedBlogs} />
+                  </div>
                 </div>
-              </div>
-              <div className="xxlg:w-[30%] w-full sticky top-[100px] h-fit">
-                <RelativeBlog relativeBlogs={blogDetail?.relatedBlogs} />
               </div>
             </div>
           </div>
-        </div>
-      </div>
-      <div className="sm:hidden block">
-        <FixedBottomNav iniReaction={blogDetail?.reaction} iniView={blogDetail?.view} />
-      </div>
-    </>
+          <div className="sm:hidden block">
+            <FixedBottomNav iniReaction={blogDetail?.reaction} iniView={blogDetail?.view} />
+          </div>
+        </>
+      )}
+    </div>
   );
 };
 

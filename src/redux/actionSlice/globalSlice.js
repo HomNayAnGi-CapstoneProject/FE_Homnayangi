@@ -13,7 +13,8 @@ export const globalSlice = createSlice({
         openFormSuggest: false,
         subCategoryList: [],
         returnUrl: '',
-        openNotification: false
+        openNotification: false,
+        previousUrl: '',
     },
     reducers: {
         setOpenMenuModal: (state, action) => {
@@ -36,6 +37,9 @@ export const globalSlice = createSlice({
         },
         setReturnUrl: (state, action) => {
             state.returnUrl = action.payload;
+        },
+        setPreviousUrl: (state, action) => {
+            state.previousUrl = action.payload;
         },
         setOpenFormSuggest: (state, action) => {
             state.openFormSuggest = action.payload;
@@ -67,5 +71,5 @@ export const globalSlice = createSlice({
 
 export const { setCountrySide, setOpenMenuModal, setSuggestFormData, getSuggestData, setOpenFormSuggest,
     setOpenCategoryMenuModal, setActiveCate, setSubCategoryList, setReturnUrl, setOpenCategoryShopModal,
-    setActiveShopCate, setOpenNotification } = globalSlice.actions
+    setActiveShopCate, setOpenNotification, setPreviousUrl } = globalSlice.actions
 export default globalSlice.reducer
