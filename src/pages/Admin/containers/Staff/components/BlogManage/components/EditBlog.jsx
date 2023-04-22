@@ -28,6 +28,7 @@ import SubcateSelect from './SubcateSelect/SubcateSelect';
 import MaterialSelect from './MaterialSelect/MaterialSelect';
 import Portion from './Portion/Portion';
 import CookTime from './CookTime/CookTime';
+import IsEvent from './IsEvent/IsEvent';
 
 // ** Markdown
 import MarkdownIt from 'markdown-it';
@@ -92,6 +93,8 @@ const EditBlog = () => {
         dispatch(setContentBlog({ minSize: res.data?.minSize }));
         dispatch(setContentBlog({ maxSize: res.data?.maxSize }));
         dispatch(setContentBlog({ minutesToCook: res.data?.minutesToCook }));
+        dispatch(setContentBlog({ isEvent: res.data?.isEvent }));
+        dispatch(setContentBlog({ eventExpiredDate: res.data?.eventExpiredDate }));
         dispatch(setContentBlog({ coverImage: res.data?.imageUrl ? { url: res.data?.imageUrl } : undefined }));
         dispatch(setContentBlog({ packagePrice: res.data?.packagePrice }));
         dispatch(setContentBlog({ cookedPrice: res.data?.cookedPrice }));
@@ -160,6 +163,8 @@ const EditBlog = () => {
                 blogStatus: 2, // (DELETED: 0, ACTIVE: 1, DRAFT:2, PENDING: 3)
                 videoUrl: contentBlog?.videoUrl || null,
                 minutesToCook: parseInt(contentBlog?.minutesToCook) || null,
+                isEvent: contentBlog?.isEvent || null,
+                eventExpiredDate: contentBlog?.eventExpiredDate || null,
               },
               Recipe: {
                 packagePrice: parseInt(contentBlog?.packagePrice) || null,
@@ -358,6 +363,11 @@ const EditBlog = () => {
 
   return (
     <div className="bg-white font-inter rounded-[5px] shadow-md py-5 px-5">
+      {/* ================================= BÀI VIẾT SỰ KIỆN? ================================= */}
+      <div className="my-7">
+        <IsEvent />
+      </div>
+
       {/* ================================= CHỌN ẢNH BÌA ================================= */}
       <div className="flex items-center gap-2">
         {!uploading ? (

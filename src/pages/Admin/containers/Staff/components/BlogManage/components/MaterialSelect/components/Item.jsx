@@ -16,6 +16,7 @@ const ResultSearch = (props) => {
     <div className="flex items-center justify-between px-[20px] py-1 hover:bg-[#FFD8C7] transition cursor-pointer">
       <p className="line-clamp-1">{truncate(props?.data.name, 20)}</p>
       <div className="flex gap-5 items-center">
+        <p>{props?.data.unitName}</p>
         <p className="text-red-500">{Intl.NumberFormat().format(props?.data.price)}đ</p>
         <p className="text-blue-500">{props?.data.kcal}kcal</p>
       </div>
@@ -38,6 +39,7 @@ const Item = (props) => {
   } = props;
   const [selectedItem, setSelectedItem] = useState('');
   const [selectedAmount, setSelectedAmount] = useState('');
+  const [selectedUnit, setSelectedUnit] = useState('');
   const [description, setDescription] = useState('');
   const [openResultBox, setOpenResultBox] = useState(false);
   const [searchResult, setSearchResult] = useState('');
@@ -128,6 +130,7 @@ const Item = (props) => {
     setSelectedItem(item);
     setSelectedPrice(item.price);
     setSelectedAmount(item !== '' ? (item.quantity ? item.quantity : 1) : '');
+    setSelectedUnit(item.unitName);
     // console.log(item);
     // console.log(selectedAmount);
 
@@ -237,6 +240,7 @@ const Item = (props) => {
           required
           className="outline-none w-[150px] bg-white rounded-md py-1 pl-2 font-medium text-[#898989]"
         />
+        {selectedUnit !== '' && <p className="text-[#898989] w-[50px]">({selectedUnit})</p>}
         <input
           placeholder="Số lượng"
           required

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import instances from '../../../../../../utils/plugin/axios';
+import useDebounce from '../../../../../../share/hooks/useDebounce';
 
 import ConfirmModal from '../../../../../../share/components/Admin/ConfirmModal';
 
@@ -17,17 +18,23 @@ const ProductManagement = () => {
   const [updateTable, setUpdateTable] = useState(false);
   const [isShowModal, setIsShowModal] = useState(false);
   const [confirmData, setConfirmData] = useState();
+  const [searchhInput, setSearchhInput] = useState(null);
+  const debounced = useDebounce(searchhInput, 600);
 
   // ** Call api
   useEffect(() => {
     const fetch = async () => {
-      const res = await instances.get('/ingredients/managing');
+      const res = await instances.get('/ingredients/managing', {
+        params: {
+          searchString: debounced?.trim(),
+        },
+      });
       // console.log(res.data.resource);
       setIngredientList(res.data.result);
     };
 
     fetch();
-  }, [updateTable]);
+  }, [updateTable, debounced]);
 
   // ** Func
   const handleOpenEdit = (data) => {
@@ -97,7 +104,7 @@ const ProductManagement = () => {
         />
       )}
       <div className="flex ss:flex-row flex-col gap-4 item-center justify-between mb-[20px]">
-        {/* <Search placeholder="Tìm kiếm tại đây..." /> */}
+        <Search placeholder="Tìm kiếm tại đây..." setSearchhInput={setSearchhInput} />
         <button
           onClick={() => navigate('/management/product/new')}
           className="flex items-center w-fit gap-2 py-2 px-3 bg-primary text-white font-medium rounded-[10px]"

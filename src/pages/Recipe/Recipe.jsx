@@ -10,6 +10,7 @@ import ContentTag from './components/ContentTag/ContentTag';
 import ContentCombo from './components/ContentCombo/ContentCombo';
 import Modal from '@mui/material/Modal';
 import useDebounce from '../../share/hooks/useDebounce';
+import { Tooltip } from '@mui/material';
 
 import { setOpenCategoryMenuModal } from '../../redux/actionSlice/globalSlice';
 import { useDispatch, useSelector } from 'react-redux';
@@ -49,6 +50,7 @@ const Recipe = ({ title }) => {
   const [subCategoryList, setSubCategoryList] = useState([]);
   const [sortValue, setSortValue] = useState(1);
   const [searchInput, setSearchhInput] = useState(null);
+  const [isEvent, setIsEvent] = useState(false);
 
   useEffect(() => {
     document.title = title;
@@ -96,6 +98,21 @@ const Recipe = ({ title }) => {
                   <Search placeholder="Tìm công thức..." setSearchhInput={setSearchhInput} />
                 </div>
                 <div className="sm:flex-none flex flex-wrap gap-4 justify-between">
+                  <Tooltip
+                    title={`${
+                      isEvent ? 'Xem tất cả bài viết' : 'Xem các bài viết đặc biệt, tham gia tương tác để nhận ưu đãi'
+                    }`}
+                    placement="top"
+                  >
+                    <button
+                      onClick={() => setIsEvent((prev) => !prev)}
+                      className={`hover:scale-105 transition ${
+                        isEvent ? 'bg-primary' : 'bg-gradient-to-tr from-red-600 via-orange-300 to-purple-500 '
+                      } py-2 px-3 text-white font-semibold rounded-[10px]`}
+                    >
+                      {isEvent ? 'Tất cả bài viết' : 'Bài viết sự kiện 🔥'}
+                    </button>
+                  </Tooltip>
                   <Filter setSortValue={setSortValue} />
                   <div className="sm:hidden block">
                     <div className="flex gap-3 items-center">
@@ -127,6 +144,7 @@ const Recipe = ({ title }) => {
                   sortValue={sortValue}
                   tags={TagsList}
                   searchInput={searchInput}
+                  isEvent={isEvent}
                 />
               }
 

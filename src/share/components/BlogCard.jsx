@@ -10,6 +10,7 @@ import staticFood1 from '../../assets/images/staticFood1.png';
 import eyes from '../../assets/images/eyes.png';
 import heart from '../../assets/images/heart.png';
 import heart_red from '../../assets/images/heart_red.png';
+import calendar from '../../assets/ic_calendar_white.svg';
 
 const BlogCard = (props) => {
   const { data } = props;
@@ -20,13 +21,26 @@ const BlogCard = (props) => {
       onClick={() => navigate(`/recipe/${data?.blogId}/${generateSlug(data.title)}`)}
       className="group w-full min-h-[385px]"
     >
-      <div className="font-inter  rounded-[10px] px-[8px] py-[10px] group-hover:bg-[#FFD8C7] cursor-pointer transition">
-        <div className="overflow-hidden border-[2px] border-[#B5B5B5] group-hover:border-white  rounded-[10px]">
-          <Image
-            alt={data?.title}
-            src={data?.imageUrl}
-            className={`object-cover group-hover:rotate-[3deg] group-hover:scale-[1.1] duration-[500ms] transition w-full rounded-[10px] h-[215px] `}
-          />
+      <div className="font-inter rounded-[10px] px-[8px] py-[10px] group-hover:bg-[#FFD8C7] cursor-pointer transition">
+        <div className="relative">
+          <div className="overflow-hidden border-[2px] border-[#B5B5B5] group-hover:border-white  rounded-[10px]">
+            <Image
+              alt={data?.title}
+              src={data?.imageUrl}
+              className={`object-cover group-hover:rotate-[3deg] group-hover:scale-[1.1] duration-[500ms] transition w-full rounded-[10px] h-[215px] `}
+            />
+          </div>
+          {data?.isEvent && (
+            <div className="absolute top-0 left-0 w-[120px] h-fit py-3 bg-gradient-to-t from-redError to-primary rounded-tl-[10px] rounded-br-[10px] flex flex-col items-center justify-center">
+              <p className="text-[12px] font-medium text-white uppercase">Sự kiện</p>
+              <div className="flex items-center gap-2 mt-1">
+                <img src={calendar} className="w-[16px] h-[16px] object-contain" />
+                <p className="text-white text-[12px] font-semibold">
+                  {new Date(new Date(data?.eventExpiredDate).setSeconds(0)).toLocaleDateString()}
+                </p>
+              </div>
+            </div>
+          )}
         </div>
         <p className="text-[18px] font-medium mt-[10px] text-black line-clamp-1">{data?.title}</p>
         <div

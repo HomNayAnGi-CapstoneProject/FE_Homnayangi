@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import instances from '../../../../../../utils/plugin/axios';
 
+import { ic_switch_white } from '../../../../../../assets';
+
 // ** components
 import DataTable from './components/DataTable';
 
@@ -55,9 +57,12 @@ const BlogApprove = () => {
       <div className="flex items-center gap-3 mb-5">
         <button
           onClick={() => setGetPendingBlog((prev) => !prev)}
-          className={`px-5 py-2 rounded-[5px] text-white ${getPendingBlog ? 'bg-primary' : 'bg-gray-400'}`}
+          className={`px-5 py-2 flex items-center gap-3 rounded-[5px] text-white ${
+            getPendingBlog ? 'bg-primary' : 'bg-gray-400'
+          }`}
         >
           {getPendingBlog ? 'Xem tất cả' : 'Xem chờ duyệt'}
+          <img src={ic_switch_white} className="object-contain w-[24px] h-[24px]" />
         </button>
         <p className="font-semibold text-[#898989]">
           Bài viết đang chờ duyệt: <span className="text-primary">({totalPendings})</span>

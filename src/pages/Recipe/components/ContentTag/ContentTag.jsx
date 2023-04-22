@@ -11,7 +11,7 @@ import { useSelector } from 'react-redux';
 import ic_loading from '../../../../assets/images/sand-clock.png';
 
 const ContentTag = (props) => {
-  const { tags, subCategoryList, sortValue, searchInput } = props;
+  const { tags, subCategoryList, sortValue, searchInput, isEvent } = props;
 
   //** const */
   const store = useSelector((state) => state.global);
@@ -39,6 +39,7 @@ const ContentTag = (props) => {
             SearchString: debounced?.trim(),
             sort: sortValue,
             sortDesc: null,
+            IsEvent: isEvent,
           },
         });
         // console.log('run');
@@ -49,7 +50,7 @@ const ContentTag = (props) => {
       }
     };
     fetch();
-  }, [subCateId, store.subCategoryList, sortValue, pageSizeIns, currentPageSize, debounced]);
+  }, [subCateId, store.subCategoryList, sortValue, pageSizeIns, currentPageSize, debounced, isEvent]);
 
   return (
     <div>

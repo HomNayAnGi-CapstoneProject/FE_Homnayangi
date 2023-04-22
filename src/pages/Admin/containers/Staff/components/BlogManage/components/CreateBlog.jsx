@@ -54,6 +54,8 @@ const CreateBlog = () => {
             blogStatus: 3, // (DELETED: 0, ACTIVE: 1, DRAFT:2, PENDING: 3)
             videoUrl: contentBlog?.videoUrl || null,
             minutesToCook: contentBlog?.minutesToCook || null,
+            isEvent: contentBlog?.isEvent || null,
+            eventExpiredDate: contentBlog?.eventExpiredDate || null,
           },
           Recipe: {
             packagePrice: parseInt(contentBlog?.packagePrice) || null,
