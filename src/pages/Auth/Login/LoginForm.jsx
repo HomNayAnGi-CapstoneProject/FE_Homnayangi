@@ -175,7 +175,7 @@ const LoginForm = () => {
                     name="password"
                     placeholder="Mật khẩu"
                     className={`block sm:w-[490px] w-full h-[47px] ${
-                      errors?.password ? 'mb-[5px]' : 'mb-[20px]'
+                      errors?.password ? 'mb-[5px]' : 'mb-[15px]'
                     } p-[12px] text-subText sm:text-md  border border-[#B9B9B9] rounded-[5px] focus:outline-primary`}
                     {...register('password', {
                       required: true,
@@ -196,6 +196,13 @@ const LoginForm = () => {
                 {errors?.password?.type === 'pattern' && (
                   <p className="mb-[5px] text-redError text-[14px]">Mật khẩu không hợp lệ</p>
                 )}
+
+                <p
+                  onClick={() => navigate('/forgot-password')}
+                  className="text-end text-[15px] cursor-pointer font-medium text-primary"
+                >
+                  Quên mật khẩu
+                </p>
 
                 <button
                   type="submit"

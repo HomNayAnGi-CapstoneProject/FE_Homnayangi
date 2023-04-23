@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import styles from '../../../style';
 import instances from '../../../utils/plugin/axios';
 import { setAccountInfo } from '../../../redux/actionSlice/accountSlice';
-import { Regex_Password, Regex_PhoneNumber } from '../../../utils/regex';
+import { Regex_Password, Regex_PhoneNumber, Regex_Email } from '../../../utils/regex';
 
 // ** Assests
 import loginDecor1 from '../../../assets/images/loginDecor1.webp';
@@ -47,6 +47,7 @@ const RegisterForm = () => {
           lastname: data.lastname,
           password: data.password,
           phonenumber: data.phonenumber,
+          email: data.email,
           gender: JSON.parse(data.gender),
         })
         .then((res) => {
@@ -248,6 +249,29 @@ const RegisterForm = () => {
                       <p className="mb-[5px] text-redError text-[14px]">Giới tính không được trống</p>
                     )}
                   </div>
+                </div>
+
+                <div>
+                  <input
+                    name="email"
+                    // disabled={store.accountInfo?.isGoogleAccount ? true : false}
+                    placeholder="Email"
+                    className={`block w-full h-[47px] ${
+                      errors?.email ? 'mb-[5px]' : 'mb-[20px]'
+                    } p-[12px] text-subText sm:text-md  border border-[#B9B9B9] rounded-[5px] focus:outline-primary`}
+                    {...register('email', {
+                      required: true,
+                      pattern: {
+                        value: Regex_Email,
+                      },
+                    })}
+                  />
+                  {errors?.email?.type === 'required' && (
+                    <p className="mb-[5px] text-redError text-[14px]">Email không được trống</p>
+                  )}
+                  {errors?.email?.type === 'pattern' && (
+                    <p className="mb-[5px] text-redError text-[14px]">Email không hợp lệ</p>
+                  )}
                 </div>
 
                 <div className="relative">

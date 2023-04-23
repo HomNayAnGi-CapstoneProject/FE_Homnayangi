@@ -37,7 +37,7 @@ const ModalEventVoucher = (props) => {
   }, []);
 
   const onSubmit = async (data) => {
-    const res = await instances.post('/customervoucher/voucher-giving', {
+    const res = await instances.post('/customervouchers/voucher-giving', {
       voucherId: data?.voucherId,
       customerId: accomData?.authorId,
     });

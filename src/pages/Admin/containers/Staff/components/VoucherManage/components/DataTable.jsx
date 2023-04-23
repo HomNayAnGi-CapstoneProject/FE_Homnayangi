@@ -33,18 +33,18 @@ const columns = [
       </div>
     ),
   },
-  {
-    field: 'description',
-    headerName: 'Mô tả',
-    width: 150,
-    renderCell: (params) => (
-      <div className="">
-        <Tooltip title={`${params.row.description}`} placement="top">
-          <p className="">{params.row.description}</p>
-        </Tooltip>
-      </div>
-    ),
-  },
+  // {
+  //   field: 'description',
+  //   headerName: 'Mô tả',
+  //   width: 150,
+  //   renderCell: (params) => (
+  //     <div className="">
+  //       <Tooltip title={`${params.row.description}`} placement="top">
+  //         <p className="">{params.row.description}</p>
+  //       </Tooltip>
+  //     </div>
+  //   ),
+  // },
   {
     field: 'discount',
     headerName: 'Giảm giá',

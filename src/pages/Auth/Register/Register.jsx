@@ -24,7 +24,7 @@ const Register = ({ title }) => {
     if (Object.keys(decoded_jwt).length === 0 && decoded_jwt.constructor === Object) {
       return <RegisterForm />;
     } else {
-      if (decoded_jwt.role === 'Staff' || decoded_jwt.role === 'Admin') {
+      if (decoded_jwt.role === 'Staff' || decoded_jwt.role === 'Admin' || decoded_jwt.role === 'Manager') {
         return <Navigate replace to="/management" />;
       } else {
         return <Navigate replace to="/" />;

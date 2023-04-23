@@ -135,7 +135,7 @@ const SideComp = () => {
         orderDetails: getListTotalIngredients(),
         voucherId: selectedVoucher?.voucherId || null,
       };
-      console.log(requestData);
+      // console.log(requestData);
       // if (paymentMethod == 0 || cartAddress == '') {
       //   notifyPaymentError();
       // } else {
