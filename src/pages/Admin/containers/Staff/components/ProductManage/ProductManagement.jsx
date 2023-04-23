@@ -104,7 +104,11 @@ const ProductManagement = () => {
         />
       )}
       <div className="flex ss:flex-row flex-col gap-4 item-center justify-between mb-[20px]">
-        <Search placeholder="Tìm kiếm tại đây..." setSearchhInput={setSearchhInput} />
+        <Search
+          value={searchhInput !== null ? searchhInput : ''}
+          placeholder="Tìm kiếm tại đây..."
+          setSearchhInput={setSearchhInput}
+        />
         <button
           onClick={() => navigate('/management/product/new')}
           className="flex items-center w-fit gap-2 py-2 px-3 bg-primary text-white font-medium rounded-[10px]"

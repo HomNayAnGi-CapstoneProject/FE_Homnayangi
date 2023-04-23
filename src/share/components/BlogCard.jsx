@@ -31,13 +31,19 @@ const BlogCard = (props) => {
             />
           </div>
           {data?.isEvent && (
-            <div className="absolute top-0 left-0 w-[120px] h-fit py-3 bg-gradient-to-t from-redError to-primary rounded-tl-[10px] rounded-br-[10px] flex flex-col items-center justify-center">
-              <p className="text-[12px] font-medium text-white uppercase">Sự kiện</p>
+            <div className="absolute top-0 left-0 w-fit h-fit p-3  bg-gradient-to-r from-rose-400 to-red-500 rounded-tl-[10px] rounded-br-[10px] flex flex-col items-center justify-center">
+              <p className="text-[12px] font-medium text-white uppercase">Bài viết Sự kiện</p>
               <div className="flex items-center gap-2 mt-1">
                 <img src={calendar} className="w-[16px] h-[16px] object-contain" />
-                <p className="text-white text-[12px] font-semibold">
-                  {new Date(new Date(data?.eventExpiredDate).setSeconds(0)).toLocaleDateString()}
-                </p>
+                <div className="flex items-center gap-1">
+                  <p className="text-white text-[12px] font-semibold">
+                    {new Date(new Date(data?.createdDate).setSeconds(0)).toLocaleDateString()}
+                  </p>
+                  <p className="text-white font-medium"> - </p>
+                  <p className="text-white text-[12px] font-semibold">
+                    {new Date(new Date(data?.eventExpiredDate).setSeconds(0)).toLocaleDateString()}
+                  </p>
+                </div>
               </div>
             </div>
           )}
@@ -60,7 +66,7 @@ const BlogCard = (props) => {
           </div>
 
           <div>
-            <p className="text-[#585858] text-[14px]"> {moment(data?.createdDate).startOf('day').fromNow()}</p>
+            <p className="text-[#585858] text-[14px]"> {moment(data?.createdDate).startOf('hour').fromNow()}</p>
           </div>
         </div>
       </div>

@@ -67,7 +67,11 @@ const Shop = ({ title }) => {
             <div className="flex-1 calc-width">
               <div className="sm:flex justify-between">
                 <div className="sm:mb-0 mb-4">
-                  <Search placeholder="Tìm sản phẩm..." setSearchhInput={setSearchhInput} />
+                  <Search
+                    value={searchInput !== null ? searchInput : ''}
+                    placeholder="Tìm sản phẩm..."
+                    setSearchhInput={setSearchhInput}
+                  />
                 </div>
                 <div className="sm:flex-none flex flex-wrap gap-4 justify-between">
                   {/* <Filter setSortValue={setSortValue} /> */}

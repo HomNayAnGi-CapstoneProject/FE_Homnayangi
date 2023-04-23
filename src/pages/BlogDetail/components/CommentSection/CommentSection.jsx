@@ -8,8 +8,9 @@ import Accomplishhments from './components/Accomplishments';
 // ** third party
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 
-const CommentSection = () => {
+const CommentSection = (props) => {
   // ** Const
+  const { blogDetail } = props;
   const params = useParams();
   const [cmtNum, setCmtNum] = useState(0);
   const [accomNum, setAccomNum] = useState(0);
@@ -73,7 +74,12 @@ const CommentSection = () => {
           <Comments setCmtNum={setCmtNum} commentList={commentList} setUpdateComments={setUpdateComments} />
         )}
         {activeTab == 2 && (
-          <Accomplishhments setAccomNum={setAccomNum} accomList={accomList} setUpdateAccom={setUpdateAccom} />
+          <Accomplishhments
+            blogDetail={blogDetail}
+            setAccomNum={setAccomNum}
+            accomList={accomList}
+            setUpdateAccom={setUpdateAccom}
+          />
         )}
       </div>
     </div>

@@ -100,6 +100,10 @@ const BlogManagement = () => {
     );
   };
 
+  const handleOpenGiveVoucher = (data) => {
+    navigate(`/management/blog/give-voucher/${data?.blogId}`);
+  };
+
   return (
     <div>
       {isShowModal && (
@@ -139,7 +143,12 @@ const BlogManagement = () => {
         </div>
       </div>
       <div>
-        <DataTable blogDataList={blogDataList} handleOpenDelete={handleOpenDelete} handleOpenEdit={handleOpenEdit} />
+        <DataTable
+          blogDataList={blogDataList}
+          handleOpenDelete={handleOpenDelete}
+          handleOpenEdit={handleOpenEdit}
+          handleOpenGiveVoucher={handleOpenGiveVoucher}
+        />
       </div>
     </div>
   );

@@ -30,9 +30,9 @@ const Container = (props) => {
     }
   }, [accomsData, status]);
 
-  useEffect(() => {
-    console.log(accomList);
-  }, [accomList]);
+  // useEffect(() => {
+  //   console.log(accomList);
+  // }, [accomList]);
 
   return (
     <>

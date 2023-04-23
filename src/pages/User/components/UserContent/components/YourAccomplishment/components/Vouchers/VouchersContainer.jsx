@@ -8,7 +8,7 @@ const VouchersContainer = () => {
       <div className="pb-[10px] border-b border-b-[#d1d1d1]">
         <p className="text-black text-[18px] font-medium">Mã Giảm Giá Của Tôi</p>
         <p className="text-[14px] text-[#929292] italic">
-          (mã giảm giá sẽ được trao tặng định kỳ khi bạn có được huy hiệu!)
+          (mã giảm giá sẽ được trao tặng định kỳ khi bạn có được huy hiệu hoặc tham gia các sự kiện!)
         </p>
       </div>
       {/* content */}

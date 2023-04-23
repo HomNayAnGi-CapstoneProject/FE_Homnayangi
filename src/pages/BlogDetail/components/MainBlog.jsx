@@ -114,7 +114,7 @@ const MainBlog = (props) => {
             )}
             <div className="py-5 px-5">
               <p className="text-[#8f8f8f] text-[14px] mb-2">
-                {moment(blogDetail?.createdDate).startOf('day').fromNow()}
+                {moment(blogDetail?.createdDate).startOf('hour').fromNow()}
               </p>
               <p className="text-[30px] text-black font-semibold">{blogDetail?.title}</p>
               <div className="flex gap-6 items-center mt-[12px]">

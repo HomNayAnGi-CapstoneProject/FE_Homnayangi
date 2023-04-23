@@ -12,7 +12,7 @@ import Modal from '@mui/material/Modal';
 import useDebounce from '../../share/hooks/useDebounce';
 import { Tooltip } from '@mui/material';
 
-import { setOpenCategoryMenuModal } from '../../redux/actionSlice/globalSlice';
+import { setOpenCategoryMenuModal, setHomeSearchInput } from '../../redux/actionSlice/globalSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 // ** Assets
@@ -56,6 +56,15 @@ const Recipe = ({ title }) => {
     document.title = title;
   }, [title]);
 
+  useEffect(() => {
+    if (store?.homeSearchInput !== '') {
+      setSearchhInput(store?.homeSearchInput);
+    }
+    return () => {
+      dispatch(setHomeSearchInput(''));
+    };
+  }, [store?.homeSearchInput]);
+
   // ** call api get category list
   useEffect(() => {
     const fetch = async () => {
@@ -95,7 +104,11 @@ const Recipe = ({ title }) => {
             <div className="flex-1 calc-width">
               <div className="sm:flex justify-between">
                 <div className="sm:mb-0 mb-4">
-                  <Search placeholder="Tìm công thức..." setSearchhInput={setSearchhInput} />
+                  <Search
+                    value={searchInput !== null ? searchInput : ''}
+                    placeholder={'Tìm công thức...'}
+                    setSearchhInput={setSearchhInput}
+                  />
                 </div>
                 <div className="sm:flex-none flex flex-wrap gap-4 justify-between">
                   <Tooltip

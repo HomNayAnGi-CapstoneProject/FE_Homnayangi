@@ -54,7 +54,7 @@ const BlogDetail = () => {
                     </div>
                     <MainBlog blogDetail={blogDetail} />
                     <div id="comment">
-                      <CommentSection />
+                      <CommentSection blogDetail={blogDetail} />
                     </div>
                   </div>
                   <div className="xxlg:w-[30%] w-full sticky top-[100px] h-fit">
