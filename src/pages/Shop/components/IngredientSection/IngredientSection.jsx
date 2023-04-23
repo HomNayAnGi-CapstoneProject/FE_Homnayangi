@@ -13,7 +13,7 @@ const IngredientSection = (props) => {
   const store = useSelector((state) => state.global);
   const { searchInput } = props;
   const [ingredientList, setIngredientList] = useState([]);
-  const [currentPageSize, setCurrentPageSize] = useState(10);
+  const [currentPageSize, setCurrentPageSize] = useState(12);
   const [totalCount, setTotalCount] = useState(0);
   const [pageSizeIns, setPageSizeIns] = useState(0);
   const debounced = useDebounce(searchInput, 600);
@@ -55,9 +55,9 @@ const IngredientSection = (props) => {
           </div>
         )}
       </div>
-      {currentPageSize !== totalCount && ingredientList?.length > 9 && (
+      {currentPageSize !== totalCount && ingredientList?.length > 11 && (
         <SeeMore
-          increaseSize={5}
+          increaseSize={8}
           currentSize={currentPageSize}
           setPageSizeIns={setPageSizeIns}
           setCurrentPageSize={setCurrentPageSize}

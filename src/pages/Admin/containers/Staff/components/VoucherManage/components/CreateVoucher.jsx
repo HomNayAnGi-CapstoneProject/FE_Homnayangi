@@ -273,7 +273,7 @@ const CreateVoucher = () => {
                           }}
                           value={validFromDate}
                           // disabled={currentCart?.length > 0}
-                          // minDateTime={todayAt8AM}
+                          // minDateTime={today}
                           onChange={(event, value) => {
                             onChange(event);
                             setValidFromDate(event);

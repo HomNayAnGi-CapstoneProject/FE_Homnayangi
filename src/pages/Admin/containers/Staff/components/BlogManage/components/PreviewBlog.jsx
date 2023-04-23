@@ -3,9 +3,11 @@ import instances from '../../../../../../../utils/plugin/axios';
 import Image from '../../../../../../../share/components/Image';
 import YouTube from 'react-youtube';
 
+import { ic_calendar_white } from '../../../../../../../assets';
+
 // ** Redux
-import { getCurrentContent } from '../../../../../../../redux/actionSlice/managementSlice';
-import { useSelector } from 'react-redux';
+import { getCurrentContent, setContentBlog } from '../../../../../../../redux/actionSlice/managementSlice';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { useParams } from 'react-router-dom';
 
@@ -13,6 +15,7 @@ const PreviewBlog = () => {
   // ** Const
   const [previewData, setPreviewData] = useState();
   const params = useParams();
+  const dispatch = useDispatch();
   const opts = {
     height: '420',
     width: '100%',
@@ -38,6 +41,37 @@ const PreviewBlog = () => {
         const res = await instances.get(`/blogs/staff-preview/${params.blogId}`);
         // console.log(res.data);
         setPreviewData(res.data);
+
+        // set data to prepare publish
+        dispatch(setContentBlog({ title: res.data?.title }));
+        dispatch(setContentBlog({ minSize: res.data?.minSize }));
+        dispatch(setContentBlog({ maxSize: res.data?.maxSize }));
+        dispatch(setContentBlog({ minutesToCook: res.data?.minutesToCook }));
+        dispatch(setContentBlog({ isEvent: res.data?.isEvent }));
+        dispatch(setContentBlog({ eventExpiredDate: res.data?.eventExpiredDate }));
+        dispatch(setContentBlog({ coverImage: res.data?.imageUrl ? { url: res.data?.imageUrl } : undefined }));
+        dispatch(setContentBlog({ packagePrice: res.data?.packagePrice }));
+        dispatch(setContentBlog({ cookedPrice: res.data?.cookedPrice }));
+        dispatch(setContentBlog({ totalKcal: res.data?.totalKcal }));
+        dispatch(setContentBlog({ videoUrl: res.data?.videoUrl }));
+        dispatch(setContentBlog({ description: { html: res.data?.descriptionHTML, text: res.data?.descriptionText } }));
+        dispatch(setContentBlog({ preparation: { html: res.data?.preparationHTML, text: res.data?.preparationText } }));
+        dispatch(setContentBlog({ processing: { html: res.data?.processingHTML, text: res.data?.processingText } }));
+        dispatch(setContentBlog({ finished: { html: res.data?.finishedHTML, text: res.data?.finishedText } }));
+        dispatch(
+          setContentBlog({
+            subCategory: res.data?.subCates?.map(function (item) {
+              return { subCategoryId: item.subCateId, name: item.name };
+            }),
+          }),
+        );
+        dispatch(
+          setContentBlog({
+            ingredients: res.data?.recipeDetails?.map(function (item) {
+              return { quantity: item.quantity, ingredientId: item.ingredientId, description: item.description };
+            }),
+          }),
+        );
       };
 
       fetch();
@@ -55,6 +89,20 @@ const PreviewBlog = () => {
               className="object-cover w-full h-[384px] rounded-tl-[5px] rounded-tr-[5px]"
               src={previewData?.imageUrl}
             />
+          )}
+          {previewData?.isEvent && (
+            <div className="w-full bg-gradient-to-r from-rose-400 to-red-500 p-5 text-white font-medium text-center">
+              <p className="text-[20px] mb-2">️🎊 Bài viết sự kiện ️️🎊 </p>
+              <p className="font-normal text-[16px]">
+                ️🎉 Nhanh tay đăng thành quả cá nhân trong thời gian sự kiện để nhận được nhiều ưu đãi hấp dẫn! ️🎉
+              </p>
+              <p className="mt-2 italic">
+                Thời gian kết thúc sự kiện:{' '}
+                <span className="font-semibold">
+                  {new Date(new Date(previewData?.eventExpiredDate).setSeconds(0)).toLocaleString()}
+                </span>
+              </p>
+            </div>
           )}
           <div className="py-5 px-5">
             <p className="text-[30px] text-black font-semibold">{previewData?.title}</p>

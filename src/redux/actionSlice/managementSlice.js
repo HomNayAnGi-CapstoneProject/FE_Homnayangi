@@ -29,10 +29,14 @@ export const managementSlice = createSlice({
         blogSubCategory: [],
         blogId: null,
         uploadBlog: false,
+        currentOrderStatus: -1
     },
     reducers: {
         setShowSideBar: (state, action) => {
             state.showSideBar = action.payload
+        },
+        setCurrentOrderStatus: (state, action) => {
+            state.currentOrderStatus = action.payload
         },
         setContentBlog: (state, action) => {
             state.blogContent = {
@@ -64,5 +68,6 @@ export const managementSlice = createSlice({
     }
 })
 
-export const { setShowSideBar, setContentBlog, setUploadBlog, getCurrentContent, setBlogSubCategory, setBlogId, clearBlogContent } = managementSlice.actions;
+export const { setShowSideBar, setContentBlog, setUploadBlog, getCurrentContent, setBlogSubCategory, setBlogId, clearBlogContent,
+    setCurrentOrderStatus } = managementSlice.actions;
 export default managementSlice.reducer;

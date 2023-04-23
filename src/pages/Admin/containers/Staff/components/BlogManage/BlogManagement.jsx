@@ -3,12 +3,13 @@ import instances from '../../../../../../utils/plugin/axios';
 import ConfirmModal from '../../../../../../share/components/Admin/ConfirmModal';
 import { toast } from 'react-toastify';
 
-import { ic_blog_create } from '../../../../../../assets';
+import { ic_blog_create, ic_switch_white } from '../../../../../../assets';
 import Search from '../../../../../../share/components/Search';
 import DataTable from './components/DataTable';
 
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import IsEvent from './components/IsEvent/IsEvent';
 
 const BlogManagement = () => {
   //** Const */
@@ -18,12 +19,13 @@ const BlogManagement = () => {
   const [blogDataList, setBlogDataList] = useState([]);
   const [confirmData, setConfirmData] = useState();
   const [isShowModal, setIsShowModal] = useState(false);
+  const [showEvent, setShowEvent] = useState(false);
 
   // ** Call api
   useEffect(() => {
     const fetch = async () => {
       setBlogDataList([]);
-      const res = await instances.get('/blogs/user');
+      const res = await instances.get('/blogs/user', { params: { isEvent: showEvent } });
       // console.log(res.data.result);
       setBlogDataList(res.data.result || []);
     };
@@ -39,7 +41,7 @@ const BlogManagement = () => {
     return () => {
       clearTimeout(handler);
     };
-  }, [updateTable, globalStore]);
+  }, [updateTable, globalStore, showEvent]);
 
   // ** Func
   const handleCreateBlog = () => {
@@ -98,6 +100,10 @@ const BlogManagement = () => {
     );
   };
 
+  const handleOpenGiveVoucher = (data) => {
+    navigate(`/management/blog/give-voucher/${data?.blogId}`);
+  };
+
   return (
     <div>
       {isShowModal && (
@@ -117,16 +123,32 @@ const BlogManagement = () => {
       )}
       <div className="flex ss:flex-row flex-col gap-4 item-center justify-between mb-[20px]">
         {/* <Search placeholder="Tìm kiếm tại đây..." /> */}
-        <button
-          onClick={() => handleCreateBlog()}
-          className="flex items-center w-fit gap-2 py-2 px-3 bg-primary text-white font-medium rounded-[10px]"
-        >
-          Tạo bài viết
-          <img src={ic_blog_create} />
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => handleCreateBlog()}
+            className="flex items-center w-fit gap-2 py-2 px-3 bg-primary text-white font-medium rounded-[10px]"
+          >
+            Tạo bài viết
+            <img src={ic_blog_create} />
+          </button>
+          <button
+            onClick={() => setShowEvent((prev) => !prev)}
+            className={`flex items-center gap-3 py-2 px-3 ${
+              !showEvent ? 'bg-gray-400' : 'bg-primary'
+            } text-white font-medium rounded-[10px]`}
+          >
+            {!showEvent ? 'Bài viết sự kiện' : 'Bài viết thông thường'}
+            <img src={ic_switch_white} className="object-contain w-[24px] h-[24px]" />
+          </button>
+        </div>
       </div>
       <div>
-        <DataTable blogDataList={blogDataList} handleOpenDelete={handleOpenDelete} handleOpenEdit={handleOpenEdit} />
+        <DataTable
+          blogDataList={blogDataList}
+          handleOpenDelete={handleOpenDelete}
+          handleOpenEdit={handleOpenEdit}
+          handleOpenGiveVoucher={handleOpenGiveVoucher}
+        />
       </div>
     </div>
   );

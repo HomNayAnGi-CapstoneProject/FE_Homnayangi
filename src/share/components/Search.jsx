@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 const Search = (props) => {
-  const { setSearchhInput, placeholder } = props;
+  const { setSearchhInput, placeholder, value } = props;
 
   return (
     <div className="relative">
@@ -21,6 +21,7 @@ const Search = (props) => {
         ></path>
       </svg>
       <input
+        value={value ? value : ''}
         onChange={(e) => setSearchhInput(e.target.value)}
         type="text"
         id="search"

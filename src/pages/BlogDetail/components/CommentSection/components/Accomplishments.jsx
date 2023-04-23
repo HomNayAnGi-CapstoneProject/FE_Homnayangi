@@ -21,7 +21,7 @@ import { storage } from '../../../../../firebase';
 import { ref, uploadBytes, listAll, getDownloadURL, deleteObject } from 'firebase/storage';
 
 const Accomplishments = (props) => {
-  const { setAccomNum, accomList, setUpdateAccom } = props;
+  const { setAccomNum, accomList, setUpdateAccom, blogDetail } = props;
   // ** get user detail
   const accessToken = localStorage.getItem('accessToken');
   let decoded_jwt = {};
@@ -38,6 +38,7 @@ const Accomplishments = (props) => {
   const [imageList, setImageList] = useState([]);
   const [videoList, setVideoList] = useState([]);
   const [uploading, setUploading] = useState(false);
+  const [expireEvent, setExpireEvent] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const params = useParams();
@@ -75,6 +76,20 @@ const Accomplishments = (props) => {
       pauseOnHover: false,
       autoClose: 6000,
     });
+
+  // ** check isEvent and expired date
+  useEffect(() => {
+    if (blogDetail?.isEvent) {
+      let todayCompare = new Date(new Date().toISOString()).getTime();
+      let expireDateCompare = new Date(blogDetail?.eventExpiredDate).getTime();
+
+      if (todayCompare > expireDateCompare) {
+        setExpireEvent(true);
+      } else {
+        setExpireEvent(false);
+      }
+    }
+  }, [blogDetail]);
 
   // ** check if customer had accomplishment onn this blog
   useEffect(() => {
@@ -349,6 +364,14 @@ const Accomplishments = (props) => {
         <div className="flex gap-5 relative">
           {/* check authen user */}
           {accessToken ? (
+            // check if isEvent, -> check expiredDate
+            expireEvent == true ? (
+              <div className="h-full bg-white w-full text-center pb-3">
+                <p className="text-redError">
+                  💡 Sự kiện của bài viết đã kết thúc, vui lòng tham gia vào sự kiện sau này
+                </p>
+              </div>
+            ) : // check if customer had post 1 accom to this blog
             checkHadAccom == undefined ? (
               <>
                 <img

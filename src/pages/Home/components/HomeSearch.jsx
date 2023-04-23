@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import instances from '../../../utils/plugin/axios';
+import { setHomeSearchInput } from '../../../redux/actionSlice/globalSlice';
 
 import ic_loading from '../../../assets/images/sand-clock.png';
 
@@ -8,6 +9,7 @@ import generateSlug from '../../../utils/generateSlug';
 
 // ** Third party libraries **
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 // ** items comp
 const ResultSearch = (props) => {
@@ -42,6 +44,7 @@ const HomeSearch = () => {
   const [loading, setLoading] = useState(false);
   const debounced = useDebounce(searchInput, 600);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   // ** call api
   useEffect(() => {
@@ -81,7 +84,9 @@ const HomeSearch = () => {
       <button
         onClick={() => {
           if (searchInput !== null && searchInput !== '') {
-            console.log(searchInput);
+            dispatch(setHomeSearchInput(searchInput));
+            navigate('/recipe');
+            // console.log(searchInput);
           }
         }}
         className="hover:bg-primaryHover transition flex items-center gap-2 text-white absolute bg-primary rounded-full right-1 bottom-1 font-medium px-4 py-[8.8px]"

@@ -25,6 +25,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import jwt_decode from 'jwt-decode';
 import { motion, AnimatePresence } from 'framer-motion';
 import { HubConnection, HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
+import { toast } from 'react-toastify';
 
 // ** Redux
 import { setOpenMenuModal, setCountrySide } from '../../redux/actionSlice/globalSlice';
@@ -42,12 +43,20 @@ const Navigation = (props) => {
   const store = useSelector((state) => state.global);
   const cartStore = useSelector((state) => state?.cart);
   const [scroll, setScroll] = useState(false);
+  const [newNoti, setNewNoti] = useState(false);
 
   const accessToken = localStorage.getItem('accessToken');
   let decoded_jwt = {};
   if (accessToken) {
     decoded_jwt = jwt_decode(accessToken);
   }
+
+  // ** Notify
+  const newNotify = (msg) =>
+    toast.info(msg, {
+      pauseOnHover: false,
+      autoClose: 2000,
+    });
 
   // ** call bengin cronjob
   useEffect(() => {
@@ -77,8 +86,15 @@ const Navigation = (props) => {
       connection
         .start()
         .then(() => {
-          connection.on('OrderStatusChanged', (message) => {
-            console.log(message);
+          connection.on(`${decoded_jwt.Id}_OrderStatusChanged`, (message) => {
+            // console.log(message);
+            newNotify(JSON.parse(message)?.description);
+            setNewNoti(true);
+          });
+          connection.on(`${decoded_jwt.Id}_BlogReacted`, (message) => {
+            // console.log(message);
+            newNotify(JSON.parse(message)?.description);
+            setNewNoti(true);
           });
         })
         .catch((error) => console.log(error));
@@ -344,16 +360,23 @@ const Navigation = (props) => {
               )}
             </div>
             {/* notifications */}
-            <div className="relative cursor-pointer">
+            <div className="relative">
               <div
-                onClick={() => setOpenNotification((prev) => !prev)}
+                onClick={() => {
+                  setOpenNotification((prev) => !prev);
+                  setNewNoti(false);
+                }}
                 className="relative bg-cover w-[24px] h-[24px] cursor-pointer"
                 style={{ backgroundImage: `url(${ic_nofitication})` }}
               >
-                {/* Notify num */}
+                {newNoti && (
+                  <div className="w-[10px] h-[10px] rounded-full bg-primary absolute top-[-5px] right-[-0px] text-white flex items-center justify-center">
+                    {/* <p className="text-[13px] text-center">{totalItem}</p> */}
+                  </div>
+                )}
               </div>
               <OutsideClickHandler onOutsideClick={() => setOpenNotification(false)}>
-                {openNotifycation && <ModalNotification />}
+                {openNotifycation && <ModalNotification setOpenNotification={setOpenNotification} isCustomer={true} />}
               </OutsideClickHandler>
             </div>
             {/* authentication user */}

@@ -91,6 +91,20 @@ const BlogDetail = () => {
                 src={previewData?.imageUrl}
               />
             )}
+            {previewData?.isEvent && (
+              <div className="w-full bg-gradient-to-r from-rose-400 to-red-500 p-5 text-white font-medium text-center">
+                <p className="text-[20px] mb-2">️🎊 Bài viết sự kiện ️️🎊 </p>
+                <p className="font-normal text-[16px]">
+                  ️🎉 Nhanh tay đăng thành quả cá nhân trong thời gian sự kiện để nhận được nhiều ưu đãi hấp dẫn! ️🎉
+                </p>
+                <p className="mt-2 italic">
+                  Thời gian kết thúc sự kiện:{' '}
+                  <span className="font-semibold">
+                    {new Date(new Date(previewData?.eventExpiredDate).setSeconds(0)).toLocaleString()}
+                  </span>
+                </p>
+              </div>
+            )}
             <div className="py-5 px-5">
               <p className="text-[30px] text-black font-semibold">{previewData?.title}</p>
               <p className="mt-[12px] text-[14px] text-[#8f8f8f]">
