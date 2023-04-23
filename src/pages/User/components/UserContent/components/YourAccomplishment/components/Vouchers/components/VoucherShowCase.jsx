@@ -11,7 +11,7 @@ const Voucher = (props) => {
     <div className={`w-full h-full rounded bg-secondary border-2 border-primary p-4 `}>
       {/* header */}
       <div className="pb-2 border-b-2 border-b-primary">
-        <p className="text-black font-semibold text-[18px]">{data?.name}</p>
+        <p className="text-black font-semibold text-[18px]">{data?.voucherName}</p>
       </div>
       {/* body */}
       <div className="mt-2 h-full">
@@ -69,8 +69,8 @@ const VoucherShowCase = () => {
       {voucherOwnList?.length > 0 ? (
         <div className="grid xs:grid-cols-1 smd:grid-cols-2 xxlg:grid-cols-3 xl:grid-cols-3 gap-[8px]">
           {voucherOwnList?.map((item) => (
-            <div key={item.voucher.voucherId}>
-              <Voucher data={item.voucher} />
+            <div key={item.customerVoucherId}>
+              <Voucher data={item} />
             </div>
           ))}
         </div>
