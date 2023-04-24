@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import styles from '../../../style';
+import instances from '../../../utils/plugin/axios';
 import { Regex_Password, Regex_PhoneNumber, Regex_Email } from '../../../utils/regex';
 
 // ** Assests
@@ -29,13 +30,27 @@ const ForgotPass = ({ title }) => {
   const [emailSent, setEmailSent] = useState(false);
   const [sending, setSending] = useState(false);
 
+  const notifyError = (msg) => {
+    toast.error(msg, {
+      pauseOnHover: false,
+    });
+  };
+
   useEffect(() => {
     document.title = title;
   }, [title]);
 
-  const onSubmit = (data) => {
-    console.log(data.email);
-    setEmailSent(true);
+  const onSubmit = async (data) => {
+    try {
+      setSending(true);
+      await instances.post('/personal-customer/password-forgotten', {
+        email: data.email,
+      });
+      setSending(false);
+      setEmailSent(true);
+    } catch (error) {
+      notifyError('Có lỗi xảy ra');
+    }
   };
 
   return (

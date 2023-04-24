@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import instances from '../../../../../utils/plugin/axios';
 import Image from '../../../../../share/components/Image';
-import { setReturnUrl } from '../../../../../redux/actionSlice/globalSlice';
+import { setReturnUrl, setParentCommentId } from '../../../../../redux/actionSlice/globalSlice';
 import ModalRequireLogin from '../../../../../share/components/Modal/ModalRequireLogin';
 
 import { ic_repcomment, ic_menu_dots } from '../../../../../assets';
@@ -59,6 +59,8 @@ const Comment = (props) => {
     } else {
       // console.log(commentValue, params.id);
       try {
+        console.log('parent Id', data.item1.authorId);
+        dispatch(setParentCommentId(data.item1.authorId));
         const res = await instances.post('/comments', {
           parentCommentId: data.item1.commentId,
           content: reptValue,

@@ -268,7 +268,7 @@ const SideComp = () => {
           {selectedVoucher ? (
             <div className="w-full mt-2 flex justify-between px-3 py-3 border-2 border-primary rounded">
               <div>
-                <p className="line-clamp-1 mb-2 font-semibold">{selectedVoucher.name}</p>
+                <p className="line-clamp-1 mb-2 font-semibold">{selectedVoucher.voucherName}</p>
                 <p className="">
                   Giảm{' '}
                   <span className="text-redError text-[18px] font-bold">

@@ -153,7 +153,7 @@ const TabList = (props) => {
           setOrdersData={setOrdersData}
         />
       </div>
-      <div className="flex-1" onClick={() => handleChange('SHIPPING')}>
+      <div className="" onClick={() => handleChange('SHIPPING')}>
         <Tab
           label="đang giao"
           status={status}
@@ -165,7 +165,7 @@ const TabList = (props) => {
           setOrdersData={setOrdersData}
         />
       </div>
-      <div className="flex-1" onClick={() => handleChange('SHIPPED')}>
+      <div className="" onClick={() => handleChange('SHIPPED')}>
         <Tab
           label="đã giao"
           status={status}
@@ -177,7 +177,7 @@ const TabList = (props) => {
           setOrdersData={setOrdersData}
         />
       </div>
-      <div className="flex-1" onClick={() => handleChange('CANCELED')}>
+      <div className="" onClick={() => handleChange('CANCELED')}>
         <Tab
           label="đã hủy"
           status={status}
