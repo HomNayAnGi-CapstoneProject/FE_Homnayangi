@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import styles from '../../../style';
+import instances from '../../../utils/plugin/axios';
 import { Regex_Password, Regex_PhoneNumber, Regex_Email } from '../../../utils/regex';
 
 // ** Assests
@@ -33,6 +34,12 @@ const ResetPass = ({ title }) => {
   const [passwordShown, setPasswordShown] = useState(false);
   const [passwordConfirmShown, setPasswordConfirmShown] = useState(false);
 
+  const notifyError = (msg) => {
+    toast.error(msg, {
+      pauseOnHover: false,
+    });
+  };
+
   useEffect(() => {
     document.title = title;
   }, [title]);
@@ -46,9 +53,26 @@ const ResetPass = ({ title }) => {
     setPasswordConfirmShown((prev) => !prev);
   };
 
-  const onSubmit = (data) => {
-    console.log(data.newPassword);
-    setReseted(true);
+  const onSubmit = async (data) => {
+    // console.log(data.newPassword);
+    try {
+      setReseting(true);
+      await instances.put(
+        '/personal-customer/password-forgotten',
+        {
+          newPassword: data.newPassword,
+        },
+        {
+          params: {
+            id: params?.id,
+          },
+        },
+      );
+      setReseting(false);
+      setReseted(true);
+    } catch (error) {
+      notifyError('Có lỗi xảy ra');
+    }
   };
   return (
     <div className="font-inter h-[100vh] w-full relative">

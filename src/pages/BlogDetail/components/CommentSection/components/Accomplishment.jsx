@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import instances from '../../../../../utils/plugin/axios';
 import Image from '../../../../../share/components/Image';
-import { setReturnUrl } from '../../../../../redux/actionSlice/globalSlice';
+import { setReturnUrl, setAuthorAccomId } from '../../../../../redux/actionSlice/globalSlice';
 import ModalRequireLogin from '../../../../../share/components/Modal/ModalRequireLogin';
 import generateSlug from '../../../../../utils/generateSlug';
 
@@ -756,6 +756,7 @@ const Accomplishment = (props) => {
   const handleReaction = async () => {
     if (accessToken) {
       try {
+        dispatch(setAuthorAccomId(data.authorId));
         await instances.put(`accomplishmentreactions/${data.accomplishmentId}`).then((res) => {
           if (res.data.result.status == true) {
             if (decoded_jwt.Id == res.data.result.customerId) {

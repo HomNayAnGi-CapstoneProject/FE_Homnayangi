@@ -91,7 +91,13 @@ const Navigation = (props) => {
             newNotify(JSON.parse(message)?.description);
             setNewNoti(true);
           });
-          connection.on(`${decoded_jwt.Id}_BlogReacted`, (message) => {
+          console.log(store?.authorAccomId);
+          connection.on(`${store?.authorAccomId}_InteractAccomplishment`, (message) => {
+            // console.log(message);
+            newNotify(JSON.parse(message)?.description);
+            setNewNoti(true);
+          });
+          connection.on(`${store?.parentCommentId}_ReplyComment`, (message) => {
             // console.log(message);
             newNotify(JSON.parse(message)?.description);
             setNewNoti(true);
@@ -99,7 +105,7 @@ const Navigation = (props) => {
         })
         .catch((error) => console.log(error));
     }
-  }, [connection]);
+  }, [connection, store?.parentCommentId, store?.authorAccomId]);
 
   // const SendMess = async (mess) => {
   //   try {
