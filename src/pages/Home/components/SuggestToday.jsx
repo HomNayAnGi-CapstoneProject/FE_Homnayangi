@@ -72,6 +72,7 @@ const SuggestToday = () => {
   const [orderCookedData, setOrderCookedData] = useState();
 
   const [todayData, setTodayData] = useState(null);
+  const [suggestCalo, setSuggestCalo] = useState(0);
   const [soup, setSoup] = useState(null);
   const [changeData, setChangeData] = useState(false);
   const [imgList, setImgList] = useState([]);
@@ -115,8 +116,9 @@ const SuggestToday = () => {
             `/blogs/suggest-blog/${store?.sugesstFormData.Age}/${store?.sugesstFormData.IsMale}/${store?.sugesstFormData.IsLoseWeight}`,
           );
           // console.log(res);
-          setTodayData(res.data);
-          setImgList(res.data.map((item) => item.imageUrl));
+          setSuggestCalo(res.data?.calo);
+          setTodayData(res.data?.suggestBlogs);
+          setImgList(res.data?.suggestBlogs.map((item) => item.imageUrl));
         } catch (error) {
           notifyError();
         }
@@ -195,6 +197,10 @@ const SuggestToday = () => {
               <img alt="" className="object-cover w-[20px]" src={ic_FAQ} />
             </HtmlTooltip>
           </div>
+          <p className="text-gray-500 my-2 font-medium">
+            Calories gợi ý dựa trên giới tính, độ tuổi và nhu cầu giảm cân của bạn là:{' '}
+            <span className="text-primary font-bold">{suggestCalo}</span>
+          </p>
         </div>
 
         {!todayData?.length > 0 || store?.openFormSuggest == true ? (
