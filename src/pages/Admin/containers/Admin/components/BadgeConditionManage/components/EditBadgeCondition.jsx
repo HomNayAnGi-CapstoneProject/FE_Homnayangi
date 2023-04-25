@@ -107,7 +107,7 @@ const EditForm = (props) => {
         )}
       </Select>
       {errors?.badgeId?.type === 'required' && (
-        <p className="mb-[5px] text-redError text-[14px]">Vui lòng chọn tỉnh/thành của bạn</p>
+        <p className="mb-[5px] text-redError text-[14px]">Vui lòng chọn huy hiệu</p>
       )}
 
       {/* orders condition */}

@@ -53,27 +53,6 @@ const ManagerManage = () => {
       },
     );
   };
-  // const handleConfirmRestore = () => {
-  //   toast.promise(
-  //     instances
-  //       .put(`/badgecondition`, {
-  //         accomplishments: parseInt(confirmData.accomplishments),
-  //         orders: parseInt(confirmData.orders),
-  //         badgeId: confirmData.badge.badgeId,
-  //         badgeConditionId: confirmData.badgeConditionId,
-  //         status: true,
-  //       })
-  //       .then((res) => {
-  //         setUpdateTable((prev) => !prev);
-  //         setIsShowModal(false);
-  //       }),
-  //     {
-  //       pending: 'Đang phục hồi',
-  //       success: 'Đã phục hồi thành công! 👌',
-  //       error: {},
-  //     },
-  //   );
-  // };
 
   return (
     <div>
@@ -82,7 +61,7 @@ const ManagerManage = () => {
           <RoleConfirmModal
             setIsShowModal={setIsShowModal}
             data={{ status: confirmData.role }}
-            modalTitle="Khách hàng"
+            modalTitle="Chức vụ"
             statusTypeAvai={'Manager'}
             statusTypeNotAvai={'Staff'}
             setUpdateTable={setUpdateTable}

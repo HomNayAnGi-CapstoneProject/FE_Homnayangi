@@ -24,6 +24,8 @@ import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import jwt_decode from 'jwt-decode';
+import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
+import { styled } from '@mui/material/styles';
 
 // ** Card component
 const Card = (props) => {
@@ -87,6 +89,18 @@ const SuggestToday = () => {
     decoded_jwt = jwt_decode(accessToken);
   }
   const [openRequireLogin, setOpenRequireLogin] = useState(false);
+
+  const HtmlTooltip = styled(({ className, ...props }) => <Tooltip {...props} classes={{ popper: className }} />)(
+    ({ theme }) => ({
+      [`& .${tooltipClasses.tooltip}`]: {
+        backgroundColor: '#f5f5f9',
+        color: 'rgba(0, 0, 0, 0.87)',
+        maxWidth: 220,
+        fontSize: 16,
+        border: '1px solid #dadde9',
+      },
+    }),
+  );
 
   useEffect(() => {
     dispatch(getSuggestData());
@@ -167,7 +181,19 @@ const SuggestToday = () => {
             <p className="font-bold text-[40px] sm:w-[470px] sm:px-0 px-5 w-full leading-[55px]">
               Gợi ý thực đơn hôm nay
             </p>
-            <img alt="" className="object-cover w-[20px]" src={ic_FAQ} />
+            <HtmlTooltip
+              title={
+                <>
+                  <p>
+                    Lượng calories gợi ý được dựa trên thông tin thu thập từ{' '}
+                    <span className="underline text-primary font-semibold">vinmec.com</span>
+                  </p>
+                </>
+              }
+              placement="top"
+            >
+              <img alt="" className="object-cover w-[20px]" src={ic_FAQ} />
+            </HtmlTooltip>
           </div>
         </div>
 
