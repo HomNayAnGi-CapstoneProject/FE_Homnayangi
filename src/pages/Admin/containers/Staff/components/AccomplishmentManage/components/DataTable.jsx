@@ -31,6 +31,18 @@ const columns = [
     renderCell: (params) => <div className="">{params.row.authorFullName}</div>,
   },
   {
+    field: 'blogTitle',
+    headerName: 'Tiêu đề bài viết',
+    width: 250,
+    renderCell: (params) => (
+      <div className="">
+        <Tooltip title={`${params.row.blogTitle}`} placement="top">
+          <p className="">{params.row.blogTitle}</p>
+        </Tooltip>
+      </div>
+    ),
+  },
+  {
     field: 'reaction',
     headerName: 'Lượt thích',
     width: 150,

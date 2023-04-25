@@ -3,6 +3,7 @@ import instances from '../../../../../utils/plugin/axios';
 import Image from '../../../../../share/components/Image';
 import { setReturnUrl, setAuthorAccomId } from '../../../../../redux/actionSlice/globalSlice';
 import ModalRequireLogin from '../../../../../share/components/Modal/ModalRequireLogin';
+import ModalConfirm from './ModalConfirm';
 import generateSlug from '../../../../../utils/generateSlug';
 
 import {
@@ -56,6 +57,7 @@ const Accomplishment = (props) => {
   const [editContent, setEditContent] = useState(false);
   const [editValue, setEditValue] = useState(data.content);
   const [openOpenUpdateEdit, setOpenOpenUpdateEdit] = useState(false);
+  const [openModalConfirm, setOpenModalConfirm] = useState(false);
 
   const [isYourReaction, setYourReaction] = useState(false);
   const [reaction, setReaction] = useState(data?.reaction);
@@ -129,6 +131,9 @@ const Accomplishment = (props) => {
   };
 
   // ** handle delete accom
+  const handleOpenModalDel = () => {
+    setOpenModalConfirm(true);
+  };
   const handleDelete = async () => {
     if (data.authorId === decoded_jwt.Id) {
       try {
@@ -756,7 +761,7 @@ const Accomplishment = (props) => {
   const handleReaction = async () => {
     if (accessToken) {
       try {
-        dispatch(setAuthorAccomId(data.authorId));
+        // dispatch(setAuthorAccomId(data.authorId));
         await instances.put(`accomplishmentreactions/${data.accomplishmentId}`).then((res) => {
           if (res.data.result.status == true) {
             if (decoded_jwt.Id == res.data.result.customerId) {
@@ -781,6 +786,15 @@ const Accomplishment = (props) => {
     <div>
       {openRequireLogin && (
         <ModalRequireLogin openRequireLogin={openRequireLogin} setOpenRequireLogin={setOpenRequireLogin} />
+      )}
+      {openModalConfirm && (
+        <ModalConfirm
+          openModal={openModalConfirm}
+          setOpenModal={setOpenModalConfirm}
+          handleDelele={handleDelete}
+          title="Xóa bình luận, thành quả?"
+          modalMsg="Bạn có chắc muốn xóa bình luận hoặc thành quả này?"
+        />
       )}
       <div className="flex gap-5">
         <img alt="" className="rounded-full w-[40px] h-[40px] object-cover" src={data?.avatar || default_user} />
@@ -839,7 +853,7 @@ const Accomplishment = (props) => {
                             Chỉnh sửa
                           </button>
                           <button
-                            onClick={() => handleDelete()}
+                            onClick={() => handleOpenModalDel()}
                             className="text-[14px] px-3 py-1 hover:bg-[#e5e5e58c] w-full"
                           >
                             Xóa
@@ -867,7 +881,7 @@ const Accomplishment = (props) => {
                             Chỉnh sửa
                           </button>
                           <button
-                            onClick={() => handleDelete()}
+                            onClick={() => handleOpenModalDel()}
                             className="text-[14px] px-3 py-1 hover:bg-[#e5e5e58c] w-full"
                           >
                             Xóa

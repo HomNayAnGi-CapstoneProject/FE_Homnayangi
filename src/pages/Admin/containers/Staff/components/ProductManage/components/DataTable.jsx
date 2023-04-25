@@ -176,11 +176,13 @@ const DataTable = (props) => {
       // flex: 1,
       renderCell: (params) => (
         <div className="cellAction">
-          <Tooltip title="Chỉnh sửa" placement="left">
-            <IconButton onClick={() => props?.handleOpenEdit(params.row)} aria-label="edit">
-              <img src={ic_edit} />
-            </IconButton>
-          </Tooltip>
+          {params.row.status == true && (
+            <Tooltip title="Chỉnh sửa" placement="left">
+              <IconButton onClick={() => props?.handleOpenEdit(params.row)} aria-label="edit">
+                <img src={ic_edit} />
+              </IconButton>
+            </Tooltip>
+          )}
           <Tooltip title={params.row.status == true ? 'Xóa' : 'Khôi phục'} placement="right">
             <IconButton onClick={() => props?.handleOpenDelete(params.row)} aria-label="remove">
               {params.row.status == true ? <img src={ic_delete_red} /> : <img src={ic_delete_green} />}

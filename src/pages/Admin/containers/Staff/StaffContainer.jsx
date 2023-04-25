@@ -9,6 +9,7 @@ import Dashboard from './components/Dashboard/Dashboard';
 import BlogManagement from './components/BlogManage/BlogManagement';
 import CreateBlog from './components/BlogManage/components/CreateBlog';
 import GiveEventVoucher from './components/BlogManage/components/GiveEventVoucher/GiveEventVoucher';
+import BlogDetail from './components/BlogManage/components/BlogDetail';
 
 import TagManagement from './components/CateManage/TagManagement';
 import CreateCategory from './components/CateManage/components/CreateCategory';
@@ -79,6 +80,7 @@ const StaffContainer = (props) => {
                 <Route path="new" element={<CreateBlog />} />
                 <Route path="edit/:blogId" element={<CreateBlog />} />
                 <Route path="give-voucher/:eventId" element={<GiveEventVoucher />} />
+                <Route path="detail/:blogId" element={<BlogDetail />} />
               </Route>
               <Route path="order" element={<OrderManagement />} />
               <Route path="product">

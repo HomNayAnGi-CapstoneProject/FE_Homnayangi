@@ -34,7 +34,7 @@ const BadgeShowCase = (props) => {
         {/* rank list < 0: none */}
         {customerBadges?.length > 0 ? (
           customerBadges?.map((item) => (
-            <div className="flex flex-1 gap-1 flex-wrap">
+            <div className="flex gap-1 flex-wrap">
               <Tooltip title={item?.badge?.name} placement="top">
                 <img src={item?.badge?.imageUrl} alt="" className="object-contain w-[30px] h-[30px]" />
               </Tooltip>

@@ -1,0 +1,185 @@
+import { useEffect, useState, useRef } from 'react';
+import instances from '../../../../../../../utils/plugin/axios';
+import Image from '../../../../../../../share/components/Image';
+import YouTube from 'react-youtube';
+
+// ** Redux
+import { getCurrentContent } from '../../../../../../../redux/actionSlice/managementSlice';
+import { useSelector } from 'react-redux';
+
+// ** third party
+import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+
+const BlogDetail = () => {
+  // ** const
+  const navigate = useNavigate();
+  const [previewData, setPreviewData] = useState();
+  const params = useParams();
+  const opts = {
+    height: '420',
+    width: '100%',
+    playerVars: {
+      // https://developers.google.com/youtube/player_parameters
+      // autoplay: 1,
+      // controls: 0,
+      // mute: bannerMId.bannerVolumeClicked ? 1 : 0,
+      modestbranding: 1,
+    },
+  };
+
+  // ** get url id from URL
+  const getVideoIdFromUrl = (url) => {
+    const urlParams = new URLSearchParams(new URL(url).search);
+    return urlParams.get('v');
+  };
+
+  // ** get data preview
+  useEffect(() => {
+    if (params.blogId) {
+      const fetch = async () => {
+        const res = await instances.get(`/blogs/staff-preview/${params.blogId}`);
+        // console.log(res.data);
+        setPreviewData(res.data);
+      };
+
+      fetch();
+    }
+  }, []);
+
+  return (
+    <div className="flex gap-3">
+      <div className="bg-white xxlg:w-[70%] w-full font-inter rounded-[5px] shadow-md">
+        {/* ================================= ẢNH BÌA ================================= */}
+        {previewData ? (
+          <>
+            {previewData?.imageUrl && (
+              <Image
+                alt="coverImage"
+                className="object-cover w-full h-[384px] rounded-tl-[5px] rounded-tr-[5px]"
+                src={previewData?.imageUrl}
+              />
+            )}
+            {previewData?.isEvent && (
+              <div className="w-full bg-gradient-to-r from-rose-400 to-red-500 p-5 text-white font-medium text-center">
+                <p className="text-[20px] mb-2">️🎊 Bài viết sự kiện ️️🎊 </p>
+                <p className="font-normal text-[16px]">
+                  ️🎉 Nhanh tay đăng thành quả cá nhân trong thời gian sự kiện để nhận được nhiều ưu đãi hấp dẫn! ️🎉
+                </p>
+                <p className="mt-2 italic">
+                  Thời gian kết thúc sự kiện:{' '}
+                  <span className="font-semibold">
+                    {new Date(new Date(previewData?.eventExpiredDate).setSeconds(0)).toLocaleString()}
+                  </span>
+                </p>
+              </div>
+            )}
+            <div className="py-5 px-5">
+              <p className="text-[30px] text-black font-semibold">{previewData?.title}</p>
+              <p className="mt-[12px] text-[14px] text-[#8f8f8f]">
+                <span className="font-medium">Khẩu phần:</span> từ {previewData?.minSize} đến {previewData?.maxSize}{' '}
+                người
+              </p>
+              <div className="mt-[12px] flex flex-wrap gap-2">
+                {previewData?.subCates?.map((item, i) => (
+                  <div
+                    key={item.subCateId}
+                    className="rounded-full w-max bg-[#EAD35B] border-[2px] border-[#8F8137] border-solid xs:px-[10px] px-[2px] py-[0px] text-[12px] text-[#525252]"
+                  >
+                    {item.name}
+                  </div>
+                ))}
+              </div>
+              <div
+                className="mt-[30px] unreset"
+                dangerouslySetInnerHTML={{ __html: previewData?.descriptionHTML }}
+              ></div>
+
+              <div className="mt-[30px]">
+                <p className="font-semibold text-[20px]">Nguyên liệu:</p>
+                <div className="p-5 bg-[#FFDACA] rounded-[10px] mt-[18px] text-[18px]">
+                  {previewData?.recipeDetails?.length > 0 &&
+                    previewData?.recipeDetails?.map((item, i) => (
+                      <div key={item.ingredientId} className="">
+                        <p>
+                          {i + 1}.{' '}
+                          <span
+                            className={`${
+                              item.ingredientName == 'Gia vị'
+                                ? 'text-black'
+                                : 'cursor-pointer text-primary font-semibold'
+                            }`}
+                          >
+                            {item.ingredientName}
+                          </span>
+                          <span>
+                            :{' '}
+                            {item.ingredientName == 'Gia vị' ? (
+                              <>
+                                {item.description.map((item, i) => (
+                                  <span key={i} className="cursor-pointer text-primary font-semibold">
+                                    {(i ? ', ' : '') + item}
+                                  </span>
+                                ))}
+                                <span>. Hoặc</span>
+                                <span className="text-primary cursor-pointer font-semibold">
+                                  {' '}
+                                  Gói gia vị homnayangi
+                                </span>
+                              </>
+                            ) : (
+                              item.description
+                            )}
+                          </span>
+                        </p>
+                      </div>
+                    ))}
+                </div>
+              </div>
+
+              <div className="mt-[30px]">
+                <p className="font-semibold text-[20px]">Sơ chế:</p>
+                <div
+                  className="mt-[10px] unreset"
+                  dangerouslySetInnerHTML={{ __html: previewData?.preparationHTML }}
+                ></div>
+              </div>
+              <div className="mt-[30px]">
+                <p className="font-semibold text-[20px]">Cách chế biến:</p>
+                <div
+                  className="mt-[10px] unreset"
+                  dangerouslySetInnerHTML={{ __html: previewData?.processingHTML }}
+                ></div>
+              </div>
+              <div className="mt-[30px]">
+                <p className="font-semibold text-[20px]">Thành phẩm:</p>
+                <div
+                  className="mt-[10px] unreset"
+                  dangerouslySetInnerHTML={{ __html: previewData?.finishedHTML }}
+                ></div>
+              </div>
+              {/* video */}
+              <div className="mt-[30px]">
+                {previewData?.videoUrl && (
+                  <>
+                    <YouTube videoId={getVideoIdFromUrl(previewData?.videoUrl)} opts={opts} />
+                  </>
+                )}
+              </div>
+            </div>
+          </>
+        ) : (
+          <div className="py-5 px-5">Chưa có nội dung</div>
+        )}
+      </div>
+      <div className="xxlg:w-[30%] w-full sticky top-[100px] h-fit">
+        <div className="bg-white px-5 py-3 rounded-[5px]">
+          <p className="font-medium">Tác giả: {previewData?.authorName}</p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default BlogDetail;

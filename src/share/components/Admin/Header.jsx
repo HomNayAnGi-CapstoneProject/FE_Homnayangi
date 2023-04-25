@@ -5,28 +5,24 @@ import default_user from '../../../assets/images/default_user.png';
 import { ic_menu, ic_caret_gray, ic_nofitication_orange, ic_nofitication } from '../../../assets';
 import { setShowSideBar, clearBlogContent } from '../../../redux/actionSlice/managementSlice';
 import { setAccountInfo } from '../../../redux/actionSlice/accountSlice';
-import { setPreviousUrl } from '../../../redux/actionSlice/globalSlice';
+import { setPreviousUrl, setNewNoti } from '../../../redux/actionSlice/globalSlice';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
 import OutsideClickHandler from 'react-outside-click-handler';
 import jwt_decode from 'jwt-decode';
-import { motion, AnimatePresence } from 'framer-motion';
-import { HubConnection, HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
-import { toast } from 'react-toastify';
 
 const Header = (props) => {
   //** Const */
-  const [connection, setConnection] = useState();
   const [openNotifycation, setOpenNotification] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   const store = useSelector((state) => state.management);
+  const globalStore = useSelector((state) => state.global);
   const loggedInUser = JSON.parse(localStorage.getItem('ACCOUNT_INFO'));
   const [openLogout, setOpenLogout] = useState(false);
-  const [newNoti, setNewNoti] = useState(false);
 
   const accessToken = localStorage.getItem('accessToken');
   let decoded_jwt = {};
@@ -34,56 +30,11 @@ const Header = (props) => {
     decoded_jwt = jwt_decode(accessToken);
   }
 
-  // ** Notify
-  const newNotify = (msg) =>
-    toast.info(msg, {
-      pauseOnHover: false,
-      autoClose: 2000,
-    });
-
   const handleLogout = async () => {
     localStorage.removeItem('accessToken');
     navigate('/login');
     dispatch(setAccountInfo({}));
   };
-
-  // ** get connection signalR
-  useEffect(() => {
-    if (accessToken) {
-      // console.log(`${import.meta.env.VITE_LOCAL_URL}signalRServer`);
-      const connect = new HubConnectionBuilder()
-        .withUrl(`${import.meta.env.VITE_LOCAL_URL}/signalRServer`)
-        .configureLogging(LogLevel.Information)
-        .withAutomaticReconnect()
-        .build();
-
-      setConnection(connect);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (connection) {
-      connection
-        .start()
-        .then(() => {
-          if (decoded_jwt?.role == 'Staff') {
-            connection.on('OrderCreated', (message) => {
-              // console.log(JSON.parse(message));
-              newNotify(JSON.parse(message)?.description);
-              setNewNoti(true);
-            });
-          }
-          if (decoded_jwt?.role == 'Manager') {
-            connection.on('BlogPending', (message) => {
-              // console.log(JSON.parse(message));
-              newNotify(JSON.parse(message)?.description);
-              setNewNoti(true);
-            });
-          }
-        })
-        .catch((error) => console.log(error));
-    }
-  }, [connection]);
 
   // ** call bengin cronjob
   useEffect(() => {
@@ -125,12 +76,12 @@ const Header = (props) => {
           <div
             onClick={() => {
               setOpenNotification((prev) => !prev);
-              setNewNoti(false);
+              dispatch(setNewNoti(false));
             }}
             className="relative bg-cover w-[25px] h-[25px] cursor-pointer"
             style={{ backgroundImage: `url(${ic_nofitication})` }}
           >
-            {newNoti && (
+            {globalStore?.newNoti && (
               <div className="w-[10px] h-[10px] rounded-full bg-primary absolute top-[-5px] right-[-0px] text-white flex items-center justify-center">
                 {/* <p className="text-[13px] text-center">{totalItem}</p> */}
               </div>

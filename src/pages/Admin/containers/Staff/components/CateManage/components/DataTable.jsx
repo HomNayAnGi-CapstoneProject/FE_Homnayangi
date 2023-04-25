@@ -159,11 +159,13 @@ const DataTable = (props) => {
       fontWeight: 700,
       format: (value) => (
         <div className="h-[20px] flex items-center ">
-          <Tooltip title="Chỉnh sửa" placement="left">
-            <IconButton onClick={() => props?.handleOpenEdit(value)} aria-label="edit">
-              <img src={ic_edit} />
-            </IconButton>
-          </Tooltip>
+          {value.status == true && (
+            <Tooltip title="Chỉnh sửa" placement="left">
+              <IconButton onClick={() => props?.handleOpenEdit(value)} aria-label="edit">
+                <img src={ic_edit} />
+              </IconButton>
+            </Tooltip>
+          )}
           <Tooltip title={value.status == true ? 'Xóa' : 'Khôi phục'} placement="right">
             <IconButton onClick={() => props?.handleOpenDelete(value)} aria-label="remove">
               {value.status == true ? <img src={ic_delete_red} /> : <img src={ic_delete_green} />}

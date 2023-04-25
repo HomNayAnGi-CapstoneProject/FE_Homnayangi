@@ -47,6 +47,9 @@ const BlogManagement = () => {
   const handleCreateBlog = () => {
     navigate('/management/blog/new');
   };
+  const handleOpenDetail = (data) => {
+    navigate(`/management/blog/detail/${data?.blogId}`);
+  };
   const handleOpenEdit = (data) => {
     // console.log(data);
     navigate(`/management/blog/edit/${data?.blogId}`);
@@ -148,6 +151,7 @@ const BlogManagement = () => {
           handleOpenDelete={handleOpenDelete}
           handleOpenEdit={handleOpenEdit}
           handleOpenGiveVoucher={handleOpenGiveVoucher}
+          handleOpenDetail={handleOpenDetail}
         />
       </div>
     </div>

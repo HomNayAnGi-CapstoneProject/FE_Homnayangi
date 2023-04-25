@@ -206,7 +206,7 @@ const SideBar = (props) => {
                 id="type"
                 url={ic_tag}
                 urlActive={ic_tag_active}
-                title="Quản lý loại món"
+                title="Quản lý loại thực phẩm"
                 setOpenSidebar={props.setOpenSidebar}
                 isTablet={props.isTablet}
               />

@@ -1,6 +1,6 @@
 import React from 'react';
 import Loading from '../../../../../../../share/components/Admin/Loading';
-import { ic_edit, ic_delete_red, ic_delete_green, ic_chart_bold } from '../../../../../../../assets';
+import { ic_edit, ic_delete_red, ic_delete_green, ic_chart_bold, ic_eye_gray } from '../../../../../../../assets';
 import Image from '../../../../../../../share/components/Image';
 
 import { DataGrid } from '@mui/x-data-grid';
@@ -102,7 +102,7 @@ const DataTable = (props) => {
     {
       field: 'action',
       headerName: 'Hành động',
-      width: 150,
+      width: 200,
       // flex: 1,
       renderCell: (params) => (
         <div className="cellAction">
@@ -118,6 +118,11 @@ const DataTable = (props) => {
               </IconButton>
             </Tooltip>
           )}
+          <Tooltip title="Xem chi tiết" placement="top">
+            <IconButton onClick={() => props?.handleOpenDetail(params.row)} aria-label="edit">
+              <img src={ic_eye_gray} />
+            </IconButton>
+          </Tooltip>
           <Tooltip
             title={params.row.status == 1 || params.row.status == 2 || params.row.status == 3 ? 'Xóa' : 'Khôi phục'}
             placement="right"
