@@ -219,6 +219,7 @@ const EditForm = (props) => {
             } p-[12px] text-subText sm:text-md  border border-[#B9B9B9] rounded-[5px] focus:outline-primary`}
             {...register('price', {
               required: true,
+              min: 1000,
               pattern: {
                 value: ReGex_Numeric,
               },
@@ -229,6 +230,9 @@ const EditForm = (props) => {
           )}
           {errors?.price?.type === 'pattern' && (
             <p className="mb-[5px] text-redError text-[14px]">Giá tiền không hợp lệ</p>
+          )}
+          {errors?.price?.type === 'min' && (
+            <p className="mb-[5px] text-redError text-[14px]">Giá tiền tối thiểu là 1000đ</p>
           )}
 
           <label>Số lượng calo</label>

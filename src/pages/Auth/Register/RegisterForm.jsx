@@ -31,6 +31,13 @@ const RegisterForm = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const notiSuccess = (msg) => {
+    toast.success(msg, { pauseOnHover: false });
+  };
+  const notiEror = (msg) => {
+    toast.error(msg, { pauseOnHover: false });
+  };
+
   // ** Funct
   const togglePasswordVisiblity = () => {
     setPasswordShown((prev) => !prev);
@@ -39,7 +46,7 @@ const RegisterForm = () => {
   //submit form
   const onSubmit = (data) => {
     // console.log(data);
-    toast.promise(
+    try {
       instances
         .post('/authentication/register', {
           username: data.username,
@@ -51,19 +58,26 @@ const RegisterForm = () => {
           gender: JSON.parse(data.gender),
         })
         .then((res) => {
-          // success navigate to login
-          navigate('/login');
-        }),
-      {
-        pending: 'Đang tạo tài khoản',
-        success: 'Đã đăng ký thành công! 👌',
-        error: {
-          render({ data }) {
-            return data.response.data.error;
-          },
-        },
-      },
-    );
+          if (res.data.status == 'failed') {
+            notiEror(res.data?.msg);
+          } else {
+            notiSuccess('Đã đăng ký thành công! 👌');
+            // success navigate to login
+            navigate('/login');
+          }
+        });
+      // toast.promise(
+      //   {
+      //     pending: 'Đang tạo tài khoản',
+      //     success: 'Đã đăng ký thành công! 👌',
+      //     error: {
+      //       render({ data }) {
+      //         return data.response.data.error;
+      //       },
+      //     },
+      //   },
+      // );
+    } catch (error) {}
   };
 
   //handle google auth
