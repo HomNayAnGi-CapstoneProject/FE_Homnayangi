@@ -24,17 +24,15 @@ import OutsideClickHandler from 'react-outside-click-handler';
 import { useDispatch, useSelector } from 'react-redux';
 import jwt_decode from 'jwt-decode';
 import { motion, AnimatePresence } from 'framer-motion';
-import { HubConnection, HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
 import { toast } from 'react-toastify';
 
 // ** Redux
-import { setOpenMenuModal, setCountrySide } from '../../redux/actionSlice/globalSlice';
+import { setOpenMenuModal, setCountrySide, setNewNoti } from '../../redux/actionSlice/globalSlice';
 import { setShowModalCart, getShoppingCart } from '../../redux/actionSlice/shoppingCartSlice';
 import { setAccountInfo } from '../../redux/actionSlice/accountSlice';
 
 const Navigation = (props) => {
   // ** States, Const
-  const [connection, setConnection] = useState();
   const [openCountry, setOpenCountry] = useState(false);
   const [openNotifycation, setOpenNotification] = useState(false);
   const [openUser, setOpenUser] = useState(false);
@@ -43,7 +41,6 @@ const Navigation = (props) => {
   const store = useSelector((state) => state.global);
   const cartStore = useSelector((state) => state?.cart);
   const [scroll, setScroll] = useState(false);
-  const [newNoti, setNewNoti] = useState(false);
 
   const accessToken = localStorage.getItem('accessToken');
   let decoded_jwt = {};
@@ -66,54 +63,6 @@ const Navigation = (props) => {
     };
     fetch();
   }, []);
-
-  // ** get connection signalR
-  useEffect(() => {
-    if (accessToken) {
-      // console.log(`${import.meta.env.VITE_LOCAL_URL}signalRServer`);
-      const connect = new HubConnectionBuilder()
-        .withUrl(`${import.meta.env.VITE_LOCAL_URL}/signalRServer`)
-        .configureLogging(LogLevel.Information)
-        .withAutomaticReconnect()
-        .build();
-
-      setConnection(connect);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (connection) {
-      connection
-        .start()
-        .then(() => {
-          connection.on(`${decoded_jwt.Id}_OrderStatusChanged`, (message) => {
-            // console.log(message);
-            newNotify(JSON.parse(message)?.description);
-            setNewNoti(true);
-          });
-          console.log(store?.authorAccomId);
-          connection.on(`${store?.authorAccomId}_InteractAccomplishment`, (message) => {
-            // console.log(message);
-            newNotify(JSON.parse(message)?.description);
-            setNewNoti(true);
-          });
-          connection.on(`${store?.parentCommentId}_ReplyComment`, (message) => {
-            // console.log(message);
-            newNotify(JSON.parse(message)?.description);
-            setNewNoti(true);
-          });
-        })
-        .catch((error) => console.log(error));
-    }
-  }, [connection, store?.parentCommentId, store?.authorAccomId]);
-
-  // const SendMess = async (mess) => {
-  //   try {
-  //     await connection.invoke('SendMessage', mess);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
 
   //**  Get shopping cart, set account info
   useEffect(() => {
@@ -370,12 +319,12 @@ const Navigation = (props) => {
               <div
                 onClick={() => {
                   setOpenNotification((prev) => !prev);
-                  setNewNoti(false);
+                  dispatch(setNewNoti(false));
                 }}
                 className="relative bg-cover w-[24px] h-[24px] cursor-pointer"
                 style={{ backgroundImage: `url(${ic_nofitication})` }}
               >
-                {newNoti && (
+                {store?.newNoti && (
                   <div className="w-[10px] h-[10px] rounded-full bg-primary absolute top-[-5px] right-[-0px] text-white flex items-center justify-center">
                     {/* <p className="text-[13px] text-center">{totalItem}</p> */}
                   </div>

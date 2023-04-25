@@ -3,6 +3,7 @@ import instances from '../../../../../utils/plugin/axios';
 import Image from '../../../../../share/components/Image';
 import { setReturnUrl, setParentCommentId } from '../../../../../redux/actionSlice/globalSlice';
 import ModalRequireLogin from '../../../../../share/components/Modal/ModalRequireLogin';
+import ModalConfirm from './ModalConfirm';
 
 import { ic_repcomment, ic_menu_dots } from '../../../../../assets';
 import default_user from '../../../../../assets/images/default_user.png';
@@ -30,6 +31,9 @@ const Comment = (props) => {
   const [openRepBox, setOpenRepBox] = useState(false);
   const [reptValue, setRepValue] = useState('');
   const [openRequireLogin, setOpenRequireLogin] = useState(false);
+  const [openModalConfirm, setOpenModalConfirm] = useState(false);
+  const [isDelParent, setIsDelParent] = useState(false);
+  const [repItem, setRepItem] = useState();
 
   const [openOpenUpdateEdit, setOpenOpenUpdateEdit] = useState(false);
   const [openOpenUpdateEditRep, setOpenOpenUpdateEditRep] = useState(0);
@@ -59,8 +63,8 @@ const Comment = (props) => {
     } else {
       // console.log(commentValue, params.id);
       try {
-        console.log('parent Id', data.item1.authorId);
-        dispatch(setParentCommentId(data.item1.authorId));
+        // console.log('parent Id', data.item1.authorId);
+        // dispatch(setParentCommentId(data.item1.authorId));
         const res = await instances.post('/comments', {
           parentCommentId: data.item1.commentId,
           content: reptValue,
@@ -115,6 +119,10 @@ const Comment = (props) => {
   };
 
   // ** handle delete parent comment
+  const openModalConfirmDelParent = () => {
+    setIsDelParent(true);
+    setOpenModalConfirm(true);
+  };
   const handleDeleteParent = async () => {
     if (data.item1.authorId === decoded_jwt.Id) {
       try {
@@ -136,14 +144,22 @@ const Comment = (props) => {
   };
 
   // ** handle delete rep comment
-  const handleDeleteRep = async (item) => {
-    if (item.authorId === decoded_jwt.Id) {
-      try {
-        const res = await instances.delete(`/comments/${item.commentId}`);
-        // console.log(res);
-        setUpdateComments((prev) => !prev);
-      } catch (error) {
-        // notifyError();
+  const handleOpenDelRep = (item) => {
+    setRepItem(item);
+    setIsDelParent(false);
+    setOpenModalConfirm(true);
+  };
+  const handleDeleteRep = async () => {
+    if (repItem) {
+      if (repItem.authorId === decoded_jwt.Id) {
+        try {
+          const res = await instances.delete(`/comments/${repItem.commentId}`);
+          // console.log(res);
+          setRepItem();
+          setUpdateComments((prev) => !prev);
+        } catch (error) {
+          // notifyError();
+        }
       }
     }
   };
@@ -183,6 +199,15 @@ const Comment = (props) => {
     <>
       {openRequireLogin && (
         <ModalRequireLogin openRequireLogin={openRequireLogin} setOpenRequireLogin={setOpenRequireLogin} />
+      )}
+      {openModalConfirm && (
+        <ModalConfirm
+          openModal={openModalConfirm}
+          setOpenModal={setOpenModalConfirm}
+          handleDelele={isDelParent ? handleDeleteParent : handleDeleteRep}
+          title="Xóa bình luận, thành quả?"
+          modalMsg="Bạn có chắc muốn xóa bình luận hoặc thành quả này?"
+        />
       )}
       <div className="font-inter w-full">
         {/* parent comment */}
@@ -239,7 +264,7 @@ const Comment = (props) => {
                             Chỉnh sửa
                           </button>
                           <button
-                            onClick={() => handleDeleteParent()}
+                            onClick={() => openModalConfirmDelParent()}
                             className="text-[14px] px-3 py-1 hover:bg-[#e5e5e58c] w-full"
                           >
                             Xóa
@@ -360,7 +385,7 @@ const Comment = (props) => {
                                     Chỉnh sửa
                                   </button>
                                   <button
-                                    onClick={() => handleDeleteRep(item)}
+                                    onClick={() => handleOpenDelRep(item)}
                                     className="text-[14px] px-3 py-1 hover:bg-[#e5e5e58c] w-full"
                                   >
                                     Xóa
