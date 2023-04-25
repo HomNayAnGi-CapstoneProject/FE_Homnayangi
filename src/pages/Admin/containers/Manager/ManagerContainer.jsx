@@ -20,6 +20,8 @@ import CreateStaff from './components/StaffManage/components/CreateStaff';
 import ProductManage from './components/ProductManage/ProductManage';
 import EditProduct from './components/ProductManage/components/EditProduct';
 
+import Statistics from './components/Statistics/Statistics';
+
 const ManagerContainer = () => {
   //** Const  */
   const dispatch = useDispatch();
@@ -46,6 +48,9 @@ const ManagerContainer = () => {
               <Route path="product-manage">
                 <Route index element={<ProductManage />} />
                 <Route path="edit/:ingredientId" element={<EditProduct />} />
+              </Route>
+              <Route path="statistic">
+                <Route index element={<Statistics />} />
               </Route>
             </Route>
           </Routes>
