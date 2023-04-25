@@ -35,6 +35,8 @@ import {
   ic_unit_active,
   ic_config,
   ic_config_active,
+  ic_chart,
+  ic_chart_active,
 } from '../../../assets';
 
 const MenuItem = (props) => {
@@ -294,6 +296,16 @@ const SideBar = (props) => {
                 url={ic_product}
                 urlActive={ic_product_active}
                 title="Quản lý nguyên liệu"
+                setOpenSidebar={props.setOpenSidebar}
+                isTablet={props.isTablet}
+              />
+              <MenuItem
+                link="management/statistic"
+                active={active}
+                id="statistic"
+                url={ic_chart}
+                urlActive={ic_chart_active}
+                title="Thống kê đơn hàng"
                 setOpenSidebar={props.setOpenSidebar}
                 isTablet={props.isTablet}
               />

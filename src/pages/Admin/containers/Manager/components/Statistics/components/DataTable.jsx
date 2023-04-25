@@ -160,13 +160,13 @@ const DataTable = (props) => {
               <img src={ic_eye_gray} />
             </IconButton>
           </Tooltip>
-          {(params.row.orderStatus == 2 || params.row.orderStatus == 10 || params.row.orderStatus == 1) && (
+          {/* {(params.row.orderStatus == 2 || params.row.orderStatus == 10 || params.row.orderStatus == 1) && (
             <Tooltip title="Đổi trạng thái đơn hàng" placement="right">
               <IconButton onClick={() => props?.handleChangeStatus(params.row)} aria-label="edit">
                 <img src={ic_navigation} />
               </IconButton>
             </Tooltip>
-          )}
+          )} */}
         </div>
       ),
     },
@@ -187,7 +187,7 @@ const DataTable = (props) => {
         // loading={!rows.length}
         components={{
           LoadingOverlay: Loading,
-          // Toolbar: CustomToolbar,
+          Toolbar: CustomToolbar,
         }}
         sx={{
           '& .MuiDataGrid-columnHeaderTitle': {
