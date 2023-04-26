@@ -57,7 +57,7 @@ const ResetPass = ({ title }) => {
     // console.log(data.newPassword);
     try {
       setReseting(true);
-      await instances.put(
+      const res = await instances.put(
         '/personal-customer/password-forgotten',
         {
           newPassword: data.newPassword,
@@ -68,8 +68,13 @@ const ResetPass = ({ title }) => {
           },
         },
       );
-      setReseting(false);
-      setReseted(true);
+      if (res.data.status == 'failed') {
+        setReseting(false);
+        notifyError('Có lỗi xảy ra');
+      } else {
+        setReseting(false);
+        setReseted(true);
+      }
     } catch (error) {
       notifyError('Có lỗi xảy ra');
     }

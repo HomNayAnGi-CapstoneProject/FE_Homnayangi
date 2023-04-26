@@ -80,8 +80,13 @@ const EditForm = (props) => {
                 status: true,
               })
               .then((res) => {
-                setEditing(false);
-                navigate('/management/product');
+                if (res.data.status == 'failed') {
+                  notifyError('Chỉnh sửa thất bại');
+                  setEditing(false);
+                } else {
+                  setEditing(false);
+                  navigate('/management/product');
+                }
               });
           })
           .catch((err) => {

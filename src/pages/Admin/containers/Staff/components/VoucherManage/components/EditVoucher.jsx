@@ -28,6 +28,10 @@ const EditForm = (props) => {
     });
   };
 
+  const notiSuccess = (msg) => {
+    toast.success(msg, { pauseOnHover: false });
+  };
+
   const errorMessage = useMemo(() => {
     // console.log(error);
     switch (error) {
@@ -81,33 +85,39 @@ const EditForm = (props) => {
       notifyError('Thời gian hết hạn phải dài hơn thời gian hiệu lực');
     } else {
       setEditing(true);
-      toast.promise(
-        instances
-          .put('/vouchers', {
-            voucherId: params.voucherId,
-            name: data.name,
-            description: data.description,
-            validFrom: validFrom,
-            validTo: validTo,
-            // discount: parseInt(data?.discount),
-            discount: checkedValue == 'vnd' ? parseInt(data?.discount) : parseInt(data?.discount) / 100,
-            minimumOrderPrice: parseInt(data?.minimumOrderPrice),
-            maximumOrderPrice: parseInt(data?.maximumOrderPrice),
-          })
-          .then((res) => {
+      instances
+        .put('/vouchers', {
+          voucherId: params.voucherId,
+          name: data.name,
+          description: data.description,
+          validFrom: validFrom,
+          validTo: validTo,
+          // discount: parseInt(data?.discount),
+          discount: checkedValue == 'vnd' ? parseInt(data?.discount) : parseInt(data?.discount) / 100,
+          minimumOrderPrice: parseInt(data?.minimumOrderPrice),
+          maximumOrderPrice: parseInt(data?.maximumOrderPrice),
+        })
+        .then((res) => {
+          if (res.data.status === 'failed') {
+            notifyError('Chỉnh sửa thất bại');
+            setEditing(false);
+          } else {
+            notiSuccess('Đã chỉnh sửa thành công! 👌');
             setEditing(false);
             navigate('/management/voucher');
-          }),
-        {
-          pending: 'Đang chỉnh sửa',
-          success: 'Đã chỉnh sửa thành công! 👌',
-          error: {
-            render({ data }) {
-              // return data.response?.data.error;
-            },
-          },
-        },
-      );
+          }
+        });
+      // toast.promise(
+      //   {
+      //     pending: 'Đang chỉnh sửa',
+      //     success: 'Đã chỉnh sửa thành công! 👌',
+      //     error: {
+      //       render({ data }) {
+      //         // return data.response?.data.error;
+      //       },
+      //     },
+      //   },
+      // );
     }
   };
 

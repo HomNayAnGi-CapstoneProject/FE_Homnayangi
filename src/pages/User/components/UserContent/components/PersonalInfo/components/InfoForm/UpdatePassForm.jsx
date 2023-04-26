@@ -57,32 +57,42 @@ const UpdatePassForm = () => {
   // ** submit password form
   const onSubmit = (data) => {
     // console.log(data);
-    setUpdating(true);
-    toast.promise(
+    try {
+      setUpdating(true);
       instances
         .put(`/personal-${isCustomer() ? 'customer' : 'user'}/password`, {
           oldPassword: data.oldPassword,
           newPassword: data.newPassword.trim(),
         })
         .then((res) => {
-          notifySuccess('Cập nhật mật khẩu thành công');
-          handleLogout();
-          setUpdating(false);
+          if (res.data.status == 'failed') {
+            notifyError('Mật khẩu hiện tại không đúng');
+            setUpdating(false);
+          } else {
+            notifySuccess('Cập nhật mật khẩu thành công');
+            handleLogout();
+            setUpdating(false);
+          }
         })
         .catch((err) => {
           notifyError('Mật khẩu hiện tại không đúng');
           setUpdating(false);
-        }),
-      {
-        pending: 'Đang cập nhật',
-        // success: 'Đã cập nhật thành công! 👌',
-        error: {
-          render({ data }) {
-            // return data.response;
-          },
-        },
-      },
-    );
+        });
+      // toast.promise(
+      //   {
+      //     pending: 'Đang cập nhật',
+      //     // success: 'Đã cập nhật thành công! 👌',
+      //     error: {
+      //       render({ data }) {
+      //         // return data.response;
+      //       },
+      //     },
+      //   },
+      // );
+    } catch (error) {
+      notifyError('Mật khẩu hiện tại không đúng');
+      setUpdating(false);
+    }
   };
 
   const togglePasswordVisiblity = () => {

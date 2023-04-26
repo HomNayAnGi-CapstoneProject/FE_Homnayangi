@@ -77,7 +77,9 @@ const RegisterForm = () => {
       //     },
       //   },
       // );
-    } catch (error) {}
+    } catch (error) {
+      notiEror('Đăng ký thất bại');
+    }
   };
 
   //handle google auth
