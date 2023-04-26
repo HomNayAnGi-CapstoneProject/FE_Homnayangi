@@ -43,11 +43,16 @@ const ForgotPass = ({ title }) => {
   const onSubmit = async (data) => {
     try {
       setSending(true);
-      await instances.post('/personal-customer/password-forgotten', {
+      const res = await instances.post('/personal-customer/password-forgotten', {
         email: data.email,
       });
-      setSending(false);
-      setEmailSent(true);
+      if (res.data.status == 'failed') {
+        setSending(false);
+        notifyError('Có lỗi xảy ra');
+      } else {
+        setSending(false);
+        setEmailSent(true);
+      }
     } catch (error) {
       notifyError('Có lỗi xảy ra');
     }

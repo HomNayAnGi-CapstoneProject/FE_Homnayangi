@@ -57,6 +57,10 @@ const CreateVoucher = () => {
     });
   };
 
+  const notiSuccess = (msg) => {
+    toast.success(msg, { pauseOnHover: false });
+  };
+
   // ** Functs
   //submit form
   const onSubmit = (data) => {
@@ -73,31 +77,37 @@ const CreateVoucher = () => {
       notifyError('Thời gian hết hạn phải dài hơn thời gian hiệu lực');
     } else {
       setCreating(true);
-      toast.promise(
-        instances
-          .post('/vouchers', {
-            name: data.name,
-            description: data.description,
-            validFrom: validFrom,
-            validTo: validTo,
-            discount: checkedValue == 'vnd' ? parseInt(data?.discount) : parseInt(data?.discount) / 100,
-            minimumOrderPrice: parseInt(data?.minimumOrderPrice),
-            maximumOrderPrice: parseInt(data?.maximumOrderPrice),
-          })
-          .then((res) => {
+      instances
+        .post('/vouchers', {
+          name: data.name,
+          description: data.description,
+          validFrom: validFrom,
+          validTo: validTo,
+          discount: checkedValue == 'vnd' ? parseInt(data?.discount) : parseInt(data?.discount) / 100,
+          minimumOrderPrice: parseInt(data?.minimumOrderPrice),
+          maximumOrderPrice: parseInt(data?.maximumOrderPrice),
+        })
+        .then((res) => {
+          if (res.data.status == 'failed') {
+            notifyError('Tạo thất bại');
+            setCreating(false);
+          } else {
+            notiSuccess('Đã tạo thành công! 👌');
             setCreating(false);
             navigate('/management/voucher');
-          }),
-        {
-          pending: 'Đang tạo mới',
-          success: 'Đã tạo thành công! 👌',
-          error: {
-            render({ data }) {
-              // return data.response?.data.error;
-            },
-          },
-        },
-      );
+          }
+        });
+      // toast.promise(
+      //   {
+      //     pending: 'Đang tạo mới',
+      //     success: 'Đã tạo thành công! 👌',
+      //     error: {
+      //       render({ data }) {
+      //         // return data.response?.data.error;
+      //       },
+      //     },
+      //   },
+      // );
     }
   };
   return (

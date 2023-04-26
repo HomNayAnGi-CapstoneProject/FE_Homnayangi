@@ -36,6 +36,10 @@ const CreateAward = () => {
       autoClose: 2000,
     });
 
+  const notiSuccess = (msg) => {
+    toast.success(msg, { pauseOnHover: false });
+  };
+
   // ** get voucher list
   useEffect(() => {
     const fetch = async () => {
@@ -64,8 +68,14 @@ const CreateAward = () => {
               voucherId: data.voucherId,
             })
             .then((res) => {
-              setUploading(false);
-              navigate('/management/award');
+              if (res.data.status == 'failed') {
+                notifyError('Tạo huy hiệu thất bại');
+                setUploading(false);
+              } else {
+                notiSuccess('Đã tạo thành công');
+                setUploading(false);
+                navigate('/management/award');
+              }
             });
         })
         .catch((err) => {

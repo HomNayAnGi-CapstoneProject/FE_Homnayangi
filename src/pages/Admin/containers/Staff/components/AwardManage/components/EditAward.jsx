@@ -27,6 +27,17 @@ const EditForm = (props) => {
     defaultValues: props.data,
   });
 
+  const notifyError = (error) =>
+    toast.error(error, {
+      pauseOnHover: false,
+      position: 'top-center',
+      autoClose: 2000,
+    });
+
+  const notiSuccess = (msg) => {
+    toast.success(msg, { pauseOnHover: false });
+  };
+
   // ** get voucher list
   useEffect(() => {
     const fetch = async () => {
@@ -39,7 +50,7 @@ const EditForm = (props) => {
 
   //submit form
   const onSubmit = (data) => {
-    console.log(data);
+    // console.log(data);
     setEditing(true);
     toast.promise(
       // console.log(listImages);
@@ -56,8 +67,14 @@ const EditForm = (props) => {
               status: 1,
             })
             .then((res) => {
-              setEditing(false);
-              navigate('/management/award');
+              if (res.data.status == 'failed') {
+                setEditing(false);
+                notifyError('Chỉnh sửa thất bại');
+              } else {
+                notiSuccess('Chỉnh sửa thành công');
+                setEditing(false);
+                navigate('/management/award');
+              }
             });
         })
         .catch((err) => {

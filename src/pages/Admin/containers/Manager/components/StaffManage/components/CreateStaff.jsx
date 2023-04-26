@@ -32,6 +32,18 @@ const CreateStaff = () => {
       },
     },
   };
+
+  const notifyError = (error) =>
+    toast.error(error, {
+      pauseOnHover: false,
+      position: 'top-center',
+      autoClose: 2000,
+    });
+
+  const notiSuccess = (msg) => {
+    toast.success(msg, { pauseOnHover: false });
+  };
+
   const {
     register,
     handleSubmit,
@@ -48,28 +60,34 @@ const CreateStaff = () => {
   const onSubmit = (data) => {
     // console.log(data);
     setCreating(true);
-    toast.promise(
-      instances
-        .post('/users', {
-          username: data.username,
-          firstname: data.firstname,
-          lastname: data.lastname,
-          email: data.email,
-          phonenumber: data.phonenumber,
-          gender: data.gender,
-          displayname: data.displayname,
-          avatar: null,
-        })
-        .then((res) => {
+    instances
+      .post('/users', {
+        username: data.username,
+        firstname: data.firstname,
+        lastname: data.lastname,
+        email: data.email,
+        phonenumber: data.phonenumber,
+        gender: data.gender,
+        displayname: data.displayname,
+        avatar: null,
+      })
+      .then((res) => {
+        if (res.data.status == 'failed') {
+          notifyError('Có lỗi xảy ra khi tạo mới nhân viên');
+          setCreating(false);
+        } else {
+          notiSuccess('Đã tạo thành công! 👌');
           setCreating(false);
           navigate('/management/staff-manage');
-        }),
-      {
-        pending: 'Đang tạo mới',
-        success: 'Đã tạo thành công! 👌',
-        error: 'Có lỗi xảy ra khi tạo mới nhân viên',
-      },
-    );
+        }
+      });
+    // toast.promise(
+    //   {
+    //     pending: 'Đang tạo mới',
+    //     success: 'Đã tạo thành công! 👌',
+    //     error: 'Có lỗi xảy ra khi tạo mới nhân viên',
+    //   },
+    // );
   };
 
   return (

@@ -85,8 +85,13 @@ const CreateProduct = () => {
                 listImage: listImages,
               })
               .then((res) => {
-                setUploading(false);
-                navigate('/management/product');
+                if (res.data.status == 'failed') {
+                  setUploading(false);
+                  notifyError('Tạo sản phẩm thất bại');
+                } else {
+                  setUploading(false);
+                  navigate('/management/product');
+                }
               });
           })
           .catch((err) => {

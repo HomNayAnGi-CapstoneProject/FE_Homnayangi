@@ -35,6 +35,17 @@ const EditForm = (props) => {
     defaultValues: props.data,
   });
 
+  const notifyError = (error) =>
+    toast.error(error, {
+      pauseOnHover: false,
+    });
+
+  const notifySuccess = (mess) => {
+    toast.success(mess, {
+      pauseOnHover: false,
+    });
+  };
+
   // ** get badge list
   useEffect(() => {
     const fetch = async () => {
@@ -49,29 +60,35 @@ const EditForm = (props) => {
   const onSubmit = (data) => {
     // console.log(data);
     setEditing(true);
-    toast.promise(
-      instances
-        .put(`/badgecondition`, {
-          accomplishments: parseInt(data.accomplishments),
-          orders: parseInt(data.orders),
-          badgeId: data.badgeId,
-          badgeConditionId: params.badgeConditionId,
-          status: true,
-        })
-        .then((res) => {
+    instances
+      .put(`/badgecondition`, {
+        accomplishments: parseInt(data.accomplishments),
+        orders: parseInt(data.orders),
+        badgeId: data.badgeId,
+        badgeConditionId: params.badgeConditionId,
+        status: true,
+      })
+      .then((res) => {
+        if (res.data.status === 'failed') {
           setEditing(false);
+          notifyError('Chỉnh sửa thất bại');
+        } else {
+          setEditing(false);
+          notifySuccess('Đã chỉnh sửa thành công !');
           navigate('/management');
-        }),
-      {
-        pending: 'Đang chỉnh sửa',
-        success: 'Đã chỉnh sửa thành công! 👌',
-        error: {
-          // render({ data }) {
-          //   return data.response?.data.error;
-          // },
-        },
-      },
-    );
+        }
+      });
+    // toast.promise(
+    //   {
+    //     pending: 'Đang chỉnh sửa',
+    //     success: 'Đã chỉnh sửa thành công! 👌',
+    //     error: {
+    //       // render({ data }) {
+    //       //   return data.response?.data.error;
+    //       // },
+    //     },
+    //   },
+    // );
   };
 
   return (
