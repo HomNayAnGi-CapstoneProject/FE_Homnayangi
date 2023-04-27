@@ -59,9 +59,13 @@ const ModalNotification = (props) => {
 overflow-hidden top-[35px] border shadow-md text-black left-[-600%] py-[15px]"
     >
       <div>
-        <div className=" border-solid border-b-[1px] pb-2 flex items-center justify-between">
-          <p className="text-[16px] font-semibold uppercase px-[15px]">Thông báo</p>
-          {/* <p className="text-[16px]">{notify}</p> */}
+        <div className=" border-solid border-b-[1px] pb-2 px-[15px] flex items-center justify-between">
+          <p className="text-[16px] font-semibold uppercase ">Thông báo</p>
+          {accessToken && (
+            <p onClick={() => navigate('/notifications')} className="text-primary cursor-pointer text-[15px]">
+              Xem tất cả
+            </p>
+          )}
         </div>
         <div className="max-h-[290px] scroll-bar overflow-x-hidden overflow-y-scroll">
           {notifyList?.length > 0 ? (
