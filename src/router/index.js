@@ -16,6 +16,7 @@ const ShopItemDetail = lazy(() => import('../pages/ShopItemDetail/ShopItemDetail
 const Err = lazy(() => import('../pages/Err/Err'))
 const ForgotPass = lazy(() => import('../pages/Auth/ForgotPass/ForgotPass'))
 const ResetPass = lazy(() => import('../pages/Auth/ResetPass/ResetPass'))
+const Notifications = lazy(() => import('../pages/Notifications/Notifications'))
 
 // ** public routes (no need authen)
 const publicRoutes = [
@@ -32,6 +33,7 @@ const publicRoutes = [
   { path: '/err', component: Err, layout: null },
   { path: '/forgot-password', component: ForgotPass, layout: null, title: 'Quên mật khẩu' },
   { path: '/reset-password/:id', component: ResetPass, layout: null, title: 'Tạo mới mật khẩu' },
+  { path: '/notifications', component: Notifications, title: 'Thông báo' },
 ];
 
 // ** private routes (need authen + authorization)
