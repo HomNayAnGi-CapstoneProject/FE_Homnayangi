@@ -5,6 +5,7 @@ import generateSlug from '../../../utils/generateSlug';
 import Image from '../../../share/components/Image';
 import SuggestForm from './SuggestForm';
 import ModalOrderCooked from '../../../share/components/Modal/ModalOrderCooked/ModalOrderCooked';
+import ModalRequireLogin from '../../../share/components/Modal/ModalRequireLogin';
 import { getSuggestData, setOpenFormSuggest } from '../../../redux/actionSlice/globalSlice';
 import { addItemNoStock, getShoppingCart } from '../../../redux/actionSlice/shoppingCartSlice';
 
@@ -175,6 +176,9 @@ const SuggestToday = () => {
           setOpenCookedOrderModal={setOpenOrderCooked}
           listData={todayData}
         />
+      )}
+      {openRequireLogin && (
+        <ModalRequireLogin openRequireLogin={openRequireLogin} setOpenRequireLogin={setOpenRequireLogin} />
       )}
       <section className={`today-suggest font-inter w-full h-fit ${styles.paddingY}`}>
         <div className="text-center">
