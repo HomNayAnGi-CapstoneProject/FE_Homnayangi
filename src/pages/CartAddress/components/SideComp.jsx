@@ -325,8 +325,8 @@ const SideComp = () => {
       </div>
       {/* button */}
       <button
-        type="submit"
-        form="address-form"
+        // type="submit"
+        // form="address-form"
         onClick={() => handleCreateOrder(current.currentCart)}
         disabled={current.currentCart?.length > 0 ? false : true}
         className={`uppercase select-none text-white font-semibold w-full text-center py-2 rounded-[5px] ${

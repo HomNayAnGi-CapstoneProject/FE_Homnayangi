@@ -24,6 +24,7 @@ const ModalOrderCooked = (props) => {
   const today = dayjs();
   const todayAtNoon = dayjs().set('hour', 12).startOf('hour');
   const todayAt8AM = dayjs().set('hour', 8).startOf('hour').add(1, 'day');
+  const shouldDisableTime = (value, view) => view === 'hours' && value.hour() >= 20;
 
   const accessToken = localStorage.getItem('accessToken');
   let decoded_jwt = {};
@@ -62,6 +63,10 @@ const ModalOrderCooked = (props) => {
 
       case 'invalidDate': {
         return 'Thời gian giao hàng không hợp lệ';
+      }
+
+      case 'shouldDisableTime': {
+        return 'Thời gian giao hàng trễ nhất là trước 8h tối';
       }
 
       default: {
@@ -136,6 +141,7 @@ const ModalOrderCooked = (props) => {
                     },
                   }}
                   // disabled={currentCart?.length > 0}
+                  shouldDisableTime={shouldDisableTime}
                   value={date}
                   minDateTime={todayAt8AM}
                   onChange={(event, value) => setDate(event)}
@@ -146,7 +152,9 @@ const ModalOrderCooked = (props) => {
             </div>
             <p className="mt-2 text-[#898989]">
               Để chúng tôi có thể chuẩn bị món ăn cho bạn một cách tốt nhất. Bạn nên chọn thời gian giao hàng là{' '}
-              <span className="text-redError font-semibold">hôm sau từ 8 giờ sáng (AM) trở đi</span>
+              <span className="text-redError font-semibold">
+                hôm sau từ 8 giờ sáng (AM) trở đi và trước 8h tối (PM)
+              </span>
             </p>
 
             {current.currentCart?.length > 0 && (
