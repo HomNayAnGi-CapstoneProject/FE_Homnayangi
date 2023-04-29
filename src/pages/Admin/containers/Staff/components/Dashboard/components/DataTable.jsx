@@ -180,7 +180,7 @@ const DataTable = (props) => {
         // loading={!rows.length}
         components={{
           LoadingOverlay: Loading,
-          Toolbar: CustomToolbar,
+          // Toolbar: CustomToolbar,
         }}
         sx={{
           '& .MuiDataGrid-columnHeaderTitle': {
