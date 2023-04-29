@@ -30,17 +30,17 @@ function App() {
 
   // ** get connection signalR
   useEffect(() => {
-    if (accessToken) {
-      // console.log(`${import.meta.env.VITE_LOCAL_URL}signalRServer`);
-      const connect = new HubConnectionBuilder()
-        .withUrl(`${import.meta.env.VITE_LOCAL_URL}/signalRServer`)
-        .configureLogging(LogLevel.Information)
-        .withAutomaticReconnect()
-        .build();
+    // if (accessToken) {
+    // console.log(`${import.meta.env.VITE_LOCAL_URL}signalRServer`);
+    const connect = new HubConnectionBuilder()
+      .withUrl(`${import.meta.env.VITE_LOCAL_URL}/signalRServer`)
+      .configureLogging(LogLevel.Information)
+      .withAutomaticReconnect()
+      .build();
 
-      // dispatch(setConnection(connect));
-      setConnection(connect);
-    }
+    // dispatch(setConnection(connect));
+    setConnection(connect);
+    // }
   }, []);
 
   useEffect(() => {
