@@ -85,7 +85,8 @@ const Navigation = (props) => {
 
   const handleLogout = async () => {
     localStorage.removeItem('accessToken');
-    navigate('/login');
+    // navigate('/login');
+    window.location.href = '/login';
     dispatch(setAccountInfo({}));
   };
 

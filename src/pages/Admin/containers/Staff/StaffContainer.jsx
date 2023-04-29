@@ -63,7 +63,8 @@ const StaffContainer = (props) => {
   //** handle logout */
   const handleLogout = async () => {
     // const res = await instances.post('/logout')
-    navigate('/');
+    // navigate('/');
+    window.location.href = '/login';
     localStorage.removeItem('accessToken');
     dispatch(setAccountInfo({}));
   };

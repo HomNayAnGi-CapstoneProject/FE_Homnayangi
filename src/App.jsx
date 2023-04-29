@@ -8,11 +8,11 @@ import 'moment/locale/vi';
 import { HubConnection, HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
 import jwt_decode from 'jwt-decode';
 import { setConnection, setNewNoti } from './redux/actionSlice/globalSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
 function App() {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const [connection, setConnection] = useState();
 
   const accessToken = localStorage.getItem('accessToken');
@@ -30,58 +30,61 @@ function App() {
 
   // ** get connection signalR
   useEffect(() => {
-    // if (accessToken) {
-    // console.log(`${import.meta.env.VITE_LOCAL_URL}signalRServer`);
-    const connect = new HubConnectionBuilder()
-      .withUrl(`${import.meta.env.VITE_LOCAL_URL}/signalRServer`)
-      .configureLogging(LogLevel.Information)
-      .withAutomaticReconnect()
-      .build();
+    if (accessToken) {
+      // console.log(`${import.meta.env.VITE_LOCAL_URL}signalRServer`);
+      const connect = new HubConnectionBuilder()
+        .withUrl(`${import.meta.env.VITE_LOCAL_URL}/signalRServer`)
+        .configureLogging(LogLevel.Information)
+        .withAutomaticReconnect()
+        .build();
 
-    // dispatch(setConnection(connect));
-    setConnection(connect);
-    // }
+      // dispatch(setConnection(connect));
+      setConnection(connect);
+    }
   }, []);
 
   useEffect(() => {
-    if (connection) {
-      connection
-        .start()
-        .then(() => {
-          if (decoded_jwt?.role == 'Staff') {
-            connection.on('OrderCreated', (message) => {
-              // console.log(JSON.parse(message));
-              newNotify(JSON.parse(message)?.description);
-              dispatch(setNewNoti(true));
-            });
-          }
-          if (decoded_jwt?.role == 'Manager') {
-            connection.on('BlogPending', (message) => {
-              // console.log(JSON.parse(message));
-              newNotify(JSON.parse(message)?.description);
-              dispatch(setNewNoti(true));
-            });
-          }
-          if (decoded_jwt?.role == 'Customer') {
-            connection.on(`${decoded_jwt.Id}_OrderStatusChanged`, (message) => {
-              // console.log(message);
-              newNotify(JSON.parse(message)?.description);
-              dispatch(setNewNoti(true));
-            });
-            // // console.log(store?.authorAccomId);
-            connection.on(`${decoded_jwt.Id}_InteractAccomplishment`, (message) => {
-              // console.log(message);
-              newNotify(JSON.parse(message)?.description);
-              dispatch(setNewNoti(true));
-            });
-            connection.on(`${decoded_jwt.Id}_ReplyComment`, (message) => {
-              // console.log(message);
-              newNotify(JSON.parse(message)?.description);
-              dispatch(setNewNoti(true));
-            });
-          }
-        })
-        .catch((error) => console.log(error));
+    if (accessToken) {
+      if (connection) {
+        connection
+          .start()
+          .then(() => {
+            if (decoded_jwt?.role == 'Staff') {
+              connection.on('OrderCreated', (message) => {
+                // console.log(JSON.parse(message));
+                newNotify(JSON.parse(message)?.description);
+                dispatch(setNewNoti(true));
+              });
+            }
+            if (decoded_jwt?.role == 'Manager') {
+              connection.on('BlogPending', (message) => {
+                // console.log(JSON.parse(message));
+                newNotify(JSON.parse(message)?.description);
+                dispatch(setNewNoti(true));
+              });
+            }
+            if (decoded_jwt?.role == 'Customer') {
+              console.log('???');
+              connection.on(`${decoded_jwt.Id}_OrderStatusChanged`, (message) => {
+                // console.log(message);
+                newNotify(JSON.parse(message)?.description);
+                dispatch(setNewNoti(true));
+              });
+              // // console.log(store?.authorAccomId);
+              connection.on(`${decoded_jwt.Id}_InteractAccomplishment`, (message) => {
+                // console.log(message);
+                newNotify(JSON.parse(message)?.description);
+                dispatch(setNewNoti(true));
+              });
+              connection.on(`${decoded_jwt.Id}_ReplyComment`, (message) => {
+                // console.log(message);
+                newNotify(JSON.parse(message)?.description);
+                dispatch(setNewNoti(true));
+              });
+            }
+          })
+          .catch((error) => console.log(error));
+      }
     }
   }, [connection]);
 

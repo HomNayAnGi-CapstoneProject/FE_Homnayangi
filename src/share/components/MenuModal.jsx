@@ -62,10 +62,12 @@ const MenuModal = () => {
   const handleLogoutSignin = async () => {
     if (accessToken) {
       localStorage.removeItem('accessToken');
-      navigate('/login');
+      // navigate('/login');
+      window.location.href = '/login';
       dispatch(setAccountInfo({}));
     } else {
-      navigate('/login');
+      // navigate('/login');
+      window.location.href = '/login';
     }
   };
 
