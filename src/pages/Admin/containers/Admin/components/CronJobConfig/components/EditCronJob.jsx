@@ -59,6 +59,8 @@ const EditForm = (props) => {
       setEditing(false);
       notifyError(result.data.msg);
     } else {
+      await instances.get('/customervouchers/begin-voucher');
+      await instances.get('/badges/begin-badge');
       notifySuccess('Chỉnh sửa thành công');
       setEditing(false);
       navigate('/management/cronjob');

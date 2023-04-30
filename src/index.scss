@@ -84,6 +84,13 @@
   background-position: center;
 }
 
+.swiper-slide-thumb-active {
+  border-color: #a1a1a1 !important;
+  border-radius: 5px !important;
+  transition: 0.3s;
+  opacity: 1 !important;
+}
+
 .swiper-button-next::after,
 .swiper-button-prev::after {
   display: none;

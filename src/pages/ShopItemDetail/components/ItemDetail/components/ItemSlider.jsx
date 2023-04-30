@@ -37,14 +37,14 @@ const ItemSlider = (props) => {
 
   return (
     <div className="flex items-start sm:flex-row flex-col-reverse">
-      <div className={`containerSwiperSmall sm:h-[600px] sm:w-[100px] sm:mr-[9px] sm:p-0 p-[15px] w-full h-auto`}>
+      <div className={`containerSwiperSmall sm:w-[100px] sm:mr-[9px] sm:p-0 p-[15px] w-full h-auto`}>
         <Swiper
           modules={[Navigation, Thumbs, Pagination]}
           onSwiper={(e) => setThumbsSwiper(e)}
           direction={'horizontal'}
           spaceBetween={7}
           slidesPerView={'auto'}
-          className="mySwiper sm:h-[600px]"
+          className="mySwiper"
           watchSlidesProgress={true}
           // watchSlidesVisibility={true}
           watchOverflow={true}

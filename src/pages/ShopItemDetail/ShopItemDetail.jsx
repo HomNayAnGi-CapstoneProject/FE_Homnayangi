@@ -21,6 +21,7 @@ const ShopItemDetail = () => {
       setDetailData([]);
       const res = await instances.get(`/ingredients/${params?.id}`);
       setDetailData(res.data.result);
+      document.title = res.data?.result?.name;
     };
     fetch();
   }, [params?.id]);
@@ -29,7 +30,7 @@ const ShopItemDetail = () => {
     <div className={`md:px-[90px] ${styles.flexCenter} py-16`}>
       <div className={`${styles.container} xx4lg:px-10`}>
         {/* Item details */}
-        <div className="mb-5">
+        <div className="mb-20">
           <ItemDetail detailData={detailData} />
         </div>
         {/* Related recipe */}
