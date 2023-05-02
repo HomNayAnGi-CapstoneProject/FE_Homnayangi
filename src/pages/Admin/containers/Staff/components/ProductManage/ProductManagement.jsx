@@ -20,15 +20,18 @@ const ProductManagement = () => {
   const [confirmData, setConfirmData] = useState();
   const [searchhInput, setSearchhInput] = useState(null);
   const debounced = useDebounce(searchhInput, 600);
+  const [loading, setLoading] = useState(false);
 
   // ** Call api
   useEffect(() => {
     const fetch = async () => {
+      setLoading(true);
       const res = await instances.get('/ingredients/managing', {
         params: {
           searchString: debounced?.trim(),
         },
       });
+      setLoading(false);
       // console.log(res.data.resource);
       setIngredientList(res.data.result);
     };
@@ -122,6 +125,7 @@ const ProductManagement = () => {
           ingredientsList={ingredientsList}
           handleOpenEdit={handleOpenEdit}
           handleOpenDelete={handleOpenDelete}
+          loading={loading}
         />
       </div>
     </div>

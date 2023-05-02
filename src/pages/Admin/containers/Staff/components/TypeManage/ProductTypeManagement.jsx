@@ -18,12 +18,15 @@ const ProductTypeManagement = () => {
   const [updateTable, setUpdateTable] = useState(false);
   const [isShowModal, setIsShowModal] = useState(false);
   const [confirmData, setConfirmData] = useState();
+  const [loading, setLoading] = useState(false);
 
   // ** Call api
   useEffect(() => {
     const fetch = async () => {
+      setLoading(true);
       const res = await instances.get('/types');
       // console.log(res.data.resource);
+      setLoading(false);
       setTypeList(res.data.resource);
     };
 
@@ -99,7 +102,12 @@ const ProductTypeManagement = () => {
         </button>
       </div>
       <div>
-        <DataTable typeList={typeList} handleOpenEdit={handleOpenEdit} handleOpenDelete={handleOpenDelete} />
+        <DataTable
+          typeList={typeList}
+          handleOpenEdit={handleOpenEdit}
+          handleOpenDelete={handleOpenDelete}
+          loading={loading}
+        />
       </div>
     </div>
   );

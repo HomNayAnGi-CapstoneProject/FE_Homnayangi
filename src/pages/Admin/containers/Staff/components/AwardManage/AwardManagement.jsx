@@ -19,11 +19,14 @@ const AwardManagement = () => {
   const [updateTable, setUpdateTable] = useState(false);
   const [isShowModal, setIsShowModal] = useState(false);
   const [confirmData, setConfirmData] = useState();
+  const [loading, setLoading] = useState(false);
 
   // ** Call api
   useEffect(() => {
     const fetch = async () => {
+      setLoading(true);
       const res = await instances.get('/badges');
+      setLoading(false);
       // console.log(res.data);
       setBadegesList(res.data.resource);
     };
@@ -100,7 +103,12 @@ const AwardManagement = () => {
         </button>
       </div>
       <div>
-        <DataTable badgesList={badgesList} handleOpenEdit={handleOpenEdit} handleOpenDelete={handleOpenDelete} />
+        <DataTable
+          badgesList={badgesList}
+          handleOpenEdit={handleOpenEdit}
+          handleOpenDelete={handleOpenDelete}
+          loading={loading}
+        />
       </div>
     </div>
   );

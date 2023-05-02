@@ -23,13 +23,16 @@ const AccomplishmentManagement = () => {
   const [openChangeStatusModal, setOpenChangeStatusModal] = useState(false);
   const [openDetailModal, setOpenDetailModal] = useState(false);
   const [orderDetailData, setOrderDetailData] = useState();
+  const [loading, setLoading] = useState(false);
 
   // ** Call api
   useEffect(() => {
     const fetch = async () => {
+      setLoading(true);
       const res = await instances.get('/accomplishments', {
         params: { status: 'ALL' },
       });
+      setLoading(false);
       setAccomplishmentList(res.data.result);
       // setAccomplishmentList(res.data.resource);
     };
@@ -68,6 +71,7 @@ const AccomplishmentManagement = () => {
           accomplishmentList={accomplishmentList}
           handelOpenDetail={handelOpenDetail}
           handleChangeStatus={handleOpenChangeStatus}
+          loading={loading}
         />
       </div>
     </div>

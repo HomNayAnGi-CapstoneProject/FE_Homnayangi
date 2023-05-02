@@ -16,10 +16,13 @@ const BadgeConditionManage = () => {
   const [isShowModal, setIsShowModal] = useState(false);
   const [confirmData, setConfirmData] = useState();
   const [badgeList, setBadgeList] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetch = async () => {
+      setLoading(true);
       const res = await instances.get('/badgecondition');
+      setLoading(false);
       setBadgeList(res.data);
     };
     fetch();
@@ -96,7 +99,12 @@ const BadgeConditionManage = () => {
         </button>
       </div>
       <div>
-        <DataTable badgeList={badgeList} handleOpenEdit={handleOpenEdit} handleOpenDelete={handleOpenDelete} />
+        <DataTable
+          badgeList={badgeList}
+          handleOpenEdit={handleOpenEdit}
+          handleOpenDelete={handleOpenDelete}
+          loading={loading}
+        />
       </div>
     </div>
   );

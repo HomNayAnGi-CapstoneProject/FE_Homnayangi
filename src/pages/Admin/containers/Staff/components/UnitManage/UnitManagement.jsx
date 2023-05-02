@@ -18,12 +18,15 @@ const UnitManagement = () => {
   const [updateTable, setUpdateTable] = useState(false);
   const [isShowModal, setIsShowModal] = useState(false);
   const [confirmData, setConfirmData] = useState();
+  const [loading, setLoading] = useState(false);
 
   // ** Call api
   useEffect(() => {
     const fetch = async () => {
+      setLoading(true);
       const res = await instances.get('/unit');
       // console.log(res.data);
+      setLoading(false);
       setUnitList(res.data);
     };
     fetch();
@@ -98,7 +101,12 @@ const UnitManagement = () => {
         </button>
       </div>
       <div>
-        <DataTable unitList={unitList} handleOpenEdit={handleOpenEdit} handleOpenDelete={handleOpenDelete} />
+        <DataTable
+          unitList={unitList}
+          handleOpenEdit={handleOpenEdit}
+          handleOpenDelete={handleOpenDelete}
+          loading={loading}
+        />
       </div>
     </div>
   );
