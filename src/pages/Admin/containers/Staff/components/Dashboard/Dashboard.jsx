@@ -20,6 +20,7 @@ const Dashboard = () => {
   const [orderList, setOrderList] = useState([]);
   const [openDetailModal, setOpenDetailModal] = useState(false);
   const [orderDetailData, setOrderDetailData] = useState();
+  const [loading, setLoading] = useState(false);
 
   // count ingredients
   useEffect(() => {
@@ -54,8 +55,10 @@ const Dashboard = () => {
   // get orders
   useEffect(() => {
     const fetch = async () => {
+      setLoading(true);
       const res = await instances.get(`/orders`);
       // console.log(res.data);
+      setLoading(false);
       setOrderList(res.data);
       setOrderCount(res?.data?.length || 0);
     };
@@ -122,6 +125,7 @@ const Dashboard = () => {
             orderList={orderList}
             handelOpenDetail={handelOpenDetail}
             handleChangeStatus={handleChangeStatus}
+            loading={loading}
           />
         </div>
       </div>

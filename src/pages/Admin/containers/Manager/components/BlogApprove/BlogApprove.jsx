@@ -16,13 +16,16 @@ const BlogApprove = () => {
   const [dataList, setDataList] = useState([]);
   const [getPendingBlog, setGetPendingBlog] = useState(true);
   const [totalPendings, setTotalPendings] = useState(0);
+  const [loadingData, setLoadingData] = useState(false);
 
   // ** get blog list
   useEffect(() => {
     const fetch = async () => {
+      setLoadingData(true);
       const res = await instances.get('/blogs/user', {
         params: { isPending: getPendingBlog },
       });
+      setLoadingData(false);
       // console.log(res.data.result);
       setDataList(res.data.result || []);
     };
@@ -69,7 +72,7 @@ const BlogApprove = () => {
         </p>
       </div>
       <div>
-        <DataTable dataList={dataList} handleOpenDetail={handleOpenDetail} />
+        <DataTable dataList={dataList} handleOpenDetail={handleOpenDetail} loadingData={loadingData} />
       </div>
     </div>
   );

@@ -185,7 +185,12 @@ const MainBlog = (props) => {
 
               <div className="buy-order my-[20px]">
                 <div className="flex justify-center items-center gap-6">
-                  <i>Mua gói nguyên liệu này?</i>
+                  <i>
+                    Mua gói nguyên liệu này?{' '}
+                    <span className="text-primary font-bold">
+                      {Intl.NumberFormat().format(blogDetail?.packagePrice)}đ
+                    </span>
+                  </i>
                   <button
                     onClick={() => handleAddToCart(blogDetail, false)}
                     className="rounded-[5px] bg-primary hover:bg-primaryHover transition px-6 py-2 text-white font-medium uppercase"
@@ -195,7 +200,12 @@ const MainBlog = (props) => {
                 </div>
                 <p className="text-center my-3 text-[#8B8B8B]">Hoặc</p>
                 <div className="flex justify-center items-center gap-6">
-                  <i>Đặt làm riêng món này?</i>
+                  <i>
+                    Đặt làm riêng món này?{' '}
+                    <span className="text-redError font-bold">
+                      {Intl.NumberFormat().format(blogDetail?.cookedPrice)}đ
+                    </span>
+                  </i>
                   <button
                     onClick={() => handleAddToCart(blogDetail, true)}
                     className="rounded-[5px] bg-redError hover:bg-redErrorHover transition px-6 py-2 text-white font-medium uppercase"

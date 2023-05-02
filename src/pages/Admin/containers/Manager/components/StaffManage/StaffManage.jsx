@@ -18,12 +18,15 @@ const StaffManage = () => {
   const [updateTable, setUpdateTable] = useState(false);
   const [isShowModal, setIsShowModal] = useState(false);
   const [confirmData, setConfirmData] = useState();
+  const [loading, setLoading] = useState(false);
 
   // ** Call api
   useEffect(() => {
     const fetch = async () => {
+      setLoading(true);
       const res = await instances.get('/users');
       // console.log(res.data);
+      setLoading(false);
       setStaffList(res.data.result);
     };
     fetch();
@@ -92,7 +95,12 @@ const StaffManage = () => {
         </button>
       </div>
       <div>
-        <DataTable staffList={staffList} handleOpenEdit={handleOpenEdit} handleOpenDelete={handleOpenDelete} />
+        <DataTable
+          staffList={staffList}
+          handleOpenEdit={handleOpenEdit}
+          handleOpenDelete={handleOpenDelete}
+          loading={loading}
+        />
       </div>
     </div>
   );

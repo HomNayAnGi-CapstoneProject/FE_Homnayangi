@@ -29,6 +29,7 @@ const OrderManagement = () => {
   const [openFilterDate, setOpenFilterDate] = useState(false);
   const [filterFromDate, setFilterFromDate] = useState();
   const [filterToDate, setFilterToDate] = useState();
+  const [loading, setLoading] = useState(false);
 
   const notifyWarn = (msg) => {
     toast.warn(msg, {
@@ -39,6 +40,7 @@ const OrderManagement = () => {
   //** get orders by status
   useEffect(() => {
     const fetch = async () => {
+      setLoading(true);
       const res = await instances.get(`/orders/status`, {
         params: {
           status: store?.currentOrderStatus,
@@ -46,6 +48,7 @@ const OrderManagement = () => {
           toDate: filterToDate ? filterToDate : null,
         },
       });
+      setLoading(false);
       // console.log(res.data);
       setOrderList(res.data);
       // setOrderCount(res?.data?.length || 0);
@@ -212,6 +215,7 @@ const OrderManagement = () => {
           orderList={orderList}
           handelOpenDetail={handelOpenDetail}
           handleChangeStatus={handleOpenChangeStatus}
+          loading={loading}
         />
       </div>
     </div>

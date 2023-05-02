@@ -1,5 +1,6 @@
 import React from 'react';
 import Loading from '../../../../../../../share/components/Admin/Loading';
+import NoRowOverlay from '../../../../../../../share/components/Admin/NoRowOverlay';
 import Image from '../../../../../../../share/components/Image';
 import { ic_edit, ic_delete_red, ic_delete_green, ic_eye_gray } from '../../../../../../../assets';
 
@@ -109,12 +110,12 @@ const DataTable = (props) => {
         pageSize={9}
         rowsPerPageOptions={[9]}
         className="datagrid"
-        getRowId={(row) => row.blogId}
-        loading={!props?.dataList.length}
-        // loading={!rows.length}
         components={{
           LoadingOverlay: Loading,
+          NoRowsOverlay: NoRowOverlay,
         }}
+        getRowId={(row) => row.blogId}
+        loading={props?.loadingData}
         sx={{
           '& .MuiDataGrid-columnHeaderTitle': {
             fontWeight: 700,

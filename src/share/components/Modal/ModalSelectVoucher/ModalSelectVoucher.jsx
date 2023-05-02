@@ -24,7 +24,7 @@ const Voucher = (props) => {
           {data?.discount <= 1 && (
             <>
               {' '}
-              <span>đến</span>{' '}
+              <span>Giảm tối đa</span>{' '}
               <span className="text-black font-medium">{Intl.NumberFormat().format(data?.maximumOrderPrice)}đ</span>
             </>
           )}

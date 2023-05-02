@@ -17,12 +17,15 @@ const ProductManagement = () => {
   const [updateTable, setUpdateTable] = useState(false);
   const [isShowModal, setIsShowModal] = useState(false);
   const [confirmData, setConfirmData] = useState();
+  const [loading, setLoading] = useState(false);
 
   // ** Call api
   useEffect(() => {
     const fetch = async () => {
+      setLoading(true);
       const res = await instances.get('/ingredients/managing');
       // console.log(res.data.resource);
+      setLoading(false);
       setIngredientList(res.data.result);
     };
 
@@ -111,6 +114,7 @@ const ProductManagement = () => {
           ingredientsList={ingredientsList}
           handleOpenEdit={handleOpenEdit}
           handleOpenDelete={handleOpenDelete}
+          loading={loading}
         />
       </div>
     </div>
