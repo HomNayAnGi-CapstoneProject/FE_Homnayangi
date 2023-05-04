@@ -18,6 +18,10 @@ import EditCronJob from './components/CronJobConfig/components/EditCronJob';
 
 import ManagerManage from './components/ManagerManage/ManagerManage';
 
+import CaloRefManage from './components/CaloRefManage/CaloRefManage';
+import CreateCaloRef from './components/CaloRefManage/components/CreateCaloRef';
+import EditCaloRef from './components/CaloRefManage/components/EditCaloRef';
+
 const AdminContainer = () => {
   return (
     <div className={`${styles.flexCenter} mt-[45px] text-black font-inter w-full`}>
@@ -34,6 +38,11 @@ const AdminContainer = () => {
               </Route>
               <Route path="users-manage">
                 <Route index element={<ManagerManage />} />
+              </Route>
+              <Route path="caloref-manage">
+                <Route index element={<CaloRefManage />} />
+                <Route path="new" element={<CreateCaloRef />} />
+                <Route path="edit/:calorefId" element={<EditCaloRef />} />
               </Route>
             </Route>
           </Routes>

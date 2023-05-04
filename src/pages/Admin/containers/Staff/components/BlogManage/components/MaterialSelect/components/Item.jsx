@@ -140,7 +140,13 @@ const Item = (props) => {
         // not dupplicate
         setSelectedList((prev) => [
           ...prev,
-          { item, itemId: id, amount: selectedAmount !== '' ? selectedAmount : 1, description: description },
+          {
+            item,
+            itemId: id,
+            amount: selectedAmount !== '' ? selectedAmount : 1,
+            description: description,
+            unitName: item.unitName,
+          },
         ]);
       } else {
         // dupplicate
@@ -153,6 +159,7 @@ const Item = (props) => {
             itemId: duplicateItem.itemId,
             amount: selectedAmount !== '' ? selectedAmount : 1,
             description: description,
+            unitName: item.unitName,
           },
         ]);
       }
@@ -164,6 +171,7 @@ const Item = (props) => {
           itemId: id,
           amount: selectedAmount !== '' ? selectedAmount : item.quantity ? item.quantity : 1,
           description: description,
+          unitName: item.unitName,
         },
       ]);
     }
@@ -180,6 +188,7 @@ const Item = (props) => {
         name: editItem?.ingredientName,
         price: editItem?.price,
         quantity: editItem?.quantity,
+        unitName: editItem?.unitName,
       });
       setSelectedAmount(editItem.quantity);
       setDescription(editItem.description);
@@ -194,7 +203,13 @@ const Item = (props) => {
       setSelectedList((current) => current.filter((item) => item?.itemId !== duplicateItem?.itemId));
       setSelectedList((prev) => [
         ...prev,
-        { item, itemId: duplicateItem?.itemId, amount: parseInt(amount), description: duplicateItem?.description },
+        {
+          item,
+          itemId: duplicateItem?.itemId,
+          amount: parseInt(amount),
+          description: duplicateItem?.description,
+          unitName: duplicateItem?.unitName,
+        },
       ]);
     }
   };
@@ -207,7 +222,13 @@ const Item = (props) => {
       setSelectedList((current) => current.filter((item) => item.itemId !== duplicateItem.itemId));
       setSelectedList((prev) => [
         ...prev,
-        { item, itemId: duplicateItem?.itemId, amount: duplicateItem?.amount, description: description },
+        {
+          item,
+          itemId: duplicateItem?.itemId,
+          amount: duplicateItem?.amount,
+          description: description,
+          unitName: duplicateItem?.unitName,
+        },
       ]);
     }
   };
@@ -257,6 +278,7 @@ const Item = (props) => {
           } outline-none w-[110px] bg-white rounded-md py-1 pl-2 font-medium text-[#898989]`}
         />
         <input
+          disabled={selectedItem !== '' ? false : true}
           value={description}
           onChange={(e) => {
             setDescription(e.target.value);
@@ -266,7 +288,9 @@ const Item = (props) => {
           }}
           placeholder="Mô tả"
           required
-          className="outline-none w-fit bg-white rounded-md py-1 pl-2"
+          className={`${
+            selectedItem !== '' ? '' : 'cursor-not-allowed'
+          } outline-none w-fit bg-white rounded-md py-1 pl-2`}
         />
         <div
           className={`${

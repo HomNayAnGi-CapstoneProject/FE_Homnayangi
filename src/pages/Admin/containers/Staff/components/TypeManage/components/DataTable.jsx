@@ -80,8 +80,8 @@ const DataTable = (props) => {
       <DataGrid
         rows={props?.typeList}
         columns={columns.concat(actionColumn)}
-        pageSize={9}
-        rowsPerPageOptions={[9]}
+        pageSize={12}
+        rowsPerPageOptions={[12]}
         className="datagrid"
         getRowId={(row) => row.typeId}
         loading={props?.loading}

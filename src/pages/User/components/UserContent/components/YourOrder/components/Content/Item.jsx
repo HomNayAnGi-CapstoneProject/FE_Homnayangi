@@ -173,7 +173,7 @@ const Item = (props) => {
               <img alt="" className="object-contain w-[23px] h-[23px]" src={ic_time_gray} />
             </div>
             <div className="md:w-1/2 ">
-              <p className="text-[#898989] mb-2">{moment(data?.orderDate).format('Do MMM YY')}</p>
+              <p className="text-[#898989] mb-2">{moment(data?.orderDate).format('lll')}</p>
             </div>
           </div>
           <div className="flex md:justify-end">

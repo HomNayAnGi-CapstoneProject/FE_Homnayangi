@@ -24,6 +24,7 @@ const OrderManagement = () => {
   const [orderCount, setOrderCount] = useState(0);
   const [needRefundCount, setNeedRefundCount] = useState(0);
   const [needConfirmCount, setNeedConfirmCount] = useState(0);
+  const [acceptedCount, setAcceptedCount] = useState(0);
   const [updateTable, setUpdateTable] = useState(false);
   // const [currentOrderStatus, setCurrentOrderStatus] = useState(-1);
   const [openFilterDate, setOpenFilterDate] = useState(false);
@@ -72,6 +73,15 @@ const OrderManagement = () => {
       setOrderCount(res?.data?.length || 0);
       setNeedRefundCount(res?.data?.filter((order) => order?.orderStatus == 10).length || 0);
       setNeedConfirmCount(res?.data?.filter((order) => order?.orderStatus == 1).length || 0);
+      setAcceptedCount(
+        res?.data?.filter(
+          (order) =>
+            order?.orderStatus == 2 &&
+            (order?.shippedDate
+              ? new Date(order?.shippedDate).getDate() == new Date().getDate()
+              : new Date(order?.orderDate).getDate() == new Date().getDate()),
+        ).length || 0,
+      );
     };
 
     fetch();
@@ -178,6 +188,16 @@ const OrderManagement = () => {
               } font-medium rounded-[10px]`}
             >
               Chờ xác nhận ({needConfirmCount})
+            </button>
+          </Tooltip>
+          <Tooltip title="Xem đơn hàng đang chờ xác nhận" placement="top">
+            <button
+              onClick={() => dispatch(setCurrentOrderStatus(2))}
+              className={`flex items-center w-fit gap-2 py-2 px-3 ${
+                store?.currentOrderStatus == 2 ? 'bg-primary text-white ' : 'bg-white text-black'
+              } font-medium rounded-[10px]`}
+            >
+              Giao hôm nay ({acceptedCount})
             </button>
           </Tooltip>
           <Tooltip title="Xem đơn hàng đang đợi hoàn tiền" placement="top">

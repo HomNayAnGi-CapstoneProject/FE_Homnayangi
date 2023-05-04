@@ -296,7 +296,7 @@ const DataTable = (props) => {
       </TableContainer>
       <TablePagination
         sx={{ background: '#fff' }}
-        rowsPerPageOptions={[9]}
+        rowsPerPageOptions={[12]}
         component="div"
         count={props.categoryList.length}
         rowsPerPage={rowsPerPage}

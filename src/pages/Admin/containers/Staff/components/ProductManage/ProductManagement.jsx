@@ -3,6 +3,7 @@ import instances from '../../../../../../utils/plugin/axios';
 import useDebounce from '../../../../../../share/hooks/useDebounce';
 
 import ConfirmModal from '../../../../../../share/components/Admin/ConfirmModal';
+import ModalWarningDelete from './components/ModalWarningDelete';
 
 import { ic_blog_create } from '../../../../../../assets';
 import Search from '../../../../../../share/components/Search';
@@ -94,8 +95,9 @@ const ProductManagement = () => {
   return (
     <div>
       {isShowModal && (
-        <ConfirmModal
-          setIsShowModal={setIsShowModal}
+        <ModalWarningDelete
+          openModal={isShowModal}
+          setOpenModal={setIsShowModal}
           data={confirmData}
           modalTitle="Sản phẩm"
           statusTypeAvai={true}

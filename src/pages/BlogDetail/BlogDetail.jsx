@@ -28,8 +28,12 @@ const BlogDetail = () => {
         setBlogDetail();
         const res = await instances.get(`/blogs/${params?.id}`);
         // console.log(res);
-        setBlogDetail(res.data);
-        document.title = res.data.title;
+        if (res.data.status == 'failed') {
+          setBlogDetail();
+        } else {
+          setBlogDetail(res.data);
+          document.title = res.data.title;
+        }
       } catch (error) {
         navigate('/');
       }
@@ -39,7 +43,7 @@ const BlogDetail = () => {
 
   return (
     <div>
-      {blogDetail && (
+      {blogDetail !== undefined ? (
         <>
           <div className={`md:px-[90px] ${styles.flexCenter} py-16`}>
             <div className={`${styles.container} xx4lg:px-10`}>
@@ -68,6 +72,12 @@ const BlogDetail = () => {
             <FixedBottomNav iniReaction={blogDetail?.reaction} iniView={blogDetail?.view} />
           </div>
         </>
+      ) : (
+        <div className={`md:px-[90px] ${styles.flexCenter} py-16`}>
+          <div className={`${styles.container} justify-center text-center xx4lg:px-10`}>
+            <p className="font-semibold">Bài viết không tồn tại</p>
+          </div>
+        </div>
       )}
     </div>
   );

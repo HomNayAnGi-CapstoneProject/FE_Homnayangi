@@ -65,7 +65,7 @@ const AccomplishmentManagement = () => {
           setUpdateTable={setUpdateTable}
         />
       )}
-      <p className="text-[20px] font-semibold text-[#585858]">Quản lý thành tựu</p>
+      <p className="text-[20px] font-semibold text-[#585858]">Quản lý thành quả</p>
       <div className="mt-2">
         <DataTable
           accomplishmentList={accomplishmentList}

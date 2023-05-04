@@ -192,7 +192,13 @@ const SuggestToday = () => {
                 <>
                   <p>
                     Lượng calories gợi ý được dựa trên thông tin thu thập từ{' '}
-                    <span className="underline text-primary font-semibold">vinmec.com</span>
+                    <a
+                      target="_blank"
+                      href="https://www.vinmec.com/vi/tin-tuc/thong-tin-suc-khoe/dinh-duong/nhu-cau-calo-uoc-tinh-moi-ngay-theo-do-tuoi-gioi-tinh/"
+                      className="underline text-primary font-semibold"
+                    >
+                      vinmec.com
+                    </a>
                   </p>
                 </>
               }
