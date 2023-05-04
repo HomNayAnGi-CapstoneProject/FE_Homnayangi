@@ -6,7 +6,7 @@ import { ic_blog_create } from '../../../../../../assets';
 
 // ** Components
 import DataTable from './components/DataTable';
-import ConfirmModal from '../../../../../../share/components/Admin/ConfirmModal';
+import ConfirmModal from './components/ConfirmModal';
 
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
