@@ -29,7 +29,7 @@ const ModalEventVoucher = (props) => {
   // ** get voucher list
   useEffect(() => {
     const fetch = async () => {
-      const res = await instances.get('/vouchers/active-vouchers');
+      const res = await instances.get('/vouchers/drop-down');
       // console.log(res.data.result);
       setVoucherList(res.data.result);
     };

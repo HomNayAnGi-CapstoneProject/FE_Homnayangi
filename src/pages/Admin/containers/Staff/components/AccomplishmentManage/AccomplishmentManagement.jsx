@@ -23,13 +23,16 @@ const AccomplishmentManagement = () => {
   const [openChangeStatusModal, setOpenChangeStatusModal] = useState(false);
   const [openDetailModal, setOpenDetailModal] = useState(false);
   const [orderDetailData, setOrderDetailData] = useState();
+  const [loading, setLoading] = useState(false);
 
   // ** Call api
   useEffect(() => {
     const fetch = async () => {
+      setLoading(true);
       const res = await instances.get('/accomplishments', {
         params: { status: 'ALL' },
       });
+      setLoading(false);
       setAccomplishmentList(res.data.result);
       // setAccomplishmentList(res.data.resource);
     };
@@ -62,12 +65,13 @@ const AccomplishmentManagement = () => {
           setUpdateTable={setUpdateTable}
         />
       )}
-      <p className="text-[20px] font-semibold text-[#585858]">Quản lý thành tựu</p>
+      <p className="text-[20px] font-semibold text-[#585858]">Quản lý thành quả</p>
       <div className="mt-2">
         <DataTable
           accomplishmentList={accomplishmentList}
           handelOpenDetail={handelOpenDetail}
           handleChangeStatus={handleOpenChangeStatus}
+          loading={loading}
         />
       </div>
     </div>

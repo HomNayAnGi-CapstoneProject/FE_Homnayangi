@@ -18,12 +18,15 @@ const ManagerManage = () => {
   const [updateTable, setUpdateTable] = useState(false);
   const [isShowModal, setIsShowModal] = useState(false);
   const [confirmData, setConfirmData] = useState();
+  const [loading, setLoading] = useState(false);
 
   // ** Call api
   useEffect(() => {
     const fetch = async () => {
+      setLoading(true);
       const res = await instances.get('/users/admin-manage/users');
       // console.log(res.data.result);
+      setLoading(false);
       setUserList(res.data.result);
     };
     fetch();
@@ -73,7 +76,7 @@ const ManagerManage = () => {
         <div>
           <p className="font-semibold text-[#898989] text-[18px] mb-3">Quản lý chức vụ</p>
           <div>
-            <DataTable userList={userList} handleOpenDelete={handleOpenDelete} />
+            <DataTable userList={userList} handleOpenDelete={handleOpenDelete} loading={loading} />
           </div>
         </div>
       </div>

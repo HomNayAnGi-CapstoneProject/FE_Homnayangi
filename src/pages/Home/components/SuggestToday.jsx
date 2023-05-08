@@ -84,6 +84,10 @@ const SuggestToday = () => {
     toast.error('Xin lỗi chúng tôi chưa có đủ dữ liệu cho thông tin này', {
       pauseOnHover: false,
     });
+  const notifyErrorMess = (msg) =>
+    toast.error(msg, {
+      pauseOnHover: false,
+    });
   const shippedDate = localStorage.getItem('curShDate');
   const accessToken = localStorage.getItem('accessToken');
   let decoded_jwt = {};
@@ -116,10 +120,14 @@ const SuggestToday = () => {
           const res = await instances.get(
             `/blogs/suggest-blog/${store?.sugesstFormData.Age}/${store?.sugesstFormData.IsMale}/${store?.sugesstFormData.IsLoseWeight}`,
           );
-          // console.log(res);
-          setSuggestCalo(res.data?.calo);
-          setTodayData(res.data?.suggestBlogs);
-          setImgList(res.data?.suggestBlogs.map((item) => item.imageUrl));
+          // console.log(res)
+          if (res.data.status == 'failed') {
+            notifyErrorMess(res.data.msg);
+          } else {
+            setSuggestCalo(res.data?.result?.calo);
+            setTodayData(res.data?.result?.suggestBlogs);
+            setImgList(res.data?.result?.suggestBlogs.map((item) => item.imageUrl));
+          }
         } catch (error) {
           notifyError();
         }
@@ -192,7 +200,13 @@ const SuggestToday = () => {
                 <>
                   <p>
                     Lượng calories gợi ý được dựa trên thông tin thu thập từ{' '}
-                    <span className="underline text-primary font-semibold">vinmec.com</span>
+                    <a
+                      target="_blank"
+                      href="https://www.vinmec.com/vi/tin-tuc/thong-tin-suc-khoe/dinh-duong/nhu-cau-calo-uoc-tinh-moi-ngay-theo-do-tuoi-gioi-tinh/"
+                      className="underline text-primary font-semibold"
+                    >
+                      vinmec.com
+                    </a>
                   </p>
                 </>
               }

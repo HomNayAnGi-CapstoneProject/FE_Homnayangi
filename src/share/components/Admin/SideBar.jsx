@@ -165,7 +165,7 @@ const SideBar = (props) => {
                 id="accomplishment"
                 url={ic_accomplishment}
                 urlActive={ic_accomplishment_active}
-                title="Quản lý thành tựu"
+                title="Quản lý thành quả"
                 setOpenSidebar={props.setOpenSidebar}
                 isTablet={props.isTablet}
               />
@@ -333,6 +333,16 @@ const SideBar = (props) => {
                 url={ic_config}
                 urlActive={ic_config_active}
                 title="Thiết lập thời gian"
+                setOpenSidebar={props.setOpenSidebar}
+                isTablet={props.isTablet}
+              />
+              <MenuItem
+                link="management/caloref-manage"
+                active={active}
+                id="caloref-manage"
+                url={ic_config}
+                urlActive={ic_config_active}
+                title="Thiết lập gợi ý theo calories"
                 setOpenSidebar={props.setOpenSidebar}
                 isTablet={props.isTablet}
               />

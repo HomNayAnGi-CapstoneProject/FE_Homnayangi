@@ -18,11 +18,14 @@ const CustomerManagement = () => {
   const [updateTable, setUpdateTable] = useState(false);
   const [isShowModal, setIsShowModal] = useState(false);
   const [confirmData, setConfirmData] = useState();
+  const [loading, setLoading] = useState(false);
 
   // ** Call api
   useEffect(() => {
     const fetch = async () => {
+      setLoading(true);
       const res = await instances.get('/customers');
+      setLoading(false);
       // console.log(res.data.result);
       setCustomerList(res.data.result);
     };
@@ -79,7 +82,7 @@ const CustomerManagement = () => {
       <div>
         <p className="font-semibold text-[#898989] text-[18px] mb-3">Quản lý khách hàng</p>
         <div>
-          <DataTable customerList={customerList} handleOpenDelete={handleOpenDelete} />
+          <DataTable customerList={customerList} handleOpenDelete={handleOpenDelete} loading={loading} />
         </div>
       </div>
     </div>

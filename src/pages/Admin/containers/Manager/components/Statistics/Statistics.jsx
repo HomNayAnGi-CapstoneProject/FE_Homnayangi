@@ -29,6 +29,7 @@ const Statistics = () => {
   const [openFilterDate, setOpenFilterDate] = useState(false);
   const [filterFromDate, setFilterFromDate] = useState();
   const [filterToDate, setFilterToDate] = useState();
+  const [loading, setLoading] = useState(false);
 
   const notifyWarn = (msg) => {
     toast.warn(msg, {
@@ -39,6 +40,7 @@ const Statistics = () => {
   //** get orders by status
   useEffect(() => {
     const fetch = async () => {
+      setLoading(true);
       const res = await instances.get(`/orders/status`, {
         params: {
           status: store?.currentOrderStatus,
@@ -46,6 +48,7 @@ const Statistics = () => {
           toDate: filterToDate ? filterToDate : null,
         },
       });
+      setLoading(false);
       // console.log(res.data);
       setOrderList(res.data);
       // setOrderCount(res?.data?.length || 0);
@@ -162,7 +165,7 @@ const Statistics = () => {
         </div>
       </div>
       <div className="mt-2">
-        <DataTable orderList={orderList} handelOpenDetail={handelOpenDetail} />
+        <DataTable orderList={orderList} handelOpenDetail={handelOpenDetail} loading={loading} />
       </div>
     </div>
   );

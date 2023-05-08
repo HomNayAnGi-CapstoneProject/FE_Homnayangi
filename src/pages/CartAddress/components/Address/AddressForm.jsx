@@ -57,7 +57,7 @@ const AddressForm = (props) => {
       data.description;
     // console.log(address);
     dispatch(setCartAddress(address));
-    // notifyConfirmAddress();
+    notifyConfirmAddress();
   };
 
   // ** get district, wards

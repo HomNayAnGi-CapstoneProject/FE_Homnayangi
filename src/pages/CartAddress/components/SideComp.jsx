@@ -127,7 +127,9 @@ const SideComp = () => {
         shippedAddress: cartAddress,
         totalPrice: selectedVoucher
           ? selectedVoucher?.discount <= 1
-            ? totalItem.totalPrice - selectedVoucher?.discount * 100
+            ? totalItem.totalPrice * selectedVoucher?.discount > selectedVoucher?.maximumOrderPrice
+              ? totalItem.totalPrice - selectedVoucher?.maximumOrderPrice
+              : totalItem.totalPrice - selectedVoucher?.discount * 100
             : totalItem.totalPrice - selectedVoucher?.discount
           : totalItem.totalPrice,
         paymentMethod: paymentMethod,
@@ -140,7 +142,6 @@ const SideComp = () => {
       //   notifyPaymentError();
       // } else {
       //   console.log(requestData);
-      // }
       // }
 
       if (cartAddress == '') {
@@ -173,9 +174,16 @@ const SideComp = () => {
 
                   discount: selectedVoucher ? selectedVoucher.discount : 0,
                   shippedAddress: cartAddress,
+                  // totalPrice: selectedVoucher
+                  //   ? selectedVoucher?.discount <= 1
+                  //     ? totalItem.totalPrice - selectedVoucher?.discount * 100
+                  //     : totalItem.totalPrice - selectedVoucher?.discount
+                  //   : totalItem.totalPrice,
                   totalPrice: selectedVoucher
                     ? selectedVoucher?.discount <= 1
-                      ? totalItem.totalPrice - selectedVoucher?.discount * 100
+                      ? totalItem.totalPrice * selectedVoucher?.discount > selectedVoucher?.maximumOrderPrice
+                        ? totalItem.totalPrice - selectedVoucher?.maximumOrderPrice
+                        : totalItem.totalPrice - totalItem.totalPrice * selectedVoucher?.discount
                       : totalItem.totalPrice - selectedVoucher?.discount
                     : totalItem.totalPrice,
                   paymentMethod: paymentMethod,
@@ -273,7 +281,9 @@ const SideComp = () => {
                   Giảm{' '}
                   <span className="text-redError text-[18px] font-bold">
                     {selectedVoucher?.discount <= 1
-                      ? `${selectedVoucher.discount * 100}%`
+                      ? totalItem?.totalPrice * selectedVoucher.discount > selectedVoucher.maximumOrderPrice
+                        ? `${Intl.NumberFormat().format(selectedVoucher.maximumOrderPrice)}đ`
+                        : `${selectedVoucher.discount * 100}%`
                       : `${Intl.NumberFormat().format(selectedVoucher.discount)}đ`}
                   </span>
                 </p>
@@ -306,7 +316,9 @@ const SideComp = () => {
             -
             {selectedVoucher
               ? selectedVoucher?.discount <= 1
-                ? `${selectedVoucher.discount * 100}%`
+                ? totalItem?.totalPrice * selectedVoucher.discount > selectedVoucher.maximumOrderPrice
+                  ? `${Intl.NumberFormat().format(selectedVoucher.maximumOrderPrice)}đ`
+                  : `${Intl.NumberFormat().format(totalItem?.totalPrice * selectedVoucher.discount)}đ`
                 : `${Intl.NumberFormat().format(selectedVoucher.discount)}đ`
               : `${0}đ`}
           </p>
@@ -316,7 +328,9 @@ const SideComp = () => {
           <p className="font-semibold">
             {selectedVoucher
               ? selectedVoucher?.discount <= 1
-                ? Intl.NumberFormat().format(totalItem.totalPrice - selectedVoucher?.discount * 100)
+                ? totalItem?.totalPrice * selectedVoucher.discount > selectedVoucher.maximumOrderPrice
+                  ? Intl.NumberFormat().format(totalItem.totalPrice - selectedVoucher?.maximumOrderPrice)
+                  : Intl.NumberFormat().format(totalItem.totalPrice - totalItem.totalPrice * selectedVoucher?.discount)
                 : Intl.NumberFormat().format(totalItem.totalPrice - selectedVoucher?.discount)
               : Intl.NumberFormat().format(totalItem.totalPrice)}
             đ

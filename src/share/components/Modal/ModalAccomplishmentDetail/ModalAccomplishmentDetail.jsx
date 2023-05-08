@@ -10,7 +10,7 @@ import default_user from '../../../../assets/images/default_user.png';
 const ModalAccomplishmentDetail = (props) => {
   const { openDetailModal, setOpenDetailModal, data, setUpdateTable } = props;
   const successNotify = (type) =>
-    toast.success(type == 'APPROVE' ? 'Bạn đã duyệt thành tựu này 👌' : 'Bạn đã không duyệt thành tựu này');
+    toast.success(type == 'APPROVE' ? 'Bạn đã duyệt thành quả này 👌' : 'Bạn đã không duyệt thành quả này');
   const errorNotify = () => toast.error('Có lỗi xảy ra');
 
   const [detailData, setDetailData] = useState();
@@ -53,7 +53,7 @@ const ModalAccomplishmentDetail = (props) => {
           <div className="font-inter">
             {/* header */}
             <div className="pb-2 border-b border-[#b7b7b7]">
-              <p className="text-[18px] font-medium">Thông tin thành tựu</p>
+              <p className="text-[18px] font-medium">Thông tin thành quả</p>
             </div>
             {/* content */}
             <div className="mt-5">

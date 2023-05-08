@@ -1,5 +1,6 @@
 import React from 'react';
 import Loading from '../../../../../../../share/components/Admin/Loading';
+import NoRowOverlay from '../../../../../../../share/components/Admin/NoRowOverlay';
 import { ic_edit, ic_delete_red, ic_delete_green, ic_chart_bold, ic_eye_gray } from '../../../../../../../assets';
 import Image from '../../../../../../../share/components/Image';
 
@@ -144,13 +145,14 @@ const DataTable = (props) => {
       <DataGrid
         rows={props.blogDataList}
         columns={columns.concat(actionColumn)}
-        pageSize={9}
-        rowsPerPageOptions={[9]}
+        pageSize={12}
+        rowsPerPageOptions={[12]}
         className="datagrid"
         getRowId={(row) => row.blogId}
-        loading={!props?.blogDataList?.length}
+        loading={props?.loading}
         components={{
           LoadingOverlay: Loading,
+          NoRowsOverlay: NoRowOverlay,
         }}
         // loading={!rows.length}
         // components={{

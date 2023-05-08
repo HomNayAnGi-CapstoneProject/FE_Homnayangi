@@ -32,13 +32,13 @@ const CronJobConfigManage = () => {
 
   return (
     <div>
-      <p className="font-semibold text-[#898989] text-[18px] mb-3">Thiết lập thời gian trao huy hiệu và mã giảm giá</p>
+      <p className="font-semibold text-[#898989] text-[18px] mb-3">Thiết lập thời gian trao danh hiệu và mã giảm giá</p>
       <div>{/* <DataTable cronJobList={cronJobList} handleOpenEdit={handleOpenEdit} /> */}</div>
       <div className="bg-white p-5 rounded-[5px]">
         {cronJobList.length > 0 &&
           cronJobList.map((item) => (
             <div key={item.cronJobTimeConfigId} className="flex items-center gap-3 py-2">
-              <p>{item.targetObject == 0 ? 'Thời gian trao huy hiệu' : 'Thời gian trao mã giảm giá'}: </p>
+              <p>{item.targetObject == 0 ? 'Thời gian trao danh hiệu' : 'Thời gian trao mã giảm giá'}: </p>
               <p className="font-bold">
                 Mỗi {item?.day && <span className=" font-bold text-red-500">tháng vào ngày {item?.day}</span>}{' '}
                 {(item.hour !== undefined || item?.day !== undefined) && (

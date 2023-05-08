@@ -20,12 +20,15 @@ const BlogManagement = () => {
   const [confirmData, setConfirmData] = useState();
   const [isShowModal, setIsShowModal] = useState(false);
   const [showEvent, setShowEvent] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   // ** Call api
   useEffect(() => {
     const fetch = async () => {
       setBlogDataList([]);
+      setLoading(true);
       const res = await instances.get('/blogs/user', { params: { isEvent: showEvent } });
+      setLoading(false);
       // console.log(res.data.result);
       setBlogDataList(res.data.result || []);
     };
@@ -152,6 +155,7 @@ const BlogManagement = () => {
           handleOpenEdit={handleOpenEdit}
           handleOpenGiveVoucher={handleOpenGiveVoucher}
           handleOpenDetail={handleOpenDetail}
+          loading={loading}
         />
       </div>
     </div>

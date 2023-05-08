@@ -4,6 +4,7 @@ import OrderDetailItem from './components/OrderDetailItem';
 
 import { Modal } from '@mui/material';
 import { QRCodeSVG } from 'qrcode.react';
+import moment from 'moment/moment';
 
 const ModalStaffOrderDetail = (props) => {
   const { openDetailModal, setOpenDetailModal, data, detailTotalPrice, detailCookedImg, isCooked } = props;
@@ -60,7 +61,17 @@ const ModalStaffOrderDetail = (props) => {
               <div className="flex gap-4 items-center">
                 <p className="text-[18px] font-medium">Thông tin đơn hàng</p>
                 {checkStatus(data?.orderStatus, data?.paymentMethod)}
+                {data?.isCooked == true ? (
+                  <p className="text-redError uppercase font-medium">Đặt nấu</p>
+                ) : (
+                  <p className="uppercase font-medium">Nguyên liệu</p>
+                )}
               </div>
+              {detailData?.shippedDate && (
+                <p className="text-[18px] mt-2 text-redError font-bold">
+                  Cần giao hàng vào: <span>{moment(detailData?.shippedDate).format('lll')}</span>
+                </p>
+              )}
             </div>
             {/* content */}
             <OrderDetailItem data={detailData} />
@@ -92,6 +103,9 @@ const ModalStaffOrderDetail = (props) => {
                       ', ' +
                       detailData?.shippedAddress.split(',')[5]}
                   </span>
+                </p>
+                <p className="mt-2 font-medium text-gray-400">
+                  Ghi chú: <span className="text-black">{detailData?.shippedAddress.split(',')[6]}</span>
                 </p>
                 <p className="text-[18px] mt-2 text-redError font-bold">
                   Tổng: <span>{Intl.NumberFormat().format(detailData?.totalPrice)}đ</span>

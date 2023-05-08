@@ -114,7 +114,12 @@ const EditBlog = () => {
         dispatch(
           setContentBlog({
             ingredients: res.data?.recipeDetails?.map(function (item) {
-              return { quantity: item.quantity, ingredientId: item.ingredientId, description: item.description };
+              return {
+                quantity: item.quantity,
+                ingredientId: item.ingredientId,
+                description: item.description,
+                unitName: item.unitName,
+              };
             }),
           }),
         );

@@ -71,9 +71,10 @@ const CreateVoucher = () => {
     // console.log({
     //   discount: checkedValue == 'vnd' ? parseInt(data?.discount) : parseInt(data?.discount) / 100,
     // });
-    if (parseInt(data?.minimumOrderPrice) >= parseInt(data?.maximumOrderPrice)) {
-      notifyError('Giá trị đơn hàng tối thiếu không được lớn hơn giá trị đơn hàng tối đa');
-    } else if (validFromTime >= validToTime) {
+    // if (parseInt(data?.minimumOrderPrice) >= parseInt(data?.maximumOrderPrice)) {
+    //   notifyError('Giá trị đơn hàng tối thiếu không được lớn hơn giá trị đơn hàng tối đa');
+    // } else
+    if (validFromTime >= validToTime) {
       notifyError('Thời gian hết hạn phải dài hơn thời gian hiệu lực');
     } else {
       setCreating(true);
@@ -234,7 +235,7 @@ const CreateVoucher = () => {
 
                 {checkedValue == 'percent' && (
                   <>
-                    <label>Giá trị đơn hàng tối đa (vnd)</label>
+                    <label>Giảm giá tối đa (vnd)</label>
                     <input
                       name="maximumOrderPrice"
                       type="number"
@@ -251,13 +252,13 @@ const CreateVoucher = () => {
                       })}
                     />
                     {errors?.maximumOrderPrice?.type === 'required' && (
-                      <p className="mb-[5px] text-redError text-[14px]">Giá trị đơn hàng tối đa không được trống</p>
+                      <p className="mb-[5px] text-redError text-[14px]">Giảm giá tối đa không được trống</p>
                     )}
                     {errors?.maximumOrderPrice?.type === 'pattern' && (
-                      <p className="mb-[5px] text-redError text-[14px]">Giá trị đơn hàng tối đa không hợp lệ</p>
+                      <p className="mb-[5px] text-redError text-[14px]">Giảm giá tối đa không hợp lệ</p>
                     )}
                     {errors?.maximumOrderPrice?.type === 'min' && (
-                      <p className="mb-[5px] text-redError text-[14px]">Giá trị đơn hàng tối đa là 1000đ</p>
+                      <p className="mb-[5px] text-redError text-[14px]">Giảm giá tối đa là 1000đ</p>
                     )}
                   </>
                 )}

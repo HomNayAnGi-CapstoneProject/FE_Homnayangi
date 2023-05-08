@@ -75,7 +75,12 @@ const MaterialSelect = () => {
   // ** handle calculate price and calories
   useEffect(() => {
     let recipeDetails = selectedList?.map(function (item) {
-      return { quantity: parseInt(item.amount), ingredientId: item.item.ingredientId, description: item.description };
+      return {
+        quantity: parseInt(item.amount),
+        ingredientId: item.item.ingredientId,
+        description: item.description,
+        unitName: item.unitName,
+      };
     });
     if (recipeDetails.length > 0) {
       dispatch(setContentBlog({ ingredients: recipeDetails }));

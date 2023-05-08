@@ -60,7 +60,7 @@ const LoginForm = () => {
           } else {
             if (store.returnUrl !== '') {
               // navigate(store.returnUrl);
-              window.location.href = `/${store.returnUrl}`;
+              window.location.href = store.returnUrl;
               // location.href = `/${store.returnUrl}`;
               dispatch(setReturnUrl(''));
             } else {
@@ -106,7 +106,7 @@ const LoginForm = () => {
                 } else {
                   if (store.returnUrl !== '') {
                     // navigate(store.returnUrl);
-                    window.location.href = `/${store.returnUrl}`;
+                    window.location.href = store.returnUrl;
                     // location.href = `/${store.returnUrl}`;
                     dispatch(setReturnUrl(''));
                   } else {

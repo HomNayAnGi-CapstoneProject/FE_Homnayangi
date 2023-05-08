@@ -19,12 +19,15 @@ const VoucherManagement = () => {
   const [updateTable, setUpdateTable] = useState(false);
   const [isShowModal, setIsShowModal] = useState(false);
   const [confirmData, setConfirmData] = useState();
+  const [loading, setLoading] = useState(false);
 
   // ** Call api
   useEffect(() => {
     const fetch = async () => {
+      setLoading(true);
       const res = await instances.get('/vouchers');
       // console.log(res.data);
+      setLoading(false);
       setVoucherList(res.data.result);
     };
     fetch();
@@ -105,7 +108,12 @@ const VoucherManagement = () => {
         </button>
       </div>
       <div>
-        <DataTable voucherList={voucherList} handleOpenEdit={handleOpenEdit} handleOpenDelete={handleOpenDelete} />
+        <DataTable
+          voucherList={voucherList}
+          handleOpenEdit={handleOpenEdit}
+          handleOpenDelete={handleOpenDelete}
+          loading={loading}
+        />
       </div>
     </div>
   );

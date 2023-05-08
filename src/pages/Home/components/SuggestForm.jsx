@@ -90,10 +90,10 @@ const SuggestForm = (props) => {
             } p-[12px] text-subText sm:text-md  border border-[#B9B9B9] rounded-[5px] focus:outline-primary`}
             {...register('IsLoseWeight', { required: true })}
           >
+            <option value={false}>Không</option>
             <option className="py-1" value={true}>
               Có
             </option>
-            <option value={false}>Không</option>
           </select>
           {errors?.IsLoseWeight?.type === 'required' && (
             <p className="mb-[5px] text-redError text-[14px]">Xin hãy chọn</p>

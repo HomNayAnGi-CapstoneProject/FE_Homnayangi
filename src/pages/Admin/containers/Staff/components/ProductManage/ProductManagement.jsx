@@ -3,6 +3,7 @@ import instances from '../../../../../../utils/plugin/axios';
 import useDebounce from '../../../../../../share/hooks/useDebounce';
 
 import ConfirmModal from '../../../../../../share/components/Admin/ConfirmModal';
+import ModalWarningDelete from './components/ModalWarningDelete';
 
 import { ic_blog_create } from '../../../../../../assets';
 import Search from '../../../../../../share/components/Search';
@@ -20,15 +21,18 @@ const ProductManagement = () => {
   const [confirmData, setConfirmData] = useState();
   const [searchhInput, setSearchhInput] = useState(null);
   const debounced = useDebounce(searchhInput, 600);
+  const [loading, setLoading] = useState(false);
 
   // ** Call api
   useEffect(() => {
     const fetch = async () => {
+      setLoading(true);
       const res = await instances.get('/ingredients/managing', {
         params: {
           searchString: debounced?.trim(),
         },
       });
+      setLoading(false);
       // console.log(res.data.resource);
       setIngredientList(res.data.result);
     };
@@ -91,8 +95,9 @@ const ProductManagement = () => {
   return (
     <div>
       {isShowModal && (
-        <ConfirmModal
-          setIsShowModal={setIsShowModal}
+        <ModalWarningDelete
+          openModal={isShowModal}
+          setOpenModal={setIsShowModal}
           data={confirmData}
           modalTitle="Sản phẩm"
           statusTypeAvai={true}
@@ -122,6 +127,7 @@ const ProductManagement = () => {
           ingredientsList={ingredientsList}
           handleOpenEdit={handleOpenEdit}
           handleOpenDelete={handleOpenDelete}
+          loading={loading}
         />
       </div>
     </div>

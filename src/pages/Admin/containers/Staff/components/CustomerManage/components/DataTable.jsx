@@ -1,5 +1,6 @@
 import React from 'react';
 import Loading from '../../../../../../../share/components/Admin/Loading';
+import NoRowOverlay from '../../../../../../../share/components/Admin/NoRowOverlay';
 import { ic_edit, ic_delete_red, ic_delete_green } from '../../../../../../../assets';
 
 import { DataGrid } from '@mui/x-data-grid';
@@ -114,14 +115,15 @@ const DataTable = (props) => {
       <DataGrid
         rows={props.customerList}
         columns={columns.concat(actionColumn)}
-        pageSize={9}
-        rowsPerPageOptions={[9]}
+        pageSize={12}
+        rowsPerPageOptions={[12]}
         className="datagrid"
         getRowId={(row) => row.id}
-        loading={!props?.customerList.length}
+        loading={props?.loading}
         // loading={!rows.length}
         components={{
           LoadingOverlay: Loading,
+          NoRowsOverlay: NoRowOverlay,
         }}
         sx={{
           '& .MuiDataGrid-columnHeaderTitle': {
