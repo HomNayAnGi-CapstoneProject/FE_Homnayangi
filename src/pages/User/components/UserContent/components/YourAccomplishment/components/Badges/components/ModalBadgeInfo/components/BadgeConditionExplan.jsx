@@ -30,7 +30,7 @@ const BadgeConditionExplan = (props) => {
   // ** get all badges
   useEffect(() => {
     const fetch = async () => {
-      const res = await instances.get('/badgecondition');
+      const res = await instances.get('/badgecondition/customers');
       // console.log(res.data);
       setAllBadges(res.data);
     };

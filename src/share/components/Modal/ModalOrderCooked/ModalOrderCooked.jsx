@@ -24,6 +24,7 @@ const ModalOrderCooked = (props) => {
   const today = dayjs();
   const todayAtNoon = dayjs().set('hour', 12).startOf('hour');
   const todayAt8AM = dayjs().set('hour', 8).startOf('hour').add(1, 'day');
+  // const maxDate = dayjs().set('hour', 8).startOf('hour').add(1, 'day');
   const shouldDisableTime = (value, view) => view === 'hours' && value.hour() >= 20;
 
   const accessToken = localStorage.getItem('accessToken');
