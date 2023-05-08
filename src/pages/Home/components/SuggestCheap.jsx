@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import FoodCard from '../../../share/components/FoodCard';
+import Loading from '../../../share/components/Admin/Loading';
 
 // ** Assets
 import { ic_boiling_white } from '../../../assets';
@@ -46,72 +47,78 @@ const SuggestCheap = (props) => {
           </div>
         </div>
         <div className="w-full bg-[#f6e4dc] md:h-[412px] sm:h-[400px] h-[650px] mt-[77px] relative">
-          <div className={`${styles.paddingX} hidden xlg:flex justify-center w-full`}>
-            <div className={`${styles.container}`}>
-              <Swiper
-                pagination={{
-                  clickable: true,
-                }}
-                navigation
-                modules={[Navigation]}
-                slidesPerView={2}
-                spaceBetween={30}
-                grabCursor={true}
-                loop={true}
-                className="mySwiper "
-              >
-                {cheapData?.length > 0 &&
-                  cheapData.map((item) => (
-                    <SwiperSlide key={item.blogId}>
-                      <FoodCard isCheap={true} food={item} />
-                    </SwiperSlide>
-                  ))}
-              </Swiper>
-            </div>
-          </div>
-          <div className="px-5 py-10 xlg:hidden">
-            <Swiper
-              pagination={{
-                clickable: true,
-              }}
-              navigation
-              modules={[Navigation]}
-              slidesPerView={1}
-              spaceBetween={30}
-              grabCursor={true}
-              loop={true}
-              className="mySwiper "
-            >
-              <div className="flex ">
-                {cheapData?.length > 0 &&
-                  cheapData.map((item) => (
-                    <SwiperSlide key={item.blogId}>
-                      <FoodCard isCheap={true} food={item} />
-                    </SwiperSlide>
-                  ))}
+          {cheapData?.length > 0 ? (
+            <>
+              <div className={`${styles.paddingX} hidden xlg:flex justify-center w-full`}>
+                <div className={`${styles.container}`}>
+                  <Swiper
+                    pagination={{
+                      clickable: true,
+                    }}
+                    navigation
+                    modules={[Navigation]}
+                    slidesPerView={2}
+                    spaceBetween={30}
+                    grabCursor={true}
+                    loop={true}
+                    className="mySwiper "
+                  >
+                    {cheapData?.length > 0 &&
+                      cheapData.map((item) => (
+                        <SwiperSlide key={item.blogId}>
+                          <FoodCard isCheap={true} food={item} />
+                        </SwiperSlide>
+                      ))}
+                  </Swiper>
+                </div>
               </div>
-            </Swiper>
-          </div>
-          <div className="flex justify-center mt-10">
-            <button
-              onClick={() => navigate('/recipe')}
-              className="rounded-[30px] hover:bg-primaryHover transition bg-primary flex items-center gap-3 py-[10px] px-[20px] text-[20px] font-medium text-white"
-            >
-              Xem thêm
-              <div className="bg-cover w-[20px] h-[20px]" style={{ backgroundImage: `url(${ic_boiling_white})` }} />
-            </button>
-          </div>
+              <div className="px-5 py-10 xlg:hidden">
+                <Swiper
+                  pagination={{
+                    clickable: true,
+                  }}
+                  navigation
+                  modules={[Navigation]}
+                  slidesPerView={1}
+                  spaceBetween={30}
+                  grabCursor={true}
+                  loop={true}
+                  className="mySwiper "
+                >
+                  <div className="flex ">
+                    {cheapData?.length > 0 &&
+                      cheapData.map((item) => (
+                        <SwiperSlide key={item.blogId}>
+                          <FoodCard isCheap={true} food={item} />
+                        </SwiperSlide>
+                      ))}
+                  </div>
+                </Swiper>
+              </div>
+              <div className="flex justify-center mt-10">
+                <button
+                  onClick={() => navigate('/recipe')}
+                  className="rounded-[30px] hover:bg-primaryHover transition bg-primary flex items-center gap-3 py-[10px] px-[20px] text-[20px] font-medium text-white"
+                >
+                  Xem thêm
+                  <div className="bg-cover w-[20px] h-[20px]" style={{ backgroundImage: `url(${ic_boiling_white})` }} />
+                </button>
+              </div>
 
-          <div className="py-2 mt-5">
-            <div className="font-lobster text-subText text-5xl sm:px-20 px-1 leading-[60px] flex justify-center text-center">
-              <p className="md:w-[700px]">
-                Các món ngon và đầy đủ dinh dưỡng với giá chỉ từ{' '}
-                <span className=" ml-2 font-extrabold text-transparent bg-clip-text bg-gradient-to-t   from-redError to-primary">
-                  50k - 100k
-                </span>
-              </p>
-            </div>
-          </div>
+              <div className="py-2 mt-5">
+                <div className="font-lobster text-subText text-5xl sm:px-20 px-1 leading-[60px] flex justify-center text-center">
+                  <p className="md:w-[700px]">
+                    Các món ngon và đầy đủ dinh dưỡng với giá chỉ từ{' '}
+                    <span className=" ml-2 font-extrabold text-transparent bg-clip-text bg-gradient-to-t   from-redError to-primary">
+                      50k - 100k
+                    </span>
+                  </p>
+                </div>
+              </div>
+            </>
+          ) : (
+            <Loading />
+          )}
         </div>
         <div className="w-full sm:mt-[2%] mt-[25%]">&nbsp;&nbsp;</div>
       </section>
