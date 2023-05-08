@@ -246,7 +246,7 @@ const Item = (props) => {
   return (
     <div className="pb-3 flex items-center">
       <div className="w-4">{index + 1}.</div>
-      <div className="flex items-center gap-2 relative">
+      <div className="flex md:flex-row flex-col md:items-center gap-2 relative">
         <input
           type="search"
           onChange={(e) => {

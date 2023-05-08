@@ -153,13 +153,13 @@ const MaterialSelect = () => {
               />
             </div>
           ))}
-          <div className="flex items-center gap-10">
+          <div className="flex sm:flex-row flex-col sm:items-center sm:gap-10">
             <div>
               <div className="mb-3 flex gap-2">
                 <p className="text-[#898989]">Giá dự kiến</p>
                 <p className="font-bold text-redError">{Intl.NumberFormat().format(expectedTotalPrice)}đ</p>
               </div>
-              <div className="mb-3 flex gap-2">
+              <div className="mb-3 flex md:flex-row flex-col gap-2">
                 <p className="text-[#898989]">Tổng lượng calo</p>
                 <input
                   onKeyDown={handleKeyDown}
@@ -174,7 +174,7 @@ const MaterialSelect = () => {
               )}
             </div>
             <div className="">
-              <div className="mb-3 mt-2 flex gap-2">
+              <div className="mb-3 mt-2 flex sm:flex-row flex-col gap-2">
                 <p className="text-[#898989]">Giá gói nguyên liệu</p>
                 <input
                   value={packagePrice}
@@ -184,7 +184,7 @@ const MaterialSelect = () => {
                   className="font-bold rounded w-[150px] outline-none pl-2"
                 />
               </div>
-              <div className="mb-5 flex gap-2">
+              <div className="mb-5 flex sm:flex-row flex-col gap-2">
                 <p className="text-[#898989]">Giá đặt nấu</p>
                 <input
                   value={cookedPrice}
