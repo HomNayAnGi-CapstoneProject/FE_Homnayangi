@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import instances from '../../../utils/plugin/axios';
 import Image from '../../../share/components/Image';
+import Loading from '../../../share/components/Admin/Loading';
 import generateSlug from '../../../utils/generateSlug';
 import { addItemNoStock, getShoppingCart } from '../../../redux/actionSlice/shoppingCartSlice';
 import ModalRequireLogin from '../../../share/components/Modal/ModalRequireLogin';
@@ -213,74 +214,83 @@ const SuggestEatType = () => {
       </div>
 
       <div className="w-full bg-[#f6e4dc] md:h-[412px] sm:h-[400px] h-[650px] mt-[77px] relative">
-        <div className={`${styles.paddingX} w-full flex justify-center absolute top-[-5%]`}>
-          <div className={`${styles.container} flex sm:flex-row flex-col-reverse`}>
-            <div className=" md:w-[50%] w-full relative sm:h-full h-[439px]">
-              <div
-                className="absolute md:bottom-[18.2%] bottom-[15%] lg:left-[25%] sm:left-0 xs:left-[25%] left-[10%] bg-cover md:w-[410px] md:h-[478px] sm:w-[315px] sm:h-[374px] w-[243px] h-[285px]"
-                style={{ backgroundImage: `url(${listTagType[type].img})` }}
-              />
-              <div className="absolute md:bottom-[0%] bottom-[-1%] lg:left-[35%] sm:left-0 left-[25%] flex items-center justify-center gap-4">
-                <div
-                  onClick={() => handleChangeType('left')}
-                  className="bg-cover xs:w-[50px] xs:h-[50px] w-[40px] h-[40px] cursor-pointer"
-                  style={{ backgroundImage: `url(${ic_left_arrow})` }}
-                />
-                <div className="bg-[#f6e4dc] rounded-[5px] py-[8px] xs:px-[20px] sm:px-[40px] text-primary md:text-[30px] xs:text-[28px] text-[5vw] font-bold">
-                  {listTagType[type].tagName}
-                </div>
-                <div
-                  onClick={() => handleChangeType('right')}
-                  className="bg-cover xs:w-[50px] xs:h-[50px] w-[40px] h-[40px] transform rotate-[180deg] cursor-pointer"
-                  style={{ backgroundImage: `url(${ic_left_arrow})` }}
-                />
-              </div>
-            </div>
-
-            <div className=" md:w-[50%] w-full items-center flex flex-col">
-              <div className="sm:flex hidden scroll-bar md:max-h-[460px] sm:max-h-[425px] max-h-[270px] w-fit md:overflow-y-scroll overflow-x-scroll bottom-[-50px] right-[90px] flex-col">
-                {eatTypeData?.length > 0 &&
-                  eatTypeData.map((item) => (
-                    <div key={item.blogId} className="sm:mb-[18px] sm:last:mb-0 sm:mr-[5px] mr-[18px]">
-                      <Card data={item} />
+        {eatTypeData?.length > 0 ? (
+          <>
+            <div className={`${styles.paddingX} w-full flex justify-center absolute top-[-5%]`}>
+              <div className={`${styles.container} flex sm:flex-row flex-col-reverse`}>
+                <div className=" md:w-[50%] w-full relative sm:h-full h-[439px]">
+                  <div
+                    className="absolute md:bottom-[18.2%] bottom-[15%] lg:left-[25%] sm:left-0 xs:left-[25%] left-[10%] bg-cover md:w-[410px] md:h-[478px] sm:w-[315px] sm:h-[374px] w-[243px] h-[285px]"
+                    style={{ backgroundImage: `url(${listTagType[type].img})` }}
+                  />
+                  <div className="absolute md:bottom-[0%] bottom-[-1%] lg:left-[35%] sm:left-0 left-[25%] flex items-center justify-center gap-4">
+                    <div
+                      onClick={() => handleChangeType('left')}
+                      className="bg-cover xs:w-[50px] xs:h-[50px] w-[40px] h-[40px] cursor-pointer"
+                      style={{ backgroundImage: `url(${ic_left_arrow})` }}
+                    />
+                    <div className="bg-[#f6e4dc] rounded-[5px] py-[8px] xs:px-[20px] sm:px-[40px] text-primary md:text-[30px] xs:text-[28px] text-[5vw] font-bold">
+                      {listTagType[type].tagName}
                     </div>
-                  ))}
-              </div>
+                    <div
+                      onClick={() => handleChangeType('right')}
+                      className="bg-cover xs:w-[50px] xs:h-[50px] w-[40px] h-[40px] transform rotate-[180deg] cursor-pointer"
+                      style={{ backgroundImage: `url(${ic_left_arrow})` }}
+                    />
+                  </div>
+                </div>
 
-              <div className="sm:hidden block w-full">
-                <Swiper
-                  pagination={{
-                    clickable: true,
-                  }}
-                  navigation
-                  modules={[Navigation]}
-                  slidesPerView={1}
-                  spaceBetween={18}
-                  grabCursor={true}
-                  loop={true}
-                  className="mySwiper "
-                >
-                  {eatTypeData?.length > 0 &&
-                    eatTypeData.map((item) => (
-                      <SwiperSlide key={item.blogId}>
-                        <Card data={item} />
-                      </SwiperSlide>
-                    ))}
-                </Swiper>
-              </div>
+                <div className=" md:w-[50%] w-full items-center flex flex-col">
+                  <div className="sm:flex hidden scroll-bar md:max-h-[460px] sm:max-h-[425px] max-h-[270px] w-fit md:overflow-y-scroll overflow-x-scroll bottom-[-50px] right-[90px] flex-col">
+                    {eatTypeData?.length > 0 &&
+                      eatTypeData.map((item) => (
+                        <div key={item.blogId} className="sm:mb-[18px] sm:last:mb-0 sm:mr-[5px] mr-[18px]">
+                          <Card data={item} />
+                        </div>
+                      ))}
+                  </div>
 
-              <div className="sm:w-full flex justify-center mt-5">
-                <button
-                  onClick={() => navigate('/recipe')}
-                  className="rounded-[30px] hover:bg-primaryHover transition bg-primary flex items-center gap-3 py-[10px] px-[20px] text-[20px] font-medium text-white"
-                >
-                  Xem thêm
-                  <div className="bg-cover w-[20px] h-[20px]" style={{ backgroundImage: `url(${ic_boiling_white})` }} />
-                </button>
+                  <div className="sm:hidden block w-full">
+                    <Swiper
+                      pagination={{
+                        clickable: true,
+                      }}
+                      navigation
+                      modules={[Navigation]}
+                      slidesPerView={1}
+                      spaceBetween={18}
+                      grabCursor={true}
+                      loop={true}
+                      className="mySwiper "
+                    >
+                      {eatTypeData?.length > 0 &&
+                        eatTypeData.map((item) => (
+                          <SwiperSlide key={item.blogId}>
+                            <Card data={item} />
+                          </SwiperSlide>
+                        ))}
+                    </Swiper>
+                  </div>
+
+                  <div className="sm:w-full flex justify-center mt-5">
+                    <button
+                      onClick={() => navigate('/recipe')}
+                      className="rounded-[30px] hover:bg-primaryHover transition bg-primary flex items-center gap-3 py-[10px] px-[20px] text-[20px] font-medium text-white"
+                    >
+                      Xem thêm
+                      <div
+                        className="bg-cover w-[20px] h-[20px]"
+                        style={{ backgroundImage: `url(${ic_boiling_white})` }}
+                      />
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
+          </>
+        ) : (
+          <Loading />
+        )}
       </div>
 
       <div className="w-full sm:mt-[4%] mt-[10%]">&nbsp;&nbsp;</div>

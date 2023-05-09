@@ -449,7 +449,7 @@ const EditBlog = () => {
         />
 
         {/* ================================= KHẨU PHẦN ĂN, THỜI GIAN NẤU================================= */}
-        <div className="my-7 flex items-center gap-6 text-[#8f8f8f]">
+        <div className="my-7 flex sm:flex-row flex-col sm:items-center gap-6 text-[#8f8f8f]">
           <Portion />
           <CookTime />
         </div>

@@ -3,6 +3,7 @@ import instances from '../../../../utils/plugin/axios';
 import MultiSelect from '../MultiSelectTags/MultiSelect';
 import BlogCard from '../../../../share/components/BlogCard';
 import SeeMore from '../../../../share/components/SeeMore';
+import Loading from '../../../../share/components/Admin/Loading';
 
 import useDebounce from '../../../../share/hooks/useDebounce';
 
@@ -21,6 +22,7 @@ const ContentTag = (props) => {
   const [totalCount, setTotalCount] = useState(0);
   const [pageSizeIns, setPageSizeIns] = useState(0);
   const debounced = useDebounce(searchInput, 600);
+  const [loading, setLoading] = useState(false);
 
   // ** reset page size
   useEffect(() => {
@@ -31,6 +33,7 @@ const ContentTag = (props) => {
   useEffect(() => {
     const fetch = async () => {
       try {
+        setLoading(true);
         const res = await instances.get('/blogs/category/sub-categories', {
           params: {
             SubCateIds: store.subCategoryList.length > 0 ? (subCateId == 0 ? null : subCateId) : null,
@@ -43,10 +46,12 @@ const ContentTag = (props) => {
           },
         });
         // console.log('run');
+        setLoading(false);
         setBlogDataList(res.data.resource);
         setTotalCount(res.data.totalCount);
       } catch (error) {
         setBlogDataList([]);
+        setLoading(false);
       }
     };
     fetch();
@@ -57,27 +62,37 @@ const ContentTag = (props) => {
       <div className="mb-[20px]">
         {store.subCategoryList.length > 0 && <MultiSelect setSubCateId={setSubCateId} tags={store.subCategoryList} />}
       </div>
-      <div className="grid sm:grid-cols-2 xxlg:grid-cols-3 xl:grid-cols-3 gap-[6px]">
-        {blogDataList?.length > 0 &&
-          blogDataList.map((item) => (
-            <div key={item.blogId}>
-              <BlogCard data={item} />
+      {!loading ? (
+        <>
+          <div className="grid sm:grid-cols-2 xxlg:grid-cols-3 xl:grid-cols-3 gap-[6px]">
+            {blogDataList?.length > 0 &&
+              blogDataList.map((item) => (
+                <div key={item.blogId}>
+                  <BlogCard data={item} />
+                </div>
+              ))}
+          </div>
+          {!blogDataList?.length > 0 && (
+            <div className="text-center flex justify-center">
+              <p className="font-semibold">Không tìm thấy bài viết tương ứng</p>
+              {/* <div
+                className="w-[30px] h-[30px] bg-cover animate-spin"
+                style={{ backgroundImage: `url(${ic_loading})` }}
+              /> */}
             </div>
-          ))}
-      </div>
-      {!blogDataList?.length > 0 && (
-        <div className="text-center flex justify-center">
-          <div className="w-[30px] h-[30px] bg-cover animate-spin" style={{ backgroundImage: `url(${ic_loading})` }} />
-        </div>
-      )}
-      {currentPageSize !== totalCount && blogDataList?.length > 8 && (
-        <SeeMore
-          increaseSize={6}
-          currentSize={currentPageSize}
-          setPageSizeIns={setPageSizeIns}
-          setCurrentPageSize={setCurrentPageSize}
-          totalCount={totalCount}
-        />
+          )}
+          {currentPageSize !== totalCount && blogDataList?.length > 8 && (
+            <SeeMore
+              increaseSize={6}
+              currentSize={currentPageSize}
+              setPageSizeIns={setPageSizeIns}
+              setCurrentPageSize={setCurrentPageSize}
+              totalCount={totalCount}
+            />
+          )}
+        </>
+      ) : (
+        <Loading />
       )}
     </div>
   );
