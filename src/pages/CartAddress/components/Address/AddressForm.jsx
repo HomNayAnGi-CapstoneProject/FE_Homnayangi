@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Regex_PhoneNumber, ReGex_VietnameseTitle } from '../../../../utils/regex';
 import instances from '../../../../utils/plugin/axios';
+import GMapAutoComplete from './GMapAutoComplete';
 
 import { setCartAddress } from '../../../../redux/actionSlice/shoppingCartSlice';
 import { useDispatch } from 'react-redux';
@@ -8,6 +9,8 @@ import { useForm } from 'react-hook-form';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { toast } from 'react-toastify';
+// import GooglePlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-google-places-autocomplete';
+import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocomplete';
 
 const AddressForm = (props) => {
   const ITEM_HEIGHT = 48;
@@ -38,26 +41,33 @@ const AddressForm = (props) => {
   const [activeWards, setActiveWards] = useState('');
   const [wards, setWards] = useState([]);
   const [checkedAddress, setCheckedAddress] = useState(true);
+  const [mapAddress, setMapAddress] = useState('');
+  const [mapAddressError, setMapAddressError] = useState(false);
+  const [bounds, setBounds] = useState();
 
   // ** submit form
   const onSubmit = (data) => {
-    const address =
-      data.unique_name +
-      ', ' +
-      data.PhoneNumber +
-      ', ' +
-      data.email +
-      ', ' +
-      data.specific_address +
-      ', ' +
-      data.districts +
-      ', ' +
-      data.wards +
-      ', ' +
-      data.description;
-    // console.log(address);
-    dispatch(setCartAddress(address));
-    notifyConfirmAddress();
+    if (mapAddress !== '') {
+      const address =
+        data.unique_name +
+        ', ' +
+        data.PhoneNumber +
+        ', ' +
+        data.email +
+        ', ' +
+        mapAddress +
+        ', ' +
+        data.districts +
+        ', ' +
+        data.wards +
+        ', ' +
+        data.description;
+      dispatch(setCartAddress(address));
+      notifyConfirmAddress();
+      setMapAddressError(false);
+    } else {
+      setMapAddressError(true);
+    }
   };
 
   // ** get district, wards
@@ -83,6 +93,20 @@ const AddressForm = (props) => {
       fetch();
     }
   }, [activeDistricts]);
+
+  // ** get Lat, Lng coords bound
+  useEffect(() => {
+    if (activeWards !== '') {
+      const getCoords = async () => {
+        const res2 = await getGeocode({ address: activeWards + ', ' + activeDistricts + ',Thành phố Hồ Chí Minh' });
+        // console.log(res2[0].geometry.bounds);
+        // const latlng2 = await getLatLng(res2[0]);
+        // console.log(res2.find((loca) => loca.geometry?.bounds).geometry.bounds);
+        setBounds(res2.find((loca) => loca.geometry?.bounds).geometry.bounds);
+      };
+      getCoords();
+    }
+  }, [activeWards]);
 
   // ** functions
   const handleChangeProvinces = (event) => {
@@ -183,26 +207,6 @@ const AddressForm = (props) => {
             )}
           </div>
         </div>
-        {/* specific address */}
-        <input
-          name="specific_address"
-          placeholder="Địa chỉ nhận hàng"
-          className={`block w-full h-[47px] ${
-            errors?.specific_address ? 'mb-[5px]' : 'mb-[20px]'
-          } p-[12px] text-subText sm:text-md  border border-[#B9B9B9] rounded-[5px] focus:outline-primary`}
-          {...register('specific_address', {
-            required: true,
-            // pattern: {
-            //   value: ReGex_VietnameseTitle,
-            // },
-          })}
-        />
-        {errors?.specific_address?.type === 'required' && (
-          <p className="mb-[5px] text-redError text-[14px]">Địa chỉ nhận hàng không được trống</p>
-        )}
-        {errors?.specific_address?.type === 'pattern' && (
-          <p className="mb-[5px] text-redError text-[14px]">Địa chỉ nhận hàng không hợp lệ</p>
-        )}
         {/* city, provinces, wrad */}
         <div className="sm:flex items-center gap-3 justify-between">
           {/* provinces  */}
@@ -299,6 +303,64 @@ const AddressForm = (props) => {
             )}
           </div>
         </div>
+        <div className="relative">
+          <GMapAutoComplete bounds={bounds} setMapAddress={setMapAddress} mapAddressError={mapAddressError} />
+          {mapAddressError && <p className="mb-[5px] text-redError text-[14px]">Địa chỉ nhận hàng không được trống</p>}
+          {/* specific address */}
+          {/* <input
+            name="specific_address"
+            value={mapAddress?.label}
+            placeholder="Địa chỉ nhận hàng"
+            className={`opacity-[0] w-full h-[47px] ${
+              errors?.specific_address ? 'mb-[5px]' : 'mb-[20px]'
+            } p-[12px] text-subText sm:text-md  border border-[#B9B9B9] rounded-[5px] focus:outline-primary`}
+            {...register('specific_address', {
+              required: true,
+              // pattern: {
+              //   value: ReGex_VietnameseTitle,
+              // },
+            })}
+          /> */}
+          {/* {errors?.specific_address?.type === 'required' && (
+            <p className="mb-[5px] text-redError text-[14px]">Địa chỉ nhận hàng không được trống</p>
+          )}
+          {errors?.specific_address?.type === 'pattern' && (
+            <p className="mb-[5px] text-redError text-[14px]">Địa chỉ nhận hàng không hợp lệ</p>
+          )} */}
+          {/* google suggest address */}
+          {/* <GooglePlacesAutocomplete
+            apiKey={import.meta.env.VITE_MAP_API}
+            apiOptions={{ language: 'vi', region: 'vn' }}
+            autocompletionRequest={{
+              componentRestrictions: {
+                country: ['vn'],
+              },
+              bounds: bounds,
+              // location: { lat: 10.8671531, lng: 106.6413322 },
+              radius: 1000,
+            }}
+            selectProps={{
+              value: mapAddress,
+              onChange: (e) => setMapAddress(e),
+              placeholder: 'Địa chỉ nhận hàng',
+              noOptionsMessage: () => 'Hãy nhập địa chỉ',
+              isDisabled: bounds ? false : true,
+              styles: {
+                control: (baseStyles, state) => ({
+                  ...baseStyles,
+                  borderColor: '#B9B9B9',
+                  height: '47px',
+                  width: '100%',
+                  outline: '#FF8855',
+                  paddingLeft: '5px',
+                  marginBottom: `${mapAddressError ? '5px' : '20px'}`,
+                }),
+              },
+            }}
+          />
+          {mapAddressError && <p className="mb-[5px] text-redError text-[14px]">Địa chỉ nhận hàng không được trống</p>} */}
+        </div>
+
         {/* note */}
         <textarea
           name="description"
@@ -314,6 +376,7 @@ const AddressForm = (props) => {
         {errors?.description?.type === 'required' && (
           <p className="mb-[5px] text-redError text-[14px]">Mô tả không được trống</p>
         )}
+
         {/* confirm button */}
         <div className="w-full flex justify-end">
           <button type="submit" className="bg-primary mt-2 px-5 py-2 text-white font-medium rounded-[5px]">
