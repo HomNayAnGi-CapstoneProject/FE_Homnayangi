@@ -51,7 +51,7 @@ const Item = (props) => {
           <p className="font-medium line-clamp-1 text-black">{props.item?.ingredientName}</p>
           <p className="text-[#897D7D] text-[14px]">Số lượng: {props.item?.quantity}</p>
         </div>
-        {props?.isDone ? (
+        {/* {props?.isDone ? (
           <></>
         ) : (
           <Tooltip title="Thêm vào giỏ hàng" placement="top">
@@ -62,7 +62,7 @@ const Item = (props) => {
               <img src={ic_cart_white} className="object-contain w-[20px] h-[20px]" />
             </button>
           </Tooltip>
-        )}
+        )} */}
         <p className="text-[18px] text-redError font-bold">{Intl.NumberFormat().format(props.item?.price)}đ</p>
       </div>
     </div>

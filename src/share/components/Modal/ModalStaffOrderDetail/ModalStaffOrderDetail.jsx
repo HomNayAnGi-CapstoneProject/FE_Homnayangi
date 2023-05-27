@@ -97,15 +97,18 @@ const ModalStaffOrderDetail = (props) => {
                 <p className="mt-2 font-medium text-gray-400">
                   Địa chỉ:{' '}
                   <span className="text-black">
-                    {detailData?.shippedAddress.split(',')[3] +
-                      ', ' +
-                      detailData?.shippedAddress.split(',')[4] +
-                      ', ' +
-                      detailData?.shippedAddress.split(',')[5]}
+                    {
+                      detailData?.shippedAddress.split(',')[3]
+                      // +
+                      //   ', ' +
+                      //   detailData?.shippedAddress.split(',')[4] +
+                      //   ', ' +
+                      //   detailData?.shippedAddress.split(',')[5]
+                    }
                   </span>
                 </p>
                 <p className="mt-2 font-medium text-gray-400">
-                  Ghi chú: <span className="text-black">{detailData?.shippedAddress.split(',')[6]}</span>
+                  Ghi chú: <span className="text-black">{detailData?.shippedAddress.split(',')[4]}</span>
                 </p>
                 <p className="text-[18px] mt-2 text-redError font-bold">
                   Tổng: <span>{Intl.NumberFormat().format(detailData?.totalPrice)}đ</span>

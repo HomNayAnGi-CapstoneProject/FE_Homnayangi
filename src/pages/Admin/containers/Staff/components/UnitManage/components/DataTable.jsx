@@ -16,27 +16,15 @@ const columns = [
   // { field: 'blogId', headerName: 'ID', width: 70 },
   {
     field: 'name',
-    headerName: 'Tên đơn vị',
+    headerName: 'Tên phương thức nấu',
     width: 200,
   },
   {
-    field: 'description',
-    headerName: 'Mô tả',
-    width: 300,
-    // renderCell: (params) => (
-    //   <div className="">
-    //     <Tooltip title={`${params.row.description}`} placement="top">
-    //       <div className="">{params.row.description}</div>
-    //     </Tooltip>
-    //   </div>
-    // ),
+    field: 'createdDate',
+    headerName: 'Ngày tạo',
+    width: 150,
+    renderCell: (params) => moment(params.row.createDate).format('Do MMM YY'),
   },
-  // {
-  //   field: 'createDate',
-  //   headerName: 'Ngày tạo',
-  //   width: 150,
-  //   renderCell: (params) => moment(params.row.createDate).format('Do MMM YY'),
-  // },
   {
     field: 'status',
     headerName: 'Trạng thái',
@@ -82,12 +70,12 @@ const DataTable = (props) => {
   return (
     <div className="h-[75vh] bg-white">
       <DataGrid
-        rows={props.unitList}
+        rows={props.methods}
         columns={columns.concat(actionColumn)}
         pageSize={12}
         rowsPerPageOptions={[12]}
         className="datagrid"
-        getRowId={(row) => row.unitId}
+        getRowId={(row) => row.cookingMethodId}
         loading={props?.loading}
         // loading={!rows.length}
         components={{

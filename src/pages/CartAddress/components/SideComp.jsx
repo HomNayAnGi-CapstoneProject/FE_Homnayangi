@@ -15,7 +15,7 @@ import { Tooltip } from '@mui/material';
 
 const SideComp = () => {
   const cartList = useSelector((state) => state.cart.shoppingCart);
-  // const cartType = useSelector((state) => state.cart.cartType);
+  const cartStore = useSelector((state) => state.cart);
   const cartType = localStorage.getItem('cartType');
   const cartAddress = useSelector((state) => state.cart.cartAddress);
   const paymentMethod = useSelector((state) => state.cart.paymentMethod);
@@ -186,6 +186,7 @@ const SideComp = () => {
                         : totalItem.totalPrice - totalItem.totalPrice * selectedVoucher?.discount
                       : totalItem.totalPrice - selectedVoucher?.discount
                     : totalItem.totalPrice,
+                  shippingCost: cartStore.shippingCost,
                   paymentMethod: paymentMethod,
                   isCooked: cartType == 1 ? false : true,
                   orderDetails: getListTotalIngredients(),
@@ -311,6 +312,10 @@ const SideComp = () => {
           <p>{Intl.NumberFormat().format(totalItem?.totalPrice)}đ</p>
         </div>
         <div className="flex justify-between mb-3">
+          <p>Phí vận chuyển: </p>
+          <p>{Intl.NumberFormat().format(cartStore.shippingCost)}đ</p>
+        </div>
+        <div className="flex justify-between mb-3">
           <p>Giảm giá: </p>
           <p>
             -
@@ -329,10 +334,14 @@ const SideComp = () => {
             {selectedVoucher
               ? selectedVoucher?.discount <= 1
                 ? totalItem?.totalPrice * selectedVoucher.discount > selectedVoucher.maximumOrderPrice
-                  ? Intl.NumberFormat().format(totalItem.totalPrice - selectedVoucher?.maximumOrderPrice)
-                  : Intl.NumberFormat().format(totalItem.totalPrice - totalItem.totalPrice * selectedVoucher?.discount)
-                : Intl.NumberFormat().format(totalItem.totalPrice - selectedVoucher?.discount)
-              : Intl.NumberFormat().format(totalItem.totalPrice)}
+                  ? Intl.NumberFormat().format(
+                      totalItem.totalPrice + cartStore.shippingCost - selectedVoucher?.maximumOrderPrice,
+                    )
+                  : Intl.NumberFormat().format(
+                      totalItem.totalPrice + cartStore.shippingCost - totalItem.totalPrice * selectedVoucher?.discount,
+                    )
+                : Intl.NumberFormat().format(totalItem.totalPrice + cartStore.shippingCost - selectedVoucher?.discount)
+              : Intl.NumberFormat().format(totalItem.totalPrice + cartStore.shippingCost)}
             đ
           </p>
         </div>

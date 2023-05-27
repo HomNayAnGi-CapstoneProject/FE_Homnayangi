@@ -42,6 +42,12 @@ import EditType from './components/TypeManage/components/EditType';
 import UnitManagement from './components/UnitManage/UnitManagement';
 import CreateUnit from './components/UnitManage/components/CreateUnit';
 import EditUnit from './components/UnitManage/components/EditUnit';
+import CreateMethod from './components/UnitManage/components/CookingMethod/CreateMethod';
+import EditMethod from './components/UnitManage/components/CookingMethod/EditMethod';
+
+import RegionManage from './components/RegionManage/RegionManage';
+import CreateRegion from './components/RegionManage/components/CreateRegion';
+import EditRegion from './components/RegionManage/components/EditRegion';
 
 // ** third party libraries
 
@@ -115,10 +121,15 @@ const StaffContainer = (props) => {
                 <Route path="new" element={<CreateType />} />
                 <Route path="edit/:typeId" element={<EditType />} />
               </Route>
-              <Route path="unit">
+              <Route path="method">
                 <Route index element={<UnitManagement />} />
-                <Route path="new" element={<CreateUnit />} />
-                <Route path="edit/:unitId" element={<EditUnit />} />
+                <Route path="new" element={<CreateMethod />} />
+                <Route path="edit/:cookingMethodId" element={<EditMethod />} />
+              </Route>
+              <Route path="region">
+                <Route index element={<RegionManage />} />
+                <Route path="new" element={<CreateRegion />} />
+                <Route path="edit/:regionId" element={<EditRegion />} />
               </Route>
             </Route>
           </Routes>

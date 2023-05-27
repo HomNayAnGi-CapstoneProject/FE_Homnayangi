@@ -30,7 +30,7 @@ const GMapAutoComplete = (props) => {
   const handleInput = (e) => {
     // Update the keyword of the input element
     setValue(e.target.value);
-    setMapAddress(e.target.value);
+    // setMapAddress(e.target.value);
   };
 
   const handleSelect =
@@ -65,6 +65,10 @@ const GMapAutoComplete = (props) => {
   return (
     <div className="relative">
       <input
+        onBlur={() => {
+          setValue('');
+          setMapAddress('');
+        }}
         value={value}
         onChange={handleInput}
         // disabled={!ready}
@@ -76,7 +80,7 @@ const GMapAutoComplete = (props) => {
       />
       {/* We can use the "status" to decide whether we should display the dropdown or not */}
       {status === 'OK' && (
-        <ul className="bg-white shadow-md absolute w-full top-12 rounded-[5px]">{renderSuggestions()}</ul>
+        <ul className="bg-white shadow-md absolute z-20 w-full top-12 rounded-[5px]">{renderSuggestions()}</ul>
       )}
     </div>
   );

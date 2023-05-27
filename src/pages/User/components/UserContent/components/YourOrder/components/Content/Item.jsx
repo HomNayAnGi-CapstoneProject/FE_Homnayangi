@@ -155,11 +155,14 @@ const Item = (props) => {
               </div>
               <div className="md:w-1/2 ">
                 <p className="text-[#898989] mb-2">
-                  {data?.shippedAddress.split(',')[3] +
-                    ', ' +
-                    data?.shippedAddress.split(',')[4] +
-                    ', ' +
-                    data?.shippedAddress.split(',')[5]}
+                  {
+                    data?.shippedAddress.split(',')[3]
+                    // +
+                    //   ', ' +
+                    //   data?.shippedAddress.split(',')[4] +
+                    //   ', ' +
+                    //   data?.shippedAddress.split(',')[5]
+                  }
                 </p>
               </div>
             </div>

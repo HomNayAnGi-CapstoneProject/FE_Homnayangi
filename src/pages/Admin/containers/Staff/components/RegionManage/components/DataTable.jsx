@@ -8,36 +8,23 @@ import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import moment from 'moment/moment';
 
+const rows = [
+  { unitId: 50121, name: '5KG', description: 'Moo tar', createDate: '2022-12-31T23:18:25.91', status: true },
+];
+
 const columns = [
   // { field: 'blogId', headerName: 'ID', width: 70 },
   {
-    field: 'name',
-    headerName: 'Tên loại',
+    field: 'regionName',
+    headerName: 'Tên vùng miền',
     width: 200,
   },
   {
-    field: 'unitName',
-    headerName: 'Đơn vị',
-    width: 200,
+    field: 'createdDate',
+    headerName: 'Ngày tạo',
+    width: 150,
+    renderCell: (params) => moment(params.row.createDate).format('Do MMM YY'),
   },
-  {
-    field: 'description',
-    headerName: 'Mô tả',
-    width: 500,
-    // renderCell: (params) => (
-    //   <div className="">
-    //     <Tooltip title={`${params.row.description}`} placement="top">
-    //       <div className="">{params.row.description}</div>
-    //     </Tooltip>
-    //   </div>
-    // ),
-  },
-  // {
-  //   field: 'createDate',
-  //   headerName: 'Ngày tạo',
-  //   width: 150,
-  //   renderCell: (params) => moment(params.row.createDate).format('Do MMM YY'),
-  // },
   {
     field: 'status',
     headerName: 'Trạng thái',
@@ -83,12 +70,12 @@ const DataTable = (props) => {
   return (
     <div className="h-[75vh] bg-white">
       <DataGrid
-        rows={props?.typeList}
+        rows={props.regions}
         columns={columns.concat(actionColumn)}
         pageSize={12}
         rowsPerPageOptions={[12]}
         className="datagrid"
-        getRowId={(row) => row.typeId}
+        getRowId={(row) => row.regionId}
         loading={props?.loading}
         // loading={!rows.length}
         components={{

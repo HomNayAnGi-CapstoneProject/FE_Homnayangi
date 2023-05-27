@@ -88,7 +88,7 @@ const ItemVariants = (props) => {
           Mô tả sản phẩm: <span className="text-[#838383] font-bold">{productDetail?.description}</span>
         </p>
         {/* amount */}
-        <div className="mt-5 flex items-center gap-2">
+        {/* <div className="mt-5 flex items-center gap-2">
           <p className=" font-medium text-black">Số lượng</p>
           <div className="input-group flex ">
             <div
@@ -107,9 +107,9 @@ const ItemVariants = (props) => {
               <img alt="" className="object-contain w-[24px]" src={ic_plus_black} />
             </div>
           </div>
-        </div>
+        </div> */}
         {/* add to cart buttons */}
-        <div className="w-full mt-8">
+        {/* <div className="w-full mt-8">
           <button
             onClick={() => handleAddToCart()}
             className="bg-primary px-5 py-2 text-white font-medium rounded-[5px] flex items-center gap-2"
@@ -117,7 +117,7 @@ const ItemVariants = (props) => {
             <img alt="" src={ic_cart_white} className="w-[24px] object-contain" />
             <p>Thêm vào giỏ</p>
           </button>
-        </div>
+        </div> */}
       </div>
     </>
   );
