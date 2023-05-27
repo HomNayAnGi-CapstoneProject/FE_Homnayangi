@@ -16,6 +16,7 @@ import {
   getCurrentContent,
   setBlogId,
   clearBlogContent,
+  setConfirmPackage,
 } from '../../../../../../../redux/actionSlice/managementSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -29,6 +30,9 @@ import MaterialSelect from './MaterialSelect/MaterialSelect';
 import Portion from './Portion/Portion';
 import CookTime from './CookTime/CookTime';
 import IsEvent from './IsEvent/IsEvent';
+import SidePackage from './SidePackage/SidePackage';
+import RegionDropdown from './RegionDropdown/RegionDropdown';
+import CookingMethod from './CookingMethod/CookingMethod';
 
 // ** Markdown
 import MarkdownIt from 'markdown-it';
@@ -50,6 +54,7 @@ const EditBlog = () => {
     });
   const [uploadBlogSuccess, setUploadBlogSuccess] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const rootPackageId = crypto.randomUUID();
 
   // ** get content store
   const contentBlog = useSelector((state) => state.management.blogContent);
@@ -85,6 +90,7 @@ const EditBlog = () => {
 
   // ** get edit data (if had)
   useEffect(() => {
+    dispatch(setConfirmPackage(false));
     if (params.blogId) {
       const fetch = async () => {
         const res = await instances.get(`/blogs/staff-preview/${params.blogId}`);
@@ -115,6 +121,9 @@ const EditBlog = () => {
           setContentBlog({
             ingredients: res.data?.recipeDetails?.map(function (item) {
               return {
+                kcal: item.kcal,
+                price: item.price,
+                name: item.ingredientName,
                 quantity: item.quantity,
                 ingredientId: item.ingredientId,
                 description: item.description,
@@ -170,15 +179,18 @@ const EditBlog = () => {
                 minutesToCook: parseInt(contentBlog?.minutesToCook) || null,
                 isEvent: contentBlog?.isEvent || null,
                 eventExpiredDate: contentBlog?.eventExpiredDate || null,
+                cookingMethodId: contentBlog?.cookingMethodId || null,
+                regionId: contentBlog?.regionId || null,
               },
-              Recipe: {
-                packagePrice: parseInt(contentBlog?.packagePrice) || null,
-                cookedPrice: parseInt(contentBlog?.cookedPrice) || null,
-                maxSize: parseInt(contentBlog?.maxSize) || null,
-                minSize: parseInt(contentBlog?.minSize) || null,
-                totalKcal: parseInt(contentBlog?.totalKcal) || null,
-              },
-              RecipeDetails: contentBlog?.ingredients || [],
+              Packages: contentBlog?.Packages || null,
+              // Recipe: {
+              //   packagePrice: parseInt(contentBlog?.packagePrice) || null,
+              //   cookedPrice: parseInt(contentBlog?.cookedPrice) || null,
+              //   maxSize: parseInt(contentBlog?.maxSize) || null,
+              //   minSize: parseInt(contentBlog?.minSize) || null,
+              //   totalKcal: parseInt(contentBlog?.totalKcal) || null,
+              // },
+              // RecipeDetails: contentBlog?.ingredients || [],
               BlogSubCates: subCateList || [],
               BlogReferences: [
                 {
@@ -373,6 +385,12 @@ const EditBlog = () => {
         <IsEvent />
       </div>
 
+      {/* ================================= CHỌN VÙNG MIỀN, PHƯƠNG THỨC NẤU ================================= */}
+      <div className="my-7 flex gap-5">
+        <RegionDropdown />
+        <CookingMethod />
+      </div>
+
       {/* ================================= CHỌN ẢNH BÌA ================================= */}
       <div className="flex items-center gap-2">
         {!uploading ? (
@@ -484,7 +502,8 @@ const EditBlog = () => {
             </span>{' '}
           </p>
           <div className="my-3">
-            <MaterialSelect />
+            <MaterialSelect packageId={rootPackageId} />
+            <SidePackage />
           </div>
         </div>
 

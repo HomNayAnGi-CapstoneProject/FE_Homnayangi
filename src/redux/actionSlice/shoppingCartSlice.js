@@ -36,6 +36,7 @@ export const cartSlice = createSlice({
         cartType: 1,
         cartAddress: '',
         paymentMethod: -1,
+        shippingCost: 0
     },
     reducers: {
         //actions
@@ -561,7 +562,10 @@ export const cartSlice = createSlice({
         },
         setPaymentMethod: (state, action) => {
             state.paymentMethod = action.payload
-        }
+        },
+        setShippingCost: (state, action) => {
+            state.shippingCost = action.payload
+        },
     }
 })
 
@@ -569,6 +573,6 @@ export const { addItemNoStock, addItemWithStock, deleteItem,
     cartEmpty, setStockAvailable, setStockAvailablePeek,
     setAddedProduct, setCartPosition, getShoppingCart,
     removeWholeItem, setShowModalCart, removeCart, setCartType,
-    removeCartByStatus, setCartAddress, setPaymentMethod } = cartSlice.actions;
+    removeCartByStatus, setCartAddress, setPaymentMethod, setShippingCost } = cartSlice.actions;
 export default cartSlice.reducer;
 

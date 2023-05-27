@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { Regex_PhoneNumber, ReGex_VietnameseTitle } from '../../../../utils/regex';
 import instances from '../../../../utils/plugin/axios';
 import GMapAutoComplete from './GMapAutoComplete';
+import MapPicker from 'react-google-map-picker';
+import GoongAutoComplete from './GoongAutoComplete';
 
 import { setCartAddress } from '../../../../redux/actionSlice/shoppingCartSlice';
 import { useDispatch } from 'react-redux';
@@ -9,7 +11,6 @@ import { useForm } from 'react-hook-form';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { toast } from 'react-toastify';
-// import GooglePlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-google-places-autocomplete';
 import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocomplete';
 
 const AddressForm = (props) => {
@@ -23,6 +24,7 @@ const AddressForm = (props) => {
       },
     },
   };
+  const DefaultLocation = { lat: 10.75, lng: 106.67 };
   // ** notify
   const notifyConfirmAddress = () =>
     toast.success('Đã xác nhận địa chỉ !', {
@@ -44,6 +46,9 @@ const AddressForm = (props) => {
   const [mapAddress, setMapAddress] = useState('');
   const [mapAddressError, setMapAddressError] = useState(false);
   const [bounds, setBounds] = useState();
+  const [defaultLocation, setDefaultLocation] = useState(DefaultLocation);
+  const [location, setLocation] = useState(defaultLocation);
+  const [zoom, setZoom] = useState(15);
 
   // ** submit form
   const onSubmit = (data) => {
@@ -57,10 +62,10 @@ const AddressForm = (props) => {
         ', ' +
         mapAddress +
         ', ' +
-        data.districts +
-        ', ' +
-        data.wards +
-        ', ' +
+        // data.districts +
+        // ', ' +
+        // data.wards +
+        // ', ' +
         data.description;
       dispatch(setCartAddress(address));
       notifyConfirmAddress();
@@ -100,7 +105,9 @@ const AddressForm = (props) => {
       const getCoords = async () => {
         const res2 = await getGeocode({ address: activeWards + ', ' + activeDistricts + ',Thành phố Hồ Chí Minh' });
         // console.log(res2[0].geometry.bounds);
-        // const latlng2 = await getLatLng(res2[0]);
+        const latlng2 = await getLatLng(res2[0]);
+        // console.log(latlng2);
+        setDefaultLocation(latlng2);
         // console.log(res2.find((loca) => loca.geometry?.bounds).geometry.bounds);
         setBounds(res2.find((loca) => loca.geometry?.bounds).geometry.bounds);
       };
@@ -126,6 +133,14 @@ const AddressForm = (props) => {
 
   const handleChangeAddress = (event) => {
     setCheckedAddress(event.target.checked);
+  };
+
+  const handleChangeLocation = (lat, lng) => {
+    setLocation({ lat: lat, lng: lng });
+  };
+
+  const handleChangeZoom = (newZoom) => {
+    setZoom(newZoom);
   };
 
   return (
@@ -241,7 +256,7 @@ const AddressForm = (props) => {
                     )}
                   </div> */}
           {/* districts  */}
-          <div className="flex-1">
+          {/* <div className="flex-1">
             <Select
               MenuProps={MenuProps}
               value={activeDistricts}
@@ -270,9 +285,9 @@ const AddressForm = (props) => {
             {errors?.districts?.type === 'required' && (
               <p className="mb-[5px] text-redError text-[14px]">Vui lòng chọn tỉnh/thành của bạn</p>
             )}
-          </div>
+          </div> */}
           {/* wards  */}
-          <div className="flex-1">
+          {/* <div className="flex-1">
             <Select
               MenuProps={MenuProps}
               value={activeWards}
@@ -301,10 +316,11 @@ const AddressForm = (props) => {
             {errors?.wards?.type === 'required' && (
               <p className="mb-[5px] text-redError text-[14px]">Vui lòng chọn tỉnh/thành của bạn</p>
             )}
-          </div>
+          </div> */}
         </div>
         <div className="relative">
-          <GMapAutoComplete bounds={bounds} setMapAddress={setMapAddress} mapAddressError={mapAddressError} />
+          {/* <GMapAutoComplete bounds={bounds} setMapAddress={setMapAddress} mapAddressError={mapAddressError} /> */}
+          <GoongAutoComplete setMapAddress={setMapAddress} mapAddressError={mapAddressError} />
           {mapAddressError && <p className="mb-[5px] text-redError text-[14px]">Địa chỉ nhận hàng không được trống</p>}
           {/* specific address */}
           {/* <input
@@ -360,6 +376,22 @@ const AddressForm = (props) => {
           />
           {mapAddressError && <p className="mb-[5px] text-redError text-[14px]">Địa chỉ nhận hàng không được trống</p>} */}
         </div>
+        {bounds && (
+          <div className="mb-3">
+            <>
+              <p className="my-2">Chọn địa chỉ cụ thể</p>
+              <MapPicker
+                defaultLocation={defaultLocation}
+                zoom={zoom}
+                mapTypeId="roadmap"
+                style={{ height: '300px' }}
+                onChangeLocation={handleChangeLocation}
+                onChangeZoom={handleChangeZoom}
+                apiKey={import.meta.env.VITE_MAP_API}
+              />
+            </>
+          </div>
+        )}
 
         {/* note */}
         <textarea

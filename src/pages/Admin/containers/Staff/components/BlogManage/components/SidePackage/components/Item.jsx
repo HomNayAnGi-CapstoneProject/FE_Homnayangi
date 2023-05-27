@@ -34,12 +34,13 @@ const Item = (props) => {
     setSelectedList,
     selectedList,
     editItem,
+    data,
     // selectedAmount,
     // setSelectedAmount,
   } = props;
   const [selectedItem, setSelectedItem] = useState('');
   const [selectedAmount, setSelectedAmount] = useState('');
-  const [selectedUnit, setSelectedUnit] = useState('');
+  const [selectedUnit, setSelectedUnit] = useState(data?.unitName);
   const [description, setDescription] = useState('');
   const [openResultBox, setOpenResultBox] = useState(false);
   const [searchResult, setSearchResult] = useState('');
@@ -47,34 +48,6 @@ const Item = (props) => {
   const [loading, setLoading] = useState(false);
   const debounced = useDebounce(searchInput, 600);
   const store = useSelector((state) => state.management.blogContent);
-  const confirmPackage = useSelector((state) => state.management.confirmPackage);
-
-  // ** call api
-  useEffect(() => {
-    if (debounced !== '') {
-      if (!debounced?.trim()) {
-        return;
-      }
-      setOpenResultBox(true);
-      setLoading(true);
-      setSearchResult('');
-
-      const fetch = async () => {
-        setSearchResult('');
-        const res = await instances.get('/ingredients/ingredient-searching', {
-          params: {
-            name: debounced,
-          },
-        });
-        setLoading(false);
-        // console.log(res.data.result);
-        setSearchResult(res.data.result);
-      };
-      fetch();
-
-      // console.log(searchInput);
-    }
-  }, [debounced]);
 
   // ** handle click to select item
   const handleSelectItem = (item) => {
@@ -92,44 +65,13 @@ const Item = (props) => {
     } else {
       selectItem(item);
     }
-    // setOpenResultBox(false);
-    // setSelectedItem(item);
-    // setSelectedPrice(item.price);
-    // setSelectedAmount(item !== '' ? 1 : '');
-
-    // if (selectedList.length > 0) {
-    //   let duplicateItem = selectedList.find((item) => item.itemId === id);
-    //   if (duplicateItem == undefined) {
-    //     // not dupplicate
-    //     setSelectedList((prev) => [
-    //       ...prev,
-    //       { item, itemId: id, amount: selectedAmount !== '' ? selectedAmount : 1, description: description },
-    //     ]);
-    //   } else {
-    //     // dupplicate
-    //     setSelectedList((current) => current.filter((item) => item.itemId !== duplicateItem.itemId));
-    //     setSelectedList((prev) => [
-    //       ...prev,
-    //       {
-    //         item,
-    //         itemId: duplicateItem.itemId,
-    //         amount: selectedAmount !== '' ? selectedAmount : 1,
-    //         description: description,
-    //       },
-    //     ]);
-    //   }
-    // } else {
-    //   setSelectedList((prev) => [
-    //     ...prev,
-    //     { item, itemId: id, amount: selectedAmount !== '' ? selectedAmount : 1, description: description },
-    //   ]);
-    // }
   };
 
   const selectItem = (item) => {
+    // console.log(item);
     setOpenResultBox(false);
     setSelectedItem(item);
-    setSelectedPrice(item.price);
+    // setSelectedPrice(item.price);
     setSelectedAmount(item !== '' ? (item.quantity ? item.quantity : 1) : '');
     setSelectedUnit(item.unitName);
     // console.log(item);
@@ -180,13 +122,12 @@ const Item = (props) => {
 
   // ** handle get edit data name
   useEffect(() => {
-    // console.log(editItem);
     if (editItem) {
       // setSelectedItem(editItem.ingredient);
       selectItem({
         ingredientId: editItem.ingredientId,
         kcal: editItem?.kcal,
-        name: editItem?.ingredientName,
+        name: editItem?.name,
         price: editItem?.price,
         quantity: editItem?.quantity,
         unitName: editItem?.unitName,
@@ -195,7 +136,6 @@ const Item = (props) => {
       setDescription(editItem.description);
     }
   }, []);
-
   // ** handle change item amount
   const handleChangeItemAmount = (amount) => {
     if (amount !== '') {
@@ -233,41 +173,23 @@ const Item = (props) => {
       ]);
     }
   };
-
-  const desciptionDebounce = useDebounce(description, 600);
-  useEffect(() => {
-    if (desciptionDebounce !== '') {
-      // if (!desciptionDebounce?.trim()) {
-      //   return;
-      // }
-      handleChangeItemDescription(desciptionDebounce);
-    }
-  }, [desciptionDebounce]);
-
   return (
     <div className="pb-3 flex items-center">
       <div className="w-4">{index + 1}.</div>
       <div className="flex md:flex-row flex-col md:items-center gap-2 relative">
         <input
-          disabled={confirmPackage}
           type="search"
-          onChange={(e) => {
-            setSearchhInput(e.target.value);
-            setSelectedItem(e.target.value);
-            if (e.target.value == '') {
-              setSelectedAmount('');
-            }
-          }}
+          disabled
           placeholder="Tên nguyên liệu"
           value={selectedItem?.name}
           required
-          className="outline-none w-[150px] bg-white rounded-md py-1 pl-2 font-medium text-[#898989]"
+          className="outline-none w-[150px] bg-gray-300 rounded-md py-1 pl-2 font-medium text-[#898989]"
         />
         {/* {selectedUnit !== '' && <p className="text-[#898989] w-[50px]">({selectedUnit})</p>} */}
         <input
           placeholder="Số lượng"
           required
-          disabled={selectedItem !== '' ? (confirmPackage ? true : false) : true}
+          disabled={selectedItem !== '' ? false : true}
           onChange={(e) => {
             setSelectedAmount(e.target.value);
             handleChangeItemAmount(e.target.value);
@@ -280,13 +202,13 @@ const Item = (props) => {
           } outline-none w-[110px] bg-white rounded-md py-1 pl-2 font-medium text-[#898989]`}
         />
         <input
-          disabled={selectedItem !== '' ? (confirmPackage ? true : false) : true}
+          disabled={selectedItem !== '' ? false : true}
           value={description}
           onChange={(e) => {
             setDescription(e.target.value);
           }}
           onBlur={(e) => {
-            // handleChangeItemDescription(e.target.value);
+            handleChangeItemDescription(e.target.value);
           }}
           placeholder="Mô tả"
           required
@@ -294,44 +216,7 @@ const Item = (props) => {
             selectedItem !== '' ? '' : 'cursor-not-allowed'
           } outline-none w-fit bg-white rounded-md py-1 pl-2`}
         />
-        <div
-          className={`${
-            searchInput?.length > 0 && openResultBox == true ? 'block' : 'hidden'
-          } absolute top-10 w-full bg-white z-[999] overflow-y-scroll max-h-[175px] scroll-bar rounded-[5px] drop-shadow-xl py-[10px]`}
-        >
-          <OutsideClickHandler onOutsideClick={() => setOpenResultBox(false)}>
-            <div>
-              {loading == false ? (
-                <>
-                  {searchResult !== '' ? (
-                    searchResult?.map((item) => (
-                      <div onClick={() => handleSelectItem(item)} key={item.ingredientId}>
-                        <ResultSearch data={item} />
-                      </div>
-                    ))
-                  ) : (
-                    <div className="text-black px-[20px] text-[14px]">Không tìm thấy kết quả!</div>
-                  )}
-                </>
-              ) : (
-                <div className="px-[20px] flex justify-center">
-                  <div
-                    className="w-[20px] h-[20px] bg-cover animate-spin"
-                    style={{ backgroundImage: `url(${ic_loading})` }}
-                  />
-                </div>
-              )}
-            </div>
-          </OutsideClickHandler>
-        </div>
       </div>
-      <button
-        disabled={confirmPackage}
-        onClick={() => handleRemoveItem(id)}
-        className={`p-1 ml-3 rounded-full ${!confirmPackage ? 'bg-redError' : 'bg-red-400 cursor-not-allowed'} `}
-      >
-        <img className="w-[20px] transform rotate-[45deg]" src={ic_plus_white} />
-      </button>
     </div>
   );
 };

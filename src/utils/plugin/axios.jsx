@@ -29,6 +29,10 @@ const instances = axios.create({
   baseURL: import.meta.env.VITE_BASE_URL,
 });
 
+export const goong = axios.create({
+  baseURL: import.meta.env.VITE_GOONG_BASE_URL,
+});
+
 instances.interceptors.request.use(
   (config) => {
     // ** Get token from localStorage

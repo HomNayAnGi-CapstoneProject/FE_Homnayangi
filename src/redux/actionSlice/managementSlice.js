@@ -29,9 +29,13 @@ export const managementSlice = createSlice({
         blogSubCategory: [],
         blogId: null,
         uploadBlog: false,
-        currentOrderStatus: -1
+        currentOrderStatus: -1,
+        confirmPackage: false,
     },
     reducers: {
+        setConfirmPackage: (state, action) => {
+            state.confirmPackage = action.payload
+        },
         setShowSideBar: (state, action) => {
             state.showSideBar = action.payload
         },
@@ -69,5 +73,5 @@ export const managementSlice = createSlice({
 })
 
 export const { setShowSideBar, setContentBlog, setUploadBlog, getCurrentContent, setBlogSubCategory, setBlogId, clearBlogContent,
-    setCurrentOrderStatus } = managementSlice.actions;
+    setCurrentOrderStatus, setConfirmPackage } = managementSlice.actions;
 export default managementSlice.reducer;

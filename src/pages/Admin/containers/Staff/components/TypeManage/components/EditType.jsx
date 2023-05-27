@@ -28,6 +28,7 @@ const EditForm = (props) => {
         .put(`/types/${params.typeId}`, {
           typeId: params.typeId,
           name: data.name,
+          unitName: data.unitName,
           description: data.description,
           status: true,
         })
@@ -68,6 +69,28 @@ const EditForm = (props) => {
         <p className="mb-[5px] text-redError text-[14px]">Tên loại không được trống</p>
       )}
       {errors?.name?.type === 'pattern' && <p className="mb-[5px] text-redError text-[14px]">Tên loại không hợp lệ</p>}
+
+      <label>Đơn vị</label>
+      <input
+        name="unitName"
+        // value={typeData?.name}
+        // placeholder={typeData?.name}
+        className={`block mt-2 w-full h-[47px] ${
+          errors?.unitName ? 'mb-[5px]' : 'mb-[20px]'
+        } p-[12px] text-subText sm:text-md  border border-[#B9B9B9] rounded-[5px] focus:outline-primary`}
+        {...register('unitName', {
+          required: true,
+          pattern: {
+            value: ReGex_VietnameseTitle,
+          },
+        })}
+      />
+      {errors?.unitName?.type === 'required' && (
+        <p className="mb-[5px] text-redError text-[14px]">Đơn vị không được trống</p>
+      )}
+      {errors?.unitName?.type === 'pattern' && (
+        <p className="mb-[5px] text-redError text-[14px]">Đơn vị không hợp lệ</p>
+      )}
 
       <label>Mô tả</label>
 

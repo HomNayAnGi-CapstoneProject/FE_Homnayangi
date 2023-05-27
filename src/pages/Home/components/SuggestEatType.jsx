@@ -208,7 +208,7 @@ const SuggestEatType = () => {
         <p className="text-primary uppercase font-semibold text-[18px] mb-2 tracking-widest">Bữa ăn cho bạn</p>
         <div className="w-full flex justify-center">
           <p className="font-bold text-[40px] sm:w-[470px] sm:px-0 px-5 w-full leading-[55px]">
-            Gợi ý theo phong cách ăn uống
+            Gợi ý theo phương thức nấu ăn
           </p>
         </div>
       </div>

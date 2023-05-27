@@ -64,7 +64,7 @@ function App() {
               });
             }
             if (decoded_jwt?.role == 'Customer') {
-              console.log('???');
+              // console.log('???');
               connection.on(`${decoded_jwt.Id}_OrderStatusChanged`, (message) => {
                 // console.log(message);
                 newNotify(JSON.parse(message)?.description);
