@@ -31,10 +31,34 @@ export const managementSlice = createSlice({
         uploadBlog: false,
         currentOrderStatus: -1,
         confirmPackage: false,
+        reportData: null,
+        reportFilterMonth: new Date().getMonth() + 1,
+        reportFilterYear: new Date().getFullYear(),
+        reportFilterDateFrom: '',
+        reportFilterDateTo: '',
+        reportType: 1
     },
     reducers: {
         setConfirmPackage: (state, action) => {
             state.confirmPackage = action.payload
+        },
+        setReportTypee: (state, action) => {
+            state.reportType = action.payload
+        },
+        setReportFilterMonth: (state, action) => {
+            state.reportFilterMonth = action.payload
+        },
+        setReportFilterDateFrom: (state, action) => {
+            state.reportFilterDateFrom = action.payload
+        },
+        setReportFilterDateTo: (state, action) => {
+            state.reportFilterDateTo = action.payload
+        },
+        setReportFilterYear: (state, action) => {
+            state.reportFilterYear = action.payload
+        },
+        setReportData: (state, action) => {
+            state.reportData = action.payload
         },
         setShowSideBar: (state, action) => {
             state.showSideBar = action.payload
@@ -73,5 +97,6 @@ export const managementSlice = createSlice({
 })
 
 export const { setShowSideBar, setContentBlog, setUploadBlog, getCurrentContent, setBlogSubCategory, setBlogId, clearBlogContent,
-    setCurrentOrderStatus, setConfirmPackage } = managementSlice.actions;
+    setCurrentOrderStatus, setConfirmPackage, setReportData, setReportFilterMonth, setReportFilterYear,
+    setReportFilterDateFrom, setReportFilterDateTo, setReportTypee } = managementSlice.actions;
 export default managementSlice.reducer;

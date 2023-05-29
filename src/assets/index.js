@@ -110,6 +110,10 @@ import ic_calendar_white from './ic_calendar_white.svg'
 import ic_chart_bold from './ic_chart_bold.svg'
 import ic_voucher_bold from './ic_voucher_bold.svg'
 
+import ic_dollar_white from './ic_dollar_white.svg'
+import ic_order_cancel from './ic_order_cancel.svg'
+import ic_denied from './ic_denied.svg'
+
 export {
     ic_nofitication, ic_cart, ic_caret_down_white, ic_nav_menu, ic_close_modal, ic_caret_right, ic_location,
     ic_notification_white, ic_cart_white, ic_left_arrow, ic_boiling_white, ic_add_to_cart_white, ic_refresh_white,
@@ -124,5 +128,5 @@ export {
     ic_trash_orange, ic_plus_black, ic_subtract_black, ic_clock_red, ic_location_black, ic_payment_black, ic_document_black,
     ic_online_payment, ic_cash_payment, ic_navigation, ic_image_black, ic_video_black, ic_image_gray, ic_video_gray, ic_trash_white,
     ic_config, ic_config_active, ic_uprole, ic_downrole, ic_chart_active, ic_chart, ic_switch_white, ic_calendar_white, ic_chart_bold,
-    ic_voucher_bold
+    ic_voucher_bold, ic_dollar_white, ic_order_cancel, ic_denied
 }

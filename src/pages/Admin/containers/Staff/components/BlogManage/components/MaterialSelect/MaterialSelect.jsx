@@ -18,7 +18,7 @@ import ConfirmPackageModal from './components/ConfirmPackageModal';
 
 const MaterialSelect = (props) => {
   // ** Const
-  const { packageId } = props;
+  const { packageId, cookedId } = props;
   const params = useParams();
   const store = useSelector((state) => state.management);
   const dispatch = useDispatch();
@@ -70,12 +70,13 @@ const MaterialSelect = (props) => {
     if (params.blogId) {
       const fetch = async () => {
         const res = await instances.get(`/blogs/staff-preview/${params.blogId}`);
-        let dataIngredient = res.data.recipeDetails;
-        setPackagePrice(res?.data?.packagePrice);
-        setCookedPrice(res?.data?.cookedPrice);
+        let dataIngredient = res.data.packages[0];
+        setPortion(dataIngredient.item1?.size);
+        setPackagePrice(dataIngredient.item1?.packagePrice);
+        setCookedPrice(dataIngredient.item1?.cookedPrice);
         setPreviousTotalKcal(res?.data?.totalKcal);
-        if (dataIngredient.length > 0) {
-          dataIngredient.forEach((item) => {
+        if (dataIngredient.item2.length > 0) {
+          dataIngredient.item2.forEach((item) => {
             handleAddItem(item);
           });
         }
@@ -102,6 +103,7 @@ const MaterialSelect = (props) => {
     let Package = {
       item1: {
         packageId: packageId,
+        cookedId: cookedId,
         title: store.blogContent?.title || null,
         imageUrl: store.blogContent?.coverImage?.url || null,
         packagePrice: parseInt(packagePrice),

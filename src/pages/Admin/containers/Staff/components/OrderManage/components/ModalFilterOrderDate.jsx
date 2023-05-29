@@ -52,7 +52,7 @@ const ModalFilterOrderDate = (props) => {
         <div className="px-7 py-6">
           {/* header */}
           <div className="pb-2 mb-5 border-b border-[#b7b7b7]">
-            <p className="text-[18px] font-medium">Lọc đơn hàng theo khoảng thời gian</p>
+            <p className="text-[18px] font-medium">Lọc theo khoảng thời gian</p>
           </div>
           {/* body */}
           <div className="mt-5">

@@ -20,6 +20,7 @@ const MenuProps = {
 
 const CookingMethod = () => {
   const dispatch = useDispatch();
+  const contentBlog = useSelector((state) => state.management.blogContent);
 
   const [cookingMethods, setCookingMethods] = useState();
   const [activeMethod, setActiveMethod] = useState('');
@@ -29,6 +30,16 @@ const CookingMethod = () => {
     dispatch(setContentBlog({ cookingMethodId: event.target.value }));
     setActiveMethod(event.target.value);
   };
+
+  // ** get edit cookingMethod
+  useEffect(() => {
+    if (cookingMethods?.length > 0) {
+      let existCookingMethod = cookingMethods.find((c) => c.cookingMethodId == contentBlog.cookingMethodId);
+      if (existCookingMethod) {
+        setActiveMethod(existCookingMethod.cookingMethodName);
+      }
+    }
+  }, [contentBlog?.cookingMethod]);
 
   useEffect(() => {
     const fetch = async () => {

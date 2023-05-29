@@ -17,14 +17,15 @@ const CreateMethod = () => {
   const navigate = useNavigate();
   const [creating, setCreating] = useState(false);
   const [maxRegion, setMaxRegion] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   // ** check if region lenght is 3
   useEffect(() => {
     const fetch = async () => {
-      setLoading(true);
+      // setLoading(true);
       const res = await instances.get('/region');
       // console.log(res.data);
-      setLoading(false);
+      // setLoading(false);
       if (res.data.length == 3) {
         setMaxRegion(true);
       } else {
@@ -63,7 +64,7 @@ const CreateMethod = () => {
     <div>
       <p className="font-semibold text-[18px]">Thêm vùng miền</p>
       <div className="bg-white py-5 px-5 rounded-[5px] mt-4">
-        {maxRegion ? (
+        {!maxRegion ? (
           <form onSubmit={handleSubmit(onSubmit)}>
             <label>Tên vùng miền</label>
             <input

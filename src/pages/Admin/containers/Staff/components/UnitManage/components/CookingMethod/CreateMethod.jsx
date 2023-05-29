@@ -29,7 +29,7 @@ const CreateMethod = () => {
         })
         .then((res) => {
           setCreating(false);
-          navigate('/management/unit');
+          navigate('/management/method');
         }),
       {
         pending: 'Đang tạo mới',
