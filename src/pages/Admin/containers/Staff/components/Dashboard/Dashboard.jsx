@@ -10,6 +10,9 @@ import { useNavigate } from 'react-router-dom';
 import CountingNumComponent from './components/CountingNumComponent';
 import DataTable from './components/DataTable';
 import ModalStaffOrderDetail from '../../../../../../share/components/Modal/ModalStaffOrderDetail/ModalStaffOrderDetail';
+import TotalReport from './components/TotalReport/TotalReport';
+import GeneralInfo from './components/GeneralInfo/GeneralInfo';
+import Revenue from './components/Revenue/Revenue';
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -53,18 +56,18 @@ const Dashboard = () => {
   }, []);
 
   // get orders
-  useEffect(() => {
-    const fetch = async () => {
-      setLoading(true);
-      const res = await instances.get(`/orders`);
-      // console.log(res.data);
-      setLoading(false);
-      setOrderList(res.data);
-      setOrderCount(res?.data?.length || 0);
-    };
+  // useEffect(() => {
+  //   const fetch = async () => {
+  //     setLoading(true);
+  //     const res = await instances.get(`/orders`);
+  //     // console.log(res.data);
+  //     setLoading(false);
+  //     setOrderList(res.data);
+  //     setOrderCount(res?.data?.length || 0);
+  //   };
 
-    fetch();
-  }, []);
+  //   fetch();
+  // }, []);
 
   // handle open detail
   const handelOpenDetail = (data) => {
@@ -109,8 +112,17 @@ const Dashboard = () => {
           endValue={categoryCount}
           navigateTo="/management/category"
         />
+        <GeneralInfo />
       </div>
-      <div className="mt-8">
+      <div className="mt-8 flex sm:flex-row flex-col gap-10">
+        <div className="sm:w-2/3 w-full">
+          <TotalReport />
+        </div>
+        <div className="sm:w-1/3">
+          <Revenue />
+        </div>
+      </div>
+      {/* <div className="mt-8">
         <div className="flex items-center gap-3">
           <p className="text-[20px] font-semibold text-[#585858]">Đơn hàng ({orderCount})</p>
           <button
@@ -128,7 +140,7 @@ const Dashboard = () => {
             loading={loading}
           />
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

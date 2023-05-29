@@ -20,6 +20,7 @@ const MenuProps = {
 
 const RegionDropdown = () => {
   const dispatch = useDispatch();
+  const contentBlog = useSelector((state) => state.management.blogContent);
 
   const [regions, setRegions] = useState();
   const [activeRegion, setActiveRegion] = useState('');
@@ -29,6 +30,16 @@ const RegionDropdown = () => {
     dispatch(setContentBlog({ regionId: event.target.value }));
     setActiveRegion(event.target.value);
   };
+
+  // ** get edit region
+  useEffect(() => {
+    if (regions?.length > 0) {
+      let existRegion = regions.find((r) => r.rergionId == contentBlog.regionId);
+      if (existRegion) {
+        setActiveRegion(existRegion.regionName);
+      }
+    }
+  }, [contentBlog?.regionId]);
 
   useEffect(() => {
     const fetch = async () => {

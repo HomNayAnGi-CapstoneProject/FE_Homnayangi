@@ -58,6 +58,9 @@ const PreviewBlog = () => {
         dispatch(setContentBlog({ preparation: { html: res.data?.preparationHTML, text: res.data?.preparationText } }));
         dispatch(setContentBlog({ processing: { html: res.data?.processingHTML, text: res.data?.processingText } }));
         dispatch(setContentBlog({ finished: { html: res.data?.finishedHTML, text: res.data?.finishedText } }));
+        dispatch(setContentBlog({ Packages: res.data?.packages }));
+        dispatch(setContentBlog({ regionId: res.data?.regionId }));
+        dispatch(setContentBlog({ cookingMethodId: res.data?.cookingMethodId }));
         dispatch(
           setContentBlog({
             subCategory: res.data?.subCates?.map(function (item) {

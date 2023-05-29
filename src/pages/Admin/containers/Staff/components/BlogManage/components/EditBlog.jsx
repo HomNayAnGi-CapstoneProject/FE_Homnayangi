@@ -55,6 +55,7 @@ const EditBlog = () => {
   const [uploadBlogSuccess, setUploadBlogSuccess] = useState(false);
   const [uploading, setUploading] = useState(false);
   const rootPackageId = crypto.randomUUID();
+  const rootCookedId = crypto.randomUUID();
 
   // ** get content store
   const contentBlog = useSelector((state) => state.management.blogContent);
@@ -117,6 +118,9 @@ const EditBlog = () => {
             }),
           }),
         );
+        dispatch(setContentBlog({ Packages: res.data?.packages }));
+        dispatch(setContentBlog({ regionId: res.data?.regionId }));
+        dispatch(setContentBlog({ cookingMethodId: res.data?.cookingMethodId }));
         dispatch(
           setContentBlog({
             ingredients: res.data?.recipeDetails?.map(function (item) {
@@ -502,7 +506,7 @@ const EditBlog = () => {
             </span>{' '}
           </p>
           <div className="my-3">
-            <MaterialSelect packageId={rootPackageId} />
+            <MaterialSelect packageId={rootPackageId} cookedId={rootCookedId} />
             <SidePackage />
           </div>
         </div>

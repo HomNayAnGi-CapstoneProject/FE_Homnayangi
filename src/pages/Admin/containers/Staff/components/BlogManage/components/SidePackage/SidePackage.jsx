@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 
 // ** Redux
 import { setContentBlog } from '../../../../../../../../redux/actionSlice/managementSlice';
@@ -13,8 +14,9 @@ import Package from './components/Package';
 
 const SidePackage = () => {
   // ** consts
+  const params = useParams();
   const store = useSelector((state) => state.management);
-  const ingredientsStore = useSelector((state) => state.management?.blogContent?.ingredients);
+  const ingredientsStore = useSelector((state) => state.management?.blogContent?.Packages[0]?.item2);
   const confirmPackage = useSelector((state) => state.management.confirmPackage);
 
   const dispatch = useDispatch();
@@ -33,9 +35,26 @@ const SidePackage = () => {
     }
   }, [ingredientsStore, confirmPackage]);
 
+  // ** get packge to edit
+  useEffect(() => {
+    if (params.blogId) {
+      const fetch = async () => {
+        const res = await instances.get(`/blogs/staff-preview/${params.blogId}`);
+        let dataIngredient = res.data.packages;
+        if (dataIngredient.slice(1).length > 0) {
+          console.log(dataIngredient.slice(1));
+          dataIngredient.slice(1).forEach((item) => {
+            handleAddPackage(item);
+          });
+        }
+      };
+      fetch();
+    }
+  }, []);
+
   // ** functions
   const handleAddPackage = (editItem) => {
-    setPackageList((prev) => [...prev, { id: crypto.randomUUID(), editItem }]);
+    setPackageList((prev) => [...prev, { id: crypto.randomUUID(), cookedId: crypto.randomUUID(), editItem }]);
   };
 
   const handleRemovePackage = (id) => {
@@ -71,6 +90,7 @@ const SidePackage = () => {
               <Package
                 editItem={item.editItem}
                 id={item.id}
+                cookedId={item.cookedId}
                 index={i}
                 handleKeyDown={handleKeyDown}
                 handleRemovePackage={handleRemovePackage}
