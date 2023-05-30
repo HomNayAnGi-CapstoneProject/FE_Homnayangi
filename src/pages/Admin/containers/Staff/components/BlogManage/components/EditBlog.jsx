@@ -54,8 +54,6 @@ const EditBlog = () => {
     });
   const [uploadBlogSuccess, setUploadBlogSuccess] = useState(false);
   const [uploading, setUploading] = useState(false);
-  const rootPackageId = crypto.randomUUID();
-  const rootCookedId = crypto.randomUUID();
 
   // ** get content store
   const contentBlog = useSelector((state) => state.management.blogContent);
@@ -162,7 +160,10 @@ const EditBlog = () => {
     // console.log(contentBlog);
     contentBlogRef.current = contentBlog;
     let subCateList = contentBlog?.subCategory?.map(function (item) {
-      return { subCateId: item.subCategoryId, blogId: blogIdRef.current };
+      return {
+        subCateId: item.subCategoryId,
+        // blogId: blogIdRef.current
+      };
     });
     let handler = null;
     if (contentBlog !== null) {
@@ -506,7 +507,7 @@ const EditBlog = () => {
             </span>{' '}
           </p>
           <div className="my-3">
-            <MaterialSelect packageId={rootPackageId} cookedId={rootCookedId} />
+            <MaterialSelect />
             <SidePackage />
           </div>
         </div>

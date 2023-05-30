@@ -17,7 +17,7 @@ const Item = (props) => {
         <img alt="" src={icon || ic_dollar_white} />
       </div>
       <p className="mb-2 font-semibold text-[#585858]">{name}</p>
-      <p className={`text-[25px] font-semibold`}>{Intl.NumberFormat().format(value)}</p>
+      <p className={`text-[25px] font-semibold`}>{Intl.NumberFormat().format(value || 0)}</p>
     </div>
   );
 };

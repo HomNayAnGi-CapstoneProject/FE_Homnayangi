@@ -18,7 +18,7 @@ import ConfirmPackageModal from './components/ConfirmPackageModal';
 
 const MaterialSelect = (props) => {
   // ** Const
-  const { packageId, cookedId } = props;
+  // const { packageId, cookedId } = props;
   const params = useParams();
   const store = useSelector((state) => state.management);
   const dispatch = useDispatch();
@@ -32,6 +32,12 @@ const MaterialSelect = (props) => {
   const [cookedPrice, setCookedPrice] = useState('');
   const [portion, setPortion] = useState('');
   const [openConfirmModal, setOpenConfirmModal] = useState(false);
+
+  const [rootPackageId, setRootPackageId] = useState(null);
+  const [rootCookedId, setRootCookedId] = useState(null);
+
+  const [dataPackageId, setDataPackageId] = useState(null);
+  const [dataCookedId, setDataCookedId] = useState(null);
 
   // ** functs
   const handleAddItem = (editItem) => {
@@ -65,15 +71,23 @@ const MaterialSelect = (props) => {
     }
   };
 
+  // ** generate cookId, packageId
+  useEffect(() => {
+    setRootPackageId(crypto.randomUUID());
+    setRootCookedId(crypto.randomUUID());
+  }, []);
+
   // ** get placeholer item to edit
   useEffect(() => {
     if (params.blogId) {
       const fetch = async () => {
         const res = await instances.get(`/blogs/staff-preview/${params.blogId}`);
         let dataIngredient = res.data.packages[0];
-        setPortion(dataIngredient.item1?.size);
-        setPackagePrice(dataIngredient.item1?.packagePrice);
-        setCookedPrice(dataIngredient.item1?.cookedPrice);
+        setPortion(dataIngredient?.item1?.size);
+        setPackagePrice(dataIngredient?.item1?.packagePrice);
+        setCookedPrice(dataIngredient?.item1?.cookedPrice);
+        setDataPackageId(dataIngredient?.item1?.packageId);
+        setDataCookedId(dataIngredient?.item1?.cookedId);
         setPreviousTotalKcal(res?.data?.totalKcal);
         if (dataIngredient.item2.length > 0) {
           dataIngredient.item2.forEach((item) => {
@@ -90,7 +104,7 @@ const MaterialSelect = (props) => {
   useEffect(() => {
     let recipeDetails = selectedList?.map(function (item) {
       return {
-        packageId: packageId,
+        packageId: dataPackageId !== null ? dataPackageId : rootPackageId,
         kcal: item.item.kcal,
         price: item.item.price,
         name: item.item.name,
@@ -102,8 +116,8 @@ const MaterialSelect = (props) => {
     });
     let Package = {
       item1: {
-        packageId: packageId,
-        cookedId: cookedId,
+        packageId: dataPackageId !== null ? dataPackageId : rootPackageId,
+        cookedId: dataCookedId !== null ? dataCookedId : rootCookedId,
         title: store.blogContent?.title || null,
         imageUrl: store.blogContent?.coverImage?.url || null,
         packagePrice: parseInt(packagePrice),
@@ -116,7 +130,7 @@ const MaterialSelect = (props) => {
     let Packages = [];
     if (recipeDetails.length > 0) {
       // check dupplicate package
-      let existedPackage = Packages.find((item) => item.packageId == packageId);
+      let existedPackage = Packages.find((item) => item.packageId == rootPackageId);
       if (existedPackage) {
         let modifiedPac = Packages.filter((item) => item.packageId !== existedPackage.packageId);
         modifiedPac.push(Package);

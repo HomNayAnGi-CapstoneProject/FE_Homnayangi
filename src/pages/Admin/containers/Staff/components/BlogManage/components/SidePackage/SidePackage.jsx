@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import instances from '../../../../../../../../utils/plugin/axios';
 
 // ** Redux
 import { setContentBlog } from '../../../../../../../../redux/actionSlice/managementSlice';
@@ -16,7 +17,7 @@ const SidePackage = () => {
   // ** consts
   const params = useParams();
   const store = useSelector((state) => state.management);
-  const ingredientsStore = useSelector((state) => state.management?.blogContent?.Packages[0]?.item2);
+  const ingredientsStore = useSelector((state) => state.management?.blogContent);
   const confirmPackage = useSelector((state) => state.management.confirmPackage);
 
   const dispatch = useDispatch();
@@ -26,14 +27,10 @@ const SidePackage = () => {
 
   // ** check root package length
   useEffect(() => {
-    if (!ingredientsStore?.length > 0) {
+    if (confirmPackage == false) {
       setPackageList([]);
-    } else {
-      if (confirmPackage == false) {
-        setPackageList([]);
-      }
     }
-  }, [ingredientsStore, confirmPackage]);
+  }, [confirmPackage]);
 
   // ** get packge to edit
   useEffect(() => {
@@ -103,11 +100,10 @@ const SidePackage = () => {
             </div>
           ))}
           <button
-            disabled={ingredientsStore?.length > 0 ? false : true}
+            // disabled={ingredientsStore?.length > 0 ? false : true}
             onClick={() => handleAddPackage()}
-            className={`${
-              ingredientsStore?.length > 0 ? 'bg-green-500' : 'cursor-not-allowed bg-green-300'
-            }  font-medium text-white flex gap-1 items-center px-4 py-2 rounded-[10px]`}
+            className={`
+            font-medium text-white flex gap-1 items-center px-4 py-2 rounded-[10px]`}
           >
             Thêm gói nguyên liệu <img className="w-[20px]" src={ic_plus_white} />
           </button>
