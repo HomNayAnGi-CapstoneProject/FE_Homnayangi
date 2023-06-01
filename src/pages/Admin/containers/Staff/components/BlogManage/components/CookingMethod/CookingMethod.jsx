@@ -36,10 +36,10 @@ const CookingMethod = () => {
     if (cookingMethods?.length > 0) {
       let existCookingMethod = cookingMethods.find((c) => c.cookingMethodId == contentBlog.cookingMethodId);
       if (existCookingMethod) {
-        setActiveMethod(existCookingMethod.cookingMethodName);
+        setActiveMethod(existCookingMethod.cookingMethodId);
       }
     }
-  }, [contentBlog?.cookingMethod]);
+  }, [contentBlog?.cookingMethodId]);
 
   useEffect(() => {
     const fetch = async () => {

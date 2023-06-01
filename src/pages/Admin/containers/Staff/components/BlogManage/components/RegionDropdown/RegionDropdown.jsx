@@ -34,9 +34,9 @@ const RegionDropdown = () => {
   // ** get edit region
   useEffect(() => {
     if (regions?.length > 0) {
-      let existRegion = regions.find((r) => r.rergionId == contentBlog.regionId);
+      let existRegion = regions.find((r) => r.regionId == contentBlog.regionId);
       if (existRegion) {
-        setActiveRegion(existRegion.regionName);
+        setActiveRegion(existRegion.regionId);
       }
     }
   }, [contentBlog?.regionId]);

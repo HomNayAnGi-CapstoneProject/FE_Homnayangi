@@ -20,10 +20,14 @@ export const globalSlice = createSlice({
         authorAccomId: '',
         connection: null,
         newNoti: false,
+        selectedRegionId: null,
     },
     reducers: {
         setOpenMenuModal: (state, action) => {
             state.openMenuModal = action.payload;
+        },
+        setSelectedRegionId: (state, action) => {
+            state.selectedRegionId = action.payload;
         },
         setConnection: (state, action) => {
             state.connection = action.payload;
@@ -92,5 +96,5 @@ export const globalSlice = createSlice({
 export const { setCountrySide, setOpenMenuModal, setSuggestFormData, getSuggestData, setOpenFormSuggest,
     setOpenCategoryMenuModal, setActiveCate, setSubCategoryList, setReturnUrl, setOpenCategoryShopModal,
     setActiveShopCate, setOpenNotification, setPreviousUrl, setHomeSearchInput, setParentCommentId,
-    setAuthorAccomId, setConnection, setNewNoti } = globalSlice.actions
+    setAuthorAccomId, setConnection, setNewNoti, setSelectedRegionId } = globalSlice.actions
 export default globalSlice.reducer

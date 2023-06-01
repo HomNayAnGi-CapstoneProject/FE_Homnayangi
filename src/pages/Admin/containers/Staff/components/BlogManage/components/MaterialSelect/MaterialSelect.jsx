@@ -3,6 +3,7 @@ import instances from '../../../../../../../../utils/plugin/axios';
 import useDebounce from '../../../../../../../../share/hooks/useDebounce';
 
 import { useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 // ** Redux
 import { setContentBlog, setConfirmPackage } from '../../../../../../../../redux/actionSlice/managementSlice';
@@ -21,6 +22,8 @@ const MaterialSelect = (props) => {
   // const { packageId, cookedId } = props;
   const params = useParams();
   const store = useSelector((state) => state.management);
+  const confirmPackage = useSelector((state) => state.management.confirmPackage);
+
   const dispatch = useDispatch();
   const [expectedTotalPrice, setExpectedTotalPrice] = useState(0);
   const [totalKcal, setTotalKcal] = useState('');
@@ -39,6 +42,13 @@ const MaterialSelect = (props) => {
   const [dataPackageId, setDataPackageId] = useState(null);
   const [dataCookedId, setDataCookedId] = useState(null);
 
+  const notifyError = (error) =>
+    toast.error(error, {
+      pauseOnHover: false,
+      position: 'top-center',
+      autoClose: 2000,
+    });
+
   // ** functs
   const handleAddItem = (editItem) => {
     setIngredientList((prev) => [...prev, { id: crypto.randomUUID(), editItem }]);
@@ -46,8 +56,13 @@ const MaterialSelect = (props) => {
 
   const handleConfirmPackage = (isConfirmed) => {
     if (isConfirmed == false) {
-      dispatch(setConfirmPackage(true));
+      if (packagePrice !== '' && cookedPrice !== '' && portion !== '') {
+        dispatch(setConfirmPackage(true));
+      } else {
+        notifyError('Chưa điền khẩu phần, giá gói, giá đặt nấu');
+      }
     } else {
+      // confirm remove smol pakages
       setOpenConfirmModal(true);
     }
   };
@@ -82,6 +97,10 @@ const MaterialSelect = (props) => {
     if (params.blogId) {
       const fetch = async () => {
         const res = await instances.get(`/blogs/staff-preview/${params.blogId}`);
+        // check if pakages is more than 1
+        if (res.data.packages.length > 1) {
+          dispatch(setConfirmPackage(true));
+        }
         let dataIngredient = res.data.packages[0];
         setPortion(dataIngredient?.item1?.size);
         setPackagePrice(dataIngredient?.item1?.packagePrice);
@@ -141,10 +160,10 @@ const MaterialSelect = (props) => {
         dispatch(setContentBlog({ Packages: Packages }));
       }
     } else {
-      if (params.blogId) {
-        dispatch(setContentBlog({ Packages: Packages }));
-        dispatch(setContentBlog({ ingredients: recipeDetails }));
-      }
+      // if (params.blogId) {
+      //   dispatch(setContentBlog({ Packages: Packages }));
+      //   dispatch(setContentBlog({ ingredients: recipeDetails }));
+      // }
     }
     let expectedPrice = 0;
     let totalKcal = 0;
@@ -212,6 +231,7 @@ const MaterialSelect = (props) => {
               {/* portion, ingredient price, cooked price */}
               <div className="flex md:flex-row flex-col gap-3 md:items-center items-start mb-5">
                 <input
+                  disabled={confirmPackage}
                   value={portion}
                   onChange={(e) => setPortion(e.target.value)}
                   onKeyDown={handleKeyDown}
@@ -220,6 +240,7 @@ const MaterialSelect = (props) => {
                   className="font-bold rounded w-[120px] outline-none pl-2"
                 />
                 <input
+                  disabled={confirmPackage}
                   value={packagePrice}
                   onChange={(e) => setPackagePrice(e.target.value)}
                   onKeyDown={handleKeyDown}
@@ -229,6 +250,7 @@ const MaterialSelect = (props) => {
                 />
                 <div className="flex items-center gap-2">
                   <input
+                    disabled={confirmPackage}
                     value={cookedPrice}
                     onChange={(e) => setCookedPrice(e.target.value)}
                     onKeyDown={handleKeyDown}
@@ -249,6 +271,7 @@ const MaterialSelect = (props) => {
                 <div className="mb-3 flex md:flex-row flex-col gap-2">
                   <p className="text-[#898989]">Tổng lượng calo</p>
                   <input
+                    disabled={confirmPackage}
                     onKeyDown={handleKeyDown}
                     type="number"
                     value={totalKcal}

@@ -127,7 +127,7 @@ const Item = (props) => {
       selectItem({
         ingredientId: editItem.ingredientId,
         kcal: editItem?.kcal,
-        name: editItem?.name,
+        name: editItem?.name || editItem?.ingredientName,
         price: editItem?.price,
         quantity: editItem?.quantity,
         unitName: editItem?.unitName,
