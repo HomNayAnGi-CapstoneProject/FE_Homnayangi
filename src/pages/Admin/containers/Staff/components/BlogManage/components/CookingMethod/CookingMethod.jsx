@@ -23,7 +23,7 @@ const CookingMethod = () => {
   const contentBlog = useSelector((state) => state.management.blogContent);
 
   const [cookingMethods, setCookingMethods] = useState();
-  const [activeMethod, setActiveMethod] = useState('');
+  const [activeMethod, setActiveMethod] = useState(contentBlog?.cookingMethodId || '');
 
   const handleChangeMethod = (event) => {
     // console.log(event.target);

@@ -186,6 +186,9 @@ const EditBlog = () => {
                 eventExpiredDate: contentBlog?.eventExpiredDate || null,
                 cookingMethodId: contentBlog?.cookingMethodId || null,
                 regionId: contentBlog?.regionId || null,
+                maxSize: parseInt(contentBlog?.maxSize) || null,
+                minSize: parseInt(contentBlog?.minSize) || null,
+                totalKcal: parseInt(contentBlog?.totalKcal) || null,
               },
               Packages: contentBlog?.Packages || null,
               // Recipe: {

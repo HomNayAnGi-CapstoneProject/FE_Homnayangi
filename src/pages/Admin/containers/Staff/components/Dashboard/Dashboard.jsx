@@ -112,17 +112,17 @@ const Dashboard = () => {
           endValue={categoryCount}
           navigateTo="/management/category"
         />
-        <GeneralInfo />
+        {/* <GeneralInfo /> */}
       </div>
-      <div className="mt-8 flex sm:flex-row flex-col gap-10">
+      {/* <div className="mt-8 flex sm:flex-row flex-col gap-10">
         <div className="sm:w-2/3 w-full">
           <TotalReport />
         </div>
         <div className="sm:w-1/3">
           <Revenue />
         </div>
-      </div>
-      {/* <div className="mt-8">
+      </div> */}
+      <div className="mt-8">
         <div className="flex items-center gap-3">
           <p className="text-[20px] font-semibold text-[#585858]">Đơn hàng ({orderCount})</p>
           <button
@@ -140,7 +140,7 @@ const Dashboard = () => {
             loading={loading}
           />
         </div>
-      </div> */}
+      </div>
     </div>
   );
 };

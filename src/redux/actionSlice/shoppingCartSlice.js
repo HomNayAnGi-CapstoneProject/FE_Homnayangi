@@ -117,7 +117,8 @@ export const cartSlice = createSlice({
                         isCook: action.payload.isCook,
                         cusId: action.payload.cusId,
                         orderDetails: action.payload.orderDetails,
-                        shippedDate: action.payload.isCook == true ? action.payload?.shippedDate : null
+                        shippedDate: action.payload.isCook == true ? action.payload?.shippedDate : null,
+                        size: action.payload.size,
                     }]
                 }]
                 localStorage.setItem('SHOPPING_CART', JSON.stringify(state.productslist))
@@ -141,7 +142,8 @@ export const cartSlice = createSlice({
                                     isCook: action.payload.isCook,
                                     cusId: action.payload.cusId,
                                     orderDetails: action.payload.orderDetails,
-                                    shippedDate: action.payload.isCook == true ? action.payload?.shippedDate : null
+                                    shippedDate: action.payload.isCook == true ? action.payload?.shippedDate : null,
+                                    size: action.payload.size,
                                 }]
                             })
                         }
@@ -166,7 +168,8 @@ export const cartSlice = createSlice({
                                     isCook: action.payload.isCook,
                                     cusId: action.payload.cusId,
                                     orderDetails: action.payload.orderDetails,
-                                    shippedDate: action.payload.isCook == true ? action.payload?.shippedDate : null
+                                    shippedDate: action.payload.isCook == true ? action.payload?.shippedDate : null,
+                                    size: action.payload.size,
                                 })
                             }
                         } else { //payload is ingredient
@@ -183,7 +186,8 @@ export const cartSlice = createSlice({
                                         isCook: action.payload.isCook,
                                         cusId: action.payload.cusId,
                                         orderDetails: action.payload.orderDetails,
-                                        shippedDate: action.payload.isCook == true ? action.payload?.shippedDate : null
+                                        shippedDate: action.payload.isCook == true ? action.payload?.shippedDate : null,
+                                        size: action.payload.size,
                                     })
                                 }
                             }
@@ -373,7 +377,8 @@ export const cartSlice = createSlice({
                             isCook: action.payload.isCook,
                             cusId: action.payload.cusId,
                             orderDetails: action.payload.orderDetails,
-                            shippedDate: action.payload.isCook == true ? action.payload?.shippedDate : null
+                            shippedDate: action.payload.isCook == true ? action.payload?.shippedDate : null,
+                            size: action.payload.size,
                         })
                     }
                 } else {
@@ -390,7 +395,8 @@ export const cartSlice = createSlice({
                                 isCook: action.payload.isCook,
                                 cusId: action.payload.cusId,
                                 orderDetails: action.payload.orderDetails,
-                                shippedDate: action.payload.isCook == true ? action.payload?.shippedDate : null
+                                shippedDate: action.payload.isCook == true ? action.payload?.shippedDate : null,
+                                size: action.payload.size,
                             })
                         }
                     }

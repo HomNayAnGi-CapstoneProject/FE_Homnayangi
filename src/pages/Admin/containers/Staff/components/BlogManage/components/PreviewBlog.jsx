@@ -60,8 +60,8 @@ const PreviewBlog = () => {
         dispatch(setContentBlog({ processing: { html: res.data?.processingHTML, text: res.data?.processingText } }));
         dispatch(setContentBlog({ finished: { html: res.data?.finishedHTML, text: res.data?.finishedText } }));
         dispatch(setContentBlog({ Packages: res.data?.packages }));
-        dispatch(setContentBlog({ regionId: res.data?.regionId }));
-        dispatch(setContentBlog({ cookingMethodId: res.data?.cookingMethodId }));
+        dispatch(setContentBlog({ regionId: res.data?.region?.regionId }));
+        dispatch(setContentBlog({ cookingMethodId: res.data?.cookingMethod?.cookingMethodId }));
         dispatch(
           setContentBlog({
             subCategory: res.data?.subCates?.map(function (item) {
@@ -112,8 +112,7 @@ const PreviewBlog = () => {
             <p className="text-[30px] text-black font-semibold">{previewData?.title}</p>
             <div className="flex gap-6 items-center mt-[12px]">
               <p className="text-[16px] text-[#8f8f8f]">
-                <span className="font-medium text-black">Khẩu phần:</span> từ {previewData?.minSize} đến{' '}
-                {previewData?.maxSize}
+                <span className="font-medium">Khẩu phần:</span> từ {previewData?.minSize} đến {previewData?.maxSize}{' '}
                 người
               </p>
               <p className="text-[16px] text-[#8f8f8f]">
@@ -160,7 +159,7 @@ const PreviewBlog = () => {
                               <span className="text-primary cursor-pointer font-semibold"> Gói gia vị homnayangi</span>
                             </>
                           ) : (
-                            item.description
+                            item.quantity + ` ${item.ingredientName}`
                           )}
                         </span>
                       </p>
@@ -172,9 +171,6 @@ const PreviewBlog = () => {
                 <div className="flex gap-2 flex-wrap mt-5">
                   {previewData?.packages?.map((p) => (
                     <BlogPackage isStaff data={p} />
-                    // <div className="bg-primary p-5 rounded-[10px] w-fit" key={p.item1.packageId}>
-                    //   <p>Gói khẩu phần dành cho {p.item1.size} người ăn</p>
-                    // </div>
                   ))}
                 </div>
               )}

@@ -47,15 +47,15 @@ const EditForm = (props) => {
   }, []);
 
   // ** Call api get unit dropdown
-  useEffect(() => {
-    const fetch = async () => {
-      const res = await instances.get('/unit/drop-down');
-      // console.log(res.data.resource);
-      setUnits(res.data);
-    };
+  // useEffect(() => {
+  //   const fetch = async () => {
+  //     const res = await instances.get('/unit/drop-down');
+  //     // console.log(res.data.resource);
+  //     setUnits(res.data);
+  //   };
 
-    fetch();
-  }, []);
+  //   fetch();
+  // }, []);
 
   //submit form
   const onSubmit = (data) => {
@@ -71,7 +71,7 @@ const EditForm = (props) => {
                 name: data?.name,
                 kcal: data?.kcal,
                 description: data?.description,
-                unitId: data?.unitId,
+                // unitId: data?.unitId,
                 listImage: listImages.length > 0 ? listImages : data?.listImage,
                 picture: res !== undefined ? res : data?.picture,
                 price: data?.price,
@@ -195,7 +195,7 @@ const EditForm = (props) => {
             <p className="mb-[5px] text-redError text-[14px]">Tên nguyên liệu không hợp lệ</p>
           )}
 
-          <label>Đơn vị</label>
+          {/* <label>Đơn vị</label>
           <select
             className={`block mt-2 w-full h-[47px] ${
               errors?.unitId ? 'mb-[5px]' : 'mb-[20px]'
@@ -212,7 +212,7 @@ const EditForm = (props) => {
           </select>
           {errors?.unitId?.type === 'required' && (
             <p className="mb-[5px] text-redError text-[14px]">Đơn vị không được trống</p>
-          )}
+          )} */}
 
           <label>Giá tiền</label>
           <input

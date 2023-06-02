@@ -23,7 +23,7 @@ const RegionDropdown = () => {
   const contentBlog = useSelector((state) => state.management.blogContent);
 
   const [regions, setRegions] = useState();
-  const [activeRegion, setActiveRegion] = useState('');
+  const [activeRegion, setActiveRegion] = useState(contentBlog?.regionId || '');
 
   const handleChangeRegion = (event) => {
     // console.log(event.target);

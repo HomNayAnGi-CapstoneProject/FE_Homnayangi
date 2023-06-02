@@ -16,7 +16,7 @@ const Package = (props) => {
   // ** const
   const params = useParams();
   const { handleKeyDown, handleRemovePackage, id, cookedId, fullPackageList, editItem } = props;
-  const ingredientsStore = useSelector((state) => state.management?.blogContent?.Packages[0]?.item2);
+  const ingredientsStore = useSelector((state) => state.management?.blogContent?.Packages);
   const store = useSelector((state) => state.management);
   const dispatch = useDispatch();
 
@@ -53,7 +53,7 @@ const Package = (props) => {
       });
     } else {
       if (ingredientsStore?.length > 0) {
-        let dataIngredient = [...ingredientsStore];
+        let dataIngredient = [...ingredientsStore[0]?.item2];
         if (dataIngredient.length > 0) {
           dataIngredient.forEach((item) => {
             handleAddItem(item);
@@ -104,7 +104,8 @@ const Package = (props) => {
       },
       item2: recipeDetails,
     };
-    let Packages = [...store.blogContent.Packages];
+
+    let Packages = [...store.blogContent?.Packages];
     if (fullPackageList?.length > 0) {
       Packages = [...fullPackageList];
     }
@@ -190,7 +191,7 @@ const Package = (props) => {
             <p className="text-[#898989]">Giá dự kiến</p>
             <p className="font-bold text-redError">{Intl.NumberFormat().format(expectedTotalPrice)}đ</p>
           </div>
-          <div className="mb-3 flex md:flex-row flex-col gap-2">
+          {/* <div className="mb-3 flex md:flex-row flex-col gap-2">
             <p className="text-[#898989]">Tổng lượng calo</p>
             <input
               onKeyDown={handleKeyDown}
@@ -199,7 +200,7 @@ const Package = (props) => {
               onChange={(e) => setTotalKcal(e.target.value)}
               className="font-bold text-blue-500 rounded w-[150px] outline-none pl-2"
             ></input>
-          </div>
+          </div> */}
           {/* {previousTotalKcal !== '' && (
             <i className="text-[#898989]">Tổng lượng calo đã điều chỉnh trước đó: {previousTotalKcal}</i>
           )} */}

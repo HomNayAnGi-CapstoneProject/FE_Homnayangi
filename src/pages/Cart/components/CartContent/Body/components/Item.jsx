@@ -48,6 +48,7 @@ const Item = (props) => {
           img: item.img,
           price: item.price,
           shippedDate: shippedDate ? shippedDate : null,
+          size: item.size,
         };
         dispatch(deleteItem(requestObject));
         dispatch(getShoppingCart());
@@ -57,8 +58,8 @@ const Item = (props) => {
 
   const handleIncrese = (item) => {
     if (accessToken) {
-      setProductValue((prev) => prev + 1);
       // console.log(item);
+      setProductValue((prev) => prev + 1);
       let requestObject = {
         cusId: item.cusId,
         orderDetails: item.orderDetails,
@@ -69,6 +70,7 @@ const Item = (props) => {
         img: item.img,
         price: item.price,
         shippedDate: shippedDate ? shippedDate : null,
+        size: item.size,
       };
       dispatch(addItemNoStock(requestObject));
       dispatch(getShoppingCart());
@@ -108,6 +110,9 @@ const Item = (props) => {
           {/* name, type, buttons */}
           <div className="flex-1">
             <p className="text-[18px] font-medium line-clamp-1">{props?.item?.orderName}</p>
+            <p className="text-[14px] mb-1 text-gray-500">
+              Khẩu phần: <span className="text-gray-500 font-bold">{props?.item?.size}</span>
+            </p>
             <p className="text-[14px] mb-3 text-gray-500">
               Loại:{' '}
               {props?.item?.isCook ? (

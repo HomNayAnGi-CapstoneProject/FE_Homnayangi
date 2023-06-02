@@ -279,7 +279,7 @@ const Item = (props) => {
             selectedItem !== '' ? '' : 'cursor-not-allowed'
           } outline-none w-[110px] bg-white rounded-md py-1 pl-2 font-medium text-[#898989]`}
         />
-        <input
+        {/* <input
           disabled={selectedItem !== '' ? (confirmPackage ? true : false) : true}
           value={description}
           onChange={(e) => {
@@ -293,7 +293,7 @@ const Item = (props) => {
           className={`${
             selectedItem !== '' ? '' : 'cursor-not-allowed'
           } outline-none w-fit bg-white rounded-md py-1 pl-2`}
-        />
+        /> */}
         <div
           className={`${
             searchInput?.length > 0 && openResultBox == true ? 'block' : 'hidden'

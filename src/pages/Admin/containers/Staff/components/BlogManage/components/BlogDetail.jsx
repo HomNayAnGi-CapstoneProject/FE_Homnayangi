@@ -130,7 +130,7 @@ const BlogDetail = () => {
                                 </span>
                               </>
                             ) : (
-                              item.description
+                              item.quantity + ` ${item.ingredientName}`
                             )}
                           </span>
                         </p>
@@ -142,9 +142,6 @@ const BlogDetail = () => {
                   <div className="flex gap-2 flex-wrap mt-5">
                     {previewData?.packages?.map((p) => (
                       <BlogPackage isStaff data={p} />
-                      // <div className="bg-primary p-5 rounded-[10px] w-fit" key={p.item1.packageId}>
-                      //   <p>Gói khẩu phần dành cho {p.item1.size} người ăn</p>
-                      // </div>
                     ))}
                   </div>
                 )}
