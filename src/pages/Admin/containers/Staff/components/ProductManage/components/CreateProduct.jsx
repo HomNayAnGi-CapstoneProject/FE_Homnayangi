@@ -51,15 +51,15 @@ const CreateProduct = () => {
   }, []);
 
   // ** Call api get unit dropdown
-  useEffect(() => {
-    const fetch = async () => {
-      const res = await instances.get('/unit/drop-down');
-      // console.log(res.data.resource);
-      setUnits(res.data);
-    };
+  // useEffect(() => {
+  //   const fetch = async () => {
+  //     const res = await instances.get('/unit/drop-down');
+  //     // console.log(res.data.resource);
+  //     setUnits(res.data);
+  //   };
 
-    fetch();
-  }, []);
+  //   fetch();
+  // }, []);
 
   // ** Functs
   //submit form
@@ -76,7 +76,7 @@ const CreateProduct = () => {
               .post('/ingredients', {
                 name: data.name,
                 description: data.description,
-                unitId: data.unitId,
+                // unitId: data.unitId,
                 kcal: data.kcal,
                 price: data.price,
                 typeId: data.typeId,
@@ -205,7 +205,7 @@ const CreateProduct = () => {
                 <p className="mb-[5px] text-redError text-[14px]">Tên nguyên liệu không hợp lệ</p>
               )}
 
-              <label>Đơn vị</label>
+              {/* <label>Đơn vị</label>
               <select
                 className={`block mt-2 w-full h-[47px] ${
                   errors?.unitId ? 'mb-[5px]' : 'mb-[20px]'
@@ -222,7 +222,7 @@ const CreateProduct = () => {
               </select>
               {errors?.unitId?.type === 'required' && (
                 <p className="mb-[5px] text-redError text-[14px]">Đơn vị không được trống</p>
-              )}
+              )} */}
 
               <label>Giá tiền</label>
               <input

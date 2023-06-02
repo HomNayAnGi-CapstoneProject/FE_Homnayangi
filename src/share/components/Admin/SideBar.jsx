@@ -317,7 +317,7 @@ const SideBar = (props) => {
                 id="statistic"
                 url={ic_chart}
                 urlActive={ic_chart_active}
-                title="Thống kê đơn hàng"
+                title="Thống kê"
                 setOpenSidebar={props.setOpenSidebar}
                 isTablet={props.isTablet}
               />

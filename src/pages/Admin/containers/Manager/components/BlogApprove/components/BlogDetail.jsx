@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import instances from '../../../../../../../utils/plugin/axios';
 import Image from '../../../../../../../share/components/Image';
+import BlogPackage from '../../../../../../../share/components/BlogPackage';
 import YouTube from 'react-youtube';
 
 // ** Redux
@@ -129,8 +130,8 @@ const BlogDetail = () => {
               <div className="mt-[30px]">
                 <p className="font-semibold text-[20px]">Nguyên liệu:</p>
                 <div className="p-5 bg-[#FFDACA] rounded-[10px] mt-[18px] text-[18px]">
-                  {previewData?.recipeDetails?.length > 0 &&
-                    previewData?.recipeDetails?.map((item, i) => (
+                  {previewData?.packages[0]?.item2?.length > 0 &&
+                    previewData?.packages[0]?.item2?.map((item, i) => (
                       <div key={item.ingredientId} className="">
                         <p>
                           {i + 1}.{' '}
@@ -159,13 +160,21 @@ const BlogDetail = () => {
                                 </span>
                               </>
                             ) : (
-                              item.description
+                              item.quantity + ` ${item.ingredientName}`
                             )}
                           </span>
                         </p>
                       </div>
                     ))}
                 </div>
+                {/* packages */}
+                {previewData?.packages?.length > 0 && (
+                  <div className="flex gap-2 flex-wrap mt-5">
+                    {previewData?.packages?.map((p) => (
+                      <BlogPackage isStaff data={p} />
+                    ))}
+                  </div>
+                )}
               </div>
 
               <div className="mt-[30px]">

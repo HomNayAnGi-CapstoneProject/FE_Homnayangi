@@ -54,8 +54,6 @@ const EditBlog = () => {
     });
   const [uploadBlogSuccess, setUploadBlogSuccess] = useState(false);
   const [uploading, setUploading] = useState(false);
-  const rootPackageId = crypto.randomUUID();
-  const rootCookedId = crypto.randomUUID();
 
   // ** get content store
   const contentBlog = useSelector((state) => state.management.blogContent);
@@ -119,8 +117,8 @@ const EditBlog = () => {
           }),
         );
         dispatch(setContentBlog({ Packages: res.data?.packages }));
-        dispatch(setContentBlog({ regionId: res.data?.regionId }));
-        dispatch(setContentBlog({ cookingMethodId: res.data?.cookingMethodId }));
+        dispatch(setContentBlog({ regionId: res.data?.region?.regionId }));
+        dispatch(setContentBlog({ cookingMethodId: res.data?.cookingMethod?.cookingMethodId }));
         dispatch(
           setContentBlog({
             ingredients: res.data?.recipeDetails?.map(function (item) {
@@ -162,7 +160,10 @@ const EditBlog = () => {
     // console.log(contentBlog);
     contentBlogRef.current = contentBlog;
     let subCateList = contentBlog?.subCategory?.map(function (item) {
-      return { subCateId: item.subCategoryId, blogId: blogIdRef.current };
+      return {
+        subCateId: item.subCategoryId,
+        // blogId: blogIdRef.current
+      };
     });
     let handler = null;
     if (contentBlog !== null) {
@@ -185,6 +186,9 @@ const EditBlog = () => {
                 eventExpiredDate: contentBlog?.eventExpiredDate || null,
                 cookingMethodId: contentBlog?.cookingMethodId || null,
                 regionId: contentBlog?.regionId || null,
+                maxSize: parseInt(contentBlog?.maxSize) || null,
+                minSize: parseInt(contentBlog?.minSize) || null,
+                totalKcal: parseInt(contentBlog?.totalKcal) || null,
               },
               Packages: contentBlog?.Packages || null,
               // Recipe: {
@@ -506,7 +510,7 @@ const EditBlog = () => {
             </span>{' '}
           </p>
           <div className="my-3">
-            <MaterialSelect packageId={rootPackageId} cookedId={rootCookedId} />
+            <MaterialSelect />
             <SidePackage />
           </div>
         </div>

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import moment from 'moment/moment';
 import Breadcrumbs from '../../../share/components/Breadcrumbs';
+import BlogPackage from '../../../share/components/BlogPackage';
 import Image from '../../../share/components/Image';
 import ModalRequireLogin from '../../../share/components/Modal/ModalRequireLogin';
 import ModalOrderCooked from '../../../share/components/Modal/ModalOrderCooked/ModalOrderCooked';
@@ -54,14 +55,19 @@ const MainBlog = (props) => {
       } else {
         let requestObject = {
           cusId: decoded_jwt.Id,
-          orderDetails: data.recipeDetails,
+          // orderDetails: data.recipeDetails,
+          orderDetails: data.item2,
           isCook: isCook,
-          orderName: data.recipeTitle,
-          id: data.recipeId,
+          // orderName: data.recipeTitle,
+          orderName: blogDetail?.title,
+          // id: data.recipeId,
+          id: data.item1.packageId,
           amount: 1,
-          img: data.imageUrl,
-          price: isCook ? data.cookedPrice : data.packagePrice,
+          // img: data.imageUrl,
+          img: blogDetail?.imageUrl,
+          price: isCook ? data.item1.cookedPrice : data.item1.packagePrice,
           shippedDate: shippedDate ? shippedDate : null,
+          size: data.item1.size,
         };
         // console.log(requestObject);
         dispatch(addItemNoStock(requestObject));
@@ -88,6 +94,7 @@ const MainBlog = (props) => {
           openCookedOrderModal={openOrderCooked}
           setOpenCookedOrderModal={setOpenOrderCooked}
           data={orderCookedData}
+          blogData={blogDetail}
         />
       )}
       <div className="font-inter bg-white rounded-[5px] shadow-md">
@@ -144,8 +151,8 @@ const MainBlog = (props) => {
               <div id="ingredient" className="mt-[30px]">
                 <p className="font-semibold text-[20px]">Nguyên liệu:</p>
                 <div className="p-5 bg-[#FFDACA] rounded-[10px] mt-[18px] text-[18px]">
-                  {blogDetail?.recipeDetails?.length > 0 &&
-                    blogDetail?.recipeDetails?.map((item, i) => (
+                  {blogDetail?.packages[0]?.item2?.length > 0 &&
+                    blogDetail?.packages[0]?.item2?.map((item, i) => (
                       <div key={item.ingredientId} className="">
                         <p>
                           {i + 1}.{' '}
@@ -174,16 +181,24 @@ const MainBlog = (props) => {
                                 </span>
                               </>
                             ) : (
-                              item.description
+                              item.quantity + ` ${item.ingredientName}`
                             )}
                           </span>
                         </p>
                       </div>
                     ))}
                 </div>
+                {/* packages */}
+                {blogDetail?.packages?.length > 0 && (
+                  <div className="flex gap-2 flex-wrap mt-5">
+                    {blogDetail?.packages?.map((p) => (
+                      <BlogPackage data={p} handleAddToCart={handleAddToCart} />
+                    ))}
+                  </div>
+                )}
               </div>
 
-              <div className="buy-order my-[20px]">
+              {/* <div className="buy-order my-[20px]">
                 <div className="flex justify-center items-center gap-6">
                   <i>
                     Mua gói nguyên liệu này?{' '}
@@ -213,7 +228,7 @@ const MainBlog = (props) => {
                     Đặt làm
                   </button>
                 </div>
-              </div>
+              </div> */}
 
               <div id="preparation" className="mt-[30px]">
                 <p className="font-semibold text-[20px]">Sơ chế:</p>

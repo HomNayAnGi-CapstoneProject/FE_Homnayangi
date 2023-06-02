@@ -17,7 +17,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 const ModalOrderCooked = (props) => {
-  const { openCookedOrderModal, setOpenCookedOrderModal, data, listData } = props;
+  const { openCookedOrderModal, setOpenCookedOrderModal, data, listData, blogData } = props;
   const dispatch = useDispatch();
   const cartList = useSelector((state) => state.cart.shoppingCart);
 
@@ -83,14 +83,15 @@ const ModalOrderCooked = (props) => {
       localStorage.setItem('curShDate', shippedDate);
       let requestObject = {
         cusId: decoded_jwt.Id,
-        orderDetails: data.recipeDetails,
+        orderDetails: data.item2,
         isCook: isCook,
-        orderName: data.recipeTitle,
-        id: data.recipeId,
+        orderName: blogData?.title,
+        id: data.item1.packageId,
         amount: 1,
-        img: data.imageUrl,
-        price: isCook ? data.cookedPrice : data.packagePrice,
+        img: blogData?.imageUrl,
+        price: isCook ? data.item1.cookedPrice : data.item1.packagePrice,
         shippedDate: shippedDate,
+        size: data.item1.size,
       };
       // console.log(requestObject);
       dispatch(addItemNoStock(requestObject));
@@ -128,7 +129,7 @@ const ModalOrderCooked = (props) => {
                   </p>
                 ))
               ) : (
-                <p className="mt-1 font-bold text-primary text-[30px] leading-10">{data?.recipeTitle}</p>
+                <p className="mt-1 font-bold text-primary text-[30px] leading-10">{blogData?.title}</p>
               )}
             </div>
             {/* body */}

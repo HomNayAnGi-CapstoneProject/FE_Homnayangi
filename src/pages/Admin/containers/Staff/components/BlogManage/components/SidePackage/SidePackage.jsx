@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import instances from '../../../../../../../../utils/plugin/axios';
 
 // ** Redux
 import { setContentBlog } from '../../../../../../../../redux/actionSlice/managementSlice';
@@ -16,7 +17,7 @@ const SidePackage = () => {
   // ** consts
   const params = useParams();
   const store = useSelector((state) => state.management);
-  const ingredientsStore = useSelector((state) => state.management?.blogContent?.Packages[0]?.item2);
+  const ingredientsStore = useSelector((state) => state.management?.blogContent);
   const confirmPackage = useSelector((state) => state.management.confirmPackage);
 
   const dispatch = useDispatch();
@@ -24,16 +25,14 @@ const SidePackage = () => {
   const [packageList, setPackageList] = useState([]);
   const [dataPackageList, setDataPackageList] = useState([]);
 
+  const [fullPackageList, setFullPackageList] = useState([]);
+
   // ** check root package length
   useEffect(() => {
-    if (!ingredientsStore?.length > 0) {
+    if (confirmPackage == false) {
       setPackageList([]);
-    } else {
-      if (confirmPackage == false) {
-        setPackageList([]);
-      }
     }
-  }, [ingredientsStore, confirmPackage]);
+  }, [confirmPackage]);
 
   // ** get packge to edit
   useEffect(() => {
@@ -41,8 +40,9 @@ const SidePackage = () => {
       const fetch = async () => {
         const res = await instances.get(`/blogs/staff-preview/${params.blogId}`);
         let dataIngredient = res.data.packages;
+        setFullPackageList(res.data.packages);
         if (dataIngredient.slice(1).length > 0) {
-          console.log(dataIngredient.slice(1));
+          // console.log(dataIngredient.slice(1));
           dataIngredient.slice(1).forEach((item) => {
             handleAddPackage(item);
           });
@@ -57,14 +57,17 @@ const SidePackage = () => {
     setPackageList((prev) => [...prev, { id: crypto.randomUUID(), cookedId: crypto.randomUUID(), editItem }]);
   };
 
-  const handleRemovePackage = (id) => {
+  const handleRemovePackage = (id, dataPackageId) => {
     setPackageList((current) => current.filter((item) => item.id !== id));
     let Packages = [...store.blogContent.Packages];
-    let modifiedPac = Packages.filter((item) => item.item1.packageId !== id);
+    let deleteId = dataPackageId !== null ? dataPackageId : id;
+    // if (dataPackageId) {
+    let modifiedPac = Packages.filter((item) => item.item1.packageId !== deleteId);
+    // }
     // console.log(Packages);
     dispatch(setContentBlog({ Packages: modifiedPac }));
 
-    setDataPackageList((current) => current.filter((item) => item.packageId !== id));
+    // setDataPackageList((current) => current.filter((item) => item.packageId !== id));
   };
 
   const handleKeyDown = (e) => {
@@ -88,6 +91,7 @@ const SidePackage = () => {
           {packageList.map((item, i) => (
             <div key={item.id}>
               <Package
+                fullPackageList={fullPackageList}
                 editItem={item.editItem}
                 id={item.id}
                 cookedId={item.cookedId}
@@ -103,11 +107,10 @@ const SidePackage = () => {
             </div>
           ))}
           <button
-            disabled={ingredientsStore?.length > 0 ? false : true}
+            // disabled={ingredientsStore?.length > 0 ? false : true}
             onClick={() => handleAddPackage()}
-            className={`${
-              ingredientsStore?.length > 0 ? 'bg-green-500' : 'cursor-not-allowed bg-green-300'
-            }  font-medium text-white flex gap-1 items-center px-4 py-2 rounded-[10px]`}
+            className={`bg-green-500
+            font-medium text-white flex gap-1 items-center px-4 py-2 rounded-[10px]`}
           >
             Thêm gói nguyên liệu <img className="w-[20px]" src={ic_plus_white} />
           </button>

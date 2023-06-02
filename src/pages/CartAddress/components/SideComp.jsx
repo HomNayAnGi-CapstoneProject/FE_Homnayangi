@@ -107,10 +107,11 @@ const SideComp = () => {
     // });
     listTotalIngre = current.currentCart?.map((cartItem) => {
       return {
-        ingredientId: cartItem.id == '' ? cartItem.orderDetails[0].ingredientId : null,
+        // ingredientId: cartItem.id == '' ? cartItem.orderDetails[0].ingredientId : null,
+        packageId: cartItem.id !== '' ? cartItem.id : null,
         quantity: cartItem.amount,
         price: cartItem.price,
-        recipeId: cartItem.id !== '' ? cartItem.id : null,
+        // recipeId: cartItem.id !== '' ? cartItem.id : null,
       };
     });
     return listTotalIngre;
@@ -165,20 +166,8 @@ const SideComp = () => {
               instances
                 .post('/orders', {
                   shippedDate: cartType == 1 ? null : new Date(current.currentUser.shippedDate).toISOString(),
-                  // discount: 0,
-                  // shippedAddress: cartAddress,
-                  // totalPrice: totalItem.totalPrice,
-                  // paymentMethod: paymentMethod,
-                  // isCooked: cartType == 1 ? false : true,
-                  // orderDetails: getListTotalIngredients(),
-
                   discount: selectedVoucher ? selectedVoucher.discount : 0,
                   shippedAddress: cartAddress,
-                  // totalPrice: selectedVoucher
-                  //   ? selectedVoucher?.discount <= 1
-                  //     ? totalItem.totalPrice - selectedVoucher?.discount * 100
-                  //     : totalItem.totalPrice - selectedVoucher?.discount
-                  //   : totalItem.totalPrice,
                   totalPrice: selectedVoucher
                     ? selectedVoucher?.discount <= 1
                       ? totalItem.totalPrice * selectedVoucher?.discount > selectedVoucher?.maximumOrderPrice

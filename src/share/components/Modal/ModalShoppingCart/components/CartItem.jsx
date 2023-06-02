@@ -34,7 +34,10 @@ const CartItem = (props) => {
         <p className="max-w-[85%] text-[16px] font-semibold leading-[1.2] line-clamp-2">
           {props?.item?.orderName ? props?.item.orderName : 'Gói nguyên liệu số 1'}
         </p>
-        <p className={`text-[14px] my-1 `}>
+        <p className="text-[14px] text-gray-500">
+          Khẩu phần: <span className="text-gray-500 font-bold">{props?.item?.size}</span>
+        </p>
+        <p className={`text-[14px] mb-1 `}>
           Loại:{' '}
           {props?.item?.isCook ? (
             <span className="text-redError">Đặt nấu</span>

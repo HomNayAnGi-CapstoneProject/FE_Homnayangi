@@ -13,6 +13,9 @@ import DataTable from './components/DataTable';
 import ModalStaffOrderDetail from '../../../../../../share/components/Modal/ModalStaffOrderDetail/ModalStaffOrderDetail';
 import ModalOrderStatus from '../../../../../../share/components/Modal/ModalOrderStatus/ModalOrderStatus';
 import ModalFilterOrderDate from '../../../Staff/components/OrderManage/components/ModalFilterOrderDate';
+import TotalReport from '../../../Staff/components/Dashboard/components/TotalReport/TotalReport';
+import GeneralInfo from '../../../Staff/components/Dashboard/components/GeneralInfo/GeneralInfo';
+import Revenue from '../../../Staff/components/Dashboard/components/Revenue/Revenue';
 
 const Statistics = () => {
   const dispatch = useDispatch();
@@ -112,7 +115,16 @@ const Statistics = () => {
           filterToDate={filterToDate}
         />
       )}
-      <div className="flex items-center justify-between">
+      <GeneralInfo />
+      <div className="mt-8 flex sm:flex-row flex-col gap-10">
+        <div className="sm:w-2/3 w-full">
+          <TotalReport />
+        </div>
+        <div className="sm:w-1/3">
+          <Revenue />
+        </div>
+      </div>
+      <div className="flex items-center justify-between mt-10">
         <div className="flex items-center gap-4">
           <Tooltip title="Xem tất cả đơn hàng hiện tại" placement="top">
             <button

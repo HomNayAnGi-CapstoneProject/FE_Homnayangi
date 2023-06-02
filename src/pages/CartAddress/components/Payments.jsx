@@ -24,7 +24,7 @@ const Payments = () => {
       {/* body */}
       <div className="mb-2 mt-5">
         {/* payment 2 */}
-        <div className="flex items-center gap-2 mb-5" onClick={() => dispatch(setPaymentMethod(0))}>
+        {/* <div className="flex items-center gap-2 mb-5" onClick={() => dispatch(setPaymentMethod(0))}>
           <div className="w-[20px] h-[20px] rounded-full border-gray-500 border cursor-pointer relative">
             <div
               className={`w-[13px] h-[13px] rounded-full ${
@@ -39,7 +39,7 @@ const Payments = () => {
             />
             <p className="">Thanh toán khi nhận hàng (COD)</p>
           </div>
-        </div>
+        </div> */}
         {/* payment 1 */}
         <div className="flex items-center gap-2" onClick={() => dispatch(setPaymentMethod(1))}>
           <div className="w-[20px] h-[20px] rounded-full border-gray-500 border cursor-pointer relative">

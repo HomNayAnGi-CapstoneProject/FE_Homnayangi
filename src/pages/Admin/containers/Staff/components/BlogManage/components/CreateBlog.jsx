@@ -56,15 +56,21 @@ const CreateBlog = () => {
             minutesToCook: contentBlog?.minutesToCook || null,
             isEvent: contentBlog?.isEvent || null,
             eventExpiredDate: contentBlog?.eventExpiredDate || null,
-          },
-          Recipe: {
-            packagePrice: parseInt(contentBlog?.packagePrice) || null,
-            cookedPrice: parseInt(contentBlog?.cookedPrice) || null,
+            cookingMethodId: contentBlog?.cookingMethodId || null,
+            regionId: contentBlog?.regionId || null,
             maxSize: parseInt(contentBlog?.maxSize) || null,
             minSize: parseInt(contentBlog?.minSize) || null,
             totalKcal: parseInt(contentBlog?.totalKcal) || null,
           },
-          RecipeDetails: contentBlog?.ingredients || [],
+          Packages: contentBlog?.Packages || null,
+          // Recipe: {
+          //   packagePrice: parseInt(contentBlog?.packagePrice) || null,
+          //   cookedPrice: parseInt(contentBlog?.cookedPrice) || null,
+          //   maxSize: parseInt(contentBlog?.maxSize) || null,
+          //   minSize: parseInt(contentBlog?.minSize) || null,
+          //   totalKcal: parseInt(contentBlog?.totalKcal) || null,
+          // },
+          // RecipeDetails: contentBlog?.ingredients || [],
           BlogSubCates: subCateList || [],
           BlogReferences: [
             {

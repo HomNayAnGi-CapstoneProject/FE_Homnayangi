@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import instances from '../../../../../../../utils/plugin/axios';
 import Image from '../../../../../../../share/components/Image';
+import BlogPackage from '../../../../../../../share/components/BlogPackage';
 import YouTube from 'react-youtube';
 
 import { ic_calendar_white } from '../../../../../../../assets';
@@ -59,8 +60,8 @@ const PreviewBlog = () => {
         dispatch(setContentBlog({ processing: { html: res.data?.processingHTML, text: res.data?.processingText } }));
         dispatch(setContentBlog({ finished: { html: res.data?.finishedHTML, text: res.data?.finishedText } }));
         dispatch(setContentBlog({ Packages: res.data?.packages }));
-        dispatch(setContentBlog({ regionId: res.data?.regionId }));
-        dispatch(setContentBlog({ cookingMethodId: res.data?.cookingMethodId }));
+        dispatch(setContentBlog({ regionId: res.data?.region?.regionId }));
+        dispatch(setContentBlog({ cookingMethodId: res.data?.cookingMethod?.cookingMethodId }));
         dispatch(
           setContentBlog({
             subCategory: res.data?.subCates?.map(function (item) {
@@ -111,8 +112,7 @@ const PreviewBlog = () => {
             <p className="text-[30px] text-black font-semibold">{previewData?.title}</p>
             <div className="flex gap-6 items-center mt-[12px]">
               <p className="text-[16px] text-[#8f8f8f]">
-                <span className="font-medium text-black">Khẩu phần:</span> từ {previewData?.minSize} đến{' '}
-                {previewData?.maxSize}
+                <span className="font-medium">Khẩu phần:</span> từ {previewData?.minSize} đến {previewData?.maxSize}{' '}
                 người
               </p>
               <p className="text-[16px] text-[#8f8f8f]">
@@ -134,8 +134,8 @@ const PreviewBlog = () => {
             <div className="mt-[30px]">
               <p className="font-semibold text-[20px]">Nguyên liệu:</p>
               <div className="p-5 bg-[#FFDACA] rounded-[10px] mt-[18px] text-[18px]">
-                {previewData?.recipeDetails?.length > 0 &&
-                  previewData?.recipeDetails?.map((item, i) => (
+                {previewData?.packages[0]?.item2?.length > 0 &&
+                  previewData?.packages[0]?.item2?.map((item, i) => (
                     <div key={item.ingredientId} className="">
                       <p>
                         {i + 1}.{' '}
@@ -159,13 +159,21 @@ const PreviewBlog = () => {
                               <span className="text-primary cursor-pointer font-semibold"> Gói gia vị homnayangi</span>
                             </>
                           ) : (
-                            item.description
+                            item.quantity + ` ${item.ingredientName}`
                           )}
                         </span>
                       </p>
                     </div>
                   ))}
               </div>
+              {/* packages */}
+              {previewData?.packages?.length > 0 && (
+                <div className="flex gap-2 flex-wrap mt-5">
+                  {previewData?.packages?.map((p) => (
+                    <BlogPackage isStaff data={p} />
+                  ))}
+                </div>
+              )}
             </div>
 
             <div className="mt-[30px]">

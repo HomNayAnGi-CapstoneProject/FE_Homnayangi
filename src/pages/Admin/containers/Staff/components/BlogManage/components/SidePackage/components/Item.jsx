@@ -41,31 +41,13 @@ const Item = (props) => {
   const [selectedItem, setSelectedItem] = useState('');
   const [selectedAmount, setSelectedAmount] = useState('');
   const [selectedUnit, setSelectedUnit] = useState(data?.unitName);
-  const [description, setDescription] = useState('');
+  const [description, setDescription] = useState(editItem?.description);
   const [openResultBox, setOpenResultBox] = useState(false);
   const [searchResult, setSearchResult] = useState('');
   const [searchInput, setSearchhInput] = useState(null);
   const [loading, setLoading] = useState(false);
   const debounced = useDebounce(searchInput, 600);
   const store = useSelector((state) => state.management.blogContent);
-
-  // ** handle click to select item
-  const handleSelectItem = (item) => {
-    // console.log(item);
-
-    // check duplicate item select in list
-    if (store?.ingredients?.length > 0) {
-      let duplicateSelectItem = store.ingredients.find((ingre) => ingre.ingredientId === item.ingredientId);
-      if (duplicateSelectItem == undefined) {
-        // not duplicate
-        selectItem(item);
-      } else {
-        toast.warning('Bạn đã chọn nguyên liệu này!');
-      }
-    } else {
-      selectItem(item);
-    }
-  };
 
   const selectItem = (item) => {
     // console.log(item);
@@ -123,11 +105,12 @@ const Item = (props) => {
   // ** handle get edit data name
   useEffect(() => {
     if (editItem) {
+      console.log(editItem);
       // setSelectedItem(editItem.ingredient);
       selectItem({
         ingredientId: editItem.ingredientId,
         kcal: editItem?.kcal,
-        name: editItem?.name,
+        name: editItem?.name || editItem?.ingredientName,
         price: editItem?.price,
         quantity: editItem?.quantity,
         unitName: editItem?.unitName,
@@ -201,8 +184,8 @@ const Item = (props) => {
             selectedItem !== '' ? '' : 'cursor-not-allowed'
           } outline-none w-[110px] bg-white rounded-md py-1 pl-2 font-medium text-[#898989]`}
         />
-        <input
-          disabled={selectedItem !== '' ? false : true}
+        {/* <input
+          disabled
           value={description}
           onChange={(e) => {
             setDescription(e.target.value);
@@ -215,7 +198,7 @@ const Item = (props) => {
           className={`${
             selectedItem !== '' ? '' : 'cursor-not-allowed'
           } outline-none w-fit bg-white rounded-md py-1 pl-2`}
-        />
+        /> */}
       </div>
     </div>
   );
