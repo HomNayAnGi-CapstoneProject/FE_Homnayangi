@@ -31,6 +31,11 @@ const SidePackage = () => {
   useEffect(() => {
     if (confirmPackage == false) {
       setPackageList([]);
+      if (store.blogContent?.Packages?.length > 0) {
+        let Packages = [...store.blogContent.Packages];
+        let modifiedPac = [Packages[0]];
+        setFullPackageList(modifiedPac);
+      }
     }
   }, [confirmPackage]);
 

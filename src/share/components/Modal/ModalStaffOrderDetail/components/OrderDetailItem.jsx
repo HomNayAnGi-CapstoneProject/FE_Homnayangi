@@ -8,11 +8,11 @@ const OrderDetailItem = (props) => {
     <div className="font-maven gap-4 py-5 max-h-[275px] scroll-bar overflow-x-hidden overflow-y-scroll">
       {/* recipeDetails */}
       {data?.orderDetailRecipes?.map((item, i) => (
-        <div key={item.recipeId} className="flex w-full mt-5 first:mt-0">
+        <div key={item.packageId} className="flex w-full mt-5 first:mt-0">
           <div className="md:w-1/2 flex gap-3">
-            <Image alt="" className={'object-cover rounded-[5px] w-[80px] h-[80px]'} src={item?.recipeImage} />
+            <Image alt="" className={'object-cover rounded-[5px] w-[80px] h-[80px]'} src={item?.packageImage} />
             <div className="flex-1">
-              <p className="text-[#897D7D] text-[14px]">{item?.recipeName}</p>
+              <p className="text-[#897D7D] text-[14px]">{item?.packageName}</p>
             </div>
           </div>
           <div className="md:w-1/2 flex flex-col items-end">
@@ -20,11 +20,11 @@ const OrderDetailItem = (props) => {
               <p>
                 Đơn giá:{' '}
                 <span className="font-semibold">
-                  {Intl.NumberFormat().format(data?.isCooked ? item?.cookedPrice : item?.packagePrice)}đ
+                  {Intl.NumberFormat().format(data?.isCooked ? item?.packagePrice : item?.packagePrice)}đ
                 </span>
               </p>
               <p>
-                Số lượng: <span className="font-semibold">{item?.recipeQuantity}</span>
+                Số lượng: <span className="font-semibold">{item?.packageQuantity}</span>
               </p>
             </div>
           </div>
