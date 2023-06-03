@@ -115,7 +115,8 @@ const Card = (props) => {
                 <div className="bg-cover w-[20px] h-[20px]" style={{ backgroundImage: `url(${ic_boiling_white})` }} />
               </button>
               <button
-                onClick={() => handleAddToCart(props?.data, true)}
+                // onClick={() => handleAddToCart(props?.data, true)}
+                onClick={() => navigate(`/recipe/${props?.data?.blogId}/${generateSlug(props?.data?.title)}`)}
                 className="bg-redError rounded-[10px] cursor-pointer text-white font-medium xs:text-[18px] sm:text-[16px] text-[1vw] md:px-[15px] sm:py-[10px] px-[6px] py-[10px] flex items-center gap-2"
               >
                 Đặt làm
@@ -160,43 +161,62 @@ const data = [
   { id: 4, name: 'Thịt khooooooo' },
 ];
 
-const listTagType = [
-  { tagName: 'Ăn chay', tagId: 'c72749fc-917a-469d-b17e-c5c934c350f4', img: vegan_type },
-  { tagName: 'Eat clean', tagId: 'e23f1a4a-f82c-41e3-9305-d50f77566808', img: eat_clean_type },
-  { tagName: 'Giảm cân', tagId: '93a460cc-f092-447f-aaf5-0564cd0ffadc', img: lose_weight_type },
-];
+// const listTagType = [
+//   { tagName: 'Ăn chay', tagId: 'c72749fc-917a-469d-b17e-c5c934c350f4', img: vegan_type },
+//   { tagName: 'Eat clean', tagId: 'e23f1a4a-f82c-41e3-9305-d50f77566808', img: eat_clean_type },
+//   { tagName: 'Giảm cân', tagId: '93a460cc-f092-447f-aaf5-0564cd0ffadc', img: lose_weight_type },
+// ];
 
 //md:min-h-[100vh] xl:min-h-[66vh] h-fit md:mb-14 md:mt-40 mb-40
 
 const SuggestEatType = () => {
   // ** Const
   const [eatTypeData, setEatTypeData] = useState('');
+  const [listCookingMethod, setListCookingMethod] = useState([]);
   const [type, setType] = useState(0);
   const navigate = useNavigate();
 
   // ** call api
   useEffect(() => {
     const fetch = async () => {
-      const res = await instances.get(`/home/subcategory/${listTagType[type].tagId}/blogs`);
+      const res = await instances.get('/cookingmethod/dropdown-cooking-method');
+      let data = res.data.result.map((item) => {
+        return {
+          tagName: item.cookingMethodName,
+          tagId: item.cookingMethodId,
+          img: vegan_type,
+        };
+      });
+      setListCookingMethod(data);
+    };
+
+    fetch();
+  }, []);
+
+  useEffect(() => {
+    const fetch = async () => {
+      const res = await instances.get(`/home/subcategory/${listCookingMethod[type].tagId}/blogs/false`);
       // console.log(res.data.result);
       setEatTypeData(res.data.result);
     };
 
-    fetch();
-  }, [type]);
+    if (listCookingMethod.length > 0) {
+      fetch();
+    }
+  }, [type, listCookingMethod]);
 
   function handleChangeType(direction) {
     // console.log(direction);
 
     if (direction === 'right') {
       setType((prev) => prev + 1);
-      if (type >= listTagType?.length - 1) {
+      if (type >= listCookingMethod?.length - 1) {
         setType(0);
       }
     }
     if (direction === 'left') {
       setType((prev) => prev - 1);
-      if (type <= listTagType?.length) {
+      if (type <= listCookingMethod?.length) {
         setType(0);
       }
     }
@@ -214,83 +234,83 @@ const SuggestEatType = () => {
       </div>
 
       <div className="w-full bg-[#f6e4dc] md:h-[412px] sm:h-[400px] h-[650px] mt-[77px] relative">
-        {eatTypeData?.length > 0 ? (
-          <>
-            <div className={`${styles.paddingX} w-full flex justify-center absolute top-[-5%]`}>
-              <div className={`${styles.container} flex sm:flex-row flex-col-reverse`}>
-                <div className=" md:w-[50%] w-full relative sm:h-full h-[439px]">
+        <>
+          <div className={`${styles.paddingX} w-full flex justify-center absolute top-[-5%]`}>
+            <div className={`${styles.container} flex sm:flex-row flex-col-reverse`}>
+              <div className=" md:w-[50%] w-full relative sm:h-full h-[439px]">
+                <div
+                  className="absolute md:bottom-[18.2%] bottom-[15%] lg:left-[25%] sm:left-0 xs:left-[25%] left-[10%] bg-cover md:w-[410px] md:h-[478px] sm:w-[315px] sm:h-[374px] w-[243px] h-[285px]"
+                  // style={{ backgroundImage: `url(${listCookingMethod[type].img})` }}
+                  style={{ backgroundImage: `url(${vegan_type})` }}
+                />
+                <div className="absolute md:bottom-[0%] bottom-[-1%] lg:left-[35%] sm:left-0 left-[25%] flex items-center justify-center gap-4">
                   <div
-                    className="absolute md:bottom-[18.2%] bottom-[15%] lg:left-[25%] sm:left-0 xs:left-[25%] left-[10%] bg-cover md:w-[410px] md:h-[478px] sm:w-[315px] sm:h-[374px] w-[243px] h-[285px]"
-                    style={{ backgroundImage: `url(${listTagType[type].img})` }}
+                    onClick={() => handleChangeType('left')}
+                    className="bg-cover xs:w-[50px] xs:h-[50px] w-[40px] h-[40px] cursor-pointer"
+                    style={{ backgroundImage: `url(${ic_left_arrow})` }}
                   />
-                  <div className="absolute md:bottom-[0%] bottom-[-1%] lg:left-[35%] sm:left-0 left-[25%] flex items-center justify-center gap-4">
-                    <div
-                      onClick={() => handleChangeType('left')}
-                      className="bg-cover xs:w-[50px] xs:h-[50px] w-[40px] h-[40px] cursor-pointer"
-                      style={{ backgroundImage: `url(${ic_left_arrow})` }}
-                    />
-                    <div className="bg-[#f6e4dc] rounded-[5px] py-[8px] xs:px-[20px] sm:px-[40px] text-primary md:text-[30px] xs:text-[28px] text-[5vw] font-bold">
-                      {listTagType[type].tagName}
-                    </div>
-                    <div
-                      onClick={() => handleChangeType('right')}
-                      className="bg-cover xs:w-[50px] xs:h-[50px] w-[40px] h-[40px] transform rotate-[180deg] cursor-pointer"
-                      style={{ backgroundImage: `url(${ic_left_arrow})` }}
-                    />
+                  <div className="bg-[#f6e4dc] rounded-[5px] py-[8px] xs:px-[20px] sm:px-[40px] text-primary md:text-[30px] xs:text-[28px] text-[5vw] font-bold">
+                    {listCookingMethod[type]?.tagName}
                   </div>
+                  <div
+                    onClick={() => handleChangeType('right')}
+                    className="bg-cover xs:w-[50px] xs:h-[50px] w-[40px] h-[40px] transform rotate-[180deg] cursor-pointer"
+                    style={{ backgroundImage: `url(${ic_left_arrow})` }}
+                  />
+                </div>
+              </div>
+
+              <div className=" md:w-[50%] w-full items-center flex flex-col">
+                <div className="sm:flex hidden scroll-bar md:max-h-[460px] sm:max-h-[425px] h-[460px] max-h-[270px] w-fit md:overflow-y-scroll overflow-x-scroll bottom-[-50px] right-[90px] flex-col">
+                  {eatTypeData?.length > 0 ? (
+                    eatTypeData.map((item) => (
+                      <div key={item.blogId} className="sm:mb-[18px] sm:last:mb-0 sm:mr-[5px] mr-[18px]">
+                        <Card data={item} />
+                      </div>
+                    ))
+                  ) : (
+                    <Loading />
+                  )}
                 </div>
 
-                <div className=" md:w-[50%] w-full items-center flex flex-col">
-                  <div className="sm:flex hidden scroll-bar md:max-h-[460px] sm:max-h-[425px] max-h-[270px] w-fit md:overflow-y-scroll overflow-x-scroll bottom-[-50px] right-[90px] flex-col">
+                <div className="sm:hidden block w-full">
+                  <Swiper
+                    pagination={{
+                      clickable: true,
+                    }}
+                    navigation
+                    modules={[Navigation]}
+                    slidesPerView={1}
+                    spaceBetween={18}
+                    grabCursor={true}
+                    loop={true}
+                    className="mySwiper "
+                  >
                     {eatTypeData?.length > 0 &&
                       eatTypeData.map((item) => (
-                        <div key={item.blogId} className="sm:mb-[18px] sm:last:mb-0 sm:mr-[5px] mr-[18px]">
+                        <SwiperSlide key={item.blogId}>
                           <Card data={item} />
-                        </div>
+                        </SwiperSlide>
                       ))}
-                  </div>
+                  </Swiper>
+                </div>
 
-                  <div className="sm:hidden block w-full">
-                    <Swiper
-                      pagination={{
-                        clickable: true,
-                      }}
-                      navigation
-                      modules={[Navigation]}
-                      slidesPerView={1}
-                      spaceBetween={18}
-                      grabCursor={true}
-                      loop={true}
-                      className="mySwiper "
-                    >
-                      {eatTypeData?.length > 0 &&
-                        eatTypeData.map((item) => (
-                          <SwiperSlide key={item.blogId}>
-                            <Card data={item} />
-                          </SwiperSlide>
-                        ))}
-                    </Swiper>
-                  </div>
-
-                  <div className="sm:w-full flex justify-center mt-5">
-                    <button
-                      onClick={() => navigate('/recipe')}
-                      className="rounded-[30px] hover:bg-primaryHover transition bg-primary flex items-center gap-3 py-[10px] px-[20px] text-[20px] font-medium text-white"
-                    >
-                      Xem thêm
-                      <div
-                        className="bg-cover w-[20px] h-[20px]"
-                        style={{ backgroundImage: `url(${ic_boiling_white})` }}
-                      />
-                    </button>
-                  </div>
+                <div className="sm:w-full flex justify-center mt-5">
+                  <button
+                    onClick={() => navigate('/recipe')}
+                    className="rounded-[30px] hover:bg-primaryHover transition bg-primary flex items-center gap-3 py-[10px] px-[20px] text-[20px] font-medium text-white"
+                  >
+                    Xem thêm
+                    <div
+                      className="bg-cover w-[20px] h-[20px]"
+                      style={{ backgroundImage: `url(${ic_boiling_white})` }}
+                    />
+                  </button>
                 </div>
               </div>
             </div>
-          </>
-        ) : (
-          <Loading />
-        )}
+          </div>
+        </>
       </div>
 
       <div className="w-full sm:mt-[4%] mt-[10%]">&nbsp;&nbsp;</div>

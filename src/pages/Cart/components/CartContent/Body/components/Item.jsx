@@ -80,6 +80,7 @@ const Item = (props) => {
   // ** handle open detail item
   const handleOpenDetail = (item) => {
     setOpenDetail(true);
+    console.log(item);
     setDetailData(item);
     setDetailTotalPrice(props?.item?.price);
     setDetailCookedImg(props?.item?.img);

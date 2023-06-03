@@ -121,7 +121,8 @@ const FoodCard = (props) => {
                 <div className="bg-cover w-[20px] h-[20px]" style={{ backgroundImage: `url(${ic_boiling_white})` }} />
               </button>
               <button
-                onClick={() => handleAddToCart(food, true)}
+                // onClick={() => handleAddToCart(food, true)}
+                onClick={() => navigate(`/recipe/${food.blogId}/${generateSlug(food.title)}`)}
                 // onClick={() => setOpenOrderCooked(true)}
                 className="bg-redError rounded-[10px] cursor-pointer text-white font-medium xs:text-[18px] sm:text-[16px] text-[1vw] xxlg:px-[15px] sm:py-[10px] xlg:px-[3px] md:px-[3px] px-[15px] py-[10px] flex items-center gap-2"
               >
@@ -148,7 +149,8 @@ const FoodCard = (props) => {
             <div className="bg-cover w-[20px] h-[20px]" style={{ backgroundImage: `url(${ic_boiling_white})` }} />
           </button>
           <button
-            onClick={() => handleAddToCart(food, true)}
+            // onClick={() => handleAddToCart(food, true)}
+            onClick={() => navigate(`/recipe/${food.blogId}/${generateSlug(food.title)}`)}
             className="bg-redError flex-1 rounded-[10px] cursor-pointer text-white font-medium xs:text-[18px] xs:px-[20px]  px-1 py-[10px] flex justify-center items-center gap-2"
           >
             Đặt làm

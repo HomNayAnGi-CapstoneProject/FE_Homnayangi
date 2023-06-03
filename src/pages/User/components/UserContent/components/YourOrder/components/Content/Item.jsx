@@ -7,6 +7,7 @@ import ModalCancelOrder from '../../../../../../../../share/components/Modal/Mod
 
 import moment from 'moment/moment';
 import { toast } from 'react-toastify';
+import { Tooltip } from '@mui/material';
 
 const Item = (props) => {
   const { data, setUpdateCalls } = props;
@@ -26,8 +27,9 @@ const Item = (props) => {
   const handleOpenDetail = (item) => {
     setOpenDetail(true);
     setDetailData(item);
+    console.log(item, 'order');
     setDetailTotalPrice(data?.isCooked ? item?.cookedPrice : item?.packagePrice);
-    setDetailCookedImg(item?.recipeImage);
+    setDetailCookedImg(item?.packageImage);
   };
 
   // ** handle open cancel order
@@ -76,21 +78,21 @@ const Item = (props) => {
           {data?.orderDetailRecipes?.map((item, i) => (
             <div key={item.recipeId} className="flex w-full mt-5 first:mt-0">
               <div className="md:w-1/2 flex gap-3">
-                <Image alt="" className={'object-cover rounded-[5px] w-[80px] h-[80px]'} src={item?.recipeImage} />
+                <Image alt="" className={'object-cover rounded-[5px] w-[80px] h-[80px]'} src={item?.packageImage} />
                 <div className="flex-1">
-                  <p className="text-[#897D7D] text-[14px]">{item?.recipeName}</p>
+                  <p className="text-[#897D7D] text-[14px]">{item?.packageName}</p>
                 </div>
               </div>
               <div className="md:w-1/2 flex flex-col items-end">
                 <div className="w-fit text-[14px]">
                   <p>
-                    Đơn giá:
+                    Đơn giá:{' '}
                     <span className="font-semibold">
-                      {Intl.NumberFormat().format(data?.isCooked ? item?.cookedPrice : item?.packagePrice)}đ
+                      {Intl.NumberFormat().format(data?.isCooked ? item?.packagePrice : item?.packagePrice)}đ
                     </span>
                   </p>
                   <p>
-                    Số lượng: <span className="font-semibold">{item?.recipeQuantity}</span>
+                    Số lượng: <span className="font-semibold">{item?.packageQuantity}</span>
                   </p>
                 </div>
                 <button onClick={() => handleOpenDetail(item)} className="underline text-[14px] text-primary">
@@ -192,8 +194,13 @@ const Item = (props) => {
               Thanh toán <span className={``}>{data?.paymentMethod == 1 ? 'Online' : 'khi nhận hàng'}</span>
             </p>
           </div>
-          <div className="flex md:justify-end mt-2">
-            <p className="text-[18px] font-bold text-redError">{Intl.NumberFormat().format(data?.totalPrice)}đ</p>
+          <div className="flex md:justify-end mt-2 gap-3">
+            <Tooltip title="Phí vận chuyển" placement="top">
+              <p className="text-[18px] font-bold text-primary">{Intl.NumberFormat().format(data?.shippingCost)}đ</p>
+            </Tooltip>
+            <Tooltip title="Tổng tiền" placement="top">
+              <p className="text-[18px] font-bold text-redError">{Intl.NumberFormat().format(data?.totalPrice)}đ</p>
+            </Tooltip>
           </div>
           <div className="flex items-end justify-end  mt-5">
             {data?.orderStatus == 9 && data?.paymentMethod == 1 ? (
