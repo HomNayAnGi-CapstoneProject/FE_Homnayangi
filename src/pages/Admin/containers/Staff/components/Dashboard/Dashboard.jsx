@@ -56,18 +56,18 @@ const Dashboard = () => {
   }, []);
 
   // get orders
-  // useEffect(() => {
-  //   const fetch = async () => {
-  //     setLoading(true);
-  //     const res = await instances.get(`/orders`);
-  //     // console.log(res.data);
-  //     setLoading(false);
-  //     setOrderList(res.data);
-  //     setOrderCount(res?.data?.length || 0);
-  //   };
+  useEffect(() => {
+    const fetch = async () => {
+      setLoading(true);
+      const res = await instances.get(`/orders`);
+      // console.log(res.data);
+      setLoading(false);
+      setOrderList(res.data);
+      setOrderCount(res?.data?.length || 0);
+    };
 
-  //   fetch();
-  // }, []);
+    fetch();
+  }, []);
 
   // handle open detail
   const handelOpenDetail = (data) => {

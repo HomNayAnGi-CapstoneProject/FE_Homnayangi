@@ -261,7 +261,7 @@ const Item = (props) => {
           placeholder="Tên nguyên liệu"
           value={selectedItem?.name}
           required
-          className="outline-none w-[150px] bg-white rounded-md py-1 pl-2 font-medium text-[#898989]"
+          className="outline-none w-[200px] bg-white rounded-md py-1 pl-2 font-medium text-[#898989]"
         />
         {/* {selectedUnit !== '' && <p className="text-[#898989] w-[50px]">({selectedUnit})</p>} */}
         <input

@@ -130,9 +130,10 @@ const SideComp = () => {
           ? selectedVoucher?.discount <= 1
             ? totalItem.totalPrice * selectedVoucher?.discount > selectedVoucher?.maximumOrderPrice
               ? totalItem.totalPrice - selectedVoucher?.maximumOrderPrice
-              : totalItem.totalPrice - selectedVoucher?.discount * 100
+              : totalItem.totalPrice - totalItem.totalPrice * selectedVoucher?.discount
             : totalItem.totalPrice - selectedVoucher?.discount
           : totalItem.totalPrice,
+        shippingCost: cartStore.shippingCost,
         paymentMethod: paymentMethod,
         isCooked: cartType == 1 ? false : true,
         orderDetails: getListTotalIngredients(),

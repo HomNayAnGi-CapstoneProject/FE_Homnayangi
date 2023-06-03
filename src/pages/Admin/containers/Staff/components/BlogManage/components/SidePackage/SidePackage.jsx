@@ -66,6 +66,9 @@ const SidePackage = () => {
     // }
     // console.log(Packages);
     dispatch(setContentBlog({ Packages: modifiedPac }));
+    if (fullPackageList?.length > 0) {
+      setFullPackageList(modifiedPac);
+    }
 
     // setDataPackageList((current) => current.filter((item) => item.packageId !== id));
   };

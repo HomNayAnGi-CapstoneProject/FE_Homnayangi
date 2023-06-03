@@ -144,14 +144,15 @@ const SuggestToday = () => {
       if (isCook == false) {
         let requestObject = {
           cusId: decoded_jwt.Id,
-          orderDetails: data.recipeDetails,
+          orderDetails: data.item2,
           isCook: isCook,
           orderName: data.recipeTitle,
-          id: data.recipeId,
+          id: data.item1.packageId,
           img: data.imageUrl,
           amount: 1,
-          price: isCook ? data.cookedPrice : data.packagePrice,
+          price: isCook ? data.item1.cookedPrice : data.item1.packagePrice,
           shippedDate: shippedDate ? shippedDate : null,
+          size: data.item1.size,
         };
         // console.log(requestObject);
         dispatch(addItemNoStock(requestObject));
@@ -362,7 +363,7 @@ const SuggestToday = () => {
               <div className="w-full flex justify-center text-center md:mt-[9%] mt-[5%]">
                 <div className="flex sm:gap-[15px] gap-[15px]">
                   <button
-                    onClick={() => handleAddAllToCart(false)}
+                    // onClick={() => handleAddAllToCart(false)}
                     className="bg-primary hover:bg-primaryHover rounded-tl-[30px] rounded-bl-[30px] rounded-tr-[5px] rounded-br-[5px] text-medium text-white text-[20px] flex items-center gap-3 py-[10px] sm:px-[20px] px-[10px]"
                   >
                     Đặt mua
@@ -381,7 +382,7 @@ const SuggestToday = () => {
                     <div className="bg-cover w-[20px] h-[20px]" style={{ backgroundImage: `url(${ic_blog_active})` }} />
                   </button>
                   <button
-                    onClick={() => handleAddAllToCart(true)}
+                    // onClick={() => handleAddAllToCart(true)}
                     className="bg-redError hover:bg-redErrorHover rounded-tl-[5px] rounded-bl-[5px] rounded-tr-[30px] rounded-br-[30px] text-medium text-white text-[20px] flex items-center gap-3 py-[10px] sm:px-[20px] px-[10px]"
                   >
                     Đặt làm

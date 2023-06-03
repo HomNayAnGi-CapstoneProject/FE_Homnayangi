@@ -31,9 +31,7 @@ const SuggestRegion = (props) => {
   // ** call api
   useEffect(() => {
     const fetch = async () => {
-      const res = await instances.get(`/home/subcategory/${handleChangeData().tagId}/blogs`, {
-        params: { isRegion: true },
-      });
+      const res = await instances.get(`/home/subcategory/${handleChangeData().tagId}/blogs/true`);
       // console.log(res.data.result);s
       setRegionData(res.data.result);
     };
@@ -45,13 +43,13 @@ const SuggestRegion = (props) => {
   function handleChangeData() {
     switch (store.countrySide) {
       case 1:
-        return { img: mienNam, imgName: 'Miền Nam', tagId: '13e8010c-f583-4a32-9a76-a7f188983c69' };
+        return { img: mienNam, imgName: 'Miền Nam', tagId: '9ad2e02c-359d-40c3-83bb-4b565ec08b28' };
         break;
       case 2:
-        return { img: mienBac, imgName: 'Miền Bắc', tagId: 'a7766c2a-8faf-48f9-bdec-1dfaba22ecf3' };
+        return { img: mienBac, imgName: 'Miền Bắc', tagId: '044b9a7c-9688-44f5-995a-fa09d679b48b' };
         break;
       case 3:
-        return { img: mienTrung, imgName: 'Miền Trung', tagId: 'c368e82d-dda4-4b39-bc19-43ef148981e0' };
+        return { img: mienTrung, imgName: 'Miền Trung', tagId: '8f3b3635-2c33-4da8-8430-fed822f2086a' };
         break;
       default:
         break;

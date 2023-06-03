@@ -29,7 +29,7 @@ const ModalCartItemDetail = (props) => {
               <div className=" border-solid border-b-[1px] pb-2 px-2">
                 <p className="text-[16px] font-semibold">Đặt làm: </p>
                 <p className="text-[16px] line-clamp-2 text-primary font-semibold">
-                  {data?.orderName || data?.recipeName}
+                  {data?.orderName || data?.packageName}
                 </p>
               </div>
               <Image src={detailCookedImg} alt="" className="sm:w-[430px] h-[260px] object-cover w-full" />
@@ -55,7 +55,7 @@ const ModalCartItemDetail = (props) => {
               <div className=" border-solid border-b-[1px] pb-2 px-2">
                 <p className="text-[16px] font-semibold">Gói nguyên liệu: </p>
                 <p className="text-[16px] line-clamp-2 text-primary font-semibold">
-                  {data?.orderName || data?.recipeName}
+                  {data?.orderName || data?.packageName}
                 </p>
               </div>
               <div className="max-h-[275px] grid sm:grid-cols-2 gap-[10px] scroll-bar overflow-x-hidden overflow-y-scroll py-[15px]">
@@ -65,8 +65,8 @@ const ModalCartItemDetail = (props) => {
                       <Item item={item} />
                     </div>
                   ))}
-                {data?.recipeDetails?.length > 0 &&
-                  data?.recipeDetails?.map((item) => (
+                {data?.packageDetails?.length > 0 &&
+                  data?.packageDetails?.map((item) => (
                     <div key={item?.ingredientId} className="sm:w-[250px]">
                       <Item item={item} isDone={isDone} />
                     </div>
